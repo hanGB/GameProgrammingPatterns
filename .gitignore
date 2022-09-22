@@ -1,0 +1,14 @@
+/.vs
+/command/x64
+*.exe
+*.ilk
+*.pdb
+*.log
+*.pch
+*.idb
+*.tlog
+*.lastbuildstate
+*.suo
+*.db
+*.iobj
+*.ipdb
