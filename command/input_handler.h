@@ -19,11 +19,13 @@ public:
 		m_buttonD = d;
 	}
 
-	void HandleInput() {
-		if (GetAsyncKeyState(KEY_INPUT_W)) m_buttonW->Execute();
-		else if (GetAsyncKeyState(KEY_INPUT_A)) m_buttonA->Execute();
-		else if (GetAsyncKeyState(KEY_INPUT_S)) m_buttonS->Execute();
-		else if (GetAsyncKeyState(KEY_INPUT_D)) m_buttonD->Execute();
+	Command* HandleInput() {
+		if (GetAsyncKeyState(KEY_INPUT_W)) return m_buttonW;
+		if (GetAsyncKeyState(KEY_INPUT_A)) return m_buttonA;
+		if (GetAsyncKeyState(KEY_INPUT_S)) return m_buttonS;
+		if (GetAsyncKeyState(KEY_INPUT_D)) return m_buttonD;
+
+		return nullptr;
 	}
 
 private:

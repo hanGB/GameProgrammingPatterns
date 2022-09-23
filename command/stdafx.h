@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <random>
+#include <ctime>
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>

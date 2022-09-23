@@ -1,10 +1,9 @@
 #pragma once
 #include "stdafx.h"
+#include "game_actor.h"
 
 class Command {
 public:
-	Command() {}
 	virtual ~Command() {}
-
-	virtual void Execute() = 0;
+	virtual void Execute(GameActor& actor) = 0;
 };
