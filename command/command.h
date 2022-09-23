@@ -5,5 +5,6 @@
 class Command {
 public:
 	virtual ~Command() {}
-	virtual void Execute(GameActor& actor) = 0;
+	virtual void Execute() = 0;
+	virtual void Undo() = 0;
 };

@@ -35,7 +35,7 @@
     <ClInclude Include="game_actor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ai_controller.h">
+    <ClInclude Include="command_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

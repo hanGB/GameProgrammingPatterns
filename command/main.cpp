@@ -2,35 +2,30 @@
 #include "input_handler.h"
 #include "child_of_command.h"
 #include "game_actor.h"
-#include "ai_controller.h"
+#include "command_list.h"
 
 int main() 
 {
 	InputHandler* inputHandler = new InputHandler();
-	inputHandler->SetButton(new JumpCommand(), new NullCommand(), new ReloadCommand(), new FireCommand());
-	GameActor* player = new GameActor("Player");
-	
-	AiController* aiController = new AiController();
-	GameActor* monster = new GameActor("Monster");
+	Unit* player = new Unit("Player", 5, 5);
+	inputHandler->SetUint(*player);
+	CommandList* commandList = new CommandList();
+
+	player->PrintLocation();
 
 	while (true) {
 		Command* input = inputHandler->HandleInput();
 		if (input) {
-			input->Execute(*player);
+			input->Execute();
+			commandList->AddCommand(input);
 		}
 
-		Command* givenCommand = aiController->GiveCommand();
-		if (givenCommand) {
-			givenCommand->Execute(*monster);
-			delete givenCommand;
-		}
-
-
+		if (GetAsyncKeyState(KEY_INPUT_Y) & 0x0001) commandList->Redo();
+		if (GetAsyncKeyState(KEY_INPUT_Z) & 0x0001) commandList->Undo();
 		if (GetAsyncKeyState(VK_ESCAPE)) break;
 	}
 
 	delete inputHandler;
 	delete player;
-	delete aiController;
-	delete monster;
+	delete commandList;
 }

@@ -3,48 +3,34 @@
 #include "command.h"
 #include "game_actor.h"
 
-class JumpCommand : public Command {
+class MoveUnitCommand : public Command {
 public:
-	JumpCommand() {}
-	virtual ~JumpCommand() {}
+	MoveUnitCommand(Unit* unit, int x, int y) : m_unit(unit), m_x(x), m_y(y), m_beforeX(0), m_beforeY(0) {}
 
-	virtual void Execute(GameActor& actor) {
-		actor.Jump();
+	virtual void Execute() {
+		m_beforeX = m_unit->GetX();
+		m_beforeY = m_unit->GetY();
+		m_unit->MoveTo(m_x, m_y);
+	}
+
+	virtual void Undo() {
+		m_unit->MoveTo(m_beforeX, m_beforeY);
 	}
 
 private:
-
-};
-
-class FireCommand : public Command {
-public:
-	FireCommand() {}
-	virtual ~FireCommand() {}
-
-	virtual void Execute(GameActor& actor) {
-		actor.Fire();
-	}
-
-private:
-};
-
-class ReloadCommand : public Command {
-public:
-	ReloadCommand() {}
-	virtual ~ReloadCommand() {}
-
-	virtual void Execute(GameActor& actor) {
-		actor.Reload();
-	}
-
-private:
-
+	Unit* m_unit;
+	int m_x, m_y;
+	int m_beforeX, m_beforeY;
 };
 
 class NullCommand : public Command {
 public:
 	NullCommand() {}
-	virtual ~NullCommand() {}
 
-	virtual void Execute(GameActor& actor) {}
+	virtual void Execute() {
+		
+	}
+	virtual void Undo() {
+		
+	}
 };
