@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "command", "Command\Command.vcxproj", "{0F56E0C2-087C-4914-876F-721A43449815}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "command", "command\Command.vcxproj", "{0F56E0C2-087C-4914-876F-721A43449815}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "flyweight", "flyweight\flyweight.vcxproj", "{EBFBCB2C-8DB2-4474-B613-11E2B8BD35E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{0F56E0C2-087C-4914-876F-721A43449815}.Release|x64.Build.0 = Release|x64
 		{0F56E0C2-087C-4914-876F-721A43449815}.Release|x86.ActiveCfg = Release|Win32
 		{0F56E0C2-087C-4914-876F-721A43449815}.Release|x86.Build.0 = Release|Win32
+		{EBFBCB2C-8DB2-4474-B613-11E2B8BD35E2}.Debug|x64.ActiveCfg = Debug|x64
+		{EBFBCB2C-8DB2-4474-B613-11E2B8BD35E2}.Debug|x64.Build.0 = Debug|x64
+		{EBFBCB2C-8DB2-4474-B613-11E2B8BD35E2}.Debug|x86.ActiveCfg = Debug|Win32
+		{EBFBCB2C-8DB2-4474-B613-11E2B8BD35E2}.Debug|x86.Build.0 = Debug|Win32
+		{EBFBCB2C-8DB2-4474-B613-11E2B8BD35E2}.Release|x64.ActiveCfg = Release|x64
+		{EBFBCB2C-8DB2-4474-B613-11E2B8BD35E2}.Release|x64.Build.0 = Release|x64
+		{EBFBCB2C-8DB2-4474-B613-11E2B8BD35E2}.Release|x86.ActiveCfg = Release|Win32
+		{EBFBCB2C-8DB2-4474-B613-11E2B8BD35E2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
