@@ -5,9 +5,9 @@
 
 int main()
 {
-	Achievements* achievement = new Achievements();
-	Physics* physics = new Physics();
-	physics->AddObserver(achievement);
+	Achievements achievement{};
+	Physics physics{};
+	physics.AddObserver(&achievement);
 
 	Entity* hero = new Entity();
 	hero->SetIsHero(true);
@@ -19,18 +19,19 @@ int main()
 		if (GetAsyncKeyState(VK_RIGHT)) {
 			hero->MoveWithAxisX(1, 0.1f);
 		}
+		if (GetAsyncKeyState(VK_ESCAPE)) {
+			break;
+		}
 
-		physics->SetElapsedTime(0.032f);
-		physics->UpdateEntiy(*hero);
+		physics.SetElapsedTime(0.032f);
+		physics.UpdateEntiy(*hero);
 
 		hero->Render();
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
-	physics->RemoveObserver(achievement);
+	physics.RemoveObserver(&achievement);
 
 	delete hero;
-	delete physics;
-	delete achievement;
 }

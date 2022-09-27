@@ -3,8 +3,14 @@
 #include "entity.h"
 
 class Observer {
+	friend class Subject;
+
 public:
+	Observer() : m_next(nullptr) {}
 	virtual ~Observer() {}
 
 	virtual void OnNotify(const Entity& entity, Event event) = 0;
+
+private:
+	Observer* m_next;
 };
