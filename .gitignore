@@ -1,6 +1,7 @@
 /.vs
 /command/x64
 /flyweight/x64
+/observer/x64
 *.exe
 *.ilk
 *.pdb
