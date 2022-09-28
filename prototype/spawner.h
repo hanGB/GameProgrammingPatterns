@@ -2,9 +2,11 @@
 #include "stdafx.h"
 #include "monster.h"
 
+typedef Monster* (*SpawnCallback)();
+
 class Spawner {
 public:
-	Spawner(Monster* protoype, float spawnDelay) : m_protoype(protoype), m_spawnDelay(spawnDelay) {}
+	Spawner(SpawnCallback spawn, float spawnDelay) : m_spawn(spawn), m_spawnDelay(spawnDelay) {}
 	~Spawner() {};
 
 	Monster* SpawnMonster(float elpasedTimeInSec) {
@@ -12,12 +14,13 @@ public:
 		if (m_deltaTime > m_spawnDelay) {
 			m_deltaTime = 0.0f;
 			std::cout << "Spawn monster: ";
-			return m_protoype->Clone();
+			return m_spawn();
 		}
 		return nullptr;
 	}
 
 private:
+	SpawnCallback m_spawn;
 
 	Monster* m_protoype = nullptr;
 

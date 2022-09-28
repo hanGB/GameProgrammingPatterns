@@ -2,16 +2,29 @@
 #include "monster.h"
 #include "spawner.h"
 
+Monster* SpawnGhost() {
+	return new Ghost(10, 20);
+}
+Monster* SpawnBigGhost() {
+	return new Ghost(200, 40);
+}
+Monster* SpawnDemon() {
+	return new Demon();
+}
+Monster* SpawnSorcerer() {
+	return new Sorcerer();
+}
+
+
 int main()
 {
 	auto lastTime = std::chrono::system_clock::now();
 
 	Spawner* spawners[] = { 
-		new Spawner(new Ghost(10, 20), 1.0f), 
-		new Spawner(new Ghost(50, 30), 3.0f),
-		new Spawner(new Ghost(100, 0), 5.0f),
-		new Spawner(new Demon(), 1.5f), 
-		new Spawner(new Sorcerer(), 2.0f) 
+		new Spawner(SpawnGhost, 1.0f),
+		new Spawner(SpawnBigGhost, 5.0f),
+		new Spawner(SpawnDemon, 1.5f),
+		new Spawner(SpawnSorcerer, 2.0f)
 	};
 
 	float time = 0.0f;
