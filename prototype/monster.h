@@ -10,18 +10,24 @@ public:
 
 class Ghost : public Monster {
 public:
+	Ghost(int hp, int mp) : m_hp(hp), m_mp(mp) { }
+
 	virtual void Render() override {
-		std::cout << "Ghost";
+		std::cout << "Ghost -> " << "hp: " << m_hp << " / mp: " << m_hp << '\n';
 	}
 	virtual Monster* Clone() override {
-		return new Ghost();
+		return new Ghost(m_hp, m_mp);
 	}
+
+private:
+	int m_hp;
+	int m_mp;
 };
 
 class Demon : public Monster {
 public:
 	virtual void Render() override {
-		std::cout << "Demon";
+		std::cout << "Demon" << '\n';
 	}
 	virtual Monster* Clone() override {
 		return new Demon();
@@ -31,7 +37,7 @@ public:
 class Sorcerer : public Monster {
 public:
 	virtual void Render() override {
-		std::cout << "Sorcerer";
+		std::cout << "Sorcerer" << '\n';
 	}
 	virtual Monster* Clone() override {
 		return new Sorcerer();
