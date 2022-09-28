@@ -9,6 +9,10 @@ public:
 
 class Ghost : public Monster {
 public:
+	Ghost() {
+		m_hp = 10;
+		m_mp = 10;
+	}
 	Ghost(int hp, int mp) : m_hp(hp), m_mp(mp) { }
 
 	virtual void Render() override {
