@@ -1,11 +1,10 @@
 #include "stdafx.h"
-#include "file_system.h"
+#include "child_of_file_system.h"
 
 int main()
-{
-	FileSystem fs1 = FileSystem::Instance();
-	FileSystem fs2 = FileSystem::Instance();
-	FileSystem fs3 = FileSystem::Instance();
-	FileSystem fs4 = FileSystem::Instance();
-	FileSystem fs5 = FileSystem::Instance();
+{;
+	char path[] = "path";
+	char contents[] = "contents";
+	FileSystem::Instance().ReadFile(path);
+	FileSystem::Instance().WriteFile(path, contents);
 }

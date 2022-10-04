@@ -3,13 +3,12 @@
 
 class FileSystem {
 public:
-	static FileSystem& Instance() {
-		static FileSystem* instance = new FileSystem();
-		return *instance;
-	}
+	static FileSystem& Instance();
 
-private:
-	FileSystem() {
-		std::cout << "file_system is initalize.\n";
-	}
+	virtual ~FileSystem() {}
+	virtual char* ReadFile(char* path) = 0;
+	virtual void WriteFile(char* path, char* contents) = 0;
+
+protected:
+	FileSystem() {}
 };
