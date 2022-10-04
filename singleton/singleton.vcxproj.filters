@@ -32,5 +32,17 @@
     <ClInclude Include="child_of_file_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="one_instance_class.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
