@@ -3,6 +3,7 @@
 /flyweight/x64
 /observer/x64
 /prototype/x64
+/singleton/x64
 *.exe
 *.ilk
 *.pdb
