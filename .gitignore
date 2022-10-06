@@ -4,6 +4,7 @@
 /observer/x64
 /prototype/x64
 /singleton/x64
+/state/x64
 *.exe
 *.ilk
 *.pdb
