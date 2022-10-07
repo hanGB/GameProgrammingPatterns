@@ -3,16 +3,16 @@
 
 class Ground : public GPPGameObject {
 public:
-	Ground(float positionX, float positionY, float sizeX, float sizeY) {
+	Ground(float positionX, float positionY, float sizeX, float sizeY, int red, int green, int blue) {
 
 		SetPosition(positionX, positionY);
 		SetHalfSize(sizeX / 2.0f, sizeY / 2.0f);
-		SetRGBColor(127, 63, 0);
+		SetRGBColor(red, green, blue);
 	}
 	~Ground() {}
 
 	virtual void Update(float elapsedTime) override {
-
+		
 	}
 	virtual void Render(HDC& memDC, float posInWindowX, float posInWindowY) override {
 

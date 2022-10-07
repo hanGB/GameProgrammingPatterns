@@ -4,6 +4,13 @@
 class GPPGameObject {
 public:
 	GPPGameObject() {
+		SetVelocity(0.0f, 0.0f);
+	}
+	GPPGameObject(float positionX, float positionY, float sizeX, float sizeY, int red, int green, int blue) {
+
+		SetPosition(positionX, positionY);
+		SetHalfSize(sizeX / 2.0f, sizeY / 2.0f);
+		SetRGBColor(red, green, blue);
 
 		SetVelocity(0.0f, 0.0f);
 	}
@@ -36,8 +43,7 @@ public:
 		DeleteObject(hPen);
 		DeleteObject(hBrush);
 	}
-
-	void LandOnGround(){
+	void LandOnGround() {
 		if (m_state != GPPGameObjectState::DUCKING)
 			m_state = GPPGameObjectState::STANDING;
 		m_velocityY = 0.0f;
@@ -74,15 +80,21 @@ public:
 		m_rgbColor[1] = g;
 		m_rgbColor[2] = b;
 	}
-
 	GPPGameObjectType GetType() const {
 		return m_type;
-	}	
+	}
 	GPPGameObjectState GetState() const {
 		return m_state;
 	}
+	void SetLifeTime(float life) {
+		m_lifeTime = life;
+		m_isUseLifeTime = true;
+	}
+	void SetIsCollided(bool collided) {
+		m_isCollided = collided;
+	}
 
-	void GetPosition(float *x, float *y) {
+	void GetPosition(float* x, float* y) {
 		*x = m_positionX;
 		*y = m_positionY;
 	}
@@ -102,6 +114,15 @@ public:
 		*g = m_rgbColor[1];
 		*b = m_rgbColor[2];
 	}
+	bool GetIsUseLifeTime() const {
+		return m_isUseLifeTime;
+	}
+	float GetLifeTime() const {
+		return m_lifeTime;
+	}
+	bool GetIsCollided() const {
+		return m_isCollided;
+	}
 
 protected:
 	float m_positionX, m_positionY;
@@ -115,4 +136,7 @@ protected:
 
 private:
 	GPPGameObjectType m_type = GPPGameObjectType::MOVABLE;
+	bool m_isUseLifeTime = false;
+	float m_lifeTime = 0.0f;
+	bool m_isCollided = false;
 };

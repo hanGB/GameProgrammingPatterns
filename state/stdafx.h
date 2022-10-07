@@ -4,11 +4,11 @@
 #include <tchar.h>
 #include <cmath>
 #include <iostream>
+#include <list>
 
 // 디버그용 콘솔을 띄울 건지 결정
-//#define DEBUG
+#define DEBUG
 
-#define MAXIMUM_OBJECT_COUNT 100
 #define GPP_TIME_PER_FRAME 16
 #define GPP_GRAVITY 9.8f
 #define GPP_FRICTION 0.7f

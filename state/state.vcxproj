@@ -149,10 +149,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gpp_world.h" />
     <ClInclude Include="gpp_game_object.h" />
     <ClInclude Include="gpp_game.h" />
     <ClInclude Include="fixed_object.h" />
     <ClInclude Include="movable_object.h" />
+    <ClInclude Include="gpp_spawner.h" />
+    <ClInclude Include="gpp_player.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

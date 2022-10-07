@@ -38,5 +38,14 @@
     <ClInclude Include="fixed_object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gpp_world.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gpp_spawner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gpp_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
