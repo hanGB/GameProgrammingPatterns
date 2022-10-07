@@ -9,7 +9,8 @@ public:
 	}
 	~GPPGameObject() {}
 
-	virtual void Update(float elapsedTime, GPPInputChunk& inputs) = 0;
+	virtual void HandleInput(GPPInputChunk& inputs) {};
+	virtual void Update(float elapsedTime) = 0;
 	virtual void Render(HDC& memDC, float posInWindowX, float posInWindowY) = 0;
 	void Render(HDC& memDC, GPPCoordinateData& coordinateData) {
 
@@ -35,6 +36,18 @@ public:
 		DeleteObject(hPen);
 		DeleteObject(hBrush);
 	}
+
+	void LandOnGround(){
+		if (m_state != GPPGameObjectState::DUCKING)
+			m_state = GPPGameObjectState::STANDING;
+		m_velocityY = 0.0f;
+	}
+	void Fall() {
+		if (m_state != GPPGameObjectState::DUCKING && m_state != GPPGameObjectState::DIVING)
+			m_state = GPPGameObjectState::FALLING;
+	}
+
+
 	void SetType(GPPGameObjectType type) {
 		m_type = type;
 	}
@@ -98,7 +111,7 @@ protected:
 
 	int m_rgbColor[3];
 
-	GPPGameObjectState m_state = GPPGameObjectState::STANDING_ON_GROUND;
+	GPPGameObjectState m_state = GPPGameObjectState::STANDING;
 
 private:
 	GPPGameObjectType m_type = GPPGameObjectType::MOVABLE;

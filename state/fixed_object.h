@@ -11,7 +11,7 @@ public:
 	}
 	~Ground() {}
 
-	virtual void Update(float elapsedTime, GPPInputChunk& inputs) override {
+	virtual void Update(float elapsedTime) override {
 
 	}
 	virtual void Render(HDC& memDC, float posInWindowX, float posInWindowY) override {

@@ -74,6 +74,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_KEYDOWN:
 		g_game->HandleKeyboardInput(true, wParam);
+		if (wParam == VK_ESCAPE) {
+			PostMessageW(hWnd, WM_DESTROY, 0, 0);
+		}
 		break;
 
 	case WM_KEYUP:
@@ -81,6 +84,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_TIMER:
+		g_game->HandleInput();
 		g_game->Update((float)GPP_TIME_PER_FRAME / 1000.0f);
 		InvalidateRect(hWnd, NULL, false);
 		break;

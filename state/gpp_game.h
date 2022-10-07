@@ -6,7 +6,7 @@
 
 class GPPGame {
 public:
-	GPPGame(HWND hWnd) {	InitGame(hWnd); }
+	GPPGame(HWND hWnd) { InitGame(hWnd); }
 	~GPPGame() { CleanupGame(); }
 	
 	void HandleKeyboardInput(bool isDown, WPARAM wParam) {
@@ -15,10 +15,19 @@ public:
 		if (wParam == 'a' || wParam == 'A') m_inputs.Input_A = isDown;
 		if (wParam == 's' || wParam == 'S') m_inputs.Input_S = isDown;
 		if (wParam == 'd' || wParam == 'D') m_inputs.Input_D = isDown;
+
+		if (wParam == VK_SPACE)	m_inputs.Input_Space = isDown;
+	}
+
+	void HandleInput() {
+
+		for (size_t i = 0; i < m_objectCount; ++i) {
+			m_objects[i]->HandleInput(m_inputs);
+		}
 	}
 	void Update(float elapsedTimeInSec) {
 		for (size_t i = 0; i < m_objectCount; ++i) {
-			m_objects[i]->Update(elapsedTimeInSec, m_inputs);
+			m_objects[i]->Update(elapsedTimeInSec);
 		}
 		CheckCollision();
 	}
@@ -69,8 +78,8 @@ private:
 				else {
 					if (IsCollidedWithAABB(*m_objects[i], *m_objects[t])) {
 						AdjustPosition(*m_objects[i], *m_objects[t]);
-						m_objects[i]->SetState(GPPGameObjectState::STANDING_ON_GROUND);
-						m_objects[t]->SetState(GPPGameObjectState::STANDING_ON_GROUND);
+						m_objects[i]->LandOnGround();
+						m_objects[t]->LandOnGround();
 						collided[i] = true;
 						collided[t] = true;
 					}
@@ -80,7 +89,8 @@ private:
 
 		// 아무것도 충돌하지 않은 경우 떨어지도록 설정
 		for (size_t i = 0; i < m_objectCount; ++i) {
-			if (!collided[i]) m_objects[i]->SetState(GPPGameObjectState::FALLING);
+			if (!collided[i])
+				m_objects[i]->Fall();
 		}
 	}
 	bool IsCollidedWithAABB(GPPGameObject& objectA, GPPGameObject& objectB) {
@@ -129,14 +139,14 @@ private:
 			mPosY = mPosY + (fPosY + fHalfSizeY - (mPosY - mHalfSizeY));
 
 			movableObject.SetPosition(mPosX, mPosY);
-			movableObject.SetState(GPPGameObjectState::STANDING_ON_GROUND);
+			movableObject.SetState(GPPGameObjectState::STANDING);
 		}
 	}
 
 
 	GPPInputChunk m_inputs;
 	GPPCoordinateData m_coordinateData;
-	GPPGameObject* m_objects[MAXIM_OBJECT_COUNT];
+	GPPGameObject* m_objects[MAXIMUM_OBJECT_COUNT];
 	int m_objectCount = 0;
-	bool collided[MAXIM_OBJECT_COUNT];
+	bool collided[MAXIMUM_OBJECT_COUNT];
 };
