@@ -4,8 +4,6 @@
 class MovableObject : public GPPGameObject {
 public:
 	MovableObject() {
-
-		m_state = GPPGameObjectState::STANDING;
 		m_currentAccX = 0.0f;
 		m_currentAccY = 0.0f;
 	}
@@ -14,8 +12,7 @@ public:
 		SetPosition(positionX, positionY);
 		SetHalfSize(sizeX / 2.0f, sizeY / 2.0f);
 		SetRGBColor(red, green, blue);
-
-		m_state = GPPGameObjectState::STANDING;
+		SetIsFalling(false);
 		m_currentAccX = 0.0f;
 		m_currentAccY = 0.0f;
 	}
@@ -25,7 +22,7 @@ public:
 	virtual void Update(float elapsedTime) override {
 
 		// 이동 관련
-		if (fabs(m_velocityX) > 0.f && (m_state == GPPGameObjectState::STANDING || m_state == GPPGameObjectState::DUCKING)) {
+		if (fabs(m_velocityX) > 0.f && !GetIsFalling()) {
 			// 마찰
 			m_currentAccX += m_velocityX / std::abs(m_velocityX) * GPP_FRICTION * (-GPP_GRAVITY);
 
@@ -39,7 +36,7 @@ public:
 
 			m_velocityX += m_currentAccX * elapsedTime;
 		}
-		else if (m_state == GPPGameObjectState::FALLING || m_state == GPPGameObjectState::DIVING) {
+		else if (GetIsFalling()) {
 			m_currentAccY -= GPP_GRAVITY;
 			m_velocityY += m_currentAccY * elapsedTime;
 		}
@@ -67,6 +64,15 @@ public:
 	void GiveForce(float amountX, float amountY) {
 		m_currentAccX = amountX / m_mass;
 		m_currentAccY = amountY / m_mass;
+	}
+
+	void GetCurrentAccel(float* x, float* y) {
+		*x = m_currentAccX;
+		*y = m_currentAccY;
+	}
+	void SetCurrentAccel(float x, float y) {
+		m_currentAccX = x;
+		m_currentAccY = y;
 	}
 
 protected:

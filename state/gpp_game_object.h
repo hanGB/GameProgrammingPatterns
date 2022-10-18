@@ -1,6 +1,14 @@
 #pragma once
 #include "stdafx.h"
 
+class GPPWorld;
+
+enum class GPPGameObjectType {
+	PLAYER,
+	FIXED,
+	MOVABLE
+};
+
 class GPPGameObject {
 public:
 	GPPGameObject() {
@@ -44,21 +52,16 @@ public:
 		DeleteObject(hBrush);
 	}
 	void LandOnGround() {
-		if (m_state != GPPGameObjectState::DUCKING)
-			m_state = GPPGameObjectState::STANDING;
+		m_isFalling = false;
 		m_velocityY = 0.0f;
 	}
 	void Fall() {
-		if (m_state != GPPGameObjectState::DUCKING && m_state != GPPGameObjectState::DIVING)
-			m_state = GPPGameObjectState::FALLING;
+		m_isFalling = true;
 	}
 
 
 	void SetType(GPPGameObjectType type) {
 		m_type = type;
-	}
-	void SetState(GPPGameObjectState state) {
-		m_state = state;
 	}
 	void SetPosition(float x, float y) {
 		m_positionX = x;
@@ -83,15 +86,18 @@ public:
 	GPPGameObjectType GetType() const {
 		return m_type;
 	}
-	GPPGameObjectState GetState() const {
-		return m_state;
-	}
+
+	void SetGPPWorld(GPPWorld& world);
+
 	void SetLifeTime(float life) {
 		m_lifeTime = life;
 		m_isUseLifeTime = true;
 	}
 	void SetIsCollided(bool collided) {
 		m_isCollided = collided;
+	}
+	void SetIsFalling(bool falling) {
+		m_isFalling = falling;
 	}
 
 	void GetPosition(float* x, float* y) {
@@ -123,6 +129,11 @@ public:
 	bool GetIsCollided() const {
 		return m_isCollided;
 	}
+	bool GetIsFalling() const {
+		return m_isFalling;
+	}
+	GPPWorld* GetGPPWorld();
+
 
 protected:
 	float m_positionX, m_positionY;
@@ -131,12 +142,14 @@ protected:
 	float m_mass;
 
 	int m_rgbColor[3];
+	bool m_isFalling;
 
-	GPPGameObjectState m_state = GPPGameObjectState::STANDING;
+	GPPWorld* m_world;
 
 private:
 	GPPGameObjectType m_type = GPPGameObjectType::MOVABLE;
 	bool m_isUseLifeTime = false;
 	float m_lifeTime = 0.0f;
 	bool m_isCollided = false;
+
 };

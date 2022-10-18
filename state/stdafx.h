@@ -33,16 +33,3 @@ struct GPPCoordinateData {
 		*y += halfHeight / (float)GPP_PIXEL_PER_METER;
 	}
 };
-
-enum class GPPGameObjectType {
-	PLAYER,
-	FIXED,
-	MOVABLE
-};
-
-enum class GPPGameObjectState {
-	STANDING,
-	FALLING,
-	DUCKING,
-	DIVING,
-};

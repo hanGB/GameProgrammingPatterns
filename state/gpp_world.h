@@ -79,11 +79,12 @@ private:
 				}
 				else {
 					if (IsCollidedWithAABB(**objectAIter, **objectBIter)) {
-						AdjustPosition(**objectAIter, **objectBIter);
-						(*objectAIter)->LandOnGround();
-						(*objectBIter)->LandOnGround();
-						(*objectAIter)->SetIsCollided(true);
-						(*objectBIter)->SetIsCollided(true);
+						if (AdjustPosition(**objectAIter, **objectBIter)) {
+							(*objectAIter)->LandOnGround();
+							(*objectBIter)->LandOnGround();
+							(*objectAIter)->SetIsCollided(true);
+							(*objectBIter)->SetIsCollided(true);
+						}
 					}
 				}
 			}
@@ -112,21 +113,23 @@ private:
 		if (aPosY - aHalfSizeY > bPosY + bHalfSizeY) return false;
 		return true;
 	}
-	void AdjustPosition(GPPGameObject& objectA, GPPGameObject& objectB) {
+	bool AdjustPosition(GPPGameObject& objectA, GPPGameObject& objectB) {
 		GPPGameObjectType aType = objectA.GetType();
 		GPPGameObjectType bType = objectB.GetType();
 
 		if (aType == GPPGameObjectType::PLAYER || aType == GPPGameObjectType::MOVABLE) {
 			if (bType == GPPGameObjectType::FIXED) {
 				MoveOneObjecttoAdjustPosition(objectA, objectB);
+				return true;
 			}
 		}
 		else if (bType == GPPGameObjectType::PLAYER || bType == GPPGameObjectType::MOVABLE) {
 			if (aType == GPPGameObjectType::FIXED) {
 				MoveOneObjecttoAdjustPosition(objectB, objectA);
+				return true;
 			}
 		}
-
+		return false;
 	}
 	void MoveOneObjecttoAdjustPosition(GPPGameObject& movableObject, GPPGameObject& fixedObject) {
 		float mPosX, mPosY;
@@ -142,7 +145,6 @@ private:
 			mPosY = mPosY + (fPosY + fHalfSizeY - (mPosY - mHalfSizeY));
 
 			movableObject.SetPosition(mPosX, mPosY);
-			movableObject.SetState(GPPGameObjectState::STANDING);
 		}
 	}
 

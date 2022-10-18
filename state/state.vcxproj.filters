@@ -21,6 +21,12 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gpp_player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gpp_game_object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gpp_game_object.h">
@@ -41,10 +47,10 @@
     <ClInclude Include="gpp_world.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gpp_spawner.h">
+    <ClInclude Include="gpp_player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gpp_player.h">
+    <ClInclude Include="player_state.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gpp_game_object.cpp" />
+    <ClCompile Include="gpp_player.cpp" />
     <ClCompile Include="main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
@@ -154,8 +156,8 @@
     <ClInclude Include="gpp_game.h" />
     <ClInclude Include="fixed_object.h" />
     <ClInclude Include="movable_object.h" />
-    <ClInclude Include="gpp_spawner.h" />
     <ClInclude Include="gpp_player.h" />
+    <ClInclude Include="player_state.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
