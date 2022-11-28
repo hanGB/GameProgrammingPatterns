@@ -5,6 +5,7 @@
 /prototype/x64
 /singleton/x64
 /state/x64
+/dubble_buffer/x64
 *.exe
 *.ilk
 *.pdb
