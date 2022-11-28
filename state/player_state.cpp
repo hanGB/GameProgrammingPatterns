@@ -1,5 +1,19 @@
 #include "player_state.h"
 
+void DuckingState::Enter(GPPPlayer& player)
+{
+	float halfSizeX, halfSizeY;
+	player.GetHalfSize(&halfSizeX, &halfSizeY);
+	halfSizeY /= 2.0f;
+	player.SetHalfSize(halfSizeX, halfSizeY);
+
+	float positionX, positionY;
+	player.GetPosition(&positionX, &positionY);
+	positionY -= halfSizeY;
+	player.SetPosition(positionX, positionY);
+
+}
+
 PlayerState* DuckingState::HandleInput(GPPPlayer& player, GPPInputChunk& inputs)
 {
 	float velocityX, velocityY;
@@ -56,6 +70,10 @@ PlayerState* DuckingState::Update(GPPPlayer& player, float elapsedTimeInSec)
 	return NULL;
 }
 
+void StandingState::Enter(GPPPlayer& player)
+{
+}
+
 PlayerState* StandingState::HandleInput(GPPPlayer& player, GPPInputChunk& inputs)
 {
 	float velocityX, velocityY;
@@ -88,17 +106,6 @@ PlayerState* StandingState::HandleInput(GPPPlayer& player, GPPInputChunk& inputs
 	}
 	else if (inputs.Input_S)
 	{
-
-		float halfSizeX, halfSizeY;
-		player.GetHalfSize(&halfSizeX, &halfSizeY);
-		halfSizeY /= 2.0f;
-		player.SetHalfSize(halfSizeX, halfSizeY);
-
-		float positionX, positionY;
-		player.GetPosition(&positionX, &positionY);
-		positionY -= halfSizeY;
-		player.SetPosition(positionX, positionY);
-
 		return new DuckingState();
 	}
 	return NULL;
@@ -110,6 +117,10 @@ PlayerState* StandingState::Update(GPPPlayer& player, float elapsedTimeInSec)
 		return new FallingState();
 	}
 	return NULL;
+}
+
+void FallingState::Enter(GPPPlayer& player)
+{
 }
 
 PlayerState* FallingState::HandleInput(GPPPlayer& player, GPPInputChunk& inputs)
@@ -131,6 +142,10 @@ PlayerState* FallingState::Update(GPPPlayer& player, float elapsedTimeInSec)
 		return new StandingState();
 	}
 	return NULL;
+}
+
+void DivingState::Enter(GPPPlayer& player)
+{
 }
 
 PlayerState* DivingState::HandleInput(GPPPlayer& player, GPPInputChunk& inputs)

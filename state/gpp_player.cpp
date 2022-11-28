@@ -10,6 +10,7 @@ GPPPlayer::GPPPlayer(float positionX, float positionY, float sizeX, float sizeY,
 
 	SetMass(50.0f);
 	m_state = new FallingState();
+	m_state->Enter(*this);
 }
 
 GPPPlayer::~GPPPlayer()
@@ -22,6 +23,7 @@ void GPPPlayer::HandleInput(GPPInputChunk& inputs)
 	if (state != NULL) {
 		delete m_state;
 		m_state = state;
+		m_state->Enter(*this);
 	}
 }
 
@@ -32,6 +34,7 @@ void GPPPlayer::Update(float elapsedTime)
 	if (state != NULL) {
 		delete m_state;
 		m_state = state;
+		m_state->Enter(*this);
 	}
 }
 

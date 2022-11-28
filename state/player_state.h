@@ -5,6 +5,7 @@
 class PlayerState {
 public:
 	virtual ~PlayerState() {}
+	virtual void Enter(GPPPlayer& player) = 0;
 	virtual PlayerState* HandleInput(GPPPlayer& player, GPPInputChunk& inputs) = 0;
 	virtual PlayerState* Update(GPPPlayer& player, float elapsedTimeInSec) = 0;
 
@@ -18,6 +19,7 @@ protected:
 class DuckingState : public PlayerState {
 public:
 	DuckingState() : m_chargeTime(0) {}
+	virtual void Enter(GPPPlayer& player) override;
 	virtual PlayerState* HandleInput(GPPPlayer& player, GPPInputChunk& inputs) override;
 	virtual PlayerState* Update(GPPPlayer& player, float elapsedTimeInSec) override;
 
@@ -30,6 +32,7 @@ private:
 class StandingState : public PlayerState {
 public:
 	StandingState() {}
+	virtual void Enter(GPPPlayer& player) override;
 	virtual PlayerState* HandleInput(GPPPlayer& player, GPPInputChunk& inputs) override;
 	virtual PlayerState* Update(GPPPlayer& player, float elapsedTimeInSec) override;
 };
@@ -37,6 +40,7 @@ public:
 class FallingState : public PlayerState {
 public:
 	FallingState() {}
+	virtual void Enter(GPPPlayer& player) override;
 	virtual PlayerState* HandleInput(GPPPlayer& player, GPPInputChunk& inputs) override;
 	virtual PlayerState* Update(GPPPlayer& player, float elapsedTimeInSec) override;
 };
@@ -44,6 +48,7 @@ public:
 class DivingState : public PlayerState {
 public:
 	DivingState() {}
+	virtual void Enter(GPPPlayer& player) override;
 	virtual PlayerState* HandleInput(GPPPlayer& player, GPPInputChunk& inputs) override;
 	virtual PlayerState* Update(GPPPlayer& player, float elapsedTimeInSec) override;
 };
