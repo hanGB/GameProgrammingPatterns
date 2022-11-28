@@ -4,20 +4,29 @@
 
 class Scene {
 public:
-	Scene() {}
+	Scene() : m_current(&m_buffer[0]), m_next(&m_buffer[1]) {}
 	~Scene() {}
 
 	void Draw() {
-		m_buffer.Clear();
-		m_buffer.Draw(1, 1);	m_buffer.Draw(4, 1);
-		m_buffer.Draw(1, 3);	m_buffer.Draw(2, 4);
-		m_buffer.Draw(3, 4);	m_buffer.Draw(4, 3);
+		m_next->Clear();
+		m_next->Draw(1, 1);	m_next->Draw(4, 1);
+		m_next->Draw(1, 3);	m_next->Draw(2, 4);
+		m_next->Draw(3, 4);	m_next->Draw(4, 3);
+		Swap();
 	}
 
 	FrameBuffer& GetBuffer() {
-		return m_buffer;
+		return *m_current;
 	}
 
 private:
-	FrameBuffer m_buffer;
+	void Swap() {
+		FrameBuffer* temp = m_current;
+		m_current = m_next;
+		m_next = temp;
+	}
+
+	FrameBuffer m_buffer[2];
+	FrameBuffer* m_current;
+	FrameBuffer* m_next;
 };
