@@ -9,7 +9,7 @@ GPPPlayer::GPPPlayer(float positionX, float positionY, float sizeX, float sizeY,
 	SetRGBColor(red, green, blue);
 
 	SetMass(50.0f);
-	m_state = &PlayerState::m_falling;
+	m_state = new FallingState();
 }
 
 GPPPlayer::~GPPPlayer()
@@ -18,13 +18,21 @@ GPPPlayer::~GPPPlayer()
 
 void GPPPlayer::HandleInput(GPPInputChunk& inputs)
 {
-	m_state->HandleInput(*this, inputs);
+	PlayerState* state = m_state->HandleInput(*this, inputs);
+	if (state != NULL) {
+		delete m_state;
+		m_state = state;
+	}
 }
 
 void GPPPlayer::Update(float elapsedTime)
 {
 	MovableObject::Update(elapsedTime);
-	m_state->Update(*this, elapsedTime);
+	PlayerState* state = m_state->Update(*this, elapsedTime);
+	if (state != NULL) {
+		delete m_state;
+		m_state = state;
+	}
 }
 
 void GPPPlayer::Render(HDC& memDC, float posInWindowX, float posInWindowY)
