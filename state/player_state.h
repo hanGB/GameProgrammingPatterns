@@ -16,7 +16,18 @@ protected:
 	const float MAXIUM_VELOCITY_X = 3.0f;
 };
 
-class DuckingState : public PlayerState {
+class OnGroundgState : public PlayerState {
+public:
+	OnGroundgState() {}
+	virtual void Enter(GPPPlayer& player) override;
+	virtual PlayerState* HandleInput(GPPPlayer& player, GPPInputChunk& inputs) override;
+	virtual PlayerState* Update(GPPPlayer& player, float elapsedTimeInSec) override;
+
+private:
+
+};
+
+class DuckingState : public OnGroundgState {
 public:
 	DuckingState() : m_chargeTime(0) {}
 	virtual void Enter(GPPPlayer& player) override;
@@ -29,7 +40,7 @@ private:
 	float m_chargeTime;
 };
 
-class StandingState : public PlayerState {
+class StandingState : public OnGroundgState {
 public:
 	StandingState() {}
 	virtual void Enter(GPPPlayer& player) override;

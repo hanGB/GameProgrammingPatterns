@@ -1,20 +1,10 @@
 #include "player_state.h"
 
-void DuckingState::Enter(GPPPlayer& player)
+void OnGroundgState::Enter(GPPPlayer& player)
 {
-	float halfSizeX, halfSizeY;
-	player.GetHalfSize(&halfSizeX, &halfSizeY);
-	halfSizeY /= 2.0f;
-	player.SetHalfSize(halfSizeX, halfSizeY);
-
-	float positionX, positionY;
-	player.GetPosition(&positionX, &positionY);
-	positionY -= halfSizeY;
-	player.SetPosition(positionX, positionY);
-
 }
 
-PlayerState* DuckingState::HandleInput(GPPPlayer& player, GPPInputChunk& inputs)
+PlayerState* OnGroundgState::HandleInput(GPPPlayer& player, GPPInputChunk& inputs)
 {
 	float velocityX, velocityY;
 	float mass;
@@ -37,6 +27,31 @@ PlayerState* DuckingState::HandleInput(GPPPlayer& player, GPPInputChunk& inputs)
 			player.SetCurrentAccel(currentAccX, currentAccY);
 		}
 	}
+	return NULL;
+}
+
+PlayerState* OnGroundgState::Update(GPPPlayer& player, float elapsedTimeInSec)
+{
+	return nullptr;
+}
+
+
+void DuckingState::Enter(GPPPlayer& player)
+{
+	float halfSizeX, halfSizeY;
+	player.GetHalfSize(&halfSizeX, &halfSizeY);
+	halfSizeY /= 2.0f;
+	player.SetHalfSize(halfSizeX, halfSizeY);
+
+	float positionX, positionY;
+	player.GetPosition(&positionX, &positionY);
+	positionY -= halfSizeY;
+	player.SetPosition(positionX, positionY);
+
+}
+
+PlayerState* DuckingState::HandleInput(GPPPlayer& player, GPPInputChunk& inputs)
+{
 	if (!inputs.Input_S)
 	{
 		m_chargeTime = 0.0f;
@@ -50,6 +65,10 @@ PlayerState* DuckingState::HandleInput(GPPPlayer& player, GPPInputChunk& inputs)
 		player.SetRGBColor(0, g, b);
 		return new StandingState();
 	}
+	else {
+		OnGroundgState::HandleInput(player, inputs);
+	}
+
 	return NULL;
 }
 
@@ -83,21 +102,6 @@ PlayerState* StandingState::HandleInput(GPPPlayer& player, GPPInputChunk& inputs
 	player.GetMass(&mass);
 	player.GetCurrentAccel(&currentAccX, &currentAccY);
 
-	if (inputs.Input_A)
-	{
-		if (velocityX > -MAXIUM_VELOCITY_X) {
-			currentAccX -= FORCE_X / mass;
-			player.SetCurrentAccel(currentAccX, currentAccY);
-		}
-	}
-	if (inputs.Input_D)
-	{
-		if (velocityX < MAXIUM_VELOCITY_X) {
-			currentAccX += FORCE_X / mass;
-			player.SetCurrentAccel(currentAccX, currentAccY);
-		}
-	}
-
 	if (inputs.Input_Space)
 	{
 		currentAccY = FORCE_Y / mass;
@@ -107,6 +111,9 @@ PlayerState* StandingState::HandleInput(GPPPlayer& player, GPPInputChunk& inputs
 	else if (inputs.Input_S)
 	{
 		return new DuckingState();
+	}
+	else {
+		OnGroundgState::HandleInput(player, inputs);
 	}
 	return NULL;
 }
