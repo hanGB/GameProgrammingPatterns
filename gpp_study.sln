@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "state", "state\state.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dubble_buffer", "dubble_buffer\dubble_buffer.vcxproj", "{B70DAEAF-63A2-4FE2-B6ED-501F87B0DF83}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game_loop", "game_loop\game_loop.vcxproj", "{84A55E78-F0F5-4D02-9B2F-F3738B3B9A8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -81,6 +83,14 @@ Global
 		{B70DAEAF-63A2-4FE2-B6ED-501F87B0DF83}.Release|x64.Build.0 = Release|x64
 		{B70DAEAF-63A2-4FE2-B6ED-501F87B0DF83}.Release|x86.ActiveCfg = Release|Win32
 		{B70DAEAF-63A2-4FE2-B6ED-501F87B0DF83}.Release|x86.Build.0 = Release|Win32
+		{84A55E78-F0F5-4D02-9B2F-F3738B3B9A8B}.Debug|x64.ActiveCfg = Debug|x64
+		{84A55E78-F0F5-4D02-9B2F-F3738B3B9A8B}.Debug|x64.Build.0 = Debug|x64
+		{84A55E78-F0F5-4D02-9B2F-F3738B3B9A8B}.Debug|x86.ActiveCfg = Debug|Win32
+		{84A55E78-F0F5-4D02-9B2F-F3738B3B9A8B}.Debug|x86.Build.0 = Debug|Win32
+		{84A55E78-F0F5-4D02-9B2F-F3738B3B9A8B}.Release|x64.ActiveCfg = Release|x64
+		{84A55E78-F0F5-4D02-9B2F-F3738B3B9A8B}.Release|x64.Build.0 = Release|x64
+		{84A55E78-F0F5-4D02-9B2F-F3738B3B9A8B}.Release|x86.ActiveCfg = Release|Win32
+		{84A55E78-F0F5-4D02-9B2F-F3738B3B9A8B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

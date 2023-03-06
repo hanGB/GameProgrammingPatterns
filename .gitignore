@@ -6,6 +6,7 @@
 /singleton/x64
 /state/x64
 /dubble_buffer/x64
+/game_loop/x64
 *.exe
 *.ilk
 *.pdb
