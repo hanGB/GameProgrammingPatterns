@@ -1,18 +1,18 @@
 #include "stdafx.h"
-#include "player.h"
+#include "world.h"
+#include <random>
 
 void ProcessInputs();
 void Update();
 void Render();
-void RenderWorld();
 
-Player* g_player;
 KeyInputs* g_keyInputs;
+World* g_world;
 
 int main() 
 {
-	g_player = new Player();
 	g_keyInputs = new KeyInputs();
+	g_world = new World();
 
 	while (true) {
 		ProcessInputs();
@@ -20,7 +20,7 @@ int main()
 		Render();
 	}
 
-	delete g_player;
+	delete g_world;
 	delete g_keyInputs;
 }
 
@@ -32,36 +32,19 @@ void ProcessInputs()
 	if (GetAsyncKeyState(VK_RIGHT)) g_keyInputs->right = true;
 	if (GetAsyncKeyState(VK_UP))	g_keyInputs->up = true;
 	if (GetAsyncKeyState(VK_DOWN))	g_keyInputs->down = true;
+	if (GetAsyncKeyState(VK_SPACE))	g_keyInputs->spacebar = true;
 
-	g_player->ProcessInputs(*g_keyInputs);
+	g_world->ProcessInputs(*g_keyInputs);
 }
 
 void Update()
 {
-	g_player->Update();
+	g_world->Update();
 }
 
 void Render()
 {
 	system("cls");
-	RenderWorld();
 
-	g_player->Render();
-	g_player->RenderLevel();
-}
-
-void RenderWorld() 
-{
-	int y = WORLD_HEIGHT;
-	MoveCurser(-WORLD_WIDTH, y);
-	std::cout << "######################";
-
-	for (y; y > (-WORLD_HEIGHT); --y) {
-		MoveCurser(-WORLD_WIDTH, y);
-		std::cout << '#';
-		MoveCurser(WORLD_WIDTH, y);
-		std::cout << '#';
-	}
-	MoveCurser(-WORLD_WIDTH, y);
-	std::cout << "#######################";
+	g_world->Render();
 }

@@ -3,7 +3,7 @@
 
 class Food : public Object {
 public:
-	Food(int x, int y) { SetPos(x, y); }
+	Food(int x, int y) { SetPos(x, y); SetType(ObjectType::Food); }
 	~Food() {}
 
 	virtual void Render() {

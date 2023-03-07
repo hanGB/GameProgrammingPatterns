@@ -9,6 +9,7 @@ struct KeyInputs {
 	bool right;
 	bool up;
 	bool down;
+	bool spacebar;
 };
 
 #define NEED_EXP_LEVEL_COEFFICIENT 10
@@ -17,4 +18,4 @@ struct KeyInputs {
 #define LEVEL_UP_POP_UP_SHOWING_TIME 10
 
 void MoveCurser(int x, int y);
-void MoveObjectToWorld(int* x, int* y);
+bool MoveObjectToWorld(int* x, int* y);
