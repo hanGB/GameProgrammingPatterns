@@ -12,7 +12,8 @@ struct KeyInputs {
 	bool spacebar;
 };
 
-#define MILLISECOND_PER_FRAME 16
+#define MILLISECOND_PER_UPDATE 4.0
+#define MAXIMUM_UPDATE_LOOP_TIME 8
 #define NEED_EXP_LEVEL_COEFFICIENT 5
 #define WORLD_WIDTH 17
 #define WORLD_HEIGHT 9

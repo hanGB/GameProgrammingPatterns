@@ -13,23 +13,30 @@ Renderer* g_renderer;
 World* g_world;
 
 std::chrono::steady_clock::time_point g_lastTime;
+double g_lag;
 
 int main() 
 {
 	g_keyInputs = new KeyInputs();
 	g_renderer = new Renderer();
 	g_world = new World();
+
 	g_lastTime = std::chrono::high_resolution_clock::now();
+	g_lag = 0.0;
+
 	while (true) {
 		auto current = std::chrono::high_resolution_clock::now();
-		auto durationTime = current - g_lastTime;
-		double elapsedTimeInSec = (double)std::chrono::duration_cast<std::chrono::milliseconds>(durationTime).count() / 1'000;
-
-		ProcessInputs(elapsedTimeInSec);
-		Update(elapsedTimeInSec);
-		Render();
-		
+		auto elapsedTime = current - g_lastTime;
+		double elapsedTimeInMS = (double)std::chrono::duration_cast<std::chrono::milliseconds>(elapsedTime).count();
 		g_lastTime = current;
+		g_lag += elapsedTimeInMS;
+		ProcessInputs(elapsedTimeInMS / 1000.0);
+
+		for (int i = 0; i < MAXIMUM_UPDATE_LOOP_TIME && g_lag >= MILLISECOND_PER_UPDATE; ++i) {
+			Update(MILLISECOND_PER_UPDATE / 1'000.0);
+			g_lag -= MILLISECOND_PER_UPDATE;
+		}
+		Render();
 	}
 
 	delete g_world;
