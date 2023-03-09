@@ -1,11 +1,5 @@
 #include "stdafx.h"
 
-void MoveCurser(int x, int y)
-{
-	COORD pos = { (short)(x + WORLD_WIDTH), (short)(-y + WORLD_HEIGHT) };
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-}
-
 bool MoveObjectToWorld(int* x, int* y)
 {
 	// object can not move on wall

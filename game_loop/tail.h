@@ -21,12 +21,11 @@ public:
 		SetPos(x, y);
 	}
 	
-	virtual void Render() 
+	virtual void Render(Renderer& renderer)
 	{
 		int x, y;
 		GetPos(&x, &y);
-		MoveCurser(x, y);
-		std::cout << "T";
+		renderer.PrintOnBuffer(x, y, "T");
 	}
 
 private:

@@ -46,6 +46,11 @@ public:
 
 		int needExp = m_level * NEED_EXP_LEVEL_COEFFICIENT;
 		if (needExp <= m_exp) {
+			if (m_level == MAX_LEVEL) {
+				m_isGameClear = true;
+				return;
+			}
+
 			m_tails[m_level - 1] = new Tail(*m_lastSnake);
 			m_lastSnake = m_tails[m_level - 1];
 			m_level++;
@@ -57,16 +62,15 @@ public:
 
 		CheckCollitionWithTails();
 	}
-	virtual void Render() {
+	virtual void Render(Renderer& renderer) {
 
 		int x, y;
 		GetPos(&x, &y);
-		MoveCurser(x, y);
-		std::cout << "P";
+		renderer.PrintOnBuffer(x, y, "P");
 
 		for (Tail* tail : m_tails) {
 			if (!tail) break;
-			tail->Render();
+			tail->Render(renderer);
 		}
 	}
 
@@ -77,11 +81,14 @@ public:
 		}
 	}
 
-	void RenderLevel(int x, int y) {
+	void RenderLevel(Renderer& renderer, int x, int y) {
 
-		MoveCurser(x, y);
-		std::cout << "Player Level: " << m_level;
-		RenderLevelUpPopup(x, y - 1);
+		char text[30];		
+		sprintf_s(text, "Player Level: %d", m_level);
+
+		renderer.PrintOnBuffer(x, y, text);
+
+		RenderLevelUpPopup(renderer, x, y - 1);
 	}
 	void Initialize() {
 
@@ -91,6 +98,7 @@ public:
 		m_level = 1;
 		m_exp = 0;
 		m_showLevelUpPopupTimer = 0;
+		m_isGameClear = false;
 
 		for (Tail* tail : m_tails) {
 			if (!tail) break;
@@ -100,11 +108,14 @@ public:
 		m_lastSnake = this;
 	}
 
-private:
-	void RenderLevelUpPopup(int x, int y) {
+	bool GetIsGameClear() const {
+		return m_isGameClear;
+	}
 
-		MoveCurser(x, y);
-		if (m_showLevelUpPopupTimer > 0) std::cout << "LEVEL UP!!";
+private:
+	void RenderLevelUpPopup(Renderer& renderer, int x, int y) {
+		
+		if (m_showLevelUpPopupTimer > 0) renderer.PrintOnBuffer(x, y, "LEVEL UP!!");
 	}
 	void CheckCollitionWithTails() {
 
@@ -118,7 +129,8 @@ private:
 	int m_level;
 	int m_exp;
 	int m_showLevelUpPopupTimer;
+	bool m_isGameClear;
 
-	std::array<Tail*, 100> m_tails = {nullptr, };
+	std::array<Tail*, MAX_LEVEL -1> m_tails = {nullptr, };
 	Snake* m_lastSnake;
 };

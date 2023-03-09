@@ -154,6 +154,7 @@
     <ClInclude Include="food.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="renderer.h" />
     <ClInclude Include="snake.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="tail.h" />

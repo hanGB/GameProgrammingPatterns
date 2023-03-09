@@ -1,6 +1,7 @@
 #pragma once
 #include "player.h"
 #include "food.h"
+#include "renderer.h"
 #include <random>
 
 class World {
@@ -42,7 +43,7 @@ public:
 	{
 		if (m_isEnd) return;
 
-		if (!m_player->GetIsLived()) {
+		if (!m_player->GetIsLived() || m_player->GetIsGameClear()) {
 			m_isEnd = true;
 			return;
 		}
@@ -62,21 +63,27 @@ public:
 		if (!m_food) MakeFood();
 	}
 
-	void Render()
+	void Render(Renderer& renderer)
 	{
 		if (m_isEnd) {
-			MoveCurser(0, 0);
-			std::cout << "GameOver!!!";
-			MoveCurser(0, -1);
-			std::cout << "Press space bar to reset...";
-			m_player->RenderLevel(-WORLD_WIDTH, -WORLD_HEIGHT - 1);
-			return;
+			if (m_player->GetIsGameClear()) {
+				renderer.PrintOnBuffer(0, 0, "Game Clear!!!");
+				renderer.PrintOnBuffer(0, -1, "Press space bar to reset...");
+				m_player->RenderLevel(renderer, -WORLD_WIDTH, -WORLD_HEIGHT - 1);
+				return;
+			}
+			else {
+				renderer.PrintOnBuffer(0, 0, "Game Over!!!");
+				renderer.PrintOnBuffer(0, -1, "Press space bar to reset...");
+				m_player->RenderLevel(renderer, -WORLD_WIDTH, -WORLD_HEIGHT - 1);
+				return;
+			}
 		}
-		RenderWall();
+		RenderWall(renderer);
 
-		if (m_food) m_food->Render();
-		m_player->Render();
-		m_player->RenderLevel(-WORLD_WIDTH, -WORLD_HEIGHT - 1);
+		if (m_food) m_food->Render(renderer);
+		m_player->Render(renderer);
+		m_player->RenderLevel(renderer, -WORLD_WIDTH, -WORLD_HEIGHT - 1);
 	}
 
 private:
@@ -89,20 +96,19 @@ private:
 		m_food = new Food(x, y);
 	}
 
-	void RenderWall()
+	void RenderWall(Renderer& renderer)
 	{
 		int y = WORLD_HEIGHT;
-		MoveCurser(-WORLD_WIDTH, y);
-		std::cout << "######################";
-
+		for (int x = -WORLD_WIDTH; x <= WORLD_WIDTH; ++x) {
+			renderer.PrintOnBuffer(x, y, "#");
+		}	
 		for (y; y > (-WORLD_HEIGHT); --y) {
-			MoveCurser(-WORLD_WIDTH, y);
-			std::cout << '#';
-			MoveCurser(WORLD_WIDTH, y);
-			std::cout << '#';
+			renderer.PrintOnBuffer(-WORLD_WIDTH, y, "#");
+			renderer.PrintOnBuffer(WORLD_WIDTH, y, "#");
 		}
-		MoveCurser(-WORLD_WIDTH, y);
-		std::cout << "#######################";
+		for (int x = -WORLD_WIDTH; x <= WORLD_WIDTH; ++x) {
+			renderer.PrintOnBuffer(x, y, "#");
+		}
 	}
 
 	Player* m_player;

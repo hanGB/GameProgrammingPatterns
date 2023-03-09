@@ -6,10 +6,9 @@ public:
 	Food(int x, int y) { SetPos(x, y); SetType(ObjectType::Food); }
 	~Food() {}
 
-	virtual void Render() {
+	virtual void Render(Renderer& renderer) {
 		int x, y;
 		GetPos(&x, &y);
-		MoveCurser(x, y);
-		std::cout << "F";
+		renderer.PrintOnBuffer(x, y, "F");
 	}
 };

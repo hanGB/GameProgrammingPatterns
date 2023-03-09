@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "renderer.h"
 
 enum class ObjectType {
 	Player,
@@ -11,7 +12,7 @@ class Object {
 public:
 	virtual void ProcessInputs(KeyInputs& inputs) {}
 	virtual void Update() {}
-	virtual void Render() {}
+	virtual void Render(Renderer& renderer) {}
 
 	virtual void CollidideWithType(ObjectType type) {}
 
