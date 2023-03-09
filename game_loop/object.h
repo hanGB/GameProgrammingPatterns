@@ -10,8 +10,8 @@ enum class ObjectType {
 
 class Object {
 public:
-	virtual void ProcessInputs(KeyInputs& inputs) {}
-	virtual void Update() {}
+	virtual void ProcessInputs(KeyInputs& inputs, double elapsedTimeInSec) {}
+	virtual void Update(double elapsedTimeInSec) {}
 	virtual void Render(Renderer& renderer) {}
 
 	virtual void CollidideWithType(ObjectType type) {}

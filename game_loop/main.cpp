@@ -4,32 +4,32 @@
 #include <chrono>
 #include <thread>
 
-void ProcessInputs();
-void Update();
+void ProcessInputs(double elapsedTimeInSec);
+void Update(double elapsedTimeInSec);
 void Render();
 
 KeyInputs* g_keyInputs;
 Renderer* g_renderer;
 World* g_world;
 
+std::chrono::steady_clock::time_point g_lastTime;
+
 int main() 
 {
 	g_keyInputs = new KeyInputs();
 	g_renderer = new Renderer();
 	g_world = new World();
-
+	g_lastTime = std::chrono::high_resolution_clock::now();
 	while (true) {
-		auto startTime = std::chrono::high_resolution_clock::now();
+		auto current = std::chrono::high_resolution_clock::now();
+		auto durationTime = current - g_lastTime;
+		double elapsedTimeInSec = (double)std::chrono::duration_cast<std::chrono::milliseconds>(durationTime).count() / 1'000;
 
-		ProcessInputs();
-		Update();
+		ProcessInputs(elapsedTimeInSec);
+		Update(elapsedTimeInSec);
 		Render();
 		
-		auto durationTime = std::chrono::high_resolution_clock::now() - startTime;
-		int sleepTime = MILLISECOND_PER_FRAME - (int)std::chrono::duration_cast<std::chrono::milliseconds>(durationTime).count();
-		if (sleepTime > 0) {
-			std::this_thread::sleep_for(std::chrono::milliseconds((int)sleepTime));
-		}
+		g_lastTime = current;
 	}
 
 	delete g_world;
@@ -37,7 +37,7 @@ int main()
 	delete g_keyInputs;
 }
 
-void ProcessInputs()
+void ProcessInputs(double elapsedTimeInSec)
 {
 	memset(g_keyInputs, 0, sizeof(KeyInputs));
 
@@ -47,14 +47,12 @@ void ProcessInputs()
 	if (GetAsyncKeyState(VK_DOWN))	g_keyInputs->down = true;
 	if (GetAsyncKeyState(VK_SPACE))	g_keyInputs->spacebar = true;
 
-	g_world->ProcessInputs(*g_keyInputs);
+	g_world->ProcessInputs(*g_keyInputs, elapsedTimeInSec);
 }
-
-void Update()
+void Update(double elapsedTimeInSec)
 {
-	g_world->Update();
+	g_world->Update(elapsedTimeInSec);
 }
-
 void Render()
 {
 	g_world->Render(*g_renderer);
