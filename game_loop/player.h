@@ -25,11 +25,15 @@ public:
 			if (inputs.left) m_direction.xAxis = -1;
 			else if (inputs.right) m_direction.xAxis = +1;
 			m_direction.yAxis = 0;
+			m_xMiddlePos = m_direction.xAxis * std::abs(m_yMiddlePos);
+			m_yMiddlePos = 0.0f;
 		}
 		else if (inputs.up || inputs.down) {
 			if (inputs.up) m_direction.yAxis = +1;
 			else if (inputs.down) m_direction.yAxis = -1;
 			m_direction.xAxis = 0;
+			m_yMiddlePos = m_direction.yAxis * std::abs(m_xMiddlePos);
+			m_xMiddlePos = 0.0f;
 		}
 	}
 	virtual void Update(double elapsedTimeInSec) 
@@ -38,15 +42,46 @@ public:
 		UpdateLevelData(elapsedTimeInSec);
 		CheckCollisionWithTails();
 	}
-	virtual void Render(Renderer& renderer) {
+	virtual void Render(Renderer& renderer, double differenceRate) {
 
+		float tempXMiddlePos, tempYMiddlePos;
+		tempXMiddlePos = m_xMiddlePos
+			+ m_direction.xAxis
+			* (PLAYER_DEFAULT_SPEED + PLAYER_SPEED_LEVEL_COEFFICIENT * m_level) 
+			* (float)(MILLISECOND_PER_UPDATE / 1000.0f) * (float)differenceRate;
+		tempYMiddlePos = m_yMiddlePos
+			+ m_direction.yAxis 
+			* (PLAYER_DEFAULT_SPEED + PLAYER_SPEED_LEVEL_COEFFICIENT * m_level)
+			* (float)(MILLISECOND_PER_UPDATE / 1000.0f) * (float)differenceRate;
 		int x, y;
 		GetPos(&x, &y);
-		renderer.PrintOnBuffer(x, y, "P");
+		renderer.PrintOnBuffer(x + (int)tempXMiddlePos, y + (int)tempYMiddlePos, "P");
+
+		if ((int)tempXMiddlePos != 0 || (int)tempYMiddlePos != 0) {
+
+			SavePrevAndCurrentPos();
+			SetPos(x + (int)tempXMiddlePos, y + (int)tempYMiddlePos);
+
+			Snake* snake = this;
+			for (Tail* tail : m_tails) {
+				if (!tail) break;
+				tail->Move(*snake);
+				snake = tail;
+			}
+
+			SetPos(x, y);
+		}
 
 		for (Tail* tail : m_tails) {
 			if (!tail) break;
-			tail->Render(renderer);
+			tail->Render(renderer, differenceRate);
+		}
+
+		if ((int)tempXMiddlePos != 0 || (int)tempYMiddlePos != 0) {
+			for (Tail* tail : m_tails) {
+				if (!tail) break;
+				tail->Back();
+			}
 		}
 	}
 
@@ -70,6 +105,7 @@ public:
 	{
 		SetPos(0, 0);
 		SetIsLived(true);
+		SetPrevPos(-1, 0);
 
 		m_xMiddlePos = 0.0f;
 		m_yMiddlePos = 0.0f;
@@ -123,7 +159,7 @@ private:
 			if (originalX != x) m_xMiddlePos = 0.0f;
 			if (originalY != y) m_yMiddlePos = 0.0f;
 
-			SaveCurrentPos();
+			SavePrevAndCurrentPos();
 			SetPos(x, y);
 			Snake* snake = this;
 			for (Tail* tail : m_tails) {

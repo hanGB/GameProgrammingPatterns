@@ -12,7 +12,7 @@ class Object {
 public:
 	virtual void ProcessInputs(KeyInputs& inputs, double elapsedTimeInSec) {}
 	virtual void Update(double elapsedTimeInSec) {}
-	virtual void Render(Renderer& renderer) {}
+	virtual void Render(Renderer& renderer, double differenceRate) {}
 
 	virtual void CollidideWithType(ObjectType type) {}
 

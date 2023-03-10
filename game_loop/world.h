@@ -66,7 +66,7 @@ public:
 		m_timer += elapsedTimeInSec;
 	}
 
-	void Render(Renderer& renderer)
+	void Render(Renderer& renderer, double differenceRate)
 	{
 		m_player->RenderLevel(renderer, -WORLD_WIDTH, -WORLD_HEIGHT - 1);
 		RenderTime(renderer);
@@ -85,8 +85,8 @@ public:
 		}
 		RenderWall(renderer);
 
-		if (m_food) m_food->Render(renderer);
-		m_player->Render(renderer);
+		if (m_food) m_food->Render(renderer, differenceRate);
+		m_player->Render(renderer, differenceRate);
 	}
 
 private:

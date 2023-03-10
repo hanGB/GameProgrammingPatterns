@@ -7,21 +7,31 @@ public:
 	Tail(Snake &last)
 	{
 		int x, y;
-		last.GetPrevPos(&x, &y);
-		SetPos(x, y);
+		int prevX, prevY;
+		last.GetPos(&x, &y);
+		last.GetPrevPos(&prevX, &prevY);
+		SetPos(prevX, prevY);
+		SetPrevPos(prevX - (x - prevX), prevY - (y - prevY));
 		SetType(ObjectType::Tail);
 	}
 	~Tail() { }
 
-	void Move(Snake &last)
+	void Move(Snake& last)
 	{
 		int x, y;
-		SaveCurrentPos();
+		SavePrevAndCurrentPos();
 		last.GetPrevPos(&x, &y);
 		SetPos(x, y);
 	}
+	void Back()
+	{
+		int x, y;
+		GetPrevPos(&x, &y); 
+		SetPos(x, y);
+		SavePrevPrevPosInPrevPos();
+	}
 	
-	virtual void Render(Renderer& renderer)
+	virtual void Render(Renderer& renderer, double differenceRate)
 	{
 		int x, y;
 		GetPos(&x, &y);
