@@ -29,12 +29,21 @@
     <ClInclude Include="interpreter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="read_file.h">
+    <ClInclude Include="read_write_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bytecode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="virtual_machine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="data.txt">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bytecode.bin">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

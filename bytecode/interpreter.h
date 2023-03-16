@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "expression.h"
-#include "read_file.h"
+#include "read_write_file.h"
 
 // 인터프리터 패턴 실행기
 class Interpreter {
@@ -167,6 +167,8 @@ private:
 		}
 		// - 연산자 대기 스택에 추가
 		m_operatorWaitingStack.push(oper);
+
+		return true;
 	}
 	int ExtractNumberInData(char* m_data, int& i)
 	{

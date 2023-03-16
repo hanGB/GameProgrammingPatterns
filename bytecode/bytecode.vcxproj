@@ -142,12 +142,15 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bytecode.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="interpreter.h" />
-    <ClInclude Include="read_file.h" />
+    <ClInclude Include="read_write_file.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="virtual_machine.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bytecode.bin" />
     <None Include="data.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
