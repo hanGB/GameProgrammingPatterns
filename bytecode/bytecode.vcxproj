@@ -143,6 +143,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="expression.h" />
+    <ClInclude Include="interpreter.h" />
+    <ClInclude Include="read_file.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
