@@ -148,6 +148,7 @@
     <ClInclude Include="read_write_file.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="virtual_machine.h" />
+    <ClInclude Include="wizard.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bytecode.bin" />

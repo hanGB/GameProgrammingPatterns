@@ -1,16 +1,20 @@
 #include "stdafx.h"
 #include "read_write_file.h"
 #include "virtual_machine.h"
+#include "bytecode.h"
 
 int main()
 {
 	// 바이트코드 생성
-	char code[] = {
-		0x00, 0, 0x00, 10, 0x01, 
-		0x00, 0, 0x00, 5, 0x02,
-		0x00, 1, 0x00, 8, 0x03, 
-		0x00, 0x00, 0x04,
-		0x00, 0x00, 0x05
+	char code[] = { 
+		INST_LITERAL, 0,
+		INST_LITERAL, 0, INST_GET_HEALTH,
+		INST_LITERAL, 0, INST_GET_AGILITY,
+		INST_LITERAL, 0, INST_GET_WISDOM,
+		INST_ADD,
+		INST_LITERAL, 2, INST_DIVI,
+		INST_ADD,
+		INST_SET_HEALTH
 	};
 	WriteFileInBinary("bytecode.bin", code, sizeof(code) / sizeof(char));
 	
