@@ -23,7 +23,7 @@ char* ReadFile(const char* fileName)
 	return data;
 }
 
-char* ReadFileInBinary(const char* fileName)
+char* ReadFileInBinary(const char* fileName, int& size)
 {
 	// 데이터 파일 열기
 	std::ifstream in;
@@ -31,13 +31,13 @@ char* ReadFileInBinary(const char* fileName)
 
 	// 파일 길이 얻기
 	in.seekg(0, std::ios::end);
-	size_t length = in.tellg();
+	size = (int)in.tellg();
 	in.seekg(0, std::ios::beg);
 
-	char* data = new char[length];
+	char* data = new char[size];
 
 	// 길이 만큼 파일 읽기
-	in.read(data, length);
+	in.read(data, size);
 
 	in.close();
 
