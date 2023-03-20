@@ -2,13 +2,16 @@
 #include "sound_player.h"
 #include "particle_spawner.h"
 #include "hero.h"
+#include "superpower.h"
 
 int main()
 {
-	ParticleSpawner* particleSpawner = new ParticleSpawner();
 	SoundPlayer* soundPlayer = new SoundPlayer();
+	ParticleSpawner* particleSpawner = new ParticleSpawner();
+	
+	Superpower::Init(soundPlayer, particleSpawner);
 
-	Hero* hero = new Hero(soundPlayer, particleSpawner);
+	Hero* hero = new Hero();
 
 	int count = 0;
 	while (count < 100) {

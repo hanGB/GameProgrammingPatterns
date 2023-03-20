@@ -7,10 +7,10 @@
 
 class Hero : public Object {
 public:
-	Hero(SoundPlayer* soundPlayer, ParticleSpawner* particleSpawner) {
-		
+	Hero() 
+	{
 		m_power = new SkyLaunch();
-		m_power->Init(soundPlayer, particleSpawner, this);
+		m_power->SetObject(this);
 	}
 	~Hero() { delete m_power; }
 
@@ -20,7 +20,7 @@ public:
 		std::cout << '\n';
 	}
 	virtual void Update() {
-		m_power->Use();
+		m_power->UsePower();
 	}
 
 private:

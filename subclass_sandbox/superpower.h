@@ -8,12 +8,14 @@ class Superpower {
 public:
 	virtual ~Superpower() {}
 
-	void Use() {
+	void UsePower() {
 		Activate();
 	}
-	void Init(SoundPlayer* player, ParticleSpawner* spawner, Object* object) {
+	static void Init(SoundPlayer* player, ParticleSpawner* spawner) {
 		m_soundPlayer = player;
 		m_particleSpawner = spawner;
+	}
+	void SetObject(Object* object) {
 		m_object = object;
 	}
 
@@ -51,7 +53,12 @@ protected:
 	}
 
 private:
-	SoundPlayer* m_soundPlayer;
-	ParticleSpawner* m_particleSpawner;
+	static SoundPlayer* m_soundPlayer;
+	static ParticleSpawner* m_particleSpawner;
+
 	Object* m_object;
 };
+
+// class 안에 있는 static 변수 재선언
+SoundPlayer* Superpower::m_soundPlayer;
+ParticleSpawner* Superpower::m_particleSpawner;
