@@ -8,8 +8,8 @@ int main()
 	Breed* trollBreed = new Breed(48, "트롤이 당신을 공봉으로 내리칩니다!");
 
 	Monster* monsters[2] = {
-		new Monster(*dragonBreed),
-		new Monster(*trollBreed)
+		dragonBreed->NewMonster(),
+		trollBreed->NewMonster()
 	};
 
 

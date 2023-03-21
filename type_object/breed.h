@@ -1,12 +1,16 @@
 #pragma once
-#include "stdafx.h"
+
+class Monster;
 
 class Breed {
 public:
-	Breed(int health, const char* attack) : m_health(health), m_attack(attack) {}
+	Breed(int health, const char* attack);
 
-	int GetHealth() const { return m_health; }
-	const char* GetAttack() { return m_attack; }
+	// 이 종족의 몬스터 생성
+	Monster* NewMonster();
+
+	int GetHealth() const;
+	const char* GetAttack();
 
 private:
 	int m_health;
