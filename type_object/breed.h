@@ -13,7 +13,6 @@ public:
 	const char* GetAttack();
 
 private:
-	Breed* m_parent;
-	int m_health = 0;
-	const char* m_attack = nullptr;
+	int m_health;
+	const char* m_attack;
 };

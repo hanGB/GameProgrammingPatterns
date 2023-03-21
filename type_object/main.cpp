@@ -4,11 +4,14 @@
 
 int main()
 {
-	Breed* dragonBreed = new Breed(230, "용이 불을 뿜습니다!");
-	Breed* trollBreed = new Breed(48, "트롤이 당신을 공봉으로 내리칩니다!");
+	Breed* dragonBreed = new Breed(nullptr, 230, "용이 불을 뿜습니다!");
+	Breed* trollBreed = new Breed(nullptr, 48, "트롤이 당신을 공봉으로 내리칩니다!");
 
-	Monster* monsters[2] = {
+	Breed* greatDragonBreed = new Breed(dragonBreed, 460, nullptr);
+
+	Monster* monsters[] = {
 		dragonBreed->NewMonster(),
+		greatDragonBreed->NewMonster(),
 		trollBreed->NewMonster()
 	};
 

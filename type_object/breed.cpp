@@ -3,8 +3,13 @@
 #include "monster.h"
 
 Breed::Breed(Breed* parent, int health, const char* attack)
-    : m_health(health), m_attack(attack), m_parent(parent)
+    : m_health(health), m_attack(attack)
 {
+    // 오버라이드하지 않는 속성만 상속받는다
+    if (parent != nullptr) {
+        if (health == 0) m_health = parent->GetHealth();
+        if (attack == nullptr) m_attack = parent->GetAttack();
+    }
 }
 
 Monster* Breed::NewMonster()
@@ -14,22 +19,10 @@ Monster* Breed::NewMonster()
 
 int Breed::GetHealth() const
 {
-    // 오버라이딩
-    if (m_health != 0 || m_parent == NULL) {
-        return m_health;
-    }
-
-    // 상속
-    return m_parent->GetHealth();
+    return m_health;
 }
 
 const char* Breed::GetAttack()
 {
-    // 오버라이딩
-    if (m_attack != nullptr || m_parent == NULL) {
-        return m_attack;
-    }
-
-    // 상속
-    return m_parent->GetAttack();
+    return m_attack;
 }
