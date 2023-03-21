@@ -4,7 +4,7 @@ class Monster;
 
 class Breed {
 public:
-	Breed(int health, const char* attack);
+	Breed(Breed* parent, int health, const char* attack);
 
 	// 이 종족의 몬스터 생성
 	Monster* NewMonster();
@@ -13,6 +13,7 @@ public:
 	const char* GetAttack();
 
 private:
-	int m_health;
-	const char* m_attack;
+	Breed* m_parent;
+	int m_health = 0;
+	const char* m_attack = nullptr;
 };
