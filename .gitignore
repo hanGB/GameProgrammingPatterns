@@ -10,6 +10,7 @@
 /update_method/x64
 /bytecode/x64
 /subclass_sandbox/x64
+/type_object/x64
 *.exe
 *.ilk
 *.pdb

@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bytecode", "bytecode\byteco
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subclass_sandbox", "subclass_sandbox\subclass_sandbox.vcxproj", "{7B488ECB-08BF-4244-9312-B351C2A4AAB7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "type_object", "type_object\type_object.vcxproj", "{8B636C0C-9663-4833-AF26-5653573ACED2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -121,6 +123,14 @@ Global
 		{7B488ECB-08BF-4244-9312-B351C2A4AAB7}.Release|x64.Build.0 = Release|x64
 		{7B488ECB-08BF-4244-9312-B351C2A4AAB7}.Release|x86.ActiveCfg = Release|Win32
 		{7B488ECB-08BF-4244-9312-B351C2A4AAB7}.Release|x86.Build.0 = Release|Win32
+		{8B636C0C-9663-4833-AF26-5653573ACED2}.Debug|x64.ActiveCfg = Debug|x64
+		{8B636C0C-9663-4833-AF26-5653573ACED2}.Debug|x64.Build.0 = Debug|x64
+		{8B636C0C-9663-4833-AF26-5653573ACED2}.Debug|x86.ActiveCfg = Debug|Win32
+		{8B636C0C-9663-4833-AF26-5653573ACED2}.Debug|x86.Build.0 = Debug|Win32
+		{8B636C0C-9663-4833-AF26-5653573ACED2}.Release|x64.ActiveCfg = Release|x64
+		{8B636C0C-9663-4833-AF26-5653573ACED2}.Release|x64.Build.0 = Release|x64
+		{8B636C0C-9663-4833-AF26-5653573ACED2}.Release|x86.ActiveCfg = Release|Win32
+		{8B636C0C-9663-4833-AF26-5653573ACED2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
