@@ -27,7 +27,7 @@ struct GPPCoordinateData {
 	float halfWidth;
 	float halfHeight;
 
-	void ConvertCoordinateWindowToOpenGL(float* x, float* y) {
+	void ConvertCoordinateOpenGLToWindows(float* x, float* y) {
 		*x += halfWidth / (float)GPP_PIXEL_PER_METER;
 		*y *= -1;
 		*y += halfHeight / (float)GPP_PIXEL_PER_METER;

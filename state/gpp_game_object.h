@@ -39,7 +39,7 @@ public:
 
 		float posInWindowX = m_positionX;
 		float posInWindowY = m_positionY;
-		coordinateData.ConvertCoordinateWindowToOpenGL(&posInWindowX, &posInWindowY);
+		coordinateData.ConvertCoordinateOpenGLToWindows(&posInWindowX, &posInWindowY);
 
 		Render(memDC, posInWindowX, posInWindowY);
 
