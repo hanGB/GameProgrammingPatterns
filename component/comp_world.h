@@ -9,17 +9,17 @@ public:
 
 	void Update(double elapsedTimeInSec);
 	void RenderWorld(CompRenderer& renderer);
-	bool CheckCollision(double* posX, double* posY, double sizeX, double sizeY);
+	bool CheckCollision(CompVector3<double>* pos, CompVector2<double> volme);
 
 private:
-	bool IsCollidedWithAABB(double aPosX, double aPosY, double aSizeX, double aSizeY,
-		double bPosX, double bPosY, double bSizeX, double bSizeY);
+	bool IsCollidedWithAABB(CompVector3<double> aPos, CompVector2<double> aVolme,
+		CompVector3<double> bPos, CompVector2<double> bVolme);
 
 	void MoveOneObjectToAdjustPosition(
-		double* movableObjectPosX, double* movableObjectPosY, double movableObjectSizeX, double movableObjectSizeY,
-		double fixedObjectPosX, double fixedObjectPosY, double fixedObjectSizeX, double fixedObjectSizeY);
+		CompVector3<double>* movablePos, CompVector2<double> movableVolme,
+		CompVector3<double> fixedPos, CompVector2<double> fixedVolme);
 
-	double m_groundPosX, m_groundPosY;
-	double m_groundWidth, m_groundHeight;
-	CompRGBColor m_groundColor;
+	CompVector3<double> m_groundPosition;
+	CompVector2<double> m_groundSize;
+	CompColor m_groundColor;
 };

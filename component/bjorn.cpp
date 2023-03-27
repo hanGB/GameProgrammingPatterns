@@ -3,15 +3,16 @@
 
 Bjorn::Bjorn()
 {
-	m_posX = 0.0; m_posY = 0.0;
-	m_sizeX = 0.8; m_sizeY = 0.8f;
-	m_velocityX = 0.0; m_velocityY = 0.0;
+	m_position = { 0.0, 0.0, 0.0 };
+	m_velocity = { 0.0, 0.0 };
 	m_mass = 5.0;
 	m_isFalling = true;
+	m_size = { 0.8, 0.8 };
+	m_physics.SetVolume(m_size);
 
-	m_idleColor.red = 0; m_idleColor.green = 127; m_idleColor.blue = 127;
-	m_walkRightColor.red = 0; m_walkRightColor.green = 0; m_walkRightColor.blue = 127;
-	m_walkLeftColor.red = 0; m_walkLeftColor.green = 127; m_walkLeftColor.blue = 0;
+	m_idleColor = { 0, 127, 127 };
+	m_walkRightColor = { 0, 0, 127 };
+	m_walkLeftColor = { 0, 127, 0 };
 
 	m_color = m_idleColor;
 }
@@ -25,65 +26,37 @@ void Bjorn::Update(CompWorld& world, double elapsedTimeInSec)
 	InitCurrentAccel();
 
 	m_input.Update(*this);
+	m_physics.Update(*this, world, elapsedTimeInSec);
 
-	double t = elapsedTimeInSec;
-
-	// 이동 관련
-	if (fabs(m_velocityX) > 0.f && !m_isFalling) {
-		// 마찰
-		m_currentAccX += m_velocityX / std::abs(m_velocityX) * GPP_FRICTION * (-GPP_GRAVITY);
-
-		double tempVelocityX = m_velocityX + m_currentAccX * t;
-		if (tempVelocityX * m_velocityX < 0.0f) {
-			m_velocityX = 0.0f;
-		}
-		else {
-			m_velocityX = tempVelocityX;
-		}
-
-		m_velocityX += m_currentAccX * t;
-	}
-	else if (m_isFalling) {
-		m_currentAccX = 0.0;
-		m_currentAccY -= GPP_GRAVITY;
-		m_velocityY += m_currentAccY * t;
-	}
-	else {
-		m_velocityX += m_currentAccX * t;
-	}
-
-	m_posX += (m_velocityX * t + 0.5f * m_currentAccX * t * t);
-	m_posY += (m_velocityY * t + 0.5f * m_currentAccY * t * t);
-
-	m_isFalling = !world.CheckCollision(&m_posX, &m_posY, m_sizeX, m_sizeY);
-
-	if (m_velocityX > STOP_VELOCITY) {
+	if (m_velocity.x > STOP_VELOCITY) {
 		m_color = m_walkRightColor;
 	}
-	else if (m_velocityX < -STOP_VELOCITY) {
+	else if (m_velocity.x < -STOP_VELOCITY) {
 		m_color = m_walkLeftColor;
 	}
 	else {
 		m_color = m_idleColor;
 	}
-
 }
 
 void Bjorn::Render(CompRenderer& renderer)
 {
-	renderer.RenderEllipse(m_posX, m_posY, m_sizeX, m_sizeY, m_color);
+	renderer.RenderEllipse(m_position, m_size, m_color);
 }
 
-void Bjorn::GetCurrentAcc(double* x, double* y)
+CompVector3<double> Bjorn::GetPosition() const
 {
-	*x = m_currentAccX;
-	*y = m_currentAccY;
+	return m_position;
 }
 
-void Bjorn::GetVelocity(double* x, double* y)
+CompVector2<double> Bjorn::GetCurrentAccel() const
 {
-	*x = m_velocityX;
-	*y = m_velocityY;
+	return m_currentAccel;
+}
+
+CompVector2<double> Bjorn::GetVelocity() const
+{
+	return m_velocity;
 }
 
 bool Bjorn::GetIsFalling() const
@@ -101,16 +74,19 @@ double Bjorn::GetMass() const
 	return m_mass;
 }
 
-void Bjorn::SetCurrentAcc(double x, double y)
+void Bjorn::SetPosition(CompVector3<double> position)
 {
-	m_currentAccX = x;
-	m_currentAccY = y;
+	m_position = position;
 }
 
-void Bjorn::SetVelocity(double x, double y)
+void Bjorn::SetCurrentAccel(CompVector2<double> accel)
 {
-	m_velocityX = x;
-	m_velocityY = y;
+	m_currentAccel = accel;
+}
+
+void Bjorn::SetVelocity(CompVector2<double> velocity)
+{
+	m_velocity = velocity;
 }
 
 void Bjorn::SetIsFalling(bool fall)
@@ -125,6 +101,6 @@ void Bjorn::SetMass(double mass)
 
 void Bjorn::InitCurrentAccel()
 {
-	m_currentAccX = 0.0;
-	m_currentAccY = 0.0;
+	m_currentAccel.x = 0.0;
+	m_currentAccel.y = 0.0;
 }

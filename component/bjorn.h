@@ -2,6 +2,7 @@
 #include "comp_renderer.h"
 #include "comp_world.h"
 #include "input_component.h"
+#include "physics_component.h"
 
 class Bjorn {
 public:
@@ -11,14 +12,16 @@ public:
 	void Update(CompWorld& world, double elapsedTimeInSec);
 	void Render(CompRenderer& renderer);
 
-	void GetCurrentAcc(double* x, double* y);
-	void GetVelocity(double* x, double* y);
+	CompVector3<double> GetPosition() const;
+	CompVector2<double> GetCurrentAccel() const;
+	CompVector2<double> GetVelocity() const;
 	bool GetIsFalling() const;
 	double GetMaximumVelocityX() const;
 	double GetMass() const;
 
-	void SetCurrentAcc(double x, double y);
-	void SetVelocity(double x, double y);
+	void SetPosition(CompVector3<double> position);
+	void SetCurrentAccel(CompVector2<double> accel);
+	void SetVelocity(CompVector2<double> velocity);
 	void SetIsFalling(bool fall);
 	void SetMass(double mass);
 
@@ -29,19 +32,20 @@ private:
 	static const int STOP_VELOCITY = 1;
 
 	InputComponent m_input;
+	PhysicsComponent m_physics;
 
-	double m_posX, m_posY;
-	double m_sizeX, m_sizeY;
-	double m_velocityX, m_velocityY;
+	CompVector3<double> m_position;
+	CompVector2<double> m_velocity;
 	double m_mass;
-	double m_currentAccX, m_currentAccY;
+	CompVector2<double> m_currentAccel;
+	CompVector2<double> m_size;
 	double m_maximumVelocityX = (double)MAXIMUM_VELOCITY_X;
 
 	bool m_isFalling;
 
-	CompRGBColor m_color;
+	CompColor m_color;
 
-	CompRGBColor m_idleColor;
-	CompRGBColor m_walkRightColor;
-	CompRGBColor m_walkLeftColor;
+	CompColor m_idleColor;
+	CompColor m_walkRightColor;
+	CompColor m_walkLeftColor;
 };

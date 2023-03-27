@@ -148,6 +148,7 @@
     <ClCompile Include="comp_world.cpp" />
     <ClCompile Include="input_component.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="physics_component.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
@@ -160,6 +161,7 @@
     <ClInclude Include="comp_renderer.h" />
     <ClInclude Include="comp_world.h" />
     <ClInclude Include="input_component.h" />
+    <ClInclude Include="physics_component.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

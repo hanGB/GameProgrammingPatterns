@@ -3,9 +3,9 @@
 
 CompWorld::CompWorld()
 {
-	m_groundPosX = 0.0f; m_groundPosY = -1.0;
-	m_groundWidth = 5.0; m_groundHeight = 0.5f;
-	m_groundColor.red = 127; m_groundColor.green = 63; m_groundColor.blue = 0;
+	m_groundPosition = { 0.0, -1.0 };
+	m_groundSize = { 5.0, 0.5 };
+	m_groundColor = { 127, 63, 0 };
 }
 
 CompWorld::~CompWorld()
@@ -18,48 +18,53 @@ void CompWorld::Update(double elapsedTimeInSec)
 
 void CompWorld::RenderWorld(CompRenderer& renderer)
 {
-	renderer.RenderRectangle(m_groundPosX, m_groundPosY, m_groundWidth, m_groundHeight, m_groundColor);
+	renderer.RenderRectangle(m_groundPosition, m_groundSize, m_groundColor);
 }
 
-bool CompWorld::CheckCollision(double* posX, double* posY, double sizeX, double sizeY)
+bool CompWorld::CheckCollision(CompVector3<double>* pos, CompVector2<double> volme)
 {
 	// 땅과 충돌처리
-	if (IsCollidedWithAABB(*posX, *posY, sizeX, sizeY, 
-		m_groundPosX, m_groundPosY, m_groundWidth, m_groundHeight)) {
-		
-		MoveOneObjectToAdjustPosition(posX, posY, sizeX, sizeY,
-			m_groundPosX, m_groundPosY, m_groundWidth, m_groundHeight);
-		
+	CompVector2<double> groundVolume;
+	groundVolume.x = m_groundSize.x;
+	groundVolume.y = m_groundSize.y;
+
+	if (IsCollidedWithAABB(*pos, volme,
+		m_groundPosition, groundVolume)) {
+
+		MoveOneObjectToAdjustPosition(pos, volme,
+			m_groundPosition, groundVolume);
+
 		return true;
 	}
-	
+
 	return false;
 }
 
 bool CompWorld::IsCollidedWithAABB(
-	double aPosX, double aPosY, double aSizeX, double aSizeY, 
-	double bPosX, double bPosY, double bSizeX, double bSizeY
-)
+	CompVector3<double> aPos, CompVector2<double> aVolme,
+	CompVector3<double> bPos, CompVector2<double> bVolme)
 {
-	double aHalfSizeX = aSizeX / 2.0, aHalfSizeY = aSizeY / 2.0;
-	double bHalfSizeX = bSizeX / 2.0, bHalfSizeY = bSizeY / 2.0;
 
-	if (aPosX + aHalfSizeX < bPosX - bHalfSizeX) return false;
-	if (aPosX - aHalfSizeX > bPosX + bHalfSizeX) return false;
-	if (aPosY + aHalfSizeY < bPosY - bHalfSizeY) return false;
-	if (aPosY - aHalfSizeY > bPosY + bHalfSizeY) return false;
+	double aHalfSizeX = aVolme.x / 2.0, aHalfSizeY = aVolme.y / 2.0;
+	double bHalfSizeX = bVolme.x / 2.0, bHalfSizeY = bVolme.y / 2.0;
+
+	if (aPos.x + aHalfSizeX < bPos.x - bHalfSizeX) return false;
+	if (aPos.x - aHalfSizeX > bPos.x + bHalfSizeX) return false;
+	if (aPos.y + aHalfSizeY < bPos.y - bHalfSizeY) return false;
+	if (aPos.y - aHalfSizeY > bPos.y + bHalfSizeY) return false;
 	return true;
 }
 
 void CompWorld::MoveOneObjectToAdjustPosition(
-	double* movableObjectPosX, double* movableObjectPosY, double movableObjectSizeX, double movableObjectSizeY,
-	double fixedObjectPosX, double fixedObjectPosY, double fixedObjectSizeX, double fixedObjectSizeY)
+	CompVector3<double>* movablePos, CompVector2<double> movableVolme, 
+	CompVector3<double> fixedPos, CompVector2<double> fixedVolme)
 {
-	double mHalfSizeX = movableObjectSizeX / 2.0, mHalfSizeY = movableObjectSizeY / 2.0;
-	double fHalfSizeX = fixedObjectSizeX / 2.0, fHalfSizeY = fixedObjectSizeY / 2.0;
+	double mHalfSizeX = movableVolme.x / 2.0, mHalfSizeY = movableVolme.y / 2.0;
+	double fHalfSizeX = fixedVolme.x / 2.0, fHalfSizeY = fixedVolme.y / 2.0;
 
-	if (fixedObjectPosY + fHalfSizeY > *movableObjectPosY - mHalfSizeY) {
-		*movableObjectPosY = *movableObjectPosY + (fixedObjectPosY + fHalfSizeY - (*movableObjectPosY - mHalfSizeY));
+	if (fixedPos.y + fHalfSizeY > movablePos->y - mHalfSizeY) {
+		movablePos->y = movablePos->y + (fixedPos.y + fHalfSizeY - (movablePos->y - mHalfSizeY));
 	}
 }
+
 

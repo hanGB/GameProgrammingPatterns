@@ -11,25 +11,18 @@ struct CompCoordinateData {
 	}
 };
 
-struct CompRGBColor {
-	int red;
-	int green;
-	int blue;
-};
-
-
 class CompRenderer {
 public:
 	CompRenderer(double halfWidth, double halfHeight);
 	~CompRenderer();
 
 	void SetNowFrameMemoryDC(HDC& memDC);
-	void RenderEllipse(double posX, double posY, double sizeX, double sizeY, CompRGBColor color);
-	void RenderRectangle(double posX, double posY, double sizeX, double sizeY, CompRGBColor color);
-	void RenderTriangle(double posX, double posY, double sizeX, double sizeY, CompRGBColor color);
+	void RenderEllipse(CompVector3<double> pos, CompVector2<double> size, CompColor color);
+	void RenderRectangle(CompVector3<double> pos, CompVector2<double> size, CompColor color);
+	void RenderTriangle(CompVector3<double> pos, CompVector2<double> size, CompColor color);
 
 private:
-	void SetColor(CompRGBColor color, HPEN& hPen, HPEN& oldPen, HBRUSH& hBrush, HBRUSH& oldBrush);
+	void SetColor(CompColor color, HPEN& hPen, HPEN& oldPen, HBRUSH& hBrush, HBRUSH& oldBrush);
 	void DeleteColor(HPEN& hPen, HPEN& oldPen, HBRUSH& hBrush, HBRUSH& oldBrush);
 
 	HDC* m_memoryDC;

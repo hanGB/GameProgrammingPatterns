@@ -5,25 +5,25 @@
 
 void InputComponent::Update(Bjorn& bjorn)
 {
-	double velX, velY;
-	double cAccX, cAccY;
+	CompVector2<double> vel;
+	CompVector2<double> cAcc;
 
-	bjorn.GetVelocity(&velX, &velY);
-	bjorn.GetCurrentAcc(&cAccX, &cAccY);
+	vel = bjorn.GetVelocity();
+	cAcc = bjorn.GetCurrentAccel();
 
 	if (CompController::GetInstance()->GetXAxisDirection() < 0)
 	{
-		if (velX > -bjorn.GetMaximumVelocityX()) {
-			cAccX -= FORCE_X / bjorn.GetMass();
+		if (vel.x > -bjorn.GetMaximumVelocityX()) {
+			cAcc.x -= FORCE_X / bjorn.GetMass();
 		}
 	}
 	else if (CompController::GetInstance()->GetXAxisDirection() > 0)
 	{
-		if (velX < bjorn.GetMaximumVelocityX()) {
-			cAccX += FORCE_X / bjorn.GetMass();
+		if (vel.x < bjorn.GetMaximumVelocityX()) {
+			cAcc.x += FORCE_X / bjorn.GetMass();
 		}
 	}
 
-	bjorn.SetVelocity(velX, velY);
-	bjorn.SetCurrentAcc(cAccX, cAccY);
+	bjorn.SetVelocity(vel);
+	bjorn.SetCurrentAccel(cAcc);
 }
