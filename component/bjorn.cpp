@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "bjorn.h"
-#include "comp_controller.h"
 
 Bjorn::Bjorn()
 {
@@ -23,29 +22,18 @@ Bjorn::~Bjorn()
 
 void Bjorn::Update(CompWorld& world, double elapsedTimeInSec)
 {
-	double accX = 0.0, accY = 0.0;
+	InitCurrentAccel();
 
-	if (CompController::GetInstance()->GetXAxisDirection() < 0)
-	{
-		if (m_velocityX > -MAXIUM_VELOCITY_X && !m_isFalling) {
-			accX -= FORCE_X / m_mass;
-		}
-	}
-	else if (CompController::GetInstance()->GetXAxisDirection() > 0)
-	{
-		if (m_velocityX < MAXIUM_VELOCITY_X && !m_isFalling) {
-			accX += FORCE_X / m_mass;
-		}
-	}
+	m_input.Update(*this);
 
 	double t = elapsedTimeInSec;
 
 	// 이동 관련
 	if (fabs(m_velocityX) > 0.f && !m_isFalling) {
 		// 마찰
-		accX += m_velocityX / std::abs(m_velocityX) * GPP_FRICTION * (-GPP_GRAVITY);
+		m_currentAccX += m_velocityX / std::abs(m_velocityX) * GPP_FRICTION * (-GPP_GRAVITY);
 
-		double tempVelocityX = m_velocityX + accX * t;
+		double tempVelocityX = m_velocityX + m_currentAccX * t;
 		if (tempVelocityX * m_velocityX < 0.0f) {
 			m_velocityX = 0.0f;
 		}
@@ -53,18 +41,19 @@ void Bjorn::Update(CompWorld& world, double elapsedTimeInSec)
 			m_velocityX = tempVelocityX;
 		}
 
-		m_velocityX += accX * t;
+		m_velocityX += m_currentAccX * t;
 	}
 	else if (m_isFalling) {
-		accY -= GPP_GRAVITY;
-		m_velocityY += accY * t;
+		m_currentAccX = 0.0;
+		m_currentAccY -= GPP_GRAVITY;
+		m_velocityY += m_currentAccY * t;
 	}
 	else {
-		m_velocityX += accX * t;
+		m_velocityX += m_currentAccX * t;
 	}
 
-	m_posX += (m_velocityX * t + 0.5f * accX * t * t);
-	m_posY += (m_velocityY * t + 0.5f * accY * t * t);
+	m_posX += (m_velocityX * t + 0.5f * m_currentAccX * t * t);
+	m_posY += (m_velocityY * t + 0.5f * m_currentAccY * t * t);
 
 	m_isFalling = !world.CheckCollision(&m_posX, &m_posY, m_sizeX, m_sizeY);
 
@@ -83,4 +72,59 @@ void Bjorn::Update(CompWorld& world, double elapsedTimeInSec)
 void Bjorn::Render(CompRenderer& renderer)
 {
 	renderer.RenderEllipse(m_posX, m_posY, m_sizeX, m_sizeY, m_color);
+}
+
+void Bjorn::GetCurrentAcc(double* x, double* y)
+{
+	*x = m_currentAccX;
+	*y = m_currentAccY;
+}
+
+void Bjorn::GetVelocity(double* x, double* y)
+{
+	*x = m_velocityX;
+	*y = m_velocityY;
+}
+
+bool Bjorn::GetIsFalling() const
+{
+	return m_isFalling;
+}
+
+double Bjorn::GetMaximumVelocityX() const
+{
+	return m_maximumVelocityX;
+}
+
+double Bjorn::GetMass() const
+{
+	return m_mass;
+}
+
+void Bjorn::SetCurrentAcc(double x, double y)
+{
+	m_currentAccX = x;
+	m_currentAccY = y;
+}
+
+void Bjorn::SetVelocity(double x, double y)
+{
+	m_velocityX = x;
+	m_velocityY = y;
+}
+
+void Bjorn::SetIsFalling(bool fall)
+{
+	m_isFalling = fall;
+}
+
+void Bjorn::SetMass(double mass)
+{
+	m_mass = mass;
+}
+
+void Bjorn::InitCurrentAccel()
+{
+	m_currentAccX = 0.0;
+	m_currentAccY = 0.0;
 }

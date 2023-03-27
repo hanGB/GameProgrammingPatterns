@@ -36,6 +36,9 @@
     <ClCompile Include="bjorn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="input_component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bjorn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="input_component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
