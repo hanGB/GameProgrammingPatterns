@@ -21,5 +21,6 @@ private:
 
 	CompVector3<double> m_groundPosition;
 	CompVector2<double> m_groundSize;
+	CompShapeType m_groundShapeType;
 	CompColor m_groundColor;
 };

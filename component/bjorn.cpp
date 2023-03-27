@@ -5,16 +5,13 @@ Bjorn::Bjorn()
 {
 	m_position = { 0.0, 0.0, 0.0 };
 	m_velocity = { 0.0, 0.0 };
+	m_size = { 0.8, 0.8 };
 	m_mass = 5.0;
 	m_isFalling = true;
-	m_size = { 0.8, 0.8 };
+
 	m_physics.SetVolume(m_size);
-
-	m_idleColor = { 0, 127, 127 };
-	m_walkRightColor = { 0, 0, 127 };
-	m_walkLeftColor = { 0, 127, 0 };
-
-	m_color = m_idleColor;
+	m_graphics.SetShapeType(CompShapeType::COMP_SHAPE_TYPE_ELLIPSE);
+	m_graphics.SetColors({ 0, 127, 127 }, { 0, 127, 0 }, { 0, 0, 127 });
 }
 
 Bjorn::~Bjorn()
@@ -27,21 +24,12 @@ void Bjorn::Update(CompWorld& world, double elapsedTimeInSec)
 
 	m_input.Update(*this);
 	m_physics.Update(*this, world, elapsedTimeInSec);
-
-	if (m_velocity.x > STOP_VELOCITY) {
-		m_color = m_walkRightColor;
-	}
-	else if (m_velocity.x < -STOP_VELOCITY) {
-		m_color = m_walkLeftColor;
-	}
-	else {
-		m_color = m_idleColor;
-	}
+	m_graphics.Update(*this);
 }
 
 void Bjorn::Render(CompRenderer& renderer)
 {
-	renderer.RenderEllipse(m_position, m_size, m_color);
+	m_graphics.Render(*this, renderer);
 }
 
 CompVector3<double> Bjorn::GetPosition() const
@@ -57,6 +45,11 @@ CompVector2<double> Bjorn::GetCurrentAccel() const
 CompVector2<double> Bjorn::GetVelocity() const
 {
 	return m_velocity;
+}
+
+CompVector2<double> Bjorn::GetSize() const
+{
+	return m_size;
 }
 
 bool Bjorn::GetIsFalling() const
@@ -87,6 +80,11 @@ void Bjorn::SetCurrentAccel(CompVector2<double> accel)
 void Bjorn::SetVelocity(CompVector2<double> velocity)
 {
 	m_velocity = velocity;
+}
+
+void Bjorn::SetSize(CompVector2<double> size)
+{
+	m_size = size;
 }
 
 void Bjorn::SetIsFalling(bool fall)

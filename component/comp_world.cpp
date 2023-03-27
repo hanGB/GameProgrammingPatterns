@@ -6,6 +6,7 @@ CompWorld::CompWorld()
 	m_groundPosition = { 0.0, -1.0 };
 	m_groundSize = { 5.0, 0.5 };
 	m_groundColor = { 127, 63, 0 };
+	m_groundShapeType = CompShapeType::COMP_SHAPE_TYPE_RECTANGLE;
 }
 
 CompWorld::~CompWorld()
@@ -18,7 +19,7 @@ void CompWorld::Update(double elapsedTimeInSec)
 
 void CompWorld::RenderWorld(CompRenderer& renderer)
 {
-	renderer.RenderRectangle(m_groundPosition, m_groundSize, m_groundColor);
+	renderer.RenderShape(m_groundShapeType, m_groundPosition, m_groundSize, m_groundColor);
 }
 
 bool CompWorld::CheckCollision(CompVector3<double>* pos, CompVector2<double> volme)

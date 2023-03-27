@@ -17,6 +17,25 @@ void CompRenderer::SetNowFrameMemoryDC(HDC& memDC)
 	m_memoryDC = &memDC;
 }
 
+void CompRenderer::RenderShape(CompShapeType type, CompVector3<double> pos, CompVector2<double> size, CompColor color)
+{
+	switch (type) {
+	case CompShapeType::COMP_SHAPE_TYPE_ELLIPSE:
+		RenderEllipse(pos, size, color);
+		break;
+	case CompShapeType::COMP_SHAPE_TYPE_RECTANGLE:
+		RenderRectangle(pos, size, color);
+		break;
+	case CompShapeType::COMP_SHAPE_TYPE_TRIANGLE:
+		RenderTriangle(pos, size, color);
+		break;
+
+	default:
+		RenderTriangle(pos, size, color);
+		break;
+	}
+}
+
 void CompRenderer::RenderEllipse(CompVector3<double> pos, CompVector2<double> size, CompColor color)
 {
 	HPEN hPen, oldPen;
