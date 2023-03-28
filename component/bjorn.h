@@ -7,7 +7,7 @@
 
 class Bjorn {
 public:
-	Bjorn();
+	Bjorn(InputComponent* input);
 	~Bjorn();
 
 	void Update(CompWorld& world, double elapsedTimeInSec);
@@ -35,7 +35,7 @@ private:
 
 	double m_maximumVelocityX = (double)MAXIMUM_VELOCITY_X;
 	
-	InputComponent m_input;
+	InputComponent* m_input;
 	PhysicsComponent m_physics;
 	GraphicsComponent m_graphics;
 

@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "comp_game.h"
 #include "comp_controller.h"
+#include "input_component.h"
 
 CompGame::CompGame(HWND hWnd)
 {
@@ -45,7 +46,7 @@ void CompGame::InitGame(HWND hWnd)
 	GetClientRect(hWnd, &rect);
 	m_renderer = new CompRenderer((double)rect.right / 2.0, (double)rect.bottom / 2.0);
 	m_world = new CompWorld();
-	m_bjorn = new Bjorn();
+	m_bjorn = new Bjorn(new DemoInputComponent());
 	
 }
 

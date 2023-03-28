@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "bjorn.h"
 
-Bjorn::Bjorn()
+Bjorn::Bjorn(InputComponent* input)
+	: m_input(input)
 {
 	m_position = { 0.0, 0.0, 0.0 };
 	m_velocity = { 0.0, 0.0 };
@@ -16,13 +17,14 @@ Bjorn::Bjorn()
 
 Bjorn::~Bjorn()
 {
+	delete m_input;
 }
 
 void Bjorn::Update(CompWorld& world, double elapsedTimeInSec)
 {
 	InitCurrentAccel();
 
-	m_input.Update(*this);
+	m_input->Update(*this);
 	m_physics.Update(*this, world, elapsedTimeInSec);
 	m_graphics.Update(*this);
 }

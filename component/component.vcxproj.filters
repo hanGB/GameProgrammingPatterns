@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="renderer">
+      <UniqueIdentifier>{2c378c86-6f55-4975-b5ae-4a295ad4a9b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="controller">
+      <UniqueIdentifier>{94e827df-0d6d-4a22-9c5d-8e342519d450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game">
+      <UniqueIdentifier>{e824c3b9-fd8d-4e20-a707-10849327d196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\world">
+      <UniqueIdentifier>{2a67d63c-48ec-4782-bb87-4925a882a7b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\component">
+      <UniqueIdentifier>{6293b421-f6b5-4e23-ad1a-f2c7114c281f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\object">
+      <UniqueIdentifier>{28da0029-c24d-4015-adac-f3f1adbd4ca6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,58 +39,58 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="comp_game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="comp_renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="comp_controller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="comp_world.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="bjorn.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="graphics_component.cpp">
+      <Filter>game\component</Filter>
     </ClCompile>
     <ClCompile Include="input_component.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>game\component</Filter>
     </ClCompile>
     <ClCompile Include="physics_component.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>game\component</Filter>
     </ClCompile>
-    <ClCompile Include="graphics_component.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="comp_game.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="comp_renderer.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="comp_controller.cpp">
+      <Filter>controller</Filter>
+    </ClCompile>
+    <ClCompile Include="bjorn.cpp">
+      <Filter>game\object</Filter>
+    </ClCompile>
+    <ClCompile Include="comp_world.cpp">
+      <Filter>game\world</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="comp_game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="comp_renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="comp_controller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="comp_world.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bjorn.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="graphics_component.h">
+      <Filter>game\component</Filter>
     </ClInclude>
     <ClInclude Include="input_component.h">
-      <Filter>Header Files</Filter>
+      <Filter>game\component</Filter>
     </ClInclude>
     <ClInclude Include="physics_component.h">
-      <Filter>Header Files</Filter>
+      <Filter>game\component</Filter>
     </ClInclude>
-    <ClInclude Include="graphics_component.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="comp_game.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="comp_renderer.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="comp_controller.h">
+      <Filter>controller</Filter>
+    </ClInclude>
+    <ClInclude Include="bjorn.h">
+      <Filter>game\object</Filter>
+    </ClInclude>
+    <ClInclude Include="comp_world.h">
+      <Filter>game\world</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
