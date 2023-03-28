@@ -1,15 +1,18 @@
 #pragma once
 
-class Bjorn;
+class CompObject;
 class CompWorld;
 
 class PhysicsComponent {
 public:
-	void Update(Bjorn& bjorn, CompWorld& world, double elapsedTimeInSec);
+	virtual ~PhysicsComponent() {}
+	virtual void Update(CompObject& object, CompWorld& world, double elapsedTimeInSec) = 0;
+};
 
-	CompVector2<double> GetVolume() const;
-	void SetVolume(CompVector2<double> volume);
+class BjornPhysicsComponent : public PhysicsComponent {
+public:
+	virtual void Update(CompObject& object, CompWorld& world, double elapsedTimeInSec);
 
 private:
-	CompVector2<double> m_volume;
+	CompVector2<double> m_volume = { 0.8, 0.8 };
 };

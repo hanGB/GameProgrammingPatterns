@@ -1,16 +1,16 @@
 #pragma once
 
-class Bjorn;
+class CompObject;
 
 class InputComponent {
 public:
 	virtual ~InputComponent() {}
-	virtual void Update(Bjorn& bjorn) = 0;
+	virtual void Update(CompObject& object) = 0;
 };
 
 class PlayerInputComponent : public InputComponent {
 public:
-	virtual void Update(Bjorn& bjorn);
+	virtual void Update(CompObject& object);
 
 private:
 	static const int FORCE_X = 500;
@@ -19,7 +19,7 @@ private:
 
 class DemoInputComponent : public InputComponent {
 public:
-	virtual void Update(Bjorn& bjorn);
+	virtual void Update(CompObject& bjorn);
 
 private:
 	static const int FORCE_X = 500;

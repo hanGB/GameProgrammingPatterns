@@ -141,7 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="bjorn.cpp" />
+    <ClCompile Include="comp_object.cpp" />
     <ClCompile Include="comp_controller.cpp" />
     <ClCompile Include="comp_game.cpp" />
     <ClCompile Include="comp_renderer.cpp" />
@@ -156,7 +156,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bjorn.h" />
+    <ClInclude Include="comp_object.h" />
     <ClInclude Include="comp_controller.h" />
     <ClInclude Include="comp_game.h" />
     <ClInclude Include="comp_renderer.h" />

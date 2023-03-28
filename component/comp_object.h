@@ -5,10 +5,10 @@
 #include "physics_component.h"
 #include "graphics_component.h"
 
-class Bjorn {
+class CompObject {
 public:
-	Bjorn(InputComponent* input);
-	~Bjorn();
+	CompObject(InputComponent* input, PhysicsComponent* physics, GraphicsComponent* graphics);
+	~CompObject();
 
 	void Update(CompWorld& world, double elapsedTimeInSec);
 	void Render(CompRenderer& renderer);
@@ -36,8 +36,8 @@ private:
 	double m_maximumVelocityX = (double)MAXIMUM_VELOCITY_X;
 	
 	InputComponent* m_input;
-	PhysicsComponent m_physics;
-	GraphicsComponent m_graphics;
+	PhysicsComponent* m_physics;
+	GraphicsComponent* m_graphics;
 
 	CompVector3<double> m_position;
 	CompVector2<double> m_velocity;

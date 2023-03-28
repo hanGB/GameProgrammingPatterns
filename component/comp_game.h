@@ -1,7 +1,7 @@
 #pragma once
 #include "comp_renderer.h"
 #include "comp_world.h"
-#include "bjorn.h"
+#include "comp_object.h"
 
 class CompGame {
 public:
@@ -19,6 +19,6 @@ private:
 
 	CompRenderer* m_renderer;
 	CompWorld* m_world;
-	Bjorn* m_bjorn;
+	CompObject* m_bjorn;
 
 };

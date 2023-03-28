@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "physics_component.h"
-#include "bjorn.h"
+#include "comp_object.h"
 #include "comp_world.h"
 
-void PhysicsComponent::Update(Bjorn& bjorn, CompWorld& world, double elapsedTimeInSec)
+void BjornPhysicsComponent::Update(CompObject& object, CompWorld& world, double elapsedTimeInSec)
 {
 	double t = elapsedTimeInSec;
 
@@ -11,12 +11,12 @@ void PhysicsComponent::Update(Bjorn& bjorn, CompWorld& world, double elapsedTime
 	CompVector2<double> vel;
 	CompVector2<double> cAcc;
 
-	pos = bjorn.GetPosition();
-	vel = bjorn.GetVelocity();
-	cAcc = bjorn.GetCurrentAccel();
+	pos = object.GetPosition();
+	vel = object.GetVelocity();
+	cAcc = object.GetCurrentAccel();
 
 	// 이동 관련
-	if (fabs(vel.x) > 0.f && !bjorn.GetIsFalling()) {
+	if (fabs(vel.x) > 0.f && !object.GetIsFalling()) {
 		// 마찰
 		cAcc.x += vel.x / std::abs(vel.x) * GPP_FRICTION * (-GPP_GRAVITY);
 
@@ -30,7 +30,7 @@ void PhysicsComponent::Update(Bjorn& bjorn, CompWorld& world, double elapsedTime
 
 		vel.x += cAcc.x * t;
 	}
-	else if (bjorn.GetIsFalling()) {
+	else if (object.GetIsFalling()) {
 		cAcc.x = 0.0;
 		cAcc.y -= GPP_GRAVITY;
 		vel.y += cAcc.y * t;
@@ -42,19 +42,9 @@ void PhysicsComponent::Update(Bjorn& bjorn, CompWorld& world, double elapsedTime
 	pos.x += (vel.x * t + 0.5f * cAcc.x * t * t);
 	pos.y += (vel.y * t + 0.5f * cAcc.y * t * t);
 
-	bjorn.SetIsFalling(!world.CheckCollision(&pos, m_volume));
+	object.SetIsFalling(!world.CheckCollision(&pos, m_volume));
 
-	bjorn.SetPosition(pos);
-	bjorn.SetVelocity(vel);
-	bjorn.SetCurrentAccel(cAcc);
-}
-
-CompVector2<double> PhysicsComponent::GetVolume() const
-{
-	return m_volume;
-}
-
-void PhysicsComponent::SetVolume(CompVector2<double> volume)
-{
-	m_volume = volume;
+	object.SetPosition(pos);
+	object.SetVelocity(vel);
+	object.SetCurrentAccel(cAcc);
 }

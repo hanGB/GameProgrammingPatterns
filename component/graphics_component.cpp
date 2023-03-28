@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "graphics_component.h"
-#include "bjorn.h"
-#include "comp_renderer.h"
+#include "comp_object.h"
 
-void GraphicsComponent::Update(Bjorn& bjorn)
+void BjornGraphicsComponent::Update(CompObject& object)
 {
-	CompVector2<double> velocity = bjorn.GetVelocity();
+	CompVector2<double> velocity = object.GetVelocity();
 
 	if (velocity.x < -STOP_VELOCITY) {
 		m_color = m_walkLeftColor;
@@ -18,27 +17,10 @@ void GraphicsComponent::Update(Bjorn& bjorn)
 	}
 }
 
-void GraphicsComponent::Render(Bjorn& bjorn, CompRenderer& renderer)
+void BjornGraphicsComponent::Render(CompObject& object, CompRenderer& renderer)
 {
-	CompVector3<double> pos = bjorn.GetPosition();
-	CompVector2<double> size = bjorn.GetSize();
+	CompVector3<double> pos = object.GetPosition();
+	CompVector2<double> size = object.GetSize();
 
 	renderer.RenderShape(m_shapeType, pos, size, m_color);
-}
-
-CompShapeType GraphicsComponent::GetShapeType() const
-{
-	return m_shapeType;
-}
-
-void GraphicsComponent::SetShapeType(CompShapeType type)
-{
-	m_shapeType = type;
-}
-
-void GraphicsComponent::SetColors(CompColor idle, CompColor walkLeft, CompColor walkRight)
-{
-	m_idleColor = idle;
-	m_walkLeftColor = walkLeft;
-	m_walkRightColor = walkRight;
 }

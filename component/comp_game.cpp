@@ -3,6 +3,8 @@
 #include "comp_game.h"
 #include "comp_controller.h"
 #include "input_component.h"
+#include "physics_component.h"
+#include "graphics_component.h"
 
 CompGame::CompGame(HWND hWnd)
 {
@@ -46,8 +48,12 @@ void CompGame::InitGame(HWND hWnd)
 	GetClientRect(hWnd, &rect);
 	m_renderer = new CompRenderer((double)rect.right / 2.0, (double)rect.bottom / 2.0);
 	m_world = new CompWorld();
-	m_bjorn = new Bjorn(new DemoInputComponent());
-	
+	m_bjorn = new CompObject(
+		new PlayerInputComponent(), new BjornPhysicsComponent(), new BjornGraphicsComponent());
+
+	m_bjorn->SetPosition({ 0.0, 0.0, 0.0 });
+	m_bjorn->SetSize({ 0.8, 0.8 });
+	m_bjorn->SetMass({ 5.0 });
 }
 
 void CompGame::CleanupGame()

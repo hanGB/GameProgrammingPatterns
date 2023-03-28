@@ -57,7 +57,7 @@
     <ClCompile Include="comp_controller.cpp">
       <Filter>controller</Filter>
     </ClCompile>
-    <ClCompile Include="bjorn.cpp">
+    <ClCompile Include="comp_object.cpp">
       <Filter>game\object</Filter>
     </ClCompile>
     <ClCompile Include="comp_world.cpp">
@@ -86,7 +86,7 @@
     <ClInclude Include="comp_controller.h">
       <Filter>controller</Filter>
     </ClInclude>
-    <ClInclude Include="bjorn.h">
+    <ClInclude Include="comp_object.h">
       <Filter>game\object</Filter>
     </ClInclude>
     <ClInclude Include="comp_world.h">
