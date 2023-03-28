@@ -63,6 +63,9 @@
     <ClCompile Include="comp_world.cpp">
       <Filter>game\world</Filter>
     </ClCompile>
+    <ClCompile Include="comp_object_factory.cpp">
+      <Filter>game\object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -91,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="comp_world.h">
       <Filter>game\world</Filter>
+    </ClInclude>
+    <ClInclude Include="comp_object_factory.h">
+      <Filter>game\object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

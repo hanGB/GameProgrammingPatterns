@@ -2,6 +2,7 @@
 #include "comp_renderer.h"
 #include "comp_world.h"
 #include "comp_object.h"
+#include "comp_object_factory.h"
 
 class CompGame {
 public:
@@ -19,6 +20,8 @@ private:
 
 	CompRenderer* m_renderer;
 	CompWorld* m_world;
+	CompObjectFactory* m_objectFactory;
+	CompObject* m_demoBjorns[5];
 	CompObject* m_bjorn;
 
 };

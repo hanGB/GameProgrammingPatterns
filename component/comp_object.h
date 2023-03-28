@@ -5,9 +5,12 @@
 #include "physics_component.h"
 #include "graphics_component.h"
 
+class CompObjectFactory;
+
 class CompObject {
+	friend CompObjectFactory;
+
 public:
-	CompObject(InputComponent* input, PhysicsComponent* physics, GraphicsComponent* graphics);
 	~CompObject();
 
 	void Update(CompWorld& world, double elapsedTimeInSec);
@@ -29,6 +32,8 @@ public:
 	void SetMass(double mass);
 
 private:
+	CompObject(InputComponent* input, PhysicsComponent* physics, GraphicsComponent* graphics);
+
 	void InitCurrentAccel();
 
 	static const int MAXIMUM_VELOCITY_X = 3;

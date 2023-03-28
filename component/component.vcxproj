@@ -144,6 +144,7 @@
     <ClCompile Include="comp_object.cpp" />
     <ClCompile Include="comp_controller.cpp" />
     <ClCompile Include="comp_game.cpp" />
+    <ClCompile Include="comp_object_factory.cpp" />
     <ClCompile Include="comp_renderer.cpp" />
     <ClCompile Include="comp_world.cpp" />
     <ClCompile Include="graphics_component.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="comp_world.h" />
     <ClInclude Include="graphics_component.h" />
     <ClInclude Include="input_component.h" />
+    <ClInclude Include="comp_object_factory.h" />
     <ClInclude Include="physics_component.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

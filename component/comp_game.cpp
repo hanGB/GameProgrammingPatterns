@@ -2,9 +2,6 @@
 #include "stdafx.h"
 #include "comp_game.h"
 #include "comp_controller.h"
-#include "input_component.h"
-#include "physics_component.h"
-#include "graphics_component.h"
 
 CompGame::CompGame(HWND hWnd)
 {
@@ -32,6 +29,9 @@ void CompGame::HandleKeyboardInput(bool isDown, WPARAM wParam)
 
 void CompGame::Update(double elapsedTimeInSec)
 {
+	for (auto& bjorn : m_demoBjorns) {
+		bjorn->Update(*m_world, elapsedTimeInSec);
+	}
 	m_bjorn->Update(*m_world, elapsedTimeInSec);
 }
 
@@ -39,6 +39,9 @@ void CompGame::Render(HDC& memDC)
 {
 	m_renderer->SetNowFrameMemoryDC(memDC);
 	m_world->RenderWorld(*m_renderer);
+	for (auto& bjorn : m_demoBjorns) {
+		bjorn->Render(*m_renderer);
+	}
 	m_bjorn->Render(*m_renderer);
 }
 
@@ -48,17 +51,28 @@ void CompGame::InitGame(HWND hWnd)
 	GetClientRect(hWnd, &rect);
 	m_renderer = new CompRenderer((double)rect.right / 2.0, (double)rect.bottom / 2.0);
 	m_world = new CompWorld();
-	m_bjorn = new CompObject(
-		new PlayerInputComponent(), new BjornPhysicsComponent(), new BjornGraphicsComponent());
+	m_objectFactory = new CompObjectFactory();
 
-	m_bjorn->SetPosition({ 0.0, 0.0, 0.0 });
-	m_bjorn->SetSize({ 0.8, 0.8 });
-	m_bjorn->SetMass({ 5.0 });
+	double d = -1.0;
+	for (auto& bjorn : m_demoBjorns) {
+		bjorn = m_objectFactory->CreateDemoBjorn();
+		CompVector3<double> pos = bjorn->GetPosition();
+		pos.x = d;
+		bjorn->SetPosition(pos);
+
+		d += 0.5;
+	}
+	m_bjorn = m_objectFactory->CreateBjorn();
 }
 
 void CompGame::CleanupGame()
 {
 	delete m_renderer;
 	delete m_world;
+	delete m_objectFactory;
+
+	for (auto& bjorn : m_demoBjorns) {
+		delete bjorn;
+	}
 	delete m_bjorn;
 }
