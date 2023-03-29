@@ -29,6 +29,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "type_object", "type_object\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "component", "component\component.vcxproj", "{29592D2B-DA4A-430F-B653-72F5F79C83EE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "event_queue", "event_queue\event_queue.vcxproj", "{4A318C26-2946-49AC-92E4-4A33BDA35DAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -141,6 +143,14 @@ Global
 		{29592D2B-DA4A-430F-B653-72F5F79C83EE}.Release|x64.Build.0 = Release|x64
 		{29592D2B-DA4A-430F-B653-72F5F79C83EE}.Release|x86.ActiveCfg = Release|Win32
 		{29592D2B-DA4A-430F-B653-72F5F79C83EE}.Release|x86.Build.0 = Release|Win32
+		{4A318C26-2946-49AC-92E4-4A33BDA35DAD}.Debug|x64.ActiveCfg = Debug|x64
+		{4A318C26-2946-49AC-92E4-4A33BDA35DAD}.Debug|x64.Build.0 = Debug|x64
+		{4A318C26-2946-49AC-92E4-4A33BDA35DAD}.Debug|x86.ActiveCfg = Debug|Win32
+		{4A318C26-2946-49AC-92E4-4A33BDA35DAD}.Debug|x86.Build.0 = Debug|Win32
+		{4A318C26-2946-49AC-92E4-4A33BDA35DAD}.Release|x64.ActiveCfg = Release|x64
+		{4A318C26-2946-49AC-92E4-4A33BDA35DAD}.Release|x64.Build.0 = Release|x64
+		{4A318C26-2946-49AC-92E4-4A33BDA35DAD}.Release|x86.ActiveCfg = Release|Win32
+		{4A318C26-2946-49AC-92E4-4A33BDA35DAD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

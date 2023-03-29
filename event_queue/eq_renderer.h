@@ -1,0 +1,34 @@
+#pragma once
+
+struct CompCoordinateData {
+	
+};
+
+enum class EqShapeType {
+	EQ_SHAPE_TYPE_ELLIPSE,
+	EQ_SHAPE_TYPE_RECTANGLE,
+	EQ_SHAPE_TYPE_TRIANGLE
+};
+
+class EqRenderer {
+public:
+	EqRenderer(double halfWidth, double halfHeight);
+	~EqRenderer();
+
+	void SetNowFrameMemoryDC(HDC& memDC);
+	void RenderShape(EqShapeType type, EqVector3<double> pos, EqVector2<double> size, EqColor color);
+
+private:
+	void RenderEllipse(EqVector3<double> pos, EqVector2<double> size, EqColor color);
+	void RenderRectangle(EqVector3<double> pos, EqVector2<double> size, EqColor color);
+	void RenderTriangle(EqVector3<double> pos, EqVector2<double> size, EqColor color);
+
+	void SetColor(EqColor color, HPEN& hPen, HPEN& oldPen, HBRUSH& hBrush, HBRUSH& oldBrush);
+	void DeleteColor(HPEN& hPen, HPEN& oldPen, HBRUSH& hBrush, HBRUSH& oldBrush);
+
+	void ConvertCoordinateOpenGLToWindows(double* x, double* y);
+
+	HDC* m_memoryDC;
+	double m_WindowHalfWidth;
+	double m_WindowHalfHeight;
+};

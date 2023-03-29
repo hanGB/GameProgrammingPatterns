@@ -12,6 +12,7 @@
 /subclass_sandbox/x64
 /type_object/x64
 /component/x64
+/event_queue/x64
 *.exe
 *.ilk
 *.pdb
