@@ -60,7 +60,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	// 메세지 처리하기
 	switch (uMsg) {
 	case WM_CREATE:
-		g_game = new EqGame(hWnd);
+		g_game = new EqGame();
 
 #ifdef DEBUG
 		AllocConsole();
@@ -102,7 +102,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// 전체 흰색 초기화
 		Rectangle(memDC, -1, -1, rect.right + 1, rect.bottom + 1);
 
-		g_game->Render(memDC);
+		g_game->Render(hWnd, memDC);
 
 		// 실제 출력 버퍼로 이동
 		BitBlt(hDC, 0, 0, rect.right, rect.bottom, memDC, 0, 0, SRCCOPY);

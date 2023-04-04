@@ -3,9 +3,9 @@
 #include "eq_game.h"
 #include "eq_controller.h"
 
-EqGame::EqGame(HWND hWnd)
+EqGame::EqGame()
 {
-	InitGame(hWnd);
+	InitGame();
 }
 
 EqGame::~EqGame()
@@ -37,9 +37,9 @@ void EqGame::Update(double g_elapsedTimeInSec)
 	else if (m_selectedMenu > 4) m_selectedMenu = 4;
 }
 
-void EqGame::Render(HDC& memDC)
+void EqGame::Render(HWND hWnd, HDC& memDC)
 {
-	m_renderer->SetNowFrameMemoryDC(memDC);
+	m_renderer->SetWindowSizeAndNowFrameMemoryDC(hWnd, memDC);
 	
 	EqVector3<double> pos = { -3.5, 2.0 };
 	EqVector2<double> size = { 2.5, 0.5 };
@@ -51,15 +51,16 @@ void EqGame::Render(HDC& memDC)
 		color = nonSelectedColor;
 		if (m_selectedMenu == i) color = selectedColor;
 		m_renderer->RenderShape(EqShapeType::EQ_SHAPE_TYPE_RECTANGLE, pos, size, color);
+
+		EqVector2<double> textPos = { pos.x - (size.x / 2.0), pos.y + (size.y / 2.0) };
+		m_renderer->RenderFont(L"테스트 출력문", sizeof(L"테스트 출력문") / sizeof(wchar_t), 0.3, textPos, { 255, 255, 255 });
 		pos.y -= 1.0;
 	}
 }
 
-void EqGame::InitGame(HWND hWnd)
+void EqGame::InitGame()
 {
-	RECT rect;
-	GetClientRect(hWnd, &rect);
-	m_renderer = new EqRenderer((double)rect.right / 2.0, (double)rect.bottom / 2.0);
+	m_renderer = new EqRenderer();
 }
 
 void EqGame::CleanupGame()

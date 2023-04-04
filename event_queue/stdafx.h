@@ -9,6 +9,8 @@
 
 #define EQ_TIME_PER_FRAME 16
 #define EQ_PIXEL_PER_METER 100
+#define EQ_BASE_WINDOW_WIDTH 640
+#define EQ_BASE_WINDOW_HEIGHT 360
 
 template<class T>
 struct EqVector2 {

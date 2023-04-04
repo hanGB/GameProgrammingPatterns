@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "eq_renderer.h"
 
-EqRenderer::EqRenderer(double halfWidth, double halfHeight)
+EqRenderer::EqRenderer()
 {
-	m_WindowHalfWidth = halfWidth;
-	m_WindowHalfHeight = halfHeight;
+
 }
 
 EqRenderer::~EqRenderer()
@@ -12,13 +11,21 @@ EqRenderer::~EqRenderer()
 
 }
 
-void EqRenderer::SetNowFrameMemoryDC(HDC& memDC)
+void EqRenderer::SetWindowSizeAndNowFrameMemoryDC(HWND hWnd, HDC& memDC)
 {
+	RECT rect;
+	GetClientRect(hWnd, &rect);
+	m_WindowHalfWidth = (double)rect.right / 2.0;
+	m_WindowHalfHeight = (double)rect.bottom / 2.0;
+
 	m_memoryDC = &memDC;
 }
 
 void EqRenderer::RenderShape(EqShapeType type, EqVector3<double> pos, EqVector2<double> size, EqColor color)
 {
+	ConvertCoordinateOpenGLToWindows(&pos.x, &pos.y);
+	MatchToCurrentWindowSize(&size.x, &size.y);
+
 	switch (type) {
 	case EqShapeType::EQ_SHAPE_TYPE_ELLIPSE:
 		RenderEllipse(pos, size, color);
@@ -36,6 +43,32 @@ void EqRenderer::RenderShape(EqShapeType type, EqVector3<double> pos, EqVector2<
 	}
 }
 
+void EqRenderer::RenderFont(const wchar_t* text, int textSize, double size, EqVector2<double> pos, EqColor color)
+{
+	HPEN hPen, oldPen;
+	HFONT hFont, oldFont;
+
+	hPen = (HPEN)GetStockObject(NULL_PEN);  // ≈ı∏Ìº±
+	oldPen = (HPEN)SelectObject(*m_memoryDC, hPen);
+	MatchToCurrentWindowSizeForFont(&size);
+	hFont = CreateFont(static_cast<int>(size * EQ_PIXEL_PER_METER), 0, 0, 0, 
+		FW_BOLD, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, L"∏º¿∫ ∞ÌµÒ");
+	SetTextColor(*m_memoryDC, RGB(color.r, color.g, color.b));
+	SetBkMode(*m_memoryDC, TRANSPARENT);
+	oldFont = (HFONT)SelectObject(*m_memoryDC, hFont);
+
+	ConvertCoordinateOpenGLToWindows(&pos.x, &pos.y);
+
+	TextOut(*m_memoryDC, 
+		static_cast<int>(pos.x * EQ_PIXEL_PER_METER), 
+		static_cast<int>(pos.y * EQ_PIXEL_PER_METER), text, textSize);
+
+	SelectObject(*m_memoryDC, oldFont);
+	DeleteObject(hFont);
+	SelectObject(*m_memoryDC, oldPen);
+	DeleteObject(hPen);
+}
+
 void EqRenderer::RenderEllipse(EqVector3<double> pos, EqVector2<double> size, EqColor color)
 {
 	HPEN hPen, oldPen;
@@ -43,9 +76,7 @@ void EqRenderer::RenderEllipse(EqVector3<double> pos, EqVector2<double> size, Eq
 
 	SetColor(color, hPen, oldPen, hBrush, oldBrush);
 
-	ConvertCoordinateOpenGLToWindows(&pos.x, &pos.y);
 	double hSizeX = size.x / 2.0, hSizeY = size.y / 2.0;
-
 	Ellipse(*m_memoryDC,
 		static_cast<int>((pos.x - hSizeX) * EQ_PIXEL_PER_METER),
 		static_cast<int>((pos.y - hSizeY) * EQ_PIXEL_PER_METER),
@@ -63,9 +94,7 @@ void EqRenderer::RenderRectangle(EqVector3<double> pos, EqVector2<double> size, 
 
 	SetColor(color, hPen, oldPen, hBrush, oldBrush);
 
-	ConvertCoordinateOpenGLToWindows(&pos.x, &pos.y);
 	double hSizeX = size.x / 2.0, hSizeY = size.y / 2.0;
-
 	Rectangle(*m_memoryDC,
 		static_cast<int>((pos.x - hSizeX) * EQ_PIXEL_PER_METER),
 		static_cast<int>((pos.y - hSizeY) * EQ_PIXEL_PER_METER),
@@ -83,9 +112,7 @@ void EqRenderer::RenderTriangle(EqVector3<double> pos, EqVector2<double> size, E
 
 	SetColor(color, hPen, oldPen, hBrush, oldBrush);
 
-	ConvertCoordinateOpenGLToWindows(&pos.x, &pos.y);
 	double hSizeX = size.x / 2.0, hSizeY = size.y / 2.0;
-
 	POINT vertices[] = {
 		{ (long)pos.x,(long)(pos.y + hSizeY) },
 		{ (long)(pos.x - hSizeX), (long)(pos.y - hSizeY) },
@@ -117,8 +144,21 @@ void EqRenderer::DeleteColor(HPEN& hPen, HPEN& oldPen, HBRUSH& hBrush, HBRUSH& o
 
 void EqRenderer::ConvertCoordinateOpenGLToWindows(double* x, double* y)
 {
-	*x += m_WindowHalfWidth / (double)EQ_PIXEL_PER_METER;
+	*x += EQ_BASE_WINDOW_WIDTH / (double)EQ_PIXEL_PER_METER;
 	*y *= -1;
-	*y += m_WindowHalfHeight / (double)EQ_PIXEL_PER_METER;
+	*y += EQ_BASE_WINDOW_HEIGHT / (double)EQ_PIXEL_PER_METER;
+
+	MatchToCurrentWindowSize(x, y);
+}
+
+void EqRenderer::MatchToCurrentWindowSize(double* x, double* y)
+{
+	*x *= (m_WindowHalfWidth / (double)EQ_BASE_WINDOW_WIDTH);
+	*y *= (m_WindowHalfHeight / (double)EQ_BASE_WINDOW_HEIGHT);
+}
+
+void EqRenderer::MatchToCurrentWindowSizeForFont(double* size)
+{
+	*size *= (m_WindowHalfWidth / (double)EQ_BASE_WINDOW_WIDTH);
 }
 
