@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "eq_game.h"
 #include "eq_controller.h"
+#include "eq_sound_player.h"
 
 EqGame::EqGame()
 {
@@ -15,11 +16,12 @@ EqGame::~EqGame()
 
 void EqGame::HandleKeyboardInput(WPARAM wParam, bool isDown, double elapsedTimeInSec)
 {
-	EqController::GetInstance()->UpdateInputData(wParam, isDown, elapsedTimeInSec);
+	EqController::GetInstance().UpdateInputData(wParam, isDown, elapsedTimeInSec);
 }
 
 void EqGame::Update(double elapsedTimeInSec)
 {
+	EqSoundPlayer::GetInstance().Update(elapsedTimeInSec);
 	m_userInterface->Update(elapsedTimeInSec);
 }
 

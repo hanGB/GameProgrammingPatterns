@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "eq_controller.h"
 
-EqController* EqController::GetInstance()
+EqController& EqController::GetInstance()
 {
 	static EqController instance;
-	return &instance;
+	return instance;
 }
 
 void EqController::UpdateInputData(WPARAM wParam, bool isDown, double g_elapsedTimeInSec)

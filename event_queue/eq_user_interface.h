@@ -27,7 +27,9 @@ public:
 
 private:
 	void UpdateMenuWithControl();
+	void UpdateMainMenuWithControl();
 	void UseSelectedAct();
+	int SelectMenuObjectVertical(int nowPosition, int min, int max);
 
 	void RenderMainMenu(EqRenderer& renderer);
 	void RenderSubMenu(EqRenderer& renderer);

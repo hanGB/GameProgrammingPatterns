@@ -144,6 +144,7 @@
     <ClCompile Include="eq_controller.cpp" />
     <ClCompile Include="eq_game.cpp" />
     <ClCompile Include="eq_renderer.cpp" />
+    <ClCompile Include="eq_sound_player.cpp" />
     <ClCompile Include="eq_user_interface.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -154,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="eq_controller.h" />
     <ClInclude Include="eq_game.h" />
+    <ClInclude Include="eq_sound_player.h" />
     <ClInclude Include="eq_user_interface.h" />
     <ClInclude Include="eq_renderer.h" />
     <ClInclude Include="stdafx.h" />

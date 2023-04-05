@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "eq_user_interface.h"
 #include "eq_controller.h"
+#include "eq_sound_player.h"
 
 EqUserInterface::EqUserInterface()
 {
@@ -35,69 +36,26 @@ void EqUserInterface::Render(EqRenderer& renderer)
 
 void EqUserInterface::UpdateMenuWithControl()
 {
-	EqController* controller = EqController::GetInstance();
+	EqController& controller = EqController::GetInstance();
+	EqSoundPlayer& soundPlayer = EqSoundPlayer::GetInstance();
 
 	switch (m_menuId) {
 	case EqMenuId::EQ_MENU_ID_MAIN: {
-		if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_W)
-			|| controller->IsDownMoreThanTime(EqInputKeyValue::EQ_INPUT_W))
-		{
-			m_actId = EqActId::EQ_ACT_ID_MAIN;
-		}
-		if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_S)
-			|| controller->IsDownMoreThanTime(EqInputKeyValue::EQ_INPUT_S))
-		{
-			m_actId = (EqActId)((int)m_actId + 1);
-		}
-		if (m_actId == EqActId::EQ_LAST_ACT) m_actId = EqActId::EQ_ACT_ID_CHANGE;
-
-		if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_E))
-		{
-			m_menuId = EqMenuId::EQ_MENU_ID_SKILL;
-			return;
-		}
-		if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_F))
-		{
-			m_menuId = EqMenuId::EQ_MENU_ID_ITEM;
-			return;
-		}
-
-		if (m_actId != EqActId::EQ_ACT_ID_MAIN) {
-			if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_SPACE))
-			{
-				m_menuId = EqMenuId::EQ_MENU_ID_ACT;
-				return;
-			}
-			if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_SHIFT))
-			{
-				m_actId = EqActId::EQ_ACT_ID_MAIN;
-				return;
-			}
-		}
-
+		UpdateMainMenuWithControl();
 		break;
 	}
 	case EqMenuId::EQ_MENU_ID_SKILL: {
-		if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_W)
-			|| controller->IsDownMoreThanTime(EqInputKeyValue::EQ_INPUT_W))
-		{
-			m_selectedMenuObjectInSkill--;
-		}
-		if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_S)
-			|| controller->IsDownMoreThanTime(EqInputKeyValue::EQ_INPUT_S))
-		{
-			m_selectedMenuObjectInSkill++;
-		}
-		if (m_selectedMenuObjectInSkill < 0) m_selectedMenuObjectInSkill = 0;
-		else if (m_selectedMenuObjectInSkill > 3) m_selectedMenuObjectInSkill = 3;
+		m_selectedMenuObjectInSkill = SelectMenuObjectVertical(m_selectedMenuObjectInSkill, 0, 3);
 
-		if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_SPACE))
+		if (controller.IsDownOnce(EqInputKeyValue::EQ_INPUT_SPACE))
 		{
+			EqSoundPlayer::GetInstance().PlaySound(EqSoundId::EQ_SOUND_CLICK, 1.0);
 			std::cout << m_selectedMenuObjectInSkill << "번 스킬을 사용했습니다.\n";
 			return;
 		}
-		if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_SHIFT))
+		if (controller.IsDownOnce(EqInputKeyValue::EQ_INPUT_SHIFT))
 		{
+			EqSoundPlayer::GetInstance().PlaySound(EqSoundId::EQ_SOUND_CHECK_OUT, 1.0);
 			m_menuId = EqMenuId::EQ_MENU_ID_MAIN;
 			return;
 		}
@@ -105,31 +63,83 @@ void EqUserInterface::UpdateMenuWithControl()
 
 	}
 	case EqMenuId::EQ_MENU_ID_ITEM: {
-		if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_W)
-			|| controller->IsDownMoreThanTime(EqInputKeyValue::EQ_INPUT_W))
-		{
-			m_selectedMenuObjectInItem--;
-		}
-		if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_S)
-			|| controller->IsDownMoreThanTime(EqInputKeyValue::EQ_INPUT_S))
-		{
-			m_selectedMenuObjectInItem++;
-		}
-		if (m_selectedMenuObjectInItem < 0) m_selectedMenuObjectInItem = 0;
-		else if (m_selectedMenuObjectInItem > 3) m_selectedMenuObjectInItem = 3;
+		m_selectedMenuObjectInItem = SelectMenuObjectVertical(m_selectedMenuObjectInItem, 0, 3);
 
-		if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_SPACE))
+		if (controller.IsDownOnce(EqInputKeyValue::EQ_INPUT_SPACE))
 		{
+			EqSoundPlayer::GetInstance().PlaySound(EqSoundId::EQ_SOUND_CLICK, 1.0);
 			std::cout << m_selectedMenuObjectInItem << "번 아이템을 사용했습니다.\n";
 			return;
 		}
-		if (controller->IsDownOnce(EqInputKeyValue::EQ_INPUT_SHIFT))
+		if (controller.IsDownOnce(EqInputKeyValue::EQ_INPUT_SHIFT))
 		{
+			EqSoundPlayer::GetInstance().PlaySound(EqSoundId::EQ_SOUND_CHECK_OUT, 1.0);
 			m_menuId = EqMenuId::EQ_MENU_ID_MAIN;
 			return;
 		}
 		break;
 	}
+	}
+}
+
+void EqUserInterface::UpdateMainMenuWithControl()
+{
+	EqController& controller = EqController::GetInstance();
+	EqSoundPlayer& soundPlayer = EqSoundPlayer::GetInstance();
+
+	if (controller.IsDownOnce(EqInputKeyValue::EQ_INPUT_W)
+		|| controller.IsDownMoreThanTime(EqInputKeyValue::EQ_INPUT_W))
+	{
+		if (m_actId != EqActId::EQ_ACT_ID_MAIN) {
+			soundPlayer.PlaySound(EqSoundId::EQ_SOUND_CHECK_OUT, 1.0);
+			m_actId = EqActId::EQ_ACT_ID_MAIN;
+		}
+		else {
+			soundPlayer.PlaySound(EqSoundId::EQ_SOUND_BEEP, 1.0);
+		}
+	}
+	if (controller.IsDownOnce(EqInputKeyValue::EQ_INPUT_S)
+		|| controller.IsDownMoreThanTime(EqInputKeyValue::EQ_INPUT_S))
+	{
+		soundPlayer.PlaySound(EqSoundId::EQ_SOUND_CLICK, 1.0);
+		m_actId = (EqActId)((int)m_actId + 1);
+	}
+	if (m_actId == EqActId::EQ_LAST_ACT) m_actId = EqActId::EQ_ACT_ID_CHANGE;
+
+	if (controller.IsDownOnce(EqInputKeyValue::EQ_INPUT_E))
+	{
+		soundPlayer.PlaySound(EqSoundId::EQ_SOUND_CHECK_IN, 1.0);
+		m_menuId = EqMenuId::EQ_MENU_ID_SKILL;
+		return;
+	}
+	if (controller.IsDownOnce(EqInputKeyValue::EQ_INPUT_F))
+	{
+		soundPlayer.PlaySound(EqSoundId::EQ_SOUND_CHECK_IN, 1.0);
+		m_menuId = EqMenuId::EQ_MENU_ID_ITEM;
+		return;
+	}
+
+	if (m_actId != EqActId::EQ_ACT_ID_MAIN) {
+		if (controller.IsDownOnce(EqInputKeyValue::EQ_INPUT_SPACE))
+		{
+			EqSoundPlayer::GetInstance().PlaySound(EqSoundId::EQ_SOUND_CLICK, 1.0);
+			m_menuId = EqMenuId::EQ_MENU_ID_ACT;
+			return;
+		}
+		if (controller.IsDownOnce(EqInputKeyValue::EQ_INPUT_SHIFT))
+		{
+			EqSoundPlayer::GetInstance().PlaySound(EqSoundId::EQ_SOUND_CHECK_OUT, 1.0);
+			m_actId = EqActId::EQ_ACT_ID_MAIN;
+			return;
+		}
+	}
+	else {
+		if (controller.IsDownOnce(EqInputKeyValue::EQ_INPUT_SHIFT) || controller.IsDownOnce(EqInputKeyValue::EQ_INPUT_SPACE))
+		{
+			EqSoundPlayer::GetInstance().PlaySound(EqSoundId::EQ_SOUND_BEEP, 1.0);
+			m_actId = EqActId::EQ_ACT_ID_MAIN;
+			return;
+		}
 	}
 }
 
@@ -159,6 +169,39 @@ void EqUserInterface::UseSelectedAct()
 			m_actId = EqActId::EQ_ACT_ID_MAIN;
 		}
 	}
+}
+
+int EqUserInterface::SelectMenuObjectVertical(int nowPosition, int min, int max)
+{
+	bool isMoved = false;
+
+	if (EqController::GetInstance().IsDownOnce(EqInputKeyValue::EQ_INPUT_W)
+		|| EqController::GetInstance().IsDownMoreThanTime(EqInputKeyValue::EQ_INPUT_W))
+	{
+		isMoved = true;
+		nowPosition--;
+	}
+	if (EqController::GetInstance().IsDownOnce(EqInputKeyValue::EQ_INPUT_S)
+		|| EqController::GetInstance().IsDownMoreThanTime(EqInputKeyValue::EQ_INPUT_S))
+	{
+		isMoved = true;
+		nowPosition++;
+	}
+
+	if (isMoved) {
+		if (nowPosition < min) {
+			nowPosition = min;
+			EqSoundPlayer::GetInstance().PlaySound(EqSoundId::EQ_SOUND_BEEP, 1.0);
+		}
+		else if (nowPosition > max) {
+			nowPosition = max;
+			EqSoundPlayer::GetInstance().PlaySound(EqSoundId::EQ_SOUND_BEEP, 1.0);
+		}
+		else {
+			EqSoundPlayer::GetInstance().PlaySound(EqSoundId::EQ_SOUND_CLICK, 1.0);
+		}
+	}
+	return nowPosition;
 }
 
 void EqUserInterface::RenderMainMenu(EqRenderer& renderer)
@@ -229,8 +272,6 @@ void EqUserInterface::RenderSubMenu(EqRenderer& renderer)
 	EqVector2<double> size = { 1.8, 0.4 };
 	EqVector2<double> textPos = { pos.x - 0.1 - (size.x / 2.0), pos.y + 0.03 + (size.y / 2.0) };
 
-	//renderer.RenderShape(EqShapeType::EQ_SHAPE_TYPE_RECTANGLE, pos, size, { 200, 200, 200 });
-
 	int selectedObject = 0;
 	switch (m_menuId) {
 	case EqMenuId::EQ_MENU_ID_SKILL:
@@ -271,7 +312,6 @@ void EqUserInterface::RenderSubMenu(EqRenderer& renderer)
 		}
 		renderer.RenderFont(text, textBufferSize, 0.3, textPos, { 0, 0, 0 });
 
-		wchar_t amoutText[10];
 		if (m_menuId == EqMenuId::EQ_MENU_ID_SKILL) wsprintf(text, L"|  %d", (i + 1) * 10);
 		else if (m_menuId == EqMenuId::EQ_MENU_ID_ITEM) wsprintf(text, L"|   %d", i + 1);
 		textPos.x += 1.8;

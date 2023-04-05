@@ -16,7 +16,7 @@ enum class EqInputKeyValue {
 class EqController {
 public:
 	// ╫л╠шео
-	static EqController* GetInstance();
+	static EqController& GetInstance();
 
 	bool IsDown(EqInputKeyValue key) const;
 	bool IsDownOnce(EqInputKeyValue key);

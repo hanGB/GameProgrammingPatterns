@@ -25,6 +25,9 @@
     <Filter Include="game\user_interface">
       <UniqueIdentifier>{335a11a0-f5c5-40b9-a025-7055deba1647}</UniqueIdentifier>
     </Filter>
+    <Filter Include="sound_player">
+      <UniqueIdentifier>{5dff34ea-d17c-463d-8de9-ab60c68bfb9d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,6 +48,9 @@
     <ClCompile Include="eq_user_interface.cpp">
       <Filter>game\user_interface</Filter>
     </ClCompile>
+    <ClCompile Include="eq_sound_player.cpp">
+      <Filter>sound_player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -61,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="eq_user_interface.h">
       <Filter>game\user_interface</Filter>
+    </ClInclude>
+    <ClInclude Include="eq_sound_player.h">
+      <Filter>sound_player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
