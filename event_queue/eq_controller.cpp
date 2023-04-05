@@ -15,8 +15,11 @@ void EqController::UpdateInputData(WPARAM wParam, bool isDown, double g_elapsedT
 	if (wParam == 'a' || wParam == 'A') key = EqInputKeyValue::EQ_INPUT_A;
 	if (wParam == 's' || wParam == 'S') key = EqInputKeyValue::EQ_INPUT_S;
 	if (wParam == 'd' || wParam == 'D') key = EqInputKeyValue::EQ_INPUT_D;
+	if (wParam == 'e' || wParam == 'E') key = EqInputKeyValue::EQ_INPUT_E;
+	if (wParam == 'f' || wParam == 'F') key = EqInputKeyValue::EQ_INPUT_F;
 
 	if (wParam == VK_SPACE) key = EqInputKeyValue::EQ_INPUT_SPACE;
+	if (wParam == VK_SHIFT) key = EqInputKeyValue::EQ_INPUT_SHIFT;
 
 	if (key != EqInputKeyValue::EQ_INPUT_KEY_NUM)
 		UpdateKeyValue(key, isDown, g_elapsedTimeInSec);

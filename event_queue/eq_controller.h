@@ -6,7 +6,10 @@ enum class EqInputKeyValue {
 	EQ_INPUT_S,
 	EQ_INPUT_A,
 	EQ_INPUT_D,
+	EQ_INPUT_E,
+	EQ_INPUT_F,
 	EQ_INPUT_SPACE,
+	EQ_INPUT_SHIFT,
 	EQ_INPUT_KEY_NUM
 };
 

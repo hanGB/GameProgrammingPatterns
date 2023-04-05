@@ -1,5 +1,6 @@
 #pragma once
 #include "eq_renderer.h"
+#include "eq_user_interface.h"
 
 class EqGame {
 public:
@@ -8,7 +9,7 @@ public:
 
 	void HandleKeyboardInput(WPARAM wParam, bool isDown, double elapsedTimeInSec);
 
-	void Update(double g_elapsedTimeInSec);
+	void Update(double elapsedTimeInSec);
 	void Render(HWND hWnd, HDC& memDC);
 
 private:
@@ -16,6 +17,5 @@ private:
 	void CleanupGame();
 
 	EqRenderer* m_renderer;
-
-	int m_selectedMenu = 0;
+	EqUserInterface* m_userInterface;
 };

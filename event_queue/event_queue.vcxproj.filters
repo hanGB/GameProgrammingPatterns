@@ -22,6 +22,9 @@
     <Filter Include="renderer">
       <UniqueIdentifier>{02d16e50-7a10-42e3-9501-58c3b018b85f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="game\user_interface">
+      <UniqueIdentifier>{335a11a0-f5c5-40b9-a025-7055deba1647}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,6 +42,9 @@
     <ClCompile Include="eq_renderer.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
+    <ClCompile Include="eq_user_interface.cpp">
+      <Filter>game\user_interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -52,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="eq_renderer.h">
       <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="eq_user_interface.h">
+      <Filter>game\user_interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
