@@ -9,13 +9,15 @@ EqSoundPlayer& EqSoundPlayer::GetInstance()
 
 void EqSoundPlayer::Update(double elapsedTimeInSec)
 {
-	for (int i = 0; i < m_playingSoundNum; ++i) {
+	ExecuteMessageInPendings();
+
+	for (int i = 0; i < m_numPlayingSound; ++i) {
 		m_playingSounds[i].playingTime -= elapsedTimeInSec;
 	}
 
 	int index = 0;
 	while (true) {
-		if (m_playingSoundNum == index) break;
+		if (m_numPlayingSound == index) break;
 
 		if (m_playingSounds[index].playingTime < 0.0) RemovePlayingSound(index);
 		else index++;
@@ -24,13 +26,11 @@ void EqSoundPlayer::Update(double elapsedTimeInSec)
 
 void EqSoundPlayer::PlaySound(EqSoundId id, double volume)
 {
-	RemoveOverSound();
-	std::string sound = m_soundInformationMap.find(id)->second;
-	std::cout << "Play Sound: " << sound << " - volume " << volume << '\n';
-	m_playingSounds[m_playingSoundNum].id = id;
-	m_playingSounds[m_playingSoundNum].sound = sound;
-	m_playingSounds[m_playingSoundNum].playingTime = c_PLAYING_TIME;
-	m_playingSoundNum++;
+	assert(m_numPending < c_MAX_PENDING);
+
+	m_pendings[m_numPending].id = id;
+	m_pendings[m_numPending].volume = volume;
+	m_numPending++;
 }
 
 void EqSoundPlayer::StopSound(EqSoundId id)
@@ -63,9 +63,23 @@ EqSoundPlayer::~EqSoundPlayer()
 {
 }
 
+void EqSoundPlayer::ExecuteMessageInPendings()
+{
+	for (int i = 0; i < m_numPending; ++i) {
+		RemoveOverSound();
+		std::string sound = m_soundInformationMap.find(m_pendings[i].id)->second;
+		std::cout << "Play Sound: " << sound << " - volume " << m_pendings[i].volume << '\n';
+		m_playingSounds[m_numPlayingSound].id = m_pendings[i].id;
+		m_playingSounds[m_numPlayingSound].sound = sound;
+		m_playingSounds[m_numPlayingSound].playingTime = (double)c_PLAYING_TIME;
+		m_numPlayingSound++;
+	}
+	m_numPending = 0;
+}
+
 void EqSoundPlayer::RemoveOverSound()
 {
-	if (m_playingSoundNum < c_MAX_PLAY_SOUND) return;
+	if (m_numPlayingSound < c_MAX_PLAY_SOUND) return;
 	RemovePlayingSound(0);
 }
 
@@ -74,9 +88,9 @@ void EqSoundPlayer::RemovePlayingSound(int index)
 	std::string sound = m_playingSounds[index].sound;
 	std::cout << "Sound: " << sound << " Removed\n";
 
-	m_playingSoundNum--;
+	m_numPlayingSound--;
 	if (index != (c_MAX_PLAY_SOUND - 1))
-		memmove(&m_playingSounds[index], &m_playingSounds[index + 1], sizeof(PlayingSound) * (m_playingSoundNum - index));
+		memmove(&m_playingSounds[index], &m_playingSounds[index + 1], sizeof(PlayingSound) * (m_numPlayingSound - index));
 
-	m_playingSounds[m_playingSoundNum].id = EqSoundId::EQ_SOUND_ID_NON;
+	m_playingSounds[m_numPlayingSound].id = EqSoundId::EQ_SOUND_ID_NON;
 }

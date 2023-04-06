@@ -24,19 +24,27 @@ private:
 	EqSoundPlayer();
 	~EqSoundPlayer();
 
+	void ExecuteMessageInPendings();
 	void RemoveOverSound();
 	void RemovePlayingSound(int index);
 
-	const int c_MAX_PLAY_SOUND = 10;
-	const double c_PLAYING_TIME = 2.0;
+	static const int c_MAX_PLAY_SOUND = 10;
+	static const int c_PLAYING_TIME = 2;
+	static const int c_MAX_PENDING = 16;
 
-	int m_playingSoundNum = 0;
+	int m_numPending = 0;
+	struct PlayMessage {
+		EqSoundId id;
+		int volume;
+	} m_pendings[c_MAX_PENDING];
 
+	int m_numPlayingSound = 0;
 	struct PlayingSound {
 		EqSoundId id;
 		std::string sound;
 		double playingTime;
-	} m_playingSounds[10];
+	} m_playingSounds[c_MAX_PLAY_SOUND];
+
 	std::map<EqSoundId, std::string> m_soundInformationMap = {
 		std::pair<EqSoundId, std::string>(EqSoundId::EQ_SOUND_BEEP, "sound beep"),
 		std::pair<EqSoundId, std::string>(EqSoundId::EQ_SOUND_CLICK, "sound click"),
