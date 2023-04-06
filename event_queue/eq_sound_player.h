@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <string>
+#include <unordered_set>
 
 enum class EqSoundId {
 	EQ_SOUND_BEEP,
@@ -28,14 +29,17 @@ private:
 	void RemoveOverSound();
 	void RemovePlayingSound(int index);
 
+	double MaxValueBetweenAandB(double a, double b);
+
 	static const int c_MAX_PLAY_SOUND = 10;
 	static const int c_PLAYING_TIME = 2;
 	static const int c_MAX_PENDING = 16;
 
-	int m_numPending = 0;
+	int m_pendingHead = 0;
+	int m_pendingTail = 0;
 	struct PlayMessage {
 		EqSoundId id;
-		int volume;
+		double volume;
 	} m_pendings[c_MAX_PENDING];
 
 	int m_numPlayingSound = 0;
@@ -44,6 +48,8 @@ private:
 		std::string sound;
 		double playingTime;
 	} m_playingSounds[c_MAX_PLAY_SOUND];
+
+	std::unordered_set<int> m_soundIdsInpeading;
 
 	std::map<EqSoundId, std::string> m_soundInformationMap = {
 		std::pair<EqSoundId, std::string>(EqSoundId::EQ_SOUND_BEEP, "sound beep"),

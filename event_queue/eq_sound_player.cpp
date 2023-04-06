@@ -26,11 +26,23 @@ void EqSoundPlayer::Update(double elapsedTimeInSec)
 
 void EqSoundPlayer::PlaySound(EqSoundId id, double volume)
 {
-	assert(m_numPending < c_MAX_PENDING);
+	if (m_soundIdsInpeading.find((int)id) != m_soundIdsInpeading.end()) {
+		for (int i = m_pendingHead; i != m_pendingTail; i = (i + 1) % c_MAX_PENDING) {
+			if (m_pendings[i].id == id) {
+				m_pendings[i].volume = MaxValueBetweenAandB(m_pendings[i].volume, volume);
+				return;
+			}
+		}
+	}
+	else {
+		m_soundIdsInpeading.insert((int)id);
+	}
 
-	m_pendings[m_numPending].id = id;
-	m_pendings[m_numPending].volume = volume;
-	m_numPending++;
+	assert((m_pendingTail + 1) % c_MAX_PENDING  != m_pendingHead);
+
+	m_pendings[m_pendingTail].id = id;
+	m_pendings[m_pendingTail].volume = volume;
+	m_pendingTail = (m_pendingTail + 1) % c_MAX_PENDING;
 }
 
 void EqSoundPlayer::StopSound(EqSoundId id)
@@ -65,16 +77,17 @@ EqSoundPlayer::~EqSoundPlayer()
 
 void EqSoundPlayer::ExecuteMessageInPendings()
 {
-	for (int i = 0; i < m_numPending; ++i) {
-		RemoveOverSound();
-		std::string sound = m_soundInformationMap.find(m_pendings[i].id)->second;
-		std::cout << "Play Sound: " << sound << " - volume " << m_pendings[i].volume << '\n';
-		m_playingSounds[m_numPlayingSound].id = m_pendings[i].id;
-		m_playingSounds[m_numPlayingSound].sound = sound;
-		m_playingSounds[m_numPlayingSound].playingTime = (double)c_PLAYING_TIME;
-		m_numPlayingSound++;
-	}
-	m_numPending = 0;
+	if (m_pendingHead == m_pendingTail) return;
+
+	RemoveOverSound();
+	std::string sound = m_soundInformationMap.find(m_pendings[m_pendingHead].id)->second;
+	std::cout << "Play Sound: " << sound << " - volume " << m_pendings[m_pendingHead].volume << '\n';
+	m_playingSounds[m_numPlayingSound].id = m_pendings[m_pendingHead].id;
+	m_playingSounds[m_numPlayingSound].sound = sound;
+	m_playingSounds[m_numPlayingSound].playingTime = (double)c_PLAYING_TIME;
+	m_soundIdsInpeading.erase((int)m_pendings[m_pendingHead].id);
+	m_numPlayingSound++;
+	m_pendingHead = (m_pendingHead + 1) % c_MAX_PENDING;
 }
 
 void EqSoundPlayer::RemoveOverSound()
@@ -93,4 +106,11 @@ void EqSoundPlayer::RemovePlayingSound(int index)
 		memmove(&m_playingSounds[index], &m_playingSounds[index + 1], sizeof(PlayingSound) * (m_numPlayingSound - index));
 
 	m_playingSounds[m_numPlayingSound].id = EqSoundId::EQ_SOUND_ID_NON;
+}
+
+double EqSoundPlayer::MaxValueBetweenAandB(double a, double b)
+{
+	if (a > b) return a;
+	else if (a < b) return b;
+	return a;
 }
