@@ -75,8 +75,8 @@ void EqSoundPlayer::RemovePlayingSound(int index)
 	std::cout << "Sound: " << sound << " Removed\n";
 
 	m_playingSoundNum--;
-	for (int i = index; i < m_playingSoundNum; ++i) {
-		m_playingSounds[i] = m_playingSounds[i + 1];
-	}
+	if (index != (c_MAX_PLAY_SOUND - 1))
+		memmove(&m_playingSounds[index], &m_playingSounds[index + 1], sizeof(PlayingSound) * (m_playingSoundNum - index));
+
 	m_playingSounds[m_playingSoundNum].id = EqSoundId::EQ_SOUND_ID_NON;
 }
