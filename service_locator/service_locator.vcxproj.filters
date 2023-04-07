@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="game">
+      <UniqueIdentifier>{f53a6ed0-4658-480e-8f05-a68f946294e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="service_locator">
+      <UniqueIdentifier>{8d289fbf-f6f3-473a-b3de-9a3f0cb81e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="service_locator\service">
+      <UniqueIdentifier>{c1e0b771-188c-4299-acd3-a503e8998b3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="service_locator\service\audio">
+      <UniqueIdentifier>{502a9170-1b8e-4eac-8bac-9bd10668fd02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input_output">
+      <UniqueIdentifier>{70fb2436-ff8e-43d8-8bc4-27850a9b99cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input_output\renderer">
+      <UniqueIdentifier>{d06a5e4f-646f-4d57-a5c2-3b59c610cc45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input_output\controller">
+      <UniqueIdentifier>{51e14004-dd95-4575-b340-0292339f0f0a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sl_renderer.cpp">
+      <Filter>input_output\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="sl_game.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="sl_controller.cpp">
+      <Filter>input_output\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="sl_windows_audio.cpp">
+      <Filter>service_locator\service\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="sl_locator.cpp">
+      <Filter>service_locator</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sl_renderer.h">
+      <Filter>input_output\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="sl_game.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="sl_controller.h">
+      <Filter>input_output\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="sl_audio.h">
+      <Filter>service_locator\service\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="sl_windows_audio.h">
+      <Filter>service_locator\service\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="sl_locator.h">
+      <Filter>service_locator</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
