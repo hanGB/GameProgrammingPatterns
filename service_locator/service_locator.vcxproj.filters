@@ -34,6 +34,12 @@
     <Filter Include="input_output\controller">
       <UniqueIdentifier>{51e14004-dd95-4575-b340-0292339f0f0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="service_locator\service\audio\windows_audio">
+      <UniqueIdentifier>{028139ce-66bf-4e5c-83e4-3085d933e33f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="service_locator\service\audio\logged_audio">
+      <UniqueIdentifier>{6feaac69-926c-4050-8eeb-dc7d1ada492a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,14 +57,17 @@
     <ClCompile Include="sl_controller.cpp">
       <Filter>input_output\controller</Filter>
     </ClCompile>
-    <ClCompile Include="sl_windows_audio.cpp">
-      <Filter>service_locator\service\audio</Filter>
-    </ClCompile>
     <ClCompile Include="sl_locator.cpp">
       <Filter>service_locator</Filter>
     </ClCompile>
     <ClCompile Include="sl_null_audio.h">
       <Filter>service_locator\service\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="sl_windows_audio.cpp">
+      <Filter>service_locator\service\audio\windows_audio</Filter>
+    </ClCompile>
+    <ClCompile Include="sl_logged_audio.cpp">
+      <Filter>service_locator\service\audio\logged_audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,11 +86,14 @@
     <ClInclude Include="sl_audio.h">
       <Filter>service_locator\service\audio</Filter>
     </ClInclude>
-    <ClInclude Include="sl_windows_audio.h">
-      <Filter>service_locator\service\audio</Filter>
-    </ClInclude>
     <ClInclude Include="sl_locator.h">
       <Filter>service_locator</Filter>
+    </ClInclude>
+    <ClInclude Include="sl_windows_audio.h">
+      <Filter>service_locator\service\audio\windows_audio</Filter>
+    </ClInclude>
+    <ClInclude Include="sl_logged_audio.h">
+      <Filter>service_locator\service\audio\logged_audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

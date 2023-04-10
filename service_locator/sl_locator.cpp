@@ -9,9 +9,9 @@ void SlLocator::Initialize()
     m_audio = &m_nullAudio;
 }
 
-SlAudio* SlLocator::GetAudio()
+SlAudio& SlLocator::GetAudio()
 {
-    return m_audio;
+    return *m_audio;
 }
 
 void SlLocator::ProvideAudio(SlAudio* audio)

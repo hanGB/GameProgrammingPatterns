@@ -21,6 +21,7 @@ void SlController::UpdateInputData(WPARAM wParam, bool isDown, double g_elapsedT
 	if (wParam == 'e' || wParam == 'E') key = SlInputKeyValue::INPUT_E;
 	if (wParam == 'f' || wParam == 'F') key = SlInputKeyValue::INPUT_F;
 	if (wParam == 'c' || wParam == 'C') key = SlInputKeyValue::INPUT_C;
+	if (wParam == 'l' || wParam == 'L') key = SlInputKeyValue::INPUT_L;
 
 	if (wParam == VK_SPACE) key = SlInputKeyValue::INPUT_SPACE;
 	if (wParam == VK_SHIFT) key = SlInputKeyValue::INPUT_SHIFT;

@@ -5,7 +5,7 @@
 class SlLocator{
 public:
 	static void Initialize();
-	static SlAudio* GetAudio();
+	static SlAudio& GetAudio();
 	static void ProvideAudio(SlAudio* audio);
 
 private:

@@ -1,7 +1,7 @@
 #pragma once
 #include "sl_renderer.h"
 #include "sl_controller.h"
-#include "sl_windows_audio.h"
+#include "sl_audio.h"
 
 class SlGame {
 public:
@@ -17,13 +17,20 @@ private:
 	void InitGame();
 	void CleanupGame();
 
+	void EnableAudio();
+	void DisableAudio();
+	void EnableAudioLogging();
+	void DisableAudioLogging();
+
 	static const int c_HERO_SPEED = 2;
 
 	SlVector3<double> m_heroPosition;
 
-	bool m_isUseAudio;
+	bool m_isEnabledAudio;
+	bool m_isEnabledAudioLogging;
 
 	SlRenderer m_renderer;
 	SlController m_controller;
-	SlWindowsAudio* m_windowsAudio;
+	SlAudio* m_audio;
+	SlAudio* m_loggedAudio;
 };

@@ -145,6 +145,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="sl_game.cpp" />
     <ClCompile Include="sl_locator.cpp" />
+    <ClCompile Include="sl_logged_audio.cpp" />
     <ClCompile Include="sl_null_audio.h" />
     <ClCompile Include="sl_renderer.cpp" />
     <ClCompile Include="sl_windows_audio.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="sl_audio.h" />
     <ClInclude Include="sl_controller.h" />
     <ClInclude Include="sl_game.h" />
+    <ClInclude Include="sl_logged_audio.h" />
     <ClInclude Include="sl_renderer.h" />
     <ClInclude Include="sl_windows_audio.h" />
     <ClInclude Include="stdafx.h" />

@@ -9,6 +9,7 @@ enum class SlInputKeyValue {
 	INPUT_E,
 	INPUT_F,
 	INPUT_C,
+	INPUT_L,
 	INPUT_SPACE,
 	INPUT_SHIFT,
 	NUM_OF_INPUT_KEY

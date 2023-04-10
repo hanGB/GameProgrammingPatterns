@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <iostream>
 #include <cassert>
+#include <chrono>
 
 #define SL_DEBUG
 
@@ -12,6 +13,8 @@
 #define SL_PIXEL_PER_METER 100
 #define SL_BASE_WINDOW_WIDTH 640
 #define SL_BASE_WINDOW_HEIGHT 360
+
+#define SL_MAXIMUM_LOG_TEXT_SIZE 100
 
 template<class T>
 struct SlVector2 {
