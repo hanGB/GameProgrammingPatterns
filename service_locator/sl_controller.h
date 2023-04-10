@@ -8,9 +8,10 @@ enum class SlInputKeyValue {
 	INPUT_D,
 	INPUT_E,
 	INPUT_F,
+	INPUT_C,
 	INPUT_SPACE,
 	INPUT_SHIFT,
-	INPUT_KEY_NUM
+	NUM_OF_INPUT_KEY
 };
 
 class SlController {

@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "sl_locator.h"
 
+SlNullAudio SlLocator::m_nullAudio;
 SlAudio* SlLocator::m_audio = nullptr;
 
-SlLocator::~SlLocator()
+void SlLocator::Initialize()
 {
-    if (m_audio) delete m_audio;
+    m_audio = &m_nullAudio;
 }
 
 SlAudio* SlLocator::GetAudio()
@@ -15,5 +16,6 @@ SlAudio* SlLocator::GetAudio()
 
 void SlLocator::ProvideAudio(SlAudio* audio)
 {
-    m_audio = audio;
+    if (audio == nullptr) m_audio = &m_nullAudio;
+    else m_audio = audio;
 }

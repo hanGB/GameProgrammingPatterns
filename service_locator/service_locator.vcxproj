@@ -145,6 +145,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="sl_game.cpp" />
     <ClCompile Include="sl_locator.cpp" />
+    <ClCompile Include="sl_null_audio.h" />
     <ClCompile Include="sl_renderer.cpp" />
     <ClCompile Include="sl_windows_audio.cpp" />
     <ClCompile Include="stdafx.cpp">

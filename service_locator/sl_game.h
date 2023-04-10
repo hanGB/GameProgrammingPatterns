@@ -1,6 +1,7 @@
 #pragma once
 #include "sl_renderer.h"
 #include "sl_controller.h"
+#include "sl_windows_audio.h"
 
 class SlGame {
 public:
@@ -20,6 +21,9 @@ private:
 
 	SlVector3<double> m_heroPosition;
 
+	bool m_isUseAudio;
+
 	SlRenderer m_renderer;
 	SlController m_controller;
+	SlWindowsAudio* m_windowsAudio;
 };

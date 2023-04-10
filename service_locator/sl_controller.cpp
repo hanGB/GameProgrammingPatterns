@@ -12,7 +12,7 @@ SlController::~SlController()
 
 void SlController::UpdateInputData(WPARAM wParam, bool isDown, double g_elapsedTimeInSec)
 {
-	SlInputKeyValue key = SlInputKeyValue::INPUT_KEY_NUM;
+	SlInputKeyValue key = SlInputKeyValue::NUM_OF_INPUT_KEY;
 
 	if (wParam == 'w' || wParam == 'W') key = SlInputKeyValue::INPUT_W;
 	if (wParam == 'a' || wParam == 'A') key = SlInputKeyValue::INPUT_A;
@@ -20,11 +20,12 @@ void SlController::UpdateInputData(WPARAM wParam, bool isDown, double g_elapsedT
 	if (wParam == 'd' || wParam == 'D') key = SlInputKeyValue::INPUT_D;
 	if (wParam == 'e' || wParam == 'E') key = SlInputKeyValue::INPUT_E;
 	if (wParam == 'f' || wParam == 'F') key = SlInputKeyValue::INPUT_F;
+	if (wParam == 'c' || wParam == 'C') key = SlInputKeyValue::INPUT_C;
 
 	if (wParam == VK_SPACE) key = SlInputKeyValue::INPUT_SPACE;
 	if (wParam == VK_SHIFT) key = SlInputKeyValue::INPUT_SHIFT;
 
-	if (key != SlInputKeyValue::INPUT_KEY_NUM)
+	if (key != SlInputKeyValue::NUM_OF_INPUT_KEY)
 		UpdateKeyValue(key, isDown, g_elapsedTimeInSec);
 }
 
@@ -94,7 +95,7 @@ int SlController::GetYAxisDirection()
 
 void SlController::InitKeyInformationData()
 {
-	for (int i = 0; i < (int)SlInputKeyValue::INPUT_KEY_NUM; ++i) {
+	for (int i = 0; i < (int)SlInputKeyValue::NUM_OF_INPUT_KEY; ++i) {
 		m_keyIsDownData.insert(std::pair<SlInputKeyValue, bool>((SlInputKeyValue)i, false));
 		m_keyDownTimeData.insert(std::pair<SlInputKeyValue, double>((SlInputKeyValue)i, 0.0));
 		m_keyProcessedEndOnceData.insert(std::pair<SlInputKeyValue, bool>((SlInputKeyValue)i, false));

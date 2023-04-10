@@ -2,7 +2,6 @@
 #include "stdafx.h"
 #include "sl_game.h"
 #include "sl_locator.h"
-#include "sl_windows_audio.h"
 #include "sl_controller.h"
 #include "sl_renderer.h"
 
@@ -29,6 +28,18 @@ void SlGame::Update(double elapsedTimeInSec)
 	if (m_controller.IsDownOnceOrMoreThanTIme(SlInputKeyValue::INPUT_SPACE)) {
 		SlLocator::GetAudio()->PlaySound(SlSoundId::SOUND_BANG);
 	}
+	if (m_controller.IsDownOnce(SlInputKeyValue::INPUT_C)) {
+		m_isUseAudio = (m_isUseAudio + 1) % 2;
+
+		if (m_isUseAudio) {
+			SlLocator::ProvideAudio(m_windowsAudio);
+			std::cout << "오디오를 사용합니다\n";
+		}
+		else {
+			SlLocator::ProvideAudio(nullptr);
+			std::cout << "오디오를 사용하지 않습니다\n";
+		}
+	}
 }
 
 void SlGame::Render(HWND hWnd, HDC& memDC)
@@ -42,11 +53,13 @@ void SlGame::InitGame()
 {
 	m_heroPosition = { 0.0, 0.0, 0.0 };
 
-	SlWindowsAudio* audio = new SlWindowsAudio();
-	SlLocator::ProvideAudio(audio);
+	m_windowsAudio = new SlWindowsAudio();
+	SlLocator::ProvideAudio(m_windowsAudio);
+
+	m_isUseAudio = true;
 }
 
 void SlGame::CleanupGame()
 {
-	
+	delete m_windowsAudio;
 }

@@ -57,6 +57,9 @@
     <ClCompile Include="sl_locator.cpp">
       <Filter>service_locator</Filter>
     </ClCompile>
+    <ClCompile Include="sl_null_audio.h">
+      <Filter>service_locator\service\audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
