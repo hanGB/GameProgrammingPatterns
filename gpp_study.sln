@@ -33,6 +33,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "event_queue", "event_queue\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "service_locator", "service_locator\service_locator.vcxproj", "{A4EA7C37-8E9F-410F-ACE9-49C301A0B150}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "data_locality", "data_locality\data_locality.vcxproj", "{42142417-D3D3-4E99-96C8-0CB373E052D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -161,6 +163,14 @@ Global
 		{A4EA7C37-8E9F-410F-ACE9-49C301A0B150}.Release|x64.Build.0 = Release|x64
 		{A4EA7C37-8E9F-410F-ACE9-49C301A0B150}.Release|x86.ActiveCfg = Release|Win32
 		{A4EA7C37-8E9F-410F-ACE9-49C301A0B150}.Release|x86.Build.0 = Release|Win32
+		{42142417-D3D3-4E99-96C8-0CB373E052D0}.Debug|x64.ActiveCfg = Debug|x64
+		{42142417-D3D3-4E99-96C8-0CB373E052D0}.Debug|x64.Build.0 = Debug|x64
+		{42142417-D3D3-4E99-96C8-0CB373E052D0}.Debug|x86.ActiveCfg = Debug|Win32
+		{42142417-D3D3-4E99-96C8-0CB373E052D0}.Debug|x86.Build.0 = Debug|Win32
+		{42142417-D3D3-4E99-96C8-0CB373E052D0}.Release|x64.ActiveCfg = Release|x64
+		{42142417-D3D3-4E99-96C8-0CB373E052D0}.Release|x64.Build.0 = Release|x64
+		{42142417-D3D3-4E99-96C8-0CB373E052D0}.Release|x86.ActiveCfg = Release|Win32
+		{42142417-D3D3-4E99-96C8-0CB373E052D0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

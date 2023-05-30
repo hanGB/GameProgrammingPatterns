@@ -14,6 +14,7 @@
 /component/x64
 /event_queue/x64
 /service_locator/x64
+/data_locality/x64
 *.exe
 *.ilk
 *.pdb
