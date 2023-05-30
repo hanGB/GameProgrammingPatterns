@@ -9,12 +9,13 @@ int main()
 	int numEntities = NUM_OF_GAME_ENTITY;
 
 	GameEntity* entities[NUM_OF_GAME_ENTITY];
-	for (int i = 0; i < numEntities; ++i) {
-		AIComponent* ai = new AIComponent();
-		PhysicsComponent* physics = new PhysicsComponent();
-		RenderComponent* render = new RenderComponent();
+	AIComponent* aiComponents = new AIComponent[NUM_OF_GAME_ENTITY];
+	PhysicsComponent* physicsComponents = new PhysicsComponent[NUM_OF_GAME_ENTITY];
+	RenderComponent* renderComponents = new RenderComponent[NUM_OF_GAME_ENTITY];
 
-		GameEntity* gameEntity = new GameEntity(ai, physics, render);
+	for (int i = 0; i < numEntities; ++i) {
+
+		GameEntity* gameEntity = new GameEntity(&aiComponents[i], &physicsComponents[i], &renderComponents[i]);
 
 		entities[i] = gameEntity;
 	}
@@ -33,15 +34,15 @@ int main()
 
 		// AI 贸府
 		for (int i = 0; i < numEntities; ++i) {
-			entities[i]->GetAI()->Update(microsecTime);
+			aiComponents[i].Update(microsecTime);
 		}
 		// 拱府 贸府
 		for (int i = 0; i < numEntities; ++i) {
-			entities[i]->GetPhysics()->Update(microsecTime);
+			physicsComponents[i].Update(microsecTime);
 		}
 		// 坊歹傅
 		for (int i = 0; i < numEntities; ++i) {
-			entities[i]->GetRender()->Render();
+			renderComponents->Render();
 		}
 		gameEndCounter++;
 
@@ -53,4 +54,7 @@ int main()
 	for (int i = 0; i < numEntities; ++i) {
 		delete entities[i];
 	}
+	delete[] aiComponents;
+	delete[] physicsComponents;
+	delete[] renderComponents;
 }

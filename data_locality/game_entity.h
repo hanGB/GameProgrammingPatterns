@@ -10,13 +10,6 @@ public:
 
 	}
 
-	~GameEntity()
-	{
-		delete m_ai;
-		delete m_physics;
-		delete m_render;
-	}
-
 	AIComponent* GetAI() { return m_ai; }
 	PhysicsComponent* GetPhysics() { return m_physics; }
 	RenderComponent* GetRender() { return m_render; }
