@@ -37,18 +37,18 @@ int main()
 
 		lastTime = currentTime;
 
-		//// AI 贸府
-		//for (int i = 0; i < numEntities; ++i) {
-		//	aiComponents[i].Update(time);
-		//}
-		//// 拱府 贸府
-		//for (int i = 0; i < numEntities; ++i) {
-		//	physicsComponents[i].Update(time);
-		//}
-		//// 坊歹傅
-		//for (int i = 0; i < numEntities; ++i) {
-		//	renderComponents->Render();
-		//}
+		// AI 贸府
+		for (int i = 0; i < numEntities; ++i) {
+			aiComponents[i].Update(time);
+		}
+		// 拱府 贸府
+		for (int i = 0; i < numEntities; ++i) {
+			physicsComponents[i].Update(time);
+		}
+		// 坊歹傅
+		for (int i = 0; i < numEntities; ++i) {
+			renderComponents->Render();
+		}
 
 		particleSystem->Update(time);
 
