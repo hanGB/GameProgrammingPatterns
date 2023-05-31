@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "game_entity.h"
+#include "particle.h"
 
 int main()
 {
@@ -12,12 +13,16 @@ int main()
 	AIComponent* aiComponents = new AIComponent[NUM_OF_GAME_ENTITY];
 	PhysicsComponent* physicsComponents = new PhysicsComponent[NUM_OF_GAME_ENTITY];
 	RenderComponent* renderComponents = new RenderComponent[NUM_OF_GAME_ENTITY];
+	ParticleSystem* particleSystem = new ParticleSystem();
 
 	for (int i = 0; i < numEntities; ++i) {
 
 		GameEntity* gameEntity = new GameEntity(&aiComponents[i], &physicsComponents[i], &renderComponents[i]);
 
 		entities[i] = gameEntity;
+	}
+	for (int i = 0; i < 1000; ++i) {
+		particleSystem->AddParticle(0, 0);
 	}
 
 	auto lastTime = std::chrono::high_resolution_clock::now();
@@ -32,18 +37,24 @@ int main()
 
 		lastTime = currentTime;
 
-		// AI 贸府
-		for (int i = 0; i < numEntities; ++i) {
-			aiComponents[i].Update(microsecTime);
-		}
-		// 拱府 贸府
-		for (int i = 0; i < numEntities; ++i) {
-			physicsComponents[i].Update(microsecTime);
-		}
-		// 坊歹傅
-		for (int i = 0; i < numEntities; ++i) {
-			renderComponents->Render();
-		}
+		//// AI 贸府
+		//for (int i = 0; i < numEntities; ++i) {
+		//	aiComponents[i].Update(time);
+		//}
+		//// 拱府 贸府
+		//for (int i = 0; i < numEntities; ++i) {
+		//	physicsComponents[i].Update(time);
+		//}
+		//// 坊歹傅
+		//for (int i = 0; i < numEntities; ++i) {
+		//	renderComponents->Render();
+		//}
+
+		particleSystem->Update(time);
+
+		if (gameEndCounter % 10 == 0)
+			particleSystem->AddParticle(0, 0);
+
 		gameEndCounter++;
 
 		if (gameEndCounter > GAME_END_LOOP_COUNT) {
@@ -57,4 +68,6 @@ int main()
 	delete[] aiComponents;
 	delete[] physicsComponents;
 	delete[] renderComponents;
+
+	delete particleSystem;
 }
