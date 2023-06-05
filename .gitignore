@@ -17,6 +17,7 @@
 /data_locality/x64
 /dirty_flag/x64
 /dirty_flag/glm
+/object_pool/x64
 *.exe
 *.ilk
 *.pdb
