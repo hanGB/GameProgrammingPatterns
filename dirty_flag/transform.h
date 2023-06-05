@@ -14,6 +14,7 @@ public:
 	}
 	Transform Combine(Transform& other)
 	{
+		std::cout << "----- 행렬 곱 연산 실행 -----\n";
 		Transform transform = Transform();
 		transform.SetMatrix(other.GetMatrix() * m_matrix);
 

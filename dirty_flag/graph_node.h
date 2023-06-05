@@ -5,24 +5,29 @@
 
 class GraphNode {
 public:
-	GraphNode(Mesh* mesh) : m_mesh(mesh), m_local(Transform::Origin()) {
+	GraphNode(Mesh* mesh) : m_mesh(mesh), m_local(Transform::Origin()), m_dirty(true) {
 
 	}
 	GraphNode(Mesh* mesh, Transform local) : m_mesh(mesh), m_local(local) {
 
 	}
 	~GraphNode() {
-		for (int i = 0; i < m_numChildren; ++i) {
-			delete m_children[i];
-		}
+
 	}
 
-	void Render(Transform parentWorld) {
-		Transform world = m_local.Combine(parentWorld);
-		if (m_mesh) RenderMesh(m_mesh, world);
+	void Render(Transform parentWorld, bool dirty) {
+		// or 연산 -> dirty와 m_dirty 둘 중 하나만 true면 true;
+		dirty |= m_dirty;
+
+		if (dirty) {
+			m_world = m_local.Combine(parentWorld);
+			m_dirty = false;
+		}
+
+		if (m_mesh) RenderMesh(m_mesh, m_world);
 
 		for (int i = 0; i < m_numChildren; ++i) {
-			m_children[i]->Render(world);
+			m_children[i]->Render(m_world, dirty);
 		}
 	}
 	void AddChild(GraphNode* graphNode) {
@@ -30,6 +35,10 @@ public:
 
 		m_children[m_numChildren] = graphNode;
 		m_numChildren++;
+	}
+	void SetTransform(Transform local) {
+		m_local = local;
+		m_dirty = true;
 	}
 
 private:
@@ -46,4 +55,8 @@ private:
 	Mesh*		m_mesh;
 	GraphNode*	m_children[MAX_GRAPH_NODE_CHILDREN];
 	int			m_numChildren = 0;
+
+	// 더티 플래그
+	Transform	m_world;
+	bool		m_dirty;
 };

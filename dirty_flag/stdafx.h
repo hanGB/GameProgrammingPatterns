@@ -3,6 +3,7 @@
 
 #define MAX_GRAPH_NODE_CHILDREN 1024
 #define MAX_MESH_COUNT 512
+#define MAX_NODE 2048
 
 // glm 라이브러리 추가(git에는 업로드 하지 않음)
 #include "glm/glm.hpp"
