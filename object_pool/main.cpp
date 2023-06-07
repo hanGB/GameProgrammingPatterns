@@ -5,7 +5,7 @@ HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class Name";
 LPCTSTR lpszWindowName = L"Game Programming Patterns";
 
-ParticlePool g_particlePool;
+ParticlePool* g_particlePool;
 CoordinateData g_coordinateData;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -62,7 +62,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	// 메세지 처리하기
 	switch (uMsg) {
 	case WM_CREATE:
-		g_particlePool = ParticlePool();
+		g_particlePool = new ParticlePool();
 		g_coordinateData.halfWidth = WINDOW_WIDTH / 2;
 		g_coordinateData.halfHeight = WINDOW_HEIGHT / 2;
 
@@ -84,7 +84,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			g_coordinateData.ConvertCoordinateWindowsToOpenGL(&posX, &posY);
 			std::cout << posX << ", " << posY << "\n";
 			
-			g_particlePool.Craete(posX, posY, 5.0, 5.0, 100.0);
+			g_particlePool->Craete(posX, posY, 5.0, 5.0, 10.0);
 			click = true;
 		}
 
@@ -93,7 +93,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_TIMER:
 		InvalidateRect(hWnd, NULL, false);
-		g_particlePool.Update((double)TIME_PER_FRAME / 1'000.0);
+		g_particlePool->Update((double)TIME_PER_FRAME / 1'000.0);
 		break;
 
 	case WM_PAINT:
@@ -108,7 +108,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// 전체 흰색 초기화
 		Rectangle(memDC, -1, -1, rect.right + 1, rect.bottom + 1);
 		
-		g_particlePool.Render(memDC, g_coordinateData);
+		g_particlePool->Render(memDC, g_coordinateData);
 
 		// 실제 출력 버퍼로 이동
 		BitBlt(hDC, 0, 0, rect.right, rect.bottom, memDC, 0, 0, SRCCOPY);
@@ -124,6 +124,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		break;
 	case WM_DESTROY:
+
+		delete g_particlePool;
 
 #ifdef DEBUG
 		FreeConsole();

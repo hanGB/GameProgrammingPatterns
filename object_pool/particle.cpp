@@ -12,40 +12,53 @@ Particle::~Particle()
 
 void Particle::Init(double x, double y, double xVel, double yVel, double lifeTime)
 {
-	m_x = x;
-	m_y = y;
-	m_xVel = xVel;
-	m_yVel = yVel;
+	m_state.live.x = x;
+	m_state.live.y = y;
+	m_state.live.xVel = xVel;
+	m_state.live.yVel = yVel;
+	m_state.live.xSize = DEFUALT_PARTICLE_SIZE;
+	m_state.live.ySize = DEFUALT_PARTICLE_SIZE;
+
 	m_lifeTimeLeft = lifeTime;
-	m_xSize = DEFUALT_PARTICLE_SIZE;
-	m_ySize = DEFUALT_PARTICLE_SIZE;
 }
 
-void Particle::Update(double time)
+bool Particle::Update(double time)
 {
-	if (!InUse()) return;
+	if (!InUse()) return false;
 
 	m_lifeTimeLeft -= time;
-	m_x += m_xVel * time;
-	m_y += m_yVel * time;
+	m_state.live.x += m_state.live.xVel * time;
+	m_state.live.y += m_state.live.yVel * time;
+
+	return m_lifeTimeLeft < 0.0;
 }
 
 void Particle::Render(HDC& memDC, CoordinateData& cd) 
 {
 	if (!InUse()) return;
 
-	double winX = m_x, winY = m_y;
+	double winX = m_state.live.x, winY = m_state.live.y;
 	cd.ConvertCoordinateOpenGLToWindows(&winX, &winY);
 
 	Rectangle(memDC,
-		static_cast<int>((winX - m_xSize / 2.0) * PIXEL_PER_METER),
-		static_cast<int>((winY - m_ySize / 2.0) * PIXEL_PER_METER),
-		static_cast<int>((winX + m_xSize / 2.0) * PIXEL_PER_METER),
-		static_cast<int>((winY + m_ySize / 2.0) * PIXEL_PER_METER)
+		static_cast<int>((winX - m_state.live.xSize / 2.0) * PIXEL_PER_METER),
+		static_cast<int>((winY - m_state.live.ySize / 2.0) * PIXEL_PER_METER),
+		static_cast<int>((winX + m_state.live.xSize / 2.0) * PIXEL_PER_METER),
+		static_cast<int>((winY + m_state.live.ySize / 2.0) * PIXEL_PER_METER)
 	);
 }
 
 bool Particle::InUse() const
 {
 	return m_lifeTimeLeft > 0;
+}
+
+Particle* Particle::GetNext() const
+{
+	return m_state.next;
+}
+
+void Particle::SetNext(Particle* next)
+{
+	m_state.next = next;
 }

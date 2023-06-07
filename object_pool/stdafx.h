@@ -4,6 +4,7 @@
 #include <tchar.h>
 #include <cmath>
 #include <iostream>
+#include <cassert>
 
 // 디버그용 콘솔을 띄울 건지 결정
 #define DEBUG
@@ -14,6 +15,7 @@
 #define DEFUALT_PARTICLE_SIZE 0.2
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
+#define PARTICLE_SPAWN_GAP 0.2
 
 struct CoordinateData {
 	double halfWidth;

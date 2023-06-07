@@ -6,13 +6,26 @@ public:
 	~Particle();
 
 	void Init(double x, double y, double xVel, double yVel, double lifeTime);
-	void Update(double time);
+	bool Update(double time);
 	void Render(HDC& memDC, CoordinateData& cd);
 	bool InUse() const;
 
+	Particle* GetNext() const;
+	void SetNext(Particle* next);
+
 private:
 	double m_lifeTimeLeft;
-	double m_x, m_y;
-	double m_xVel, m_yVel;
-	double m_xSize, m_ySize;
+	
+	union {
+		// 사용 중일 때의 상태
+		struct {
+			double x, y;
+			double xVel, yVel;
+			double xSize, ySize;
+		} live;
+
+		// 사용 중이 아닐 때의 상태
+		Particle* next;
+
+	} m_state;
 };
