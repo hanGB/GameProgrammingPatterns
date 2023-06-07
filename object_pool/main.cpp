@@ -6,7 +6,35 @@ LPCTSTR lpszClass = L"Window Class Name";
 LPCTSTR lpszWindowName = L"Game Programming Patterns";
 
 ParticlePool* g_particlePool;
-CoordinateData g_coordinateData;
+CoordinateData	g_coordinateData;
+double			g_spawnGap = 0.0;
+struct {
+	double x, y;
+	bool click = false;
+} g_mouseData;
+
+void SpawnParticle() 
+{
+	double posX = g_mouseData.x;
+	double posY = g_mouseData.y;
+
+	g_coordinateData.ConvertCoordinateWindowsToOpenGL(&posX, &posY);
+
+	double oneDegreeInRadian = PI_VALUE / 2.0 / 90.0;
+
+	// 원형으로 퍼지는 파티클 생성
+	for (int i = 0; i < 360; i += 10) {
+		double dirX = cos(oneDegreeInRadian * i);
+		double dirY = sin(oneDegreeInRadian * i);
+
+		g_particlePool->Craete(
+			posX, posY, 
+			DEFUALT_PARTICLE_SPEED * dirX, DEFUALT_PARTICLE_SPEED * dirY, 
+			DEFUALT_PARTICLE_LIFE_TIME
+		);
+	}
+}
+
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -56,8 +84,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	HDC hDC, memDC;
 	HBITMAP hBitmap, oldBitmap;
 	RECT rect;
-	double posX, posY;
-	bool click = false;
 
 	// 메세지 처리하기
 	switch (uMsg) {
@@ -77,22 +103,39 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_LBUTTONDOWN:
-		if (!click) {
-			posX = (double)LOWORD(lParam);
-			posY = (double)HIWORD(lParam);
-			
-			g_coordinateData.ConvertCoordinateWindowsToOpenGL(&posX, &posY);
-			std::cout << posX << ", " << posY << "\n";
-			
-			g_particlePool->Craete(posX, posY, 5.0, 5.0, 10.0);
-			click = true;
+		if (!g_mouseData.click) {
+			g_mouseData.x = (double)LOWORD(lParam);
+			g_mouseData.y = (double)HIWORD(lParam);
+
+			SpawnParticle();
+
+			g_mouseData.click = true;
+			g_spawnGap = PARTICLE_SPAWN_GAP;
 		}
+		break;
 
 	case WM_LBUTTONUP:
-		if (click) click = false;
+		if (g_mouseData.click) g_mouseData.click = false;
+		break;
+
+	case WM_MOUSEMOVE:
+		if (g_mouseData.click) {
+			g_mouseData.x = (double)LOWORD(lParam);
+			g_mouseData.y = (double)HIWORD(lParam);
+		}
+
+		break;
 
 	case WM_TIMER:
 		InvalidateRect(hWnd, NULL, false);
+		if (g_mouseData.click) {
+			g_spawnGap -= (double)TIME_PER_FRAME / 1'000.0;
+			if (g_spawnGap <= 0.0) {
+				SpawnParticle();
+				g_spawnGap = PARTICLE_SPAWN_GAP;
+			}
+		}
+
 		g_particlePool->Update((double)TIME_PER_FRAME / 1'000.0);
 		break;
 
@@ -107,7 +150,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		// 전체 흰색 초기화
 		Rectangle(memDC, -1, -1, rect.right + 1, rect.bottom + 1);
-		
+
 		g_particlePool->Render(memDC, g_coordinateData);
 
 		// 실제 출력 버퍼로 이동

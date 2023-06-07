@@ -10,7 +10,7 @@ public:
 	void Render(HDC& memDC, CoordinateData& cd);
 
 private:
-	static const int POOL_SIZE = 100;
+	static const int POOL_SIZE = 1024;
 	
 	Particle m_particles[POOL_SIZE];
 	Particle* m_firstAvailable;

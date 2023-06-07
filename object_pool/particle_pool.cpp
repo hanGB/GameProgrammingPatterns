@@ -18,7 +18,7 @@ ParticlePool::ParticlePool()
 void ParticlePool::Craete(double x, double y, double xVel, double yVel, double lifeTime)
 {
 	// 풀이 비어 있지 않은지 확인
-	assert(m_firstAvailable != nullptr);
+	if (m_firstAvailable == nullptr) return;
 
 	// 얻은 파티클을 빈칸 목록에서 제거
 	Particle* newParticle = m_firstAvailable;
