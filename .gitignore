@@ -18,6 +18,7 @@
 /dirty_flag/x64
 /dirty_flag/glm
 /object_pool/x64
+/spatial_partition/x64
 *.exe
 *.ilk
 *.pdb
