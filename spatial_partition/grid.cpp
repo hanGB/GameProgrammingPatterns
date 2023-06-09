@@ -65,7 +65,7 @@ void Grid::HandleMelee()
 {
 	for (int x = 0; x < c_NUM_CELLS; ++x) {
 		for (int y = 0; y < c_NUM_CELLS; ++y) {
-			HandleCell(m_cells[x][y]);
+			HandleCell(x, y);
 		}
 	}
 }
@@ -89,18 +89,36 @@ void Grid::ShowEachCellCount()
 	std::cout << '\n';
 }
 
-void Grid::HandleCell(Unit* unit)
+void Grid::HandleCell(int x, int y)
 {
+	Unit* unit = m_cells[x][y];
+
 	while (unit != nullptr) {
-		Unit* other = unit->m_next;
-		while (other != nullptr) {
-			// 유닛 사이의 거리의 제곱과 공격 범위의 제곱을 비교
-			if (DistancePower2(unit, other) < c_ATTACK_DISTANCE_POWER_2) {
-				HandleAttack(unit, other);
-			}
-			other = other->m_next;
-		}
+		// 이 셀에 들어 있는 다른 유닛 처리
+		HandleUnit(unit, unit->m_next);
+
+		// 주변 칸에 들어 있는 유닛들도 확인
+		if (x > 0) HandleUnit(unit, m_cells[x - 1][y]);
+		if (y > 0) HandleUnit(unit, m_cells[x][y - 1]);
+		if (x > 0 && y > 0) HandleUnit(unit, m_cells[x - 1][y - 1]);
+		if (x > 0 && y < c_NUM_CELLS - 1) HandleUnit(unit, m_cells[x - 1][y + 1]);
+		//if (x < c_NUM_CELLS - 1 && y > 0)  HandleUnit(unit, m_cells[x + 1][y - 1]);
+		//if (x < c_NUM_CELLS - 1) HandleUnit(unit, m_cells[x + 1][y]);
+		//if (y < c_NUM_CELLS - 1) HandleUnit(unit, m_cells[x][y + 1]);
+		//if (x < c_NUM_CELLS - 1 && y < c_NUM_CELLS - 1)  HandleUnit(unit, m_cells[x + 1][y + 1]);
+
 		unit = unit->m_next;
+	}
+}
+
+void Grid::HandleUnit(Unit* unit, Unit* other)
+{
+	while (other != nullptr) {
+		// 유닛 사이의 거리의 제곱과 공격 범위의 제곱을 비교
+		if (DistancePower2(unit, other) < c_ATTACK_DISTANCE_POWER_2) {
+			HandleAttack(unit, other);
+		}
+		other = other->m_next;
 	}
 }
 

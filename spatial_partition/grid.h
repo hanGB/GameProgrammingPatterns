@@ -19,7 +19,8 @@ public:
 	static const int c_ATTACK_DISTANCE_POWER_2 = 64;
 
 private:
-	void HandleCell(Unit* unit);
+	void HandleCell(int x, int y);
+	void HandleUnit(Unit* unit, Unit* other);
 	void HandleAttack(Unit* unit, Unit* other);
 	
 	void FindCellWithPosition(double posX, double posY, int* cellX, int* cellY);
