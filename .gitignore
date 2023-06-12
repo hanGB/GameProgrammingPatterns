@@ -19,6 +19,7 @@
 /dirty_flag/glm
 /object_pool/x64
 /spatial_partition/x64
+/game_project_perditio/x64
 *.exe
 *.ilk
 *.pdb
