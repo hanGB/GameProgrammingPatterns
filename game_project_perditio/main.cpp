@@ -7,7 +7,8 @@ LPCTSTR lpszWindowName = L"Perditio";
 
 HWND g_hWnd;
 HANDLE g_hGameLoopThread;
-PerGame* g_game;
+PERGame* g_game;
+bool g_isGameEnd;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 DWORD WINAPI GameLoopTheadFuc(LPVOID temp);
@@ -68,15 +69,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		freopen_s(&stream, "CONOUT$", "w", stderr);
 		freopen_s(&stream, "CONOUT$", "w", stdout);
 #endif 
-		g_game = new PerGame();
+		g_game = new PERGame();
+		g_isGameEnd = false;
 		g_hGameLoopThread = CreateThread(NULL, 0, GameLoopTheadFuc, NULL, 0, &threadID);
 		break;
 	
 	case WM_KEYDOWN:
+		// esc를 누를 경우 종료
+		if (wParam == VK_ESCAPE) PostMessageW(hWnd, WM_DESTROY, 0, 0);
+
 		g_game->HandleInput(wParam, true);
 		break;
 
+	case WM_KEYUP:
+		g_game->HandleInput(wParam, false);
+		break;
+
 	case WM_DESTROY:
+		g_isGameEnd = true;
 		CloseHandle(g_hGameLoopThread);
 		delete g_game;
 #ifdef PER_DEBUG
@@ -92,7 +102,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 DWORD WINAPI GameLoopTheadFuc(LPVOID temp)
 {
 	auto lastTime = std::chrono::system_clock::now();
-	while (true) {
+	while (!g_isGameEnd) {
 		auto currentTime = std::chrono::system_clock::now();
 		auto deltaTime = currentTime - lastTime;
 
@@ -105,4 +115,6 @@ DWORD WINAPI GameLoopTheadFuc(LPVOID temp)
 		g_game->Update(dTime);
 		g_game->Render(g_hWnd);
 	}
+
+	return 0;
 }
