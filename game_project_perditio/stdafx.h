@@ -10,15 +10,18 @@
 // 프레임 타임 측정
 #include <chrono>
 
+// 필요 구조체
+#include "per_vector.h"
+
 // 디버그용 콘솔을 띄울 건지 결정
 #define PER_DEBUG
 
 // 기본 설정
 // 윈도우 창 크기 및 위치
-#define PER_WINDOW_LOCATION_X 200
-#define PER_WINDOW_LOCATION_Y 100
-#define PER_WINDOW_WIDTH 1280
-#define PER_WINDOW_HEIGHT 720
+#define PER_DEFAULT_WINDOW_LOCATION_X 200
+#define PER_DEFAULT_WINDOW_LOCATION_Y 100
+#define PER_DEFAULT_WINDOW_WIDTH 1280
+#define PER_DEFAULT_WINDOW_HEIGHT 720
 // 업데이트 타임 설정
 #define PER_MICROSEC_PER_UPDATE 8000
 #define PER_MAXIMUM_UPDATE_LOOP_COUNT 4
@@ -27,21 +30,18 @@
 // 컨트롤러 설정
 #define PER_KEYBOARD_LONG_PRESS_TIME 0.5
 
-struct CoordinateData {
-	double halfWidth;
-	double halfHeight;
-
-	void ConvertCoordinateOpenGLToWindows(double* x, double* y) {
-		*x += halfWidth / (double)PER_PIXEL_PER_METER;
-		*y *= -1;
-		*y += halfHeight / (double)PER_PIXEL_PER_METER;
-	}
-	void ConvertCoordinateWindowsToOpenGL(double* x, double* y) {
-		*x -= halfWidth;
-		*y -= halfHeight;
-		*y *= -1;
-
-		*x /= (double)PER_PIXEL_PER_METER;
-		*y /= (double)PER_PIXEL_PER_METER;
-	}
+enum class PERShapeType {
+	SHAPE_TYPE_ELLIPSE,
+	SHAPE_TYPE_RECTANGLE,
+	SHAPE_TYPE_TRIANGLE,
+	NUM_SHAPE_TYPE
 };
+
+enum class PERKeyboardValue {
+	KEYBOARD_UP,
+	KEYBOARD_DOWN,
+	KEYBOARD_LEFT,
+	KEYBOARD_RIGHT,
+	NUM_KEYBOARD_VALUE
+};
+

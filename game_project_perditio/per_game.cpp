@@ -3,15 +3,16 @@
 
 PERGame::PERGame()
 {
-	m_coordinateData.halfWidth = PER_WINDOW_WIDTH / 2;
-	m_coordinateData.halfHeight = PER_WINDOW_HEIGHT / 2;
-
 	m_controller = new PERController();
+	m_renderer = new PERRenderer();
+	m_world = new PERWorld();
 }
 
 PERGame::~PERGame()
 {
 	delete m_controller;
+	delete m_renderer;
+	delete m_world;
 }
 
 void PERGame::HandleInput(WPARAM wParam, bool isDown)
@@ -54,7 +55,7 @@ void PERGame::Render(HWND hWnd)
 	Rectangle(memDC, -1, -1, rect.right + 1, rect.bottom + 1);
 
 	// 게임 월드 렌더링
-	RenderWorld(memDC);
+	RenderWorld(hWnd, memDC);
 
 	// 실제 출력 버퍼로 이동
 	BitBlt(hDC, 0, 0, rect.right, rect.bottom, memDC, 0, 0, SRCCOPY);
@@ -72,24 +73,21 @@ PERController& PERGame::GetController()
 	return *m_controller;
 }
 
+PERRenderer& PERGame::GetRenderer()
+{
+	return *m_renderer;
+}
+
 void PERGame::UpdateControllerAndWorld(double dTime)
 {
 	m_controller->Update(dTime);
-
-	if (m_controller->IsKeyboardPressed(PERKeyboardValue::KEYBOARD_UP)) m_y += m_speed * dTime;
-	if (m_controller->IsKeyboardPressed(PERKeyboardValue::KEYBOARD_DOWN)) m_y -= m_speed * dTime;
-	if (m_controller->IsKeyboardPressed(PERKeyboardValue::KEYBOARD_LEFT)) m_x -= m_speed * dTime;
-	if (m_controller->IsKeyboardPressed(PERKeyboardValue::KEYBOARD_RIGHT)) m_x += m_speed * dTime;
 }
 
-void PERGame::RenderWorld(HDC memDC)
+void PERGame::RenderWorld(HWND hWnd, HDC memDC)
 {
-	double winX = m_x, winY = m_y;
+	// 렌더러에 있는 메모리 DC를 현재 메모리 DC로 맞춤
+	m_renderer->MatchWindowSizeAndCurrentMemoryDC(hWnd, memDC);
 
-	m_coordinateData.ConvertCoordinateOpenGLToWindows(&winX, &winY);
-	Rectangle(memDC, 
-		(int)((winX - 0.5)* PER_PIXEL_PER_METER), 
-		(int)((winY - 0.5)* PER_PIXEL_PER_METER),
-		(int)((winX + 0.5)* PER_PIXEL_PER_METER), 
-		(int)((winY + 0.5) * PER_PIXEL_PER_METER));
+	// 월드 렌더링
+	m_renderer->RenderWorld(*m_world);
 }

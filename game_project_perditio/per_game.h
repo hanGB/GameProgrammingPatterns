@@ -1,5 +1,7 @@
 #pragma once
 #include "per_controller.h"
+#include "per_renderer.h"
+#include "per_world.h"
 
 class PERGame {
 public:
@@ -11,17 +13,16 @@ public:
 	void Render(HWND m_hWnd);
 
 	PERController& GetController();
+	PERRenderer& GetRenderer();
 
 private:
 	void UpdateControllerAndWorld(double dTime);
-	void RenderWorld(HDC memDC);
+	void RenderWorld(HWND hWnd, HDC memDC);
 
-	// 컨트롤러
-	PERController* m_controller;
+	PERController*	m_controller;
+	PERRenderer*	m_renderer;
 
-	CoordinateData m_coordinateData;
+	PERWorld*		m_world;
+
 	int m_updateLag = 0;
-
-	double m_x = 0.0, m_y = 0.0;
-	double m_speed = 3.0;
 };

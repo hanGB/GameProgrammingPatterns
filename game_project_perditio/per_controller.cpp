@@ -47,8 +47,9 @@ void PERController::SetKeyboardPressed(PERKeyboardValue value, bool pressed)
 {
 	if (m_keyboardInputDatas.find(value)->second == pressed) return;
 
+	// 각종 정보 초기화
 	m_keyboardInputDatas.find(value)->second = pressed;
-	m_keyboardInputProcessedNeverDatas.find(value)->second = false;
+	m_keyboardInputProcessedNeverDatas.find(value)->second = true;
 	m_keyboardInputPressTimerDatas.find(value)->second = 0.0;
 }
 

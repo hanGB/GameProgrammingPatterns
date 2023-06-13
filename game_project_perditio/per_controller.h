@@ -1,14 +1,6 @@
 #pragma once
 #include <concurrent_unordered_map.h>
 
-enum class PERKeyboardValue {
-	KEYBOARD_UP,
-	KEYBOARD_DOWN,
-	KEYBOARD_LEFT,
-	KEYBOARD_RIGHT,
-	NUM_KEYBOARD_VALUE
-};
-
 class PERController {
 public:
 	PERController();

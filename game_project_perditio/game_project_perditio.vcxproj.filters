@@ -13,26 +13,26 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="00.game">
-      <UniqueIdentifier>{869e2fb2-c1af-4273-9d60-2ed329ba0909}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.game\component">
-      <UniqueIdentifier>{127ca7ae-a578-41a5-a00c-4146ae8f06c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.game\object">
-      <UniqueIdentifier>{054d06d7-a0de-44f8-b550-e5dcc164346e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.game\world">
-      <UniqueIdentifier>{56ff81bd-bcf5-41e3-b08e-5e45de332309}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.input_output">
+    <Filter Include="01. input_output">
       <UniqueIdentifier>{9a83ad7c-40a8-490a-8374-a124834a5d4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.input_output\controller">
+    <Filter Include="01. input_output\controller">
       <UniqueIdentifier>{d8cf54fb-ca27-4d13-9a18-054c0fa02162}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.input_output\renderer">
+    <Filter Include="01. input_output\renderer">
       <UniqueIdentifier>{e7e2c447-9d35-4064-ae0a-506848b5dc15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game">
+      <UniqueIdentifier>{869e2fb2-c1af-4273-9d60-2ed329ba0909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\component">
+      <UniqueIdentifier>{127ca7ae-a578-41a5-a00c-4146ae8f06c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object">
+      <UniqueIdentifier>{054d06d7-a0de-44f8-b550-e5dcc164346e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\world">
+      <UniqueIdentifier>{56ff81bd-bcf5-41e3-b08e-5e45de332309}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,10 +40,19 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="per_game.h">
-      <Filter>00.game</Filter>
+      <Filter>00. game</Filter>
     </ClInclude>
     <ClInclude Include="per_controller.h">
-      <Filter>01.input_output\controller</Filter>
+      <Filter>01. input_output\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="per_renderer.h">
+      <Filter>01. input_output\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="per_world.h">
+      <Filter>00. game\world</Filter>
+    </ClInclude>
+    <ClInclude Include="per_vector.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -54,10 +63,16 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="per_game.cpp">
-      <Filter>00.game</Filter>
+      <Filter>00. game</Filter>
     </ClCompile>
     <ClCompile Include="per_controller.cpp">
-      <Filter>01.input_output\controller</Filter>
+      <Filter>01. input_output\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="per_renderer.cpp">
+      <Filter>01. input_output\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="per_world.cpp">
+      <Filter>00. game\world</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
