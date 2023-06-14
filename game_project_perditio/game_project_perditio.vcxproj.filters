@@ -34,6 +34,12 @@
     <Filter Include="00. game\world">
       <UniqueIdentifier>{56ff81bd-bcf5-41e3-b08e-5e45de332309}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\component\interface">
+      <UniqueIdentifier>{0b717086-9c44-404c-b79b-ee5615fe8280}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\component\player">
+      <UniqueIdentifier>{d8c935eb-f531-4d2b-a22c-a68fc2720ef3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -54,6 +60,33 @@
     <ClInclude Include="per_vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="per_object.h">
+      <Filter>00. game\object</Filter>
+    </ClInclude>
+    <ClInclude Include="per_ai_component.h">
+      <Filter>00. game\component\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="per_graphics_component.h">
+      <Filter>00. game\component\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="per_input_component.h">
+      <Filter>00. game\component\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="per_physics_component.h">
+      <Filter>00. game\component\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="player_ai_component.h">
+      <Filter>00. game\component\player</Filter>
+    </ClInclude>
+    <ClInclude Include="player_graphics_component.h">
+      <Filter>00. game\component\player</Filter>
+    </ClInclude>
+    <ClInclude Include="player_input_component.h">
+      <Filter>00. game\component\player</Filter>
+    </ClInclude>
+    <ClInclude Include="player_physics_component.h">
+      <Filter>00. game\component\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -73,6 +106,21 @@
     </ClCompile>
     <ClCompile Include="per_world.cpp">
       <Filter>00. game\world</Filter>
+    </ClCompile>
+    <ClCompile Include="per_object.cpp">
+      <Filter>00. game\object</Filter>
+    </ClCompile>
+    <ClCompile Include="player_ai_component.cpp">
+      <Filter>00. game\component\player</Filter>
+    </ClCompile>
+    <ClCompile Include="player_graphics_component.cpp">
+      <Filter>00. game\component\player</Filter>
+    </ClCompile>
+    <ClCompile Include="player_input_component.cpp">
+      <Filter>00. game\component\player</Filter>
+    </ClCompile>
+    <ClCompile Include="player_physics_component.cpp">
+      <Filter>00. game\component\player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

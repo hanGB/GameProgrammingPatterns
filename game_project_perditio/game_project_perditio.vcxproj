@@ -141,19 +141,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="per_ai_component.h" />
+    <ClInclude Include="per_graphics_component.h" />
     <ClInclude Include="per_controller.h" />
     <ClInclude Include="per_game.h" />
+    <ClInclude Include="per_input_component.h" />
+    <ClInclude Include="per_object.h" />
+    <ClInclude Include="per_physics_component.h" />
+    <ClInclude Include="player_ai_component.h" />
+    <ClInclude Include="player_graphics_component.h" />
     <ClInclude Include="per_renderer.h" />
     <ClInclude Include="per_vector.h" />
     <ClInclude Include="per_world.h" />
+    <ClInclude Include="player_input_component.h" />
+    <ClInclude Include="player_physics_component.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="per_controller.cpp" />
     <ClCompile Include="per_game.cpp" />
+    <ClCompile Include="per_object.cpp" />
     <ClCompile Include="per_renderer.cpp" />
     <ClCompile Include="per_world.cpp" />
+    <ClCompile Include="player_ai_component.cpp" />
+    <ClCompile Include="player_graphics_component.cpp" />
+    <ClCompile Include="player_input_component.cpp" />
+    <ClCompile Include="player_physics_component.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

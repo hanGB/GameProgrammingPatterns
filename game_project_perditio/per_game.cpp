@@ -1,11 +1,21 @@
 #include "stdafx.h"
 #include "per_game.h"
+#include "player_ai_component.h"
+#include "player_input_component.h"
+#include "player_physics_component.h"
+#include "player_graphics_component.h"
 
 PERGame::PERGame()
 {
 	m_controller = new PERController();
 	m_renderer = new PERRenderer();
 	m_world = new PERWorld();
+	m_player = new PERObject(
+		new PlayerInputComponent(),
+		new PlayerAiComponent(),
+		new PlayerPhysicsComponent(),
+		new PlayerGraphicsComponent()
+	);
 }
 
 PERGame::~PERGame()
@@ -21,6 +31,7 @@ void PERGame::HandleInput(WPARAM wParam, bool isDown)
 	if (wParam == VK_DOWN) m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_DOWN, isDown);
 	if (wParam == VK_LEFT) m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_LEFT, isDown);
 	if (wParam == VK_RIGHT) m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_RIGHT, isDown);
+	if (wParam == VK_SPACE) m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_SPACE, isDown);
 }
 
 void PERGame::Update(int time)
@@ -81,6 +92,7 @@ PERRenderer& PERGame::GetRenderer()
 void PERGame::UpdateControllerAndWorld(double dTime)
 {
 	m_controller->Update(dTime);
+	m_player->Update(*m_controller, *m_world, dTime);
 }
 
 void PERGame::RenderWorld(HWND hWnd, HDC memDC)
@@ -90,4 +102,5 @@ void PERGame::RenderWorld(HWND hWnd, HDC memDC)
 
 	// ¿ùµå ·»´õ¸µ
 	m_renderer->RenderWorld(*m_world);
+	m_player->Render(*m_renderer);
 }

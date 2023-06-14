@@ -10,11 +10,11 @@ public:
 	void MatchWindowSizeAndCurrentMemoryDC(HWND hWnd, HDC memDC);
 	// 게임 월드 렌더링
 	void RenderWorld(PERWorld& world);
+	// 모양 하나 렌더링
+	void RenderShape(PERShapeType type, PERVec3 pos, PERVec2 size, PERColor color);
 
 private:
 	// 각종 모양 렌더링
-	void RenderShape(PERShapeType type, PERVec3 pos, PERVec2 size, PERColor color);
-
 	void RenderEllipse(PERVec3 pos, PERVec2 size);
 	void RenderRectangle(PERVec3 pos, PERVec2 size);
 	void RenderTriangle(PERVec3 pos, PERVec2 size);

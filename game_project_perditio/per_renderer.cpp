@@ -26,9 +26,9 @@ void PERRenderer::RenderWorld(PERWorld& world)
 {
 	PERVec3 pos(0.0, 0.0, 0.0);
 	PERVec2 size(1.0, 1.0);
-	PERColor color(0, 255, 255);
+	PERColor color(255, 255, 255);
 
-	RenderShape(PERShapeType::SHAPE_TYPE_ELLIPSE, pos, size, color);
+	RenderShape(PERShapeType::SHAPE_TYPE_RECTANGLE, pos, size, color);
 }
 
 void PERRenderer::RenderShape(PERShapeType type, PERVec3 pos, PERVec2 size, PERColor color)

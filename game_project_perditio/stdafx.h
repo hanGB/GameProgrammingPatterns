@@ -9,6 +9,8 @@
 #include <iostream>
 // 프레임 타임 측정
 #include <chrono>
+// 수학
+#include <cmath>
 
 // 필요 구조체
 #include "per_vector.h"
@@ -25,10 +27,16 @@
 // 업데이트 타임 설정
 #define PER_MICROSEC_PER_UPDATE 8000
 #define PER_MAXIMUM_UPDATE_LOOP_COUNT 4
+
 // 화면 설정
 #define PER_PIXEL_PER_METER 100
 // 컨트롤러 설정
 #define PER_KEYBOARD_LONG_PRESS_TIME 0.5
+
+// 물리 값
+#define PER_GRAVITY 9.8
+#define PER_FRICTION 0.7
+
 
 enum class PERShapeType {
 	SHAPE_TYPE_ELLIPSE,
@@ -42,6 +50,7 @@ enum class PERKeyboardValue {
 	KEYBOARD_DOWN,
 	KEYBOARD_LEFT,
 	KEYBOARD_RIGHT,
+	KEYBOARD_SPACE,
 	NUM_KEYBOARD_VALUE
 };
 
