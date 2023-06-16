@@ -33,11 +33,11 @@ void PERWorld::Render(PERRenderer& renderer)
 
 void PERWorld::InitWorldObject()
 {
-	m_wall1 = m_objectFactory->CreateWall();
+	m_wall1 = m_objectFactory->PopObjectInPool(PERObjectType::OBJECT_TYPE_BLOCK);
 	m_wall1->SetPosition(PERVec3(1.0, 0.0, 0.0));
 	m_wall1->SetSize(PERVec2(1.0, 2.0));
 
-	m_wall2 = m_objectFactory->CreateWall();
+	m_wall2 = m_objectFactory->PopObjectInPool(PERObjectType::OBJECT_TYPE_BLOCK);
 	m_wall2->SetPosition(PERVec3(-1.0, 0.0, 0.0));
 	m_wall2->SetSize(PERVec2(1.0, 2.0));
 }

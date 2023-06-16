@@ -40,7 +40,10 @@ public:
 	static const int c_MAXIMUM_VERTICAL_VELOCITY = 3;
 
 private:
+	PERObject();
 	PERObject(PERInputComponent* input, PERAiComponent* ai, PERPhysicsComponent* physics, PERGraphicsComponent* graphics);
+
+	void InitNullObject(PERInputComponent* input, PERAiComponent* ai, PERPhysicsComponent* physics, PERGraphicsComponent* graphics);
 
 	// ÄÁÆ÷³ÍÆ®
 	PERInputComponent*		m_input;

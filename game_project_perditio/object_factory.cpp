@@ -1,94 +1,113 @@
 #include "stdafx.h"
 #include "object_factory.h"
-// 각종 컨포넌트
-// input
-#include "player_input_component.h"
-#include "interact_input_component.h"
-#include "no_interact_input_component.h"
-// ai
-#include "player_ai_component.h"
-#include "unintelligent_ai_component.h"
-#include "intelligent_ai_component.h"
-// physics
-#include "player_physics_component.h"
-#include "movable_physics_component.h"
-#include "fixed_physics_component.h"
-// graphics
-#include "player_graphics_component.h"
-#include "visible_graphics_component.h"
-#include "hidden_graphics_component.h"
 
+ObjectFactory::ObjectFactory()
+{
+    FillObjectPool();
+}
+
+ObjectFactory::~ObjectFactory()
+{
+    ClearObjectPool();
+}
 
 PERObject* ObjectFactory::CreatePlayer()
 {
-    return CreateObject(
-        PERObjectType::OBJECT_TYPE_PLAYER,
-        PERObjectType::OBJECT_TYPE_PLAYER,
-        PERObjectType::OBJECT_TYPE_PLAYER,
-        PERObjectType::OBJECT_TYPE_PLAYER
-        );
-}
-
-PERObject* ObjectFactory::CreateWall()
-{
-    return CreateObject(
-        PERObjectType::OBJECT_TYPE_NO_INTERACT,
-        PERObjectType::OBJECT_TYPE_UNINTELLIGENT,
-        PERObjectType::OBJECT_TYPE_FIXED,
-        PERObjectType::OBJECT_TYPE_VISIBLE
+    return new PERObject(
+        new PlayerInputComponent(),
+        new PlayerAiComponent(),
+        new PlayerPhysicsComponent(),
+        new PlayerGraphicsComponent()
     );
 }
 
-PERObject* ObjectFactory::CreateObject(PERObjectType inputType, PERObjectType aiType, PERObjectType physicsType, PERObjectType graphicsType)
+PERObject* ObjectFactory::PopObjectInPool(PERObjectType type)
+{
+    PERObject* object = m_objectPools.find(type)->second.front();
+    m_objectPools.find(type)->second.pop();
+    return object;
+}
+
+void ObjectFactory::PushObjectInPool(PERObjectType type, PERObject* object)
+{
+    m_objectPools.find(type)->second.push(object);
+}
+
+void ObjectFactory::FillObjectPool()
+{
+    struct componentTypes {
+        PERComponentType input;
+        PERComponentType ai;
+        PERComponentType physics;
+        PERComponentType graphics;
+    };
+
+    componentTypes data[(int)PERObjectType::NUM_OBJECT_TYPE];
+    data[(int)PERObjectType::OBJECT_TYPE_BLOCK].input = PERComponentType::COMPONENT_TYPE_NO_INTERACT;
+    data[(int)PERObjectType::OBJECT_TYPE_BLOCK].ai = PERComponentType::COMPONENT_TYPE_UNINTELLIGENT;
+    data[(int)PERObjectType::OBJECT_TYPE_BLOCK].physics = PERComponentType::COMPONENT_TYPE_FIXED;
+    data[(int)PERObjectType::OBJECT_TYPE_BLOCK].graphics = PERComponentType::COMPONENT_TYPE_VISIBLE;
+
+    for (int type = (int)PERObjectType::OBJECT_TYPE_PLAYER + 1; type < (int)PERObjectType::NUM_OBJECT_TYPE; ++type) {
+        std::queue<PERObject*> pool;
+        for (int i = 0; i < PER_DEFAULT_OBJECT_POOL_SIZE; ++i) {
+            pool.push(CreateObject(data[type].input, data[type].ai, data[type].physics, data[type].graphics));
+        }
+        m_objectPools.insert(std::pair<PERObjectType, std::queue<PERObject*>>((PERObjectType)type, pool));
+    }
+}
+
+void ObjectFactory::ClearObjectPool()
+{
+    for (int type = (int)PERObjectType::OBJECT_TYPE_PLAYER + 1; type < (int)PERObjectType::NUM_OBJECT_TYPE; ++type) {
+        std::queue<PERObject*> pool = m_objectPools.find((PERObjectType)type)->second;
+        while (!pool.empty()) {
+            PERObject* object = pool.front();
+            pool.pop();
+            delete object;
+        }
+    }
+  
+}
+
+PERObject* ObjectFactory::CreateObject(PERComponentType inputType, PERComponentType aiType, PERComponentType physicsType, PERComponentType graphicsType)
 {
     PERInputComponent* inputComponent = nullptr;
     switch (inputType) {
-    case PERObjectType::OBJECT_TYPE_PLAYER:
-        inputComponent = new PlayerInputComponent();
-        break;
-    case PERObjectType::OBJECT_TYPE_INTERACT:
+    case PERComponentType::COMPONENT_TYPE_INTERACT:
         inputComponent = new InteractInputComponent();
         break;
-    case PERObjectType::OBJECT_TYPE_NO_INTERACT:
+    case PERComponentType::COMPONENT_TYPE_NO_INTERACT:
         inputComponent = new NoInteractInputComponent();
         break;
     }
 
     PERAiComponent* aiComponent = nullptr;
     switch (aiType) {
-    case PERObjectType::OBJECT_TYPE_PLAYER:
-        aiComponent = new PlayerAiComponent();
-        break;
-    case PERObjectType::OBJECT_TYPE_UNINTELLIGENT:
+    case PERComponentType::COMPONENT_TYPE_UNINTELLIGENT:
         aiComponent = new UnintelligentAiComponent();
         break;
-    case PERObjectType::OBJECT_TYPE_INTELLIGENT:
+    case PERComponentType::COMPONENT_TYPE_INTELLIGENT:
         aiComponent = new IntelligentAiComponent();
         break;
     }
 
     PERPhysicsComponent* physicsComponent = nullptr;
     switch (physicsType) {
-    case PERObjectType::OBJECT_TYPE_PLAYER:
-        physicsComponent = new PlayerPhysicsComponent();
-        break;
-    case PERObjectType::OBJECT_TYPE_MOVABLE:
+    case PERComponentType::COMPONENT_TYPE_MOVABLE:
         physicsComponent = new MovablePhysicsComponent();
         break;
-    case PERObjectType::OBJECT_TYPE_FIXED:
+    case PERComponentType::COMPONENT_TYPE_FIXED:
         physicsComponent = new FixedPhysicsComponent();
         break;
     }
 
     PERGraphicsComponent* graphicsComponent = nullptr;
     switch (graphicsType) {
-    case PERObjectType::OBJECT_TYPE_PLAYER:
-        graphicsComponent = new PlayerGraphicsComponent();
-        break;
-    case PERObjectType::OBJECT_TYPE_VISIBLE:
+    case PERComponentType::COMPONENT_TYPE_VISIBLE:
         graphicsComponent = new VisibleGraphicsComponent();
         break;
-    case PERObjectType::OBJECT_TYPE_HIDDEN:
+    case PERComponentType::COMPONENT_TYPE_HIDDEN:
         graphicsComponent = new HiddenGraphicsComponent();
         break;
     }

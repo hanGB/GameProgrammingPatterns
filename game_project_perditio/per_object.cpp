@@ -1,6 +1,14 @@
 #include "stdafx.h"
 #include "per_object.h"
 
+PERObject::PERObject()
+	: m_input(nullptr), m_ai(nullptr),
+	m_physics(nullptr), m_graphics(nullptr)
+{
+
+}
+
+
 PERObject::PERObject(
 	PERInputComponent* input, PERAiComponent* ai, 
 	PERPhysicsComponent* physics, PERGraphicsComponent* graphics)
@@ -8,6 +16,14 @@ PERObject::PERObject(
 	m_physics(physics), m_graphics(graphics)
 {
 
+}
+
+void PERObject::InitNullObject(PERInputComponent* input, PERAiComponent* ai, PERPhysicsComponent* physics, PERGraphicsComponent* graphics)
+{
+	m_input = input;
+	m_ai = ai;
+	m_physics = physics;
+	m_graphics = graphics;
 }
 
 PERObject::~PERObject()
@@ -50,6 +66,7 @@ PERGraphicsComponent& PERObject::GetGraphcis()
 {
 	return *m_graphics;
 }
+
 
 PERVec3 PERObject::GetPosition() const
 {
