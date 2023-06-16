@@ -2,6 +2,7 @@
 #include "per_controller.h"
 #include "per_renderer.h"
 #include "per_world.h"
+#include "object_factory.h"
 #include "per_object.h"
 
 class PERGame {
@@ -18,13 +19,14 @@ public:
 
 private:
 	void UpdateControllerAndWorld(double dTime);
-	void RenderWorld(HWND hWnd, HDC memDC);
-
-	PERController*	m_controller;
-	PERRenderer*	m_renderer;
+	void MatchFrameAndRenderWorld(HWND hWnd, HDC memDC);
 
 	int m_updateLag = 0;
 
-	PERWorld*		m_world;
-	PERObject*		m_player;
+	PERController*	m_controller;
+	PERRenderer*	m_renderer;
+	ObjectFactory*	m_objectFactory;
+
+	PERObject*	m_player;
+	PERWorld*	m_world;
 };

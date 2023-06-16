@@ -1,0 +1,11 @@
+#pragma once
+#include "per_physics_component.h"
+
+class MovablePhysicsComponent : public PERPhysicsComponent {
+public:
+	virtual void Update(PERObject& object, PERWorld& world, double dTime);
+
+private:
+	void Move(PERObject& object, double dTime);
+};
+#pragma once

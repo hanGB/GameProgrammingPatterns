@@ -1,21 +1,14 @@
 #include "stdafx.h"
 #include "per_game.h"
-#include "player_ai_component.h"
-#include "player_input_component.h"
-#include "player_physics_component.h"
-#include "player_graphics_component.h"
 
 PERGame::PERGame()
 {
 	m_controller = new PERController();
 	m_renderer = new PERRenderer();
-	m_world = new PERWorld();
-	m_player = new PERObject(
-		new PlayerInputComponent(),
-		new PlayerAiComponent(),
-		new PlayerPhysicsComponent(),
-		new PlayerGraphicsComponent()
-	);
+	m_objectFactory = new ObjectFactory();
+
+	m_player = m_objectFactory->CreatePlayer();
+	m_world = new PERWorld(m_player, m_objectFactory);
 }
 
 PERGame::~PERGame()
@@ -23,6 +16,8 @@ PERGame::~PERGame()
 	delete m_controller;
 	delete m_renderer;
 	delete m_world;
+	delete m_objectFactory;
+	delete m_player;
 }
 
 void PERGame::HandleInput(WPARAM wParam, bool isDown)
@@ -66,7 +61,7 @@ void PERGame::Render(HWND hWnd)
 	Rectangle(memDC, -1, -1, rect.right + 1, rect.bottom + 1);
 
 	// 게임 월드 렌더링
-	RenderWorld(hWnd, memDC);
+	MatchFrameAndRenderWorld(hWnd, memDC);
 
 	// 실제 출력 버퍼로 이동
 	BitBlt(hDC, 0, 0, rect.right, rect.bottom, memDC, 0, 0, SRCCOPY);
@@ -92,15 +87,12 @@ PERRenderer& PERGame::GetRenderer()
 void PERGame::UpdateControllerAndWorld(double dTime)
 {
 	m_controller->Update(dTime);
-	m_player->Update(*m_controller, *m_world, dTime);
+	m_world->Update(*m_controller, dTime);
 }
 
-void PERGame::RenderWorld(HWND hWnd, HDC memDC)
+void PERGame::MatchFrameAndRenderWorld(HWND hWnd, HDC memDC)
 {
 	// 렌더러에 있는 메모리 DC를 현재 메모리 DC로 맞춤
 	m_renderer->MatchWindowSizeAndCurrentMemoryDC(hWnd, memDC);
-
-	// 월드 렌더링
-	m_renderer->RenderWorld(*m_world);
-	m_player->Render(*m_renderer);
+	m_world->Render(*m_renderer);
 }

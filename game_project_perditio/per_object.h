@@ -7,14 +7,22 @@
 #include "per_physics_component.h"
 #include "per_graphics_component.h"
 
+class ObjectFactory;
+
 class PERObject {
+	friend class ObjectFactory;
+
 public:
-	PERObject(PERInputComponent* input, PERAiComponent* ai, PERPhysicsComponent* physics, PERGraphicsComponent* graphics);
 	~PERObject();
 
 	void Update(PERController& controller, PERWorld& world, double dTime);
 	void Render(PERRenderer& renderer);
 	
+	PERInputComponent& GetInput();
+	PERAiComponent& GetAi();
+	PERPhysicsComponent& GetPhysics();
+	PERGraphicsComponent& GetGraphcis();
+
 	// getter
 	PERVec3 GetPosition() const;
 	PERVec2 GetSize() const;
@@ -32,6 +40,8 @@ public:
 	static const int c_MAXIMUM_VERTICAL_VELOCITY = 3;
 
 private:
+	PERObject(PERInputComponent* input, PERAiComponent* ai, PERPhysicsComponent* physics, PERGraphicsComponent* graphics);
+
 	// ÄÁÆ÷³ÍÆ®
 	PERInputComponent*		m_input;
 	PERAiComponent*			m_ai;

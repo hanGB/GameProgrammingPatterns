@@ -22,15 +22,6 @@ void PERRenderer::MatchWindowSizeAndCurrentMemoryDC(HWND hWnd, HDC memDC)
 	m_memoryDC = memDC;
 }
 
-void PERRenderer::RenderWorld(PERWorld& world)
-{
-	PERVec3 pos(0.0, 0.0, 0.0);
-	PERVec2 size(1.0, 1.0);
-	PERColor color(255, 255, 255);
-
-	RenderShape(PERShapeType::SHAPE_TYPE_RECTANGLE, pos, size, color);
-}
-
 void PERRenderer::RenderShape(PERShapeType type, PERVec3 pos, PERVec2 size, PERColor color)
 {
 	HBRUSH newBrush, oldBrush;

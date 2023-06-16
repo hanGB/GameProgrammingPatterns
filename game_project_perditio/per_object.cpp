@@ -31,6 +31,26 @@ void PERObject::Render(PERRenderer& renderer)
 	m_graphics->Render(*this, renderer);
 }
 
+PERInputComponent& PERObject::GetInput()
+{
+	return *m_input;
+}
+
+PERAiComponent& PERObject::GetAi()
+{
+	return *m_ai;
+}
+
+PERPhysicsComponent& PERObject::GetPhysics()
+{
+	return *m_physics;
+}
+
+PERGraphicsComponent& PERObject::GetGraphcis()
+{
+	return *m_graphics;
+}
+
 PERVec3 PERObject::GetPosition() const
 {
 	return m_position;

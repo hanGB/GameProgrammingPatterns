@@ -141,6 +141,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="unintelligent_ai_component.h" />
+    <ClInclude Include="fixed_physics_component.h" />
+    <ClInclude Include="hidden_graphics_component.h" />
+    <ClInclude Include="interact_input_component.h" />
+    <ClInclude Include="intelligent_ai_component.h" />
+    <ClInclude Include="movable_physics_component.h" />
+    <ClInclude Include="no_interact_input_component.h" />
+    <ClInclude Include="object_factory.h" />
     <ClInclude Include="per_ai_component.h" />
     <ClInclude Include="per_graphics_component.h" />
     <ClInclude Include="per_controller.h" />
@@ -156,9 +164,18 @@
     <ClInclude Include="player_input_component.h" />
     <ClInclude Include="player_physics_component.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="visible_graphics_component.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="unintelligent_ai_component.cpp" />
+    <ClCompile Include="fixed_physics_component.cpp" />
+    <ClCompile Include="hidden_graphics_component.cpp" />
+    <ClCompile Include="interact_input_component.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="intelligent_ai_component.cpp" />
+    <ClCompile Include="movable_physics_component.cpp" />
+    <ClCompile Include="no_interact_input_component.cpp" />
+    <ClCompile Include="object_factory.cpp" />
     <ClCompile Include="per_controller.cpp" />
     <ClCompile Include="per_game.cpp" />
     <ClCompile Include="per_object.cpp" />
@@ -172,6 +189,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="visible_graphics_component.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
