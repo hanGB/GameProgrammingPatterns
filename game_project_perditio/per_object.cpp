@@ -28,19 +28,6 @@ PERObject::~PERObject()
 	delete m_graphics;
 }
 
-void PERObject::Update(PERController& controller, PERWorld& world, double dTime)
-{
-	m_input->Update(*this, controller);
-	m_ai->Update(*this, dTime);
-	m_physics->Update(*this, world, dTime);
-	m_graphics->Update(*this, dTime);
-}
-
-void PERObject::Render(PERRenderer& renderer)
-{
-	m_graphics->Render(*this, renderer);
-}
-
 PERInputComponent& PERObject::GetInput()
 {
 	return *m_input;
@@ -56,11 +43,16 @@ PERPhysicsComponent& PERObject::GetPhysics()
 	return *m_physics;
 }
 
-PERGraphicsComponent& PERObject::GetGraphcis()
+PERGraphicsComponent& PERObject::GetGraphics()
 {
 	return *m_graphics;
 }
 
+
+PERObjectType PERObject::GetObjectType() const
+{
+	return m_factory.GetObjectType();
+}
 
 PERVec3 PERObject::GetPosition() const
 {
@@ -87,6 +79,11 @@ double PERObject::GetMass() const
 	return m_mass;
 }
 
+int PERObject::GetIDInWorld() const
+{
+	return m_idInWorld;
+}
+
 void PERObject::SetPosition(PERVec3 pos)
 {
 	m_position = pos;
@@ -110,5 +107,10 @@ void PERObject::SetCurrentAccel(PERVec3 acc)
 void PERObject::SetMass(double mass)
 {
 	m_mass = mass;
+}
+
+void PERObject::SetIDInWorld(int id)
+{
+	m_idInWorld = id;
 }
 

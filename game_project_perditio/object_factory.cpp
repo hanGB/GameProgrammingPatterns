@@ -15,8 +15,12 @@
 #include "visible_graphics_component.h"
 #include "hidden_graphics_component.h"
 
-ObjectFactory::ObjectFactory(PERComponentType input, PERComponentType ai, PERComponentType physics, PERComponentType graphics)
+ObjectFactory::ObjectFactory(
+    PERObjectType objectType, 
+    PERComponentType input, PERComponentType ai, 
+    PERComponentType physics, PERComponentType graphics)
 {
+    m_objectType = objectType;
     m_componentTypes = { input, ai, physics, graphics };
 
     InitData();
@@ -73,6 +77,11 @@ PERObject* ObjectFactory::CreateObject()
     return new PERObject(*this, inputComponent, aiComponent, physicsComponent, graphicsComponent);
 }
 
+
+PERObjectType ObjectFactory::GetObjectType() const
+{
+    return m_objectType;
+}
 
 PERComponent::ComponentTypes ObjectFactory::GetComponentTypes() const
 {

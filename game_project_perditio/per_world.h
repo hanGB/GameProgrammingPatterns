@@ -13,12 +13,14 @@ public:
 	void Update(PERController& controller, double dTime);
 	void Render(PERRenderer& renderer);
 
+	void AddObject(PERObject* object);
+	void DeleteObject(int id);
+
 private:
 	void InitWorldObject();
 
-	PERObject* m_player;
-	PERObject* m_wall1;
-	PERObject* m_wall2;
 	ObjectPool* m_objectPool;
 
+	std::vector<PERObject*> m_objects;
+	int m_numObject = 0;
 };

@@ -4,11 +4,14 @@
 
 class ObjectFactory {
 public:
-	ObjectFactory(PERComponentType input, PERComponentType ai, PERComponentType physics, PERComponentType graphics);
+	ObjectFactory(PERObjectType objectType, 
+		PERComponentType input, PERComponentType ai, 
+		PERComponentType physics, PERComponentType graphics);
 	~ObjectFactory();
 
 	PERObject* CreateObject();
 
+	PERObjectType GetObjectType() const;
 	PERComponent::ComponentTypes GetComponentTypes() const;
 
 	// setter
@@ -32,6 +35,7 @@ public:
 private:
 	void InitData();
 
+	PERObjectType m_objectType;
 	PERComponent::ComponentTypes m_componentTypes;
 
 	struct ComponentData {

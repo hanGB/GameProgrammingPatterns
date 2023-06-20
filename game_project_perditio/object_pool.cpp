@@ -36,6 +36,7 @@ void ObjectPool::CreateObjectFactories()
     // player
     ObjectFactory* playerFactory
         = new ObjectFactory(
+            PERObjectType::OBJECT_TYPE_PLAYER,
             PERComponentType::COMPONENT_TYPE_INTERACT,
             PERComponentType::COMPONENT_TYPE_UNINTELLIGENT,
             PERComponentType::COMPONENT_TYPE_MOVABLE,
@@ -53,6 +54,7 @@ void ObjectPool::CreateObjectFactories()
     // block
     ObjectFactory* blockFactory
         = new ObjectFactory(
+            PERObjectType::OBJECT_TYPE_BLOCK,
             PERComponentType::COMPONENT_TYPE_NO_INTERACT,
             PERComponentType::COMPONENT_TYPE_UNINTELLIGENT,
             PERComponentType::COMPONENT_TYPE_FIXED,

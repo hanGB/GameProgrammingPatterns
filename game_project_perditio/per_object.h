@@ -15,20 +15,21 @@ class PERObject {
 public:
 	~PERObject();
 
-	void Update(PERController& controller, PERWorld& world, double dTime);
-	void Render(PERRenderer& renderer);
-	
 	PERInputComponent& GetInput();
 	PERAiComponent& GetAi();
 	PERPhysicsComponent& GetPhysics();
-	PERGraphicsComponent& GetGraphcis();
+	PERGraphicsComponent& GetGraphics();
 
 	// getter
+	PERObjectType GetObjectType() const;
+
 	PERVec3 GetPosition() const;
 	PERVec3 GetSize() const;
 	PERVec3 GetVelocity() const;
 	PERVec3 GetCurrentAccel() const;
 	double GetMass() const;
+
+	int GetIDInWorld() const;
 
 	// setter
 	void SetPosition(PERVec3 pos);
@@ -36,6 +37,8 @@ public:
 	void SetVelocity(PERVec3 vel);
 	void SetCurrentAccel(PERVec3 acc);
 	void SetMass(double mass);
+
+	void SetIDInWorld(int id);
 
 	static const int c_MAXIMUM_VERTICAL_VELOCITY = 3;
 
@@ -57,4 +60,6 @@ private:
 	PERVec3 m_velocity = PERVec3(0.0, 0.0, 0.0);
 	PERVec3 m_currentAccel = PERVec3(0.0, 0.0, 0.0);
 	double	m_mass = 50.0;
+
+	int m_idInWorld = -1;
 };
