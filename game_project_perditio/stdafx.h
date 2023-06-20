@@ -62,7 +62,6 @@ enum class PERKeyboardValue {
 };
 
 enum class PERComponentType {
-	COMPONENT_TYPE_PLAYER,
 	COMPONENT_TYPE_FIXED,
 	COMPONENT_TYPE_MOVABLE,
 	COMPONENT_TYPE_UNINTELLIGENT,
@@ -81,3 +80,4 @@ enum class PERObjectType {
 	OBJECT_TYPE_SWITCH,
 	NUM_OBJECT_TYPE
 };
+

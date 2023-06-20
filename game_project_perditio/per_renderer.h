@@ -8,13 +8,13 @@ public:
 	// 현재 윈도우 사이즈와 메모리DC 설정
 	void MatchWindowSizeAndCurrentMemoryDC(HWND hWnd, HDC memDC);
 	// 모양 렌더링
-	void RenderShape(PERShapeType type, PERVec3 pos, PERVec2 size, PERColor color);
+	void RenderShape(PERShapeType type, PERVec3 pos, PERVec3 size, PERColor color);
 
 private:
 	// 각종 모양 렌더링
-	void RenderEllipse(PERVec3 pos, PERVec2 size);
-	void RenderRectangle(PERVec3 pos, PERVec2 size);
-	void RenderTriangle(PERVec3 pos, PERVec2 size);
+	void RenderEllipse(PERVec3 pos, PERVec3 size);
+	void RenderRectangle(PERVec3 pos, PERVec3 size);
+	void RenderTriangle(PERVec3 pos, PERVec3 size);
 
 	// openGL과 윈도우즈 좌표계간 변환
 	void ConvertCoordinateOpenGLToWindows(double* x, double* y);

@@ -25,14 +25,14 @@ public:
 
 	// getter
 	PERVec3 GetPosition() const;
-	PERVec2 GetSize() const;
+	PERVec3 GetSize() const;
 	PERVec3 GetVelocity() const;
 	PERVec3 GetCurrentAccel() const;
 	double GetMass() const;
 
 	// setter
 	void SetPosition(PERVec3 pos);
-	void SetSize(PERVec2 size);
+	void SetSize(PERVec3 size);
 	void SetVelocity(PERVec3 vel);
 	void SetCurrentAccel(PERVec3 acc);
 	void SetMass(double mass);
@@ -40,10 +40,10 @@ public:
 	static const int c_MAXIMUM_VERTICAL_VELOCITY = 3;
 
 private:
-	PERObject();
-	PERObject(PERInputComponent* input, PERAiComponent* ai, PERPhysicsComponent* physics, PERGraphicsComponent* graphics);
+	PERObject(ObjectFactory& factory, PERInputComponent* input, PERAiComponent* ai, PERPhysicsComponent* physics, PERGraphicsComponent* graphics);
 
-	void InitNullObject(PERInputComponent* input, PERAiComponent* ai, PERPhysicsComponent* physics, PERGraphicsComponent* graphics);
+	// ÆÑÅä¸®
+	ObjectFactory& m_factory;
 
 	// ÄÁÆ÷³ÍÆ®
 	PERInputComponent*		m_input;
@@ -53,7 +53,7 @@ private:
 
 	// Á¤º¸
 	PERVec3	m_position = PERVec3(0.0, 0.0, 0.0);
-	PERVec2 m_size = PERVec2(0.5, 0.5);
+	PERVec3 m_size = PERVec3(0.5, 0.5, 0.5);
 	PERVec3 m_velocity = PERVec3(0.0, 0.0, 0.0);
 	PERVec3 m_currentAccel = PERVec3(0.0, 0.0, 0.0);
 	double	m_mass = 50.0;

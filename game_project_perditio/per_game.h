@@ -2,7 +2,7 @@
 #include "per_controller.h"
 #include "per_renderer.h"
 #include "per_world.h"
-#include "object_factory.h"
+#include "object_pool.h"
 #include "per_object.h"
 
 class PERGame {
@@ -25,7 +25,7 @@ private:
 
 	PERController*	m_controller;
 	PERRenderer*	m_renderer;
-	ObjectFactory*	m_objectFactory;
+	ObjectPool*	m_objectPool;
 
 	PERObject*	m_player;
 	PERWorld*	m_world;

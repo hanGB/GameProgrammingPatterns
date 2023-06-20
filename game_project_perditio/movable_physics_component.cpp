@@ -7,6 +7,10 @@ void MovablePhysicsComponent::Update(PERObject& object, PERWorld& world, double 
 	Move(object, dTime);
 }
 
+void MovablePhysicsComponent::SetData(PERComponent::PhysicsData data)
+{
+}
+
 void MovablePhysicsComponent::Move(PERObject& object, double dTime)
 {
 	// 필요 정보 얻기

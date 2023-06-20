@@ -1,18 +1,15 @@
 #include "stdafx.h"
 #include "per_game.h"
-#include "visible_graphics_component.h"
 
 PERGame::PERGame()
 {
 	m_controller = new PERController();
 	m_renderer = new PERRenderer();
-	m_objectFactory = new ObjectFactory();
+	m_objectPool = new ObjectPool();
 
-	m_player = m_objectFactory->PopObjectInPool(PERObjectType::OBJECT_TYPE_PLAYER);
-	dynamic_cast<VisibleGraphicsComponent*>(&m_player->GetGraphcis())->SetColor(PERColor(0, 255, 255));
-	dynamic_cast<VisibleGraphicsComponent*>(&m_player->GetGraphcis())->SetShapeType(PERShapeType::SHAPE_TYPE_ELLIPSE);
+	m_player = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_PLAYER);
 
-	m_world = new PERWorld(m_player, m_objectFactory);
+	m_world = new PERWorld(m_player, m_objectPool);
 }
 
 PERGame::~PERGame()
@@ -20,7 +17,7 @@ PERGame::~PERGame()
 	delete m_controller;
 	delete m_renderer;
 	delete m_world;
-	delete m_objectFactory;
+	delete m_objectPool;
 	delete m_player;
 }
 

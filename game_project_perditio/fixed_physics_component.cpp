@@ -4,3 +4,7 @@
 void FixedPhysicsComponent::Update(PERObject& object, PERWorld& world, double dTime)
 {
 }
+
+void FixedPhysicsComponent::SetData(PERComponent::PhysicsData data)
+{
+}

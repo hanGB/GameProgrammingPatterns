@@ -4,3 +4,7 @@
 void UnintelligentAiComponent::Update(PERObject& object, double dTime)
 {
 }
+
+void UnintelligentAiComponent::SetData(PERComponent::AiData data)
+{
+}

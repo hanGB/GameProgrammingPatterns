@@ -4,3 +4,7 @@
 void IntelligentAiComponent::Update(PERObject& object, double dTime)
 {
 }
+
+void IntelligentAiComponent::SetData(PERComponent::AiData data)
+{
+}

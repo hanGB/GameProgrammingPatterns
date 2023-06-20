@@ -3,11 +3,11 @@
 class PERController;
 class PERRenderer;
 class PERObject;
-class ObjectFactory;
+class ObjectPool;
 
 class PERWorld {
 public:
-	PERWorld(PERObject* player, ObjectFactory* objectFactory);
+	PERWorld(PERObject* player, ObjectPool* objectPool);
 	~PERWorld();
 
 	void Update(PERController& controller, double dTime);
@@ -19,6 +19,6 @@ private:
 	PERObject* m_player;
 	PERObject* m_wall1;
 	PERObject* m_wall2;
-	ObjectFactory* m_objectFactory;
+	ObjectPool* m_objectPool;
 
 };

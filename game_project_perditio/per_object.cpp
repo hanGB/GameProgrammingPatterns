@@ -1,30 +1,24 @@
 #include "stdafx.h"
 #include "per_object.h"
+#include "object_factory.h"
 
-PERObject::PERObject()
-	: m_input(nullptr), m_ai(nullptr),
-	m_physics(nullptr), m_graphics(nullptr)
-{
-
-}
-
-
-PERObject::PERObject(
+PERObject::PERObject(ObjectFactory& factory,
 	PERInputComponent* input, PERAiComponent* ai, 
 	PERPhysicsComponent* physics, PERGraphicsComponent* graphics)
-	: m_input(input), m_ai(ai),
+	: m_factory(factory),
+	m_input(input), m_ai(ai),
 	m_physics(physics), m_graphics(graphics)
 {
+	m_size = m_factory.GetSize();
+	m_mass = m_factory.GetMass();
 
+	// 컨포넌트 설정
+	m_input->SetData(m_factory.GetInputData());
+	m_ai->SetData(m_factory.GetAiData());
+	m_physics->SetData(m_factory.GetPhysicsData());
+	m_graphics->SetData(m_factory.GetGraphicsData());
 }
 
-void PERObject::InitNullObject(PERInputComponent* input, PERAiComponent* ai, PERPhysicsComponent* physics, PERGraphicsComponent* graphics)
-{
-	m_input = input;
-	m_ai = ai;
-	m_physics = physics;
-	m_graphics = graphics;
-}
 
 PERObject::~PERObject()
 {
@@ -73,7 +67,7 @@ PERVec3 PERObject::GetPosition() const
 	return m_position;
 }
 
-PERVec2 PERObject::GetSize() const
+PERVec3 PERObject::GetSize() const
 {
 	return m_size;
 }
@@ -98,7 +92,7 @@ void PERObject::SetPosition(PERVec3 pos)
 	m_position = pos;
 }
 
-void PERObject::SetSize(PERVec2 size)
+void PERObject::SetSize(PERVec3 size)
 {
 	m_size = size;
 }

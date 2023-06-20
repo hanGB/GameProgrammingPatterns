@@ -52,6 +52,12 @@
     <Filter Include="00. game\component\implements\physics">
       <UniqueIdentifier>{fbc33c96-017e-433e-bc72-89a239fa3bae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\object\object_pool">
+      <UniqueIdentifier>{bd326c91-2bc6-4bef-b02f-a25b330a1761}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\object_factory">
+      <UniqueIdentifier>{e785b4e6-9378-4c36-90df-97cf236b9fce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -112,7 +118,13 @@
       <Filter>00. game\component\implements\ai</Filter>
     </ClInclude>
     <ClInclude Include="object_factory.h">
-      <Filter>00. game\object</Filter>
+      <Filter>00. game\object\object_factory</Filter>
+    </ClInclude>
+    <ClInclude Include="object_pool.h">
+      <Filter>00. game\object\object_pool</Filter>
+    </ClInclude>
+    <ClInclude Include="per_component.h">
+      <Filter>00. game\component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,7 +174,10 @@
       <Filter>00. game\component\implements\graphics</Filter>
     </ClCompile>
     <ClCompile Include="object_factory.cpp">
-      <Filter>00. game\object</Filter>
+      <Filter>00. game\object\object_factory</Filter>
+    </ClCompile>
+    <ClCompile Include="object_pool.cpp">
+      <Filter>00. game\object\object_pool</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -141,6 +141,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="per_component.h" />
+    <ClInclude Include="object_pool.h" />
     <ClInclude Include="unintelligent_ai_component.h" />
     <ClInclude Include="fixed_physics_component.h" />
     <ClInclude Include="hidden_graphics_component.h" />
@@ -163,6 +165,7 @@
     <ClInclude Include="visible_graphics_component.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="object_pool.cpp" />
     <ClCompile Include="unintelligent_ai_component.cpp" />
     <ClCompile Include="fixed_physics_component.cpp" />
     <ClCompile Include="hidden_graphics_component.cpp" />

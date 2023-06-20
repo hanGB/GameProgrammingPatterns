@@ -4,8 +4,8 @@
 class MovablePhysicsComponent : public PERPhysicsComponent {
 public:
 	virtual void Update(PERObject& object, PERWorld& world, double dTime);
+	virtual void SetData(PERComponent::PhysicsData data);
 
 private:
 	void Move(PERObject& object, double dTime);
 };
-#pragma once

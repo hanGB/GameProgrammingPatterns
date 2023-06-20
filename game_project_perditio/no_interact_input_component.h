@@ -4,5 +4,5 @@
 class NoInteractInputComponent : public PERInputComponent {
 public:
 	virtual void Update(PERObject& object, PERController& controller);
-
+	virtual void SetData(PERComponent::InputData data);
 };

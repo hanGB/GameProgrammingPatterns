@@ -3,11 +3,12 @@
 #include "per_controller.h"
 #include "per_renderer.h"
 #include "per_object.h"
-#include "object_factory.h"
+#include "object_pool.h"
 
-PERWorld::PERWorld(PERObject* player, ObjectFactory* objectFactory)
-	: m_player(player), m_objectFactory(objectFactory)
+PERWorld::PERWorld(PERObject* player, ObjectPool* objectPool)
+	: m_player(player), m_objectPool(objectPool)
 {
+	m_player->SetPosition(PERVec3(0.0, 0.0, 0.0));
 	InitWorldObject();
 }
 
@@ -33,11 +34,11 @@ void PERWorld::Render(PERRenderer& renderer)
 
 void PERWorld::InitWorldObject()
 {
-	m_wall1 = m_objectFactory->PopObjectInPool(PERObjectType::OBJECT_TYPE_BLOCK);
+	m_wall1 = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_BLOCK);
 	m_wall1->SetPosition(PERVec3(1.0, 0.0, 0.0));
-	m_wall1->SetSize(PERVec2(1.0, 2.0));
+	m_wall1->SetSize(PERVec3(1.0, 2.0, 1.0));
 
-	m_wall2 = m_objectFactory->PopObjectInPool(PERObjectType::OBJECT_TYPE_BLOCK);
+	m_wall2 = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_BLOCK);
 	m_wall2->SetPosition(PERVec3(-1.0, 0.0, 0.0));
-	m_wall2->SetSize(PERVec2(1.0, 2.0));
+	m_wall2->SetSize(PERVec3(1.0, 2.0, 1.0));
 }

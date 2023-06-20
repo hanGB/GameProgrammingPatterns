@@ -22,7 +22,7 @@ void PERRenderer::MatchWindowSizeAndCurrentMemoryDC(HWND hWnd, HDC memDC)
 	m_memoryDC = memDC;
 }
 
-void PERRenderer::RenderShape(PERShapeType type, PERVec3 pos, PERVec2 size, PERColor color)
+void PERRenderer::RenderShape(PERShapeType type, PERVec3 pos, PERVec3 size, PERColor color)
 {
 	HBRUSH newBrush, oldBrush;
 	newBrush = CreateSolidBrush(RGB(color.r, color.g, color.b));
@@ -31,7 +31,7 @@ void PERRenderer::RenderShape(PERShapeType type, PERVec3 pos, PERVec2 size, PERC
 	// 위치 좌표 변환, 크기 화면에 맞추어 변경
 	pos = ConvertCoordinateOpenGLToWindowsForVec3(pos);
 	pos = pos * PER_PIXEL_PER_METER;
-	size = MatchSizeWithScreenSizeAndRatioForVec2(size);
+	size = MatchSizeWithScreenSizeAndRatioForVec3(size);
 	size = size * PER_PIXEL_PER_METER;
 
 	switch (type) {
@@ -51,17 +51,17 @@ void PERRenderer::RenderShape(PERShapeType type, PERVec3 pos, PERVec2 size, PERC
 	DeleteObject(oldBrush);
 }
 
-void PERRenderer::RenderEllipse(PERVec3 pos, PERVec2 size)
+void PERRenderer::RenderEllipse(PERVec3 pos, PERVec3 size)
 {
 	Ellipse(m_memoryDC, (int)(pos.x - size.x), (int)(pos.y - size.y), (int)(pos.x + size.x), (int)(pos.y + size.y));
 }
 
-void PERRenderer::RenderRectangle(PERVec3 pos, PERVec2 size)
+void PERRenderer::RenderRectangle(PERVec3 pos, PERVec3 size)
 {
 	Rectangle(m_memoryDC, (int)(pos.x - size.x), (int)(pos.y - size.y), (int)(pos.x + size.x), (int)(pos.y + size.y));
 }
 
-void PERRenderer::RenderTriangle(PERVec3 pos, PERVec2 size)
+void PERRenderer::RenderTriangle(PERVec3 pos, PERVec3 size)
 {
 	POINT vertices[] = {
 		{ (long)pos.x,				  (long)(pos.y + size.y / 2) },

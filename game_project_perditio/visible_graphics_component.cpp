@@ -10,17 +10,14 @@ void VisibleGraphicsComponent::Update(PERObject& object, double dTime)
 void VisibleGraphicsComponent::Render(PERObject& object, PERRenderer& renderer)
 {
 	PERVec3 pos = object.GetPosition();
-	PERVec2 size = object.GetSize();
+	PERVec3 size = object.GetSize();
 
 	renderer.RenderShape(m_shapeType, pos, size, m_color);
 }
 
-void VisibleGraphicsComponent::SetShapeType(PERShapeType type)
+void VisibleGraphicsComponent::SetData(PERComponent::GraphicsData data)
 {
-	m_shapeType = type;
+	m_shapeType = data.shape;
+	m_color = data.color;
 }
 
-void VisibleGraphicsComponent::SetColor(PERColor color)
-{
-	m_color = color;
-}

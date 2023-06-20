@@ -4,3 +4,7 @@
 void NoInteractInputComponent::Update(PERObject& object, PERController& controller)
 {
 }
+
+void NoInteractInputComponent::SetData(PERComponent::InputData data)
+{
+}

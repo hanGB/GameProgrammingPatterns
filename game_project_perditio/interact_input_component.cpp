@@ -8,6 +8,10 @@ void InteractInputComponent::Update(PERObject& object, PERController& controller
 	Move(object, controller);
 }
 
+void InteractInputComponent::SetData(PERComponent::InputData data)
+{
+}
+
 void InteractInputComponent::Move(PERObject& object, PERController& controller)
 {
 	// 필요 정보 얻기

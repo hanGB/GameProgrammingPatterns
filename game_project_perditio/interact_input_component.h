@@ -4,6 +4,7 @@
 class InteractInputComponent : public PERInputComponent {
 public:
 	virtual void Update(PERObject& object, PERController& controller);
+	virtual void SetData(PERComponent::InputData data);
 
 private:
 	void Move(PERObject& object, PERController& controller);

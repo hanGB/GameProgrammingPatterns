@@ -5,9 +5,7 @@ class VisibleGraphicsComponent : public PERGraphicsComponent {
 public:
 	virtual void Update(PERObject& object, double dTime);
 	virtual void Render(PERObject& object, PERRenderer& renderer);
-
-	void SetShapeType(PERShapeType type);
-	void SetColor(PERColor color);
+	virtual void SetData(PERComponent::GraphicsData data);
 
 private:
 	PERShapeType m_shapeType = PERShapeType::SHAPE_TYPE_RECTANGLE;
