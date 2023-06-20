@@ -21,15 +21,4 @@ private:
 	PERObject* m_wall2;
 	ObjectFactory* m_objectFactory;
 
-	/*std::vector<PERObject*>	m_objects;
-	size_t m_numObject = 0;
-
-	std::vector<PERAiComponent*>		m_aiComponents;
-	std::vector<PERInputComponent*>		m_inputComponents;
-	std::vector<PERPhysicsComponent*>	m_physicsComponents;
-	std::vector<PERGraphicsComponent*>	m_graphicsComponents;
-	size_t	m_numAiComponent = 0;
-	size_t	m_numInputComponent = 0;
-	size_t  m_numPhysicsComponent = 0;
-	size_t  m_numGraphicsComponent = 0;*/
 };

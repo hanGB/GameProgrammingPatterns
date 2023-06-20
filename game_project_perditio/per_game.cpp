@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "per_game.h"
+#include "visible_graphics_component.h"
 
 PERGame::PERGame()
 {
@@ -7,7 +8,10 @@ PERGame::PERGame()
 	m_renderer = new PERRenderer();
 	m_objectFactory = new ObjectFactory();
 
-	m_player = m_objectFactory->CreatePlayer();
+	m_player = m_objectFactory->PopObjectInPool(PERObjectType::OBJECT_TYPE_PLAYER);
+	dynamic_cast<VisibleGraphicsComponent*>(&m_player->GetGraphcis())->SetColor(PERColor(0, 255, 255));
+	dynamic_cast<VisibleGraphicsComponent*>(&m_player->GetGraphcis())->SetShapeType(PERShapeType::SHAPE_TYPE_ELLIPSE);
+
 	m_world = new PERWorld(m_player, m_objectFactory);
 }
 

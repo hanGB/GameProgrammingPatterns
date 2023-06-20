@@ -11,16 +11,6 @@ ObjectFactory::~ObjectFactory()
     ClearObjectPool();
 }
 
-PERObject* ObjectFactory::CreatePlayer()
-{
-    return new PERObject(
-        new PlayerInputComponent(),
-        new PlayerAiComponent(),
-        new PlayerPhysicsComponent(),
-        new PlayerGraphicsComponent()
-    );
-}
-
 PERObject* ObjectFactory::PopObjectInPool(PERObjectType type)
 {
     PERObject* object = m_objectPools.find(type)->second.front();
@@ -43,12 +33,17 @@ void ObjectFactory::FillObjectPool()
     };
 
     componentTypes data[(int)PERObjectType::NUM_OBJECT_TYPE];
+    data[(int)PERObjectType::OBJECT_TYPE_PLAYER].input = PERComponentType::COMPONENT_TYPE_INTERACT;
+    data[(int)PERObjectType::OBJECT_TYPE_PLAYER].ai = PERComponentType::COMPONENT_TYPE_UNINTELLIGENT;
+    data[(int)PERObjectType::OBJECT_TYPE_PLAYER].physics = PERComponentType::COMPONENT_TYPE_MOVABLE;
+    data[(int)PERObjectType::OBJECT_TYPE_PLAYER].graphics = PERComponentType::COMPONENT_TYPE_VISIBLE;
+
     data[(int)PERObjectType::OBJECT_TYPE_BLOCK].input = PERComponentType::COMPONENT_TYPE_NO_INTERACT;
     data[(int)PERObjectType::OBJECT_TYPE_BLOCK].ai = PERComponentType::COMPONENT_TYPE_UNINTELLIGENT;
     data[(int)PERObjectType::OBJECT_TYPE_BLOCK].physics = PERComponentType::COMPONENT_TYPE_FIXED;
     data[(int)PERObjectType::OBJECT_TYPE_BLOCK].graphics = PERComponentType::COMPONENT_TYPE_VISIBLE;
 
-    for (int type = (int)PERObjectType::OBJECT_TYPE_PLAYER + 1; type < (int)PERObjectType::NUM_OBJECT_TYPE; ++type) {
+    for (int type = (int)PERObjectType::OBJECT_TYPE_PLAYER; type < (int)PERObjectType::NUM_OBJECT_TYPE; ++type) {
         std::queue<PERObject*> pool;
         for (int i = 0; i < PER_DEFAULT_OBJECT_POOL_SIZE; ++i) {
             pool.push(CreateObject(data[type].input, data[type].ai, data[type].physics, data[type].graphics));
