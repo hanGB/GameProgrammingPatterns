@@ -12,8 +12,8 @@
 // 편의성
 #include <cmath>
 #include <algorithm>
-// 기본 구조체
 #include <vector>
+#include <functional>
 
 // 필요 구조체
 #include "per_vector.h"
@@ -41,7 +41,7 @@
 #define PER_FRICTION 0.7
 
 // 객체
-#define PER_DEFAULT_OBJECT_POOL_SIZE 1024
+#define PER_DEFAULT_OBJECT_POOL_SIZE  1024
 #define PER_DEFAULT_MAX_OBJECTS		  1024
 
 

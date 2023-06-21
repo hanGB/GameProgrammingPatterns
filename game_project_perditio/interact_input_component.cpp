@@ -19,7 +19,7 @@ void InteractInputComponent::Move(PERObject& object, PERController& controller)
 	PERVec3 cAcc = object.GetCurrentAccel();
 	double mass = object.GetMass();
 
-	// 좌우 이동 설정
+	// x, y축 이동 설정
 	if (controller.IsKeyboardPressed(PERKeyboardValue::KEYBOARD_UP)) {
 		if (vel.y < object.c_MAXIMUM_VERTICAL_VELOCITY) {
 			cAcc.y += m_verticalForce / mass;

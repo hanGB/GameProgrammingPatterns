@@ -5,13 +5,18 @@
 #include "per_object.h"
 #include "object_pool.h"
 
+#include "per_graphics_component.h"
+
 PERWorld::PERWorld(PERObject* player, ObjectPool* objectPool)
 	: m_objectPool(objectPool)
 {
+	m_objects.reserve(PER_DEFAULT_MAX_OBJECTS);
 	player->SetPosition(PERVec3(0.0, 0.0, 0.0));
 	AddObject(player);
 
 	InitWorldObject();
+
+	std::cout << m_numObject << std::endl;
 }
 
 PERWorld::~PERWorld()
@@ -19,18 +24,34 @@ PERWorld::~PERWorld()
 	
 }
 
-void PERWorld::Update(PERController& controller, double dTime)
+void PERWorld::InputUpdate(PERController& controller, double dTime)
 {
-	for (int i = 0; i < m_numObject; ++i) {
+	for (int i = 0; i < m_numObject; ++i) 
+	{
 		m_objects[i]->GetInput().Update(*m_objects[i], controller);
 	}
-	for (int i = 0; i < m_numObject; ++i) {
+}
+
+void PERWorld::AiUpdate(double dTime)
+{
+	for (int i = 0; i < m_numObject; ++i) 
+	{
 		m_objects[i]->GetAi().Update(*m_objects[i], dTime);
 	}
-	for (int i = 0; i < m_numObject; ++i) {
+}
+
+void PERWorld::PhysicsUpdate(double dTime)
+{
+	for (int i = 0; i < m_numObject; ++i) 
+	{
 		m_objects[i]->GetPhysics().Update(*m_objects[i], *this, dTime);
 	}
-	for (int i = 0; i < m_numObject; ++i) {
+}
+
+void PERWorld::GraphicsUpdate(double dTime)
+{
+	for (int i = 0; i < m_numObject; ++i) 
+	{
 		m_objects[i]->GetGraphics().Update(*m_objects[i], dTime);
 	}
 }
@@ -86,4 +107,13 @@ void PERWorld::InitWorldObject()
 	wall->SetPosition(PERVec3(0.0, -1.0, 0.0));
 	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
 	AddObject(wall);
+
+	PERObject* monster;
+	for (double x = -10.0; x < 10.0; x += 0.5) {
+		for (double y = -10.0; y < 10.0; y += 0.5) {
+			monster = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_MONSTER);
+			monster->SetPosition(PERVec3(x, y, 0.0));
+			AddObject(monster);
+		}
+	}
 }

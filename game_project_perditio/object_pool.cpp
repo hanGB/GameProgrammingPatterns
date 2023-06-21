@@ -15,8 +15,12 @@ ObjectPool::~ObjectPool()
 
 PERObject* ObjectPool::PopObject(PERObjectType type)
 {
-    PERObject* object = m_objectPools.find(type)->second.front();
-    m_objectPools.find(type)->second.pop();
+    auto& pool = m_objectPools.find(type)->second;
+
+    if (pool.empty()) RefillObjectPool(pool, type);
+
+    PERObject* object = pool.front();
+    pool.pop();
     return object;
 }
 
@@ -68,6 +72,24 @@ void ObjectPool::CreateObjectFactories()
     blockFactory->SetPhysicsData(physics); blockFactory->SetGraphicsData(graphics);
     blockFactory->SetSize(PERVec3(1.0, 1.0, 1.0)); blockFactory->SetMass(100);
     m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::OBJECT_TYPE_BLOCK, blockFactory));
+
+    // monster
+    ObjectFactory* monsterFactory
+        = new ObjectFactory(
+            PERObjectType::OBJECT_TYPE_MONSTER,
+            PERComponentType::COMPONENT_TYPE_NO_INTERACT,
+            PERComponentType::COMPONENT_TYPE_INTELLIGENT,
+            PERComponentType::COMPONENT_TYPE_MOVABLE,
+            PERComponentType::COMPONENT_TYPE_VISIBLE
+        );
+    input.isAttack = false, input.isMove = false, input.isCheck = false;
+    ai.isAttack = true, ai.isMove = true;
+    physics.friction = true;
+    graphics.shape = PERShapeType::SHAPE_TYPE_TRIANGLE; graphics.color = PERColor(255, 0, 0);
+    monsterFactory->SetInputData(input); monsterFactory->SetAiData(ai);
+    monsterFactory->SetPhysicsData(physics); monsterFactory->SetGraphicsData(graphics);
+    monsterFactory->SetSize(PERVec3(0.25, 0.25, 0.25)); monsterFactory->SetMass(100);
+    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::OBJECT_TYPE_MONSTER, monsterFactory));
 }
 
 void ObjectPool::DeleteObjectFactories()
@@ -95,6 +117,17 @@ void ObjectPool::FillObjectPools()
             pool.push(objectFactory->CreateObject());
         }
         m_objectPools.insert(std::pair<PERObjectType, std::queue<PERObject*>>((PERObjectType)type, pool));
+    }
+}
+
+void ObjectPool::RefillObjectPool(std::queue<PERObject*>& pool, PERObjectType type)
+{
+    auto it = m_objectFactories.find(type);
+    if (it == m_objectFactories.end()) return;
+
+    ObjectFactory* objectFactory = it->second;
+    for (int i = 0; i < PER_DEFAULT_OBJECT_POOL_SIZE; ++i) {
+        pool.push(objectFactory->CreateObject());
     }
 }
 

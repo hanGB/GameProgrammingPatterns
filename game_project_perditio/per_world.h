@@ -10,7 +10,10 @@ public:
 	PERWorld(PERObject* player, ObjectPool* objectPool);
 	~PERWorld();
 
-	void Update(PERController& controller, double dTime);
+	void InputUpdate(PERController& controller, double dTime);
+	void AiUpdate(double dTime);
+	void PhysicsUpdate(double dTime);
+	void GraphicsUpdate(double dTime);
 	void Render(PERRenderer& renderer);
 
 	void AddObject(PERObject* object);

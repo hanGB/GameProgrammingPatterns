@@ -31,6 +31,7 @@ private:
 	void DeleteObjectFactories();
 
 	void FillObjectPools();
+	void RefillObjectPool(std::queue<PERObject*>& pool, PERObjectType type);
 	void ClearObjectPools();
 
 	// 오브젝트 펙토리

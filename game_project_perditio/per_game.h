@@ -18,9 +18,6 @@ public:
 	PERRenderer& GetRenderer();
 
 private:
-	void UpdateControllerAndWorld(double dTime);
-	void MatchFrameAndRenderWorld(HWND hWnd, HDC memDC);
-
 	int m_updateLag = 0;
 
 	PERController*	m_controller;
