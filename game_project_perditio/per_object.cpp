@@ -19,7 +19,6 @@ PERObject::PERObject(ObjectFactory& factory,
 	m_graphics->SetData(m_factory.GetGraphicsData());
 }
 
-
 PERObject::~PERObject()
 {
 	delete m_input;

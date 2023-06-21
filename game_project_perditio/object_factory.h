@@ -4,6 +4,7 @@
 
 class ObjectFactory {
 public:
+	ObjectFactory();
 	ObjectFactory(PERObjectType objectType, 
 		PERComponentType input, PERComponentType ai, 
 		PERComponentType physics, PERComponentType graphics);

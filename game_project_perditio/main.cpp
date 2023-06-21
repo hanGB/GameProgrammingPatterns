@@ -71,6 +71,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 #endif 
 		g_game = new PERGame();
 		g_isGameEnd = false;
+		// 게임 루프 스레드 생성
 		g_hGameLoopThread = CreateThread(NULL, 0, GameLoopTheadFuc, NULL, 0, &threadID);
 		break;
 	
@@ -87,7 +88,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_DESTROY:
 		g_isGameEnd = true;
-		CloseHandle(g_hGameLoopThread);
+		// 게임 루프 스레드가 종료될 때 까지 무한 대기
+		WaitForSingleObject(g_hGameLoopThread, INFINITE);
 		delete g_game;
 #ifdef PER_DEBUG
 		FreeConsole();

@@ -20,7 +20,7 @@ public:
 	void DeleteObject(int id);
 
 private:
-	void InitWorldObject();
+	void InitWorldObject(PERObject* player);
 
 	ObjectPool* m_objectPool;
 
