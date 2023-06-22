@@ -10,14 +10,17 @@ public:
 	PERWorld(PERObject* player, ObjectPool* objectPool);
 	~PERWorld();
 
+	void DoGarbegeCollection(double dTime);
+
 	void InputUpdate(PERController& controller, double dTime);
 	void AiUpdate(double dTime);
 	void PhysicsUpdate(double dTime);
 	void GraphicsUpdate(double dTime);
 	void Render(PERRenderer& renderer);
 
+	PERObject* AddAndGetObject(PERObjectType type);
 	void AddObject(PERObject* object);
-	void DeleteObject(int id);
+	void DeleteObject(PERObject* object);
 
 private:
 	void InitWorldObject(PERObject* player);

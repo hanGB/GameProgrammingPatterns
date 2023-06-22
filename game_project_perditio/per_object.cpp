@@ -27,6 +27,13 @@ PERObject::~PERObject()
 	delete m_graphics;
 }
 
+bool PERObject::IsLifeTimeIsEnd(double dTime)
+{
+	m_lifeTime -= dTime;
+
+	return  0.0 > m_lifeTime;
+}
+
 PERInputComponent& PERObject::GetInput()
 {
 	return *m_input;
@@ -51,6 +58,11 @@ PERGraphicsComponent& PERObject::GetGraphics()
 PERObjectType PERObject::GetObjectType() const
 {
 	return m_factory.GetObjectType();
+}
+
+PERObject* PERObject::GetParent()
+{
+	return m_parent;
 }
 
 PERVec3 PERObject::GetPosition() const
@@ -83,6 +95,11 @@ int PERObject::GetIDInWorld() const
 	return m_idInWorld;
 }
 
+void PERObject::SetParent(PERObject* object)
+{
+	m_parent = object;
+}
+
 void PERObject::SetPosition(PERVec3 pos)
 {
 	m_position = pos;
@@ -111,5 +128,10 @@ void PERObject::SetMass(double mass)
 void PERObject::SetIDInWorld(int id)
 {
 	m_idInWorld = id;
+}
+
+void PERObject::SetLifeTime(double time)
+{
+	m_lifeTime = time;
 }
 

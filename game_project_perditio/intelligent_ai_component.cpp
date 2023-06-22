@@ -2,7 +2,7 @@
 #include "intelligent_ai_component.h"
 #include "per_object.h"
 
-void IntelligentAiComponent::Update(PERObject& object, double dTime)
+void IntelligentAiComponent::Update(PERObject& object, PERWorld& world, double dTime)
 {
 	// 필요 정보 얻기
 	PERVec3 vel = object.GetVelocity();

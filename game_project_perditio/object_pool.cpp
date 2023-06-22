@@ -41,7 +41,7 @@ void ObjectPool::CreateObjectFactories()
     ObjectFactory* playerFactory
         = new ObjectFactory(
             PERObjectType::OBJECT_TYPE_PLAYER,
-            PERComponentType::COMPONENT_TYPE_INTERACT,
+            PERComponentType::COMPONENT_TYPE_PLAYER_INPUT,
             PERComponentType::COMPONENT_TYPE_UNINTELLIGENT,
             PERComponentType::COMPONENT_TYPE_MOVABLE,
             PERComponentType::COMPONENT_TYPE_VISIBLE
@@ -50,8 +50,8 @@ void ObjectPool::CreateObjectFactories()
     ai.isAttack = false, ai.isMove = false;
     physics.friction = true;
     graphics.shape = PERShapeType::SHAPE_TYPE_ELLIPSE; graphics.color = PERColor(0, 255, 255);
-    playerFactory->SetInputData(input); playerFactory->SetAiData(ai);
-    playerFactory->SetPhysicsData(physics); playerFactory->SetGraphicsData(graphics);
+    playerFactory->SetInputData(input);             playerFactory->SetAiData(ai);
+    playerFactory->SetPhysicsData(physics);         playerFactory->SetGraphicsData(graphics);
     playerFactory->SetSize(PERVec3(0.5, 0.5, 0.5)); playerFactory->SetMass(50);
     m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::OBJECT_TYPE_PLAYER, playerFactory));
 
@@ -68,9 +68,9 @@ void ObjectPool::CreateObjectFactories()
     ai.isAttack = false, ai.isMove = false;
     physics.friction = true;
     graphics.shape = PERShapeType::SHAPE_TYPE_RECTANGLE; graphics.color = PERColor(255, 255, 255);
-    blockFactory->SetInputData(input); blockFactory->SetAiData(ai);
-    blockFactory->SetPhysicsData(physics); blockFactory->SetGraphicsData(graphics);
-    blockFactory->SetSize(PERVec3(1.0, 1.0, 1.0)); blockFactory->SetMass(100);
+    blockFactory->SetInputData(input);              blockFactory->SetAiData(ai);
+    blockFactory->SetPhysicsData(physics);          blockFactory->SetGraphicsData(graphics);
+    blockFactory->SetSize(PERVec3(1.0, 1.0, 1.0));  blockFactory->SetMass(100);
     m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::OBJECT_TYPE_BLOCK, blockFactory));
 
     // monster
@@ -86,10 +86,28 @@ void ObjectPool::CreateObjectFactories()
     ai.isAttack = true, ai.isMove = true;
     physics.friction = true;
     graphics.shape = PERShapeType::SHAPE_TYPE_TRIANGLE; graphics.color = PERColor(255, 0, 0);
-    monsterFactory->SetInputData(input); monsterFactory->SetAiData(ai);
-    monsterFactory->SetPhysicsData(physics); monsterFactory->SetGraphicsData(graphics);
+    monsterFactory->SetInputData(input);                monsterFactory->SetAiData(ai);
+    monsterFactory->SetPhysicsData(physics);            monsterFactory->SetGraphicsData(graphics);
     monsterFactory->SetSize(PERVec3(0.25, 0.25, 0.25)); monsterFactory->SetMass(100);
     m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::OBJECT_TYPE_MONSTER, monsterFactory));
+
+    // bullet
+    ObjectFactory* bulletFactory
+        = new ObjectFactory(
+            PERObjectType::OBJECT_TYPE_BULLET,
+            PERComponentType::COMPONENT_TYPE_NO_INTERACT,
+            PERComponentType::COMPONENT_TYPE_UNINTELLIGENT,
+            PERComponentType::COMPONENT_TYPE_MOVABLE,
+            PERComponentType::COMPONENT_TYPE_VISIBLE
+        );
+    input.isAttack = false, input.isMove = false, input.isCheck = false;
+    ai.isAttack = false, ai.isMove = false;
+    physics.friction = false;
+    graphics.shape = PERShapeType::SHAPE_TYPE_ELLIPSE; graphics.color = PERColor(100, 100, 100);
+    bulletFactory->SetInputData(input);                 bulletFactory->SetAiData(ai);
+    bulletFactory->SetPhysicsData(physics);             bulletFactory->SetGraphicsData(graphics);
+    bulletFactory->SetSize(PERVec3(0.2, 0.2, 0.2));  bulletFactory->SetMass(10);
+    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::OBJECT_TYPE_BULLET, bulletFactory));
 }
 
 void ObjectPool::DeleteObjectFactories()

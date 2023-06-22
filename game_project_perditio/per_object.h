@@ -15,6 +15,8 @@ class PERObject {
 public:
 	~PERObject();
 
+	bool IsLifeTimeIsEnd(double dTime);
+
 	PERInputComponent& GetInput();
 	PERAiComponent& GetAi();
 	PERPhysicsComponent& GetPhysics();
@@ -22,6 +24,8 @@ public:
 
 	// getter
 	PERObjectType GetObjectType() const;
+	
+	PERObject* GetParent();
 
 	PERVec3 GetPosition() const;
 	PERVec3 GetSize() const;
@@ -32,6 +36,8 @@ public:
 	int GetIDInWorld() const;
 
 	// setter
+	void SetParent(PERObject* object);
+
 	void SetPosition(PERVec3 pos);
 	void SetSize(PERVec3 size);
 	void SetVelocity(PERVec3 vel);
@@ -39,6 +45,7 @@ public:
 	void SetMass(double mass);
 
 	void SetIDInWorld(int id);
+	void SetLifeTime(double time);
 
 	static const int c_MAXIMUM_VERTICAL_VELOCITY = 3;
 
@@ -54,6 +61,9 @@ private:
 	PERPhysicsComponent*	m_physics;
 	PERGraphicsComponent*	m_graphics;
 
+	// 부모
+	PERObject* m_parent = nullptr;
+
 	// 정보
 	PERVec3	m_position = PERVec3(0.0, 0.0, 0.0);
 	PERVec3 m_size = PERVec3(0.5, 0.5, 0.5);
@@ -62,4 +72,5 @@ private:
 	double	m_mass = 50.0;
 
 	int m_idInWorld = -1;
+	double m_lifeTime = PER_MAXIMUM_LIFE_TIME;
 };

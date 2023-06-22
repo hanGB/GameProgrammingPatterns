@@ -126,6 +126,9 @@
     <ClInclude Include="per_component.h">
       <Filter>00. game\component</Filter>
     </ClInclude>
+    <ClInclude Include="player_input_component.h">
+      <Filter>00. game\component\implements\input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -178,6 +181,9 @@
     </ClCompile>
     <ClCompile Include="object_pool.cpp">
       <Filter>00. game\object\object_pool</Filter>
+    </ClCompile>
+    <ClCompile Include="player_input_component.cpp">
+      <Filter>00. game\component\implements\input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -28,6 +28,11 @@ void PERGame::HandleInput(WPARAM wParam, bool isDown)
 	if (wParam == VK_LEFT) m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_LEFT, isDown);
 	if (wParam == VK_RIGHT) m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_RIGHT, isDown);
 	if (wParam == VK_SPACE) m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_SPACE, isDown);
+
+	if (wParam == 'A' || wParam == 'a') m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_A, isDown);
+	if (wParam == 'S' || wParam == 's') m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_S, isDown);
+	if (wParam == 'D' || wParam == 'd') m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_D, isDown);
+	if (wParam == 'F' || wParam == 'f') m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_F, isDown);
 }
 
 void PERGame::Update(int time)
@@ -35,6 +40,10 @@ void PERGame::Update(int time)
 	double dTime = time / 1'000'000.0;
 
 	m_controller->Update(dTime);
+
+	// 죽은 오브젝트 월드에서 제거
+	m_world->DoGarbegeCollection(dTime);
+
 	m_world->InputUpdate(*m_controller, dTime);
 
 	// 정해진 시간만큼 업데이트가 필요한 항목 업데이트

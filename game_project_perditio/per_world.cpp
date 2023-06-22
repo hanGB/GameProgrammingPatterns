@@ -5,8 +5,6 @@
 #include "per_object.h"
 #include "object_pool.h"
 
-#include "per_graphics_component.h"
-
 PERWorld::PERWorld(PERObject* player, ObjectPool* objectPool)
 	: m_objectPool(objectPool)
 {
@@ -22,11 +20,21 @@ PERWorld::~PERWorld()
 	
 }
 
+void PERWorld::DoGarbegeCollection(double dTime)
+{
+	for (int i = 0; i < m_numObject; ++i) {
+		if (m_objects[i]->IsLifeTimeIsEnd(dTime)) {
+			DeleteObject(m_objects[i]);
+			i--;
+		}
+	}
+}
+
 void PERWorld::InputUpdate(PERController& controller, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetInput().Update(*m_objects[i], controller);
+		m_objects[i]->GetInput().Update(*m_objects[i], *this, controller, dTime);
 	}
 }
 
@@ -34,7 +42,7 @@ void PERWorld::AiUpdate(double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetAi().Update(*m_objects[i], dTime);
+		m_objects[i]->GetAi().Update(*m_objects[i], *this, dTime);
 	}
 }
 
@@ -50,7 +58,7 @@ void PERWorld::GraphicsUpdate(double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetGraphics().Update(*m_objects[i], dTime);
+		m_objects[i]->GetGraphics().Update(*m_objects[i], *this, dTime);
 	}
 }
 
@@ -77,10 +85,10 @@ void PERWorld::AddObject(PERObject* object)
 	m_isUpdateSortedObject = false;
 }
 
-void PERWorld::DeleteObject(int id)
+void PERWorld::DeleteObject(PERObject* object)
 {
 	m_numObject--;
-	PERObject* object = m_objects[id];
+	int id = object->GetIDInWorld();
 	m_objects[id] = m_objects[m_numObject];
 	m_objects[id]->SetIDInWorld(id);
 	m_objectPool->PushObject(object->GetObjectType(), object);
@@ -88,6 +96,12 @@ void PERWorld::DeleteObject(int id)
 	m_isUpdateSortedObject = false;
 }
 
+PERObject* PERWorld::AddAndGetObject(PERObjectType type)
+{
+	PERObject* object = m_objectPool->PopObject(type);
+	AddObject(object);
+	return object;
+}
 
 void PERWorld::InitWorldObject(PERObject* player)
 {
@@ -110,17 +124,17 @@ void PERWorld::InitWorldObject(PERObject* player)
 	AddObject(wall);
 
 	wall = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_BLOCK);
-	wall->SetPosition(PERVec3(-1.0, 0.0, 1.0));
+	wall->SetPosition(PERVec3(-1.0, 0.0, 1.1));
 	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
 	AddObject(wall);
 
 	wall = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_BLOCK);
-	wall->SetPosition(PERVec3(0.0, 1.0, 1.0));
+	wall->SetPosition(PERVec3(0.0, 1.0, 1.2));
 	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
 	AddObject(wall);
 
 	wall = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_BLOCK);
-	wall->SetPosition(PERVec3(0.0, -1.0, 1.0));
+	wall->SetPosition(PERVec3(0.0, -1.0, 1.3));
 	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
 	AddObject(wall);
 }

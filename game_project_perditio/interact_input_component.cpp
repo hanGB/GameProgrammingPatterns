@@ -3,7 +3,7 @@
 #include "per_object.h"
 #include "per_controller.h"
 
-void InteractInputComponent::Update(PERObject& object, PERController& controller)
+void InteractInputComponent::Update(PERObject& object, PERWorld& world, PERController& controller, double dTime)
 {
 	Move(object, controller);
 }

@@ -4,11 +4,13 @@
 
 void MovablePhysicsComponent::Update(PERObject& object, PERWorld& world, double dTime)
 {
-	Move(object, dTime);
+	m_MoveFunc(*this, object, dTime);
 }
 
 void MovablePhysicsComponent::SetData(PERComponent::PhysicsData data)
 {
+	if (data.friction) m_MoveFunc = &MovablePhysicsComponent::Move;
+	else m_MoveFunc = &MovablePhysicsComponent::MoveWithoutFriction;
 }
 
 void MovablePhysicsComponent::Move(PERObject& object, double dTime)
@@ -52,6 +54,30 @@ void MovablePhysicsComponent::Move(PERObject& object, double dTime)
 	else {
 		vel.y = vel.y + cAcc.y * dTime;
 	}
+
+	// 현재 위치 계산
+	pos.x = pos.x + vel.x * dTime + 0.5 * cAcc.x * dTime * dTime;
+	pos.y = pos.y + vel.y * dTime + 0.5 * cAcc.y * dTime * dTime;
+
+	// 계산 결과 적용
+	object.SetPosition(pos);
+	object.SetVelocity(vel);
+
+	// 현재 가속도 초기화
+	cAcc = PERVec3(0.0, 0.0, 0.0);
+	object.SetCurrentAccel(cAcc);
+}
+
+void MovablePhysicsComponent::MoveWithoutFriction(PERObject& object, double dTime)
+{
+	// 필요 정보 얻기
+	PERVec3 pos = object.GetPosition();
+	PERVec3 vel = object.GetVelocity();
+	PERVec3 cAcc = object.GetCurrentAccel();
+	double mass = object.GetMass();
+
+	vel.x = vel.x + cAcc.x * dTime;
+	vel.y = vel.y + cAcc.y * dTime;
 
 	// 현재 위치 계산
 	pos.x = pos.x + vel.x * dTime + 0.5 * cAcc.x * dTime * dTime;

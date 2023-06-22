@@ -3,7 +3,7 @@
 #include "per_object.h"
 #include "per_renderer.h"
 
-void VisibleGraphicsComponent::Update(PERObject& object, double dTime)
+void VisibleGraphicsComponent::Update(PERObject& object, PERWorld& world, double dTime)
 {
 }
 

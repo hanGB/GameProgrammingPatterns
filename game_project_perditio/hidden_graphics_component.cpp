@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "hidden_graphics_component.h"
 
-void HiddenGraphicsComponent::Update(PERObject& object, double dTime)
+void HiddenGraphicsComponent::Update(PERObject& object, PERWorld& world, double dTime)
 {
 }
 

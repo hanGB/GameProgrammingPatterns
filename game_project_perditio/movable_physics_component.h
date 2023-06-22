@@ -8,4 +8,7 @@ public:
 
 private:
 	void Move(PERObject& object, double dTime);
+	void MoveWithoutFriction(PERObject& object, double dTime);
+
+	std::function<void(MovablePhysicsComponent&, PERObject&, double)> m_MoveFunc;
 };

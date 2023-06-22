@@ -3,6 +3,7 @@
 
 // 각종 컨포넌트
 // input
+#include "player_input_component.h"
 #include "interact_input_component.h"
 #include "no_interact_input_component.h"
 // ai
@@ -36,6 +37,9 @@ PERObject* ObjectFactory::CreateObject()
 {
     PERInputComponent* inputComponent = nullptr;
     switch (m_componentTypes.input) {
+    case PERComponentType::COMPONENT_TYPE_PLAYER_INPUT:
+        inputComponent = new PlayerInputComponent();
+        break;
     case PERComponentType::COMPONENT_TYPE_INTERACT:
         inputComponent = new InteractInputComponent();
         break;
