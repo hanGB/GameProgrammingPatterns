@@ -21,9 +21,13 @@ public:
 
 private:
 	void InitWorldObject(PERObject* player);
+	void UpdateSortedObjects();
 
 	ObjectPool* m_objectPool;
 
 	std::vector<PERObject*> m_objects;
 	int m_numObject = 0;
+
+	std::vector<PERObject*> m_sortedObjects;
+	bool m_isUpdateSortedObject = false;
 };

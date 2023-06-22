@@ -56,16 +56,10 @@ void PERWorld::GraphicsUpdate(double dTime)
 
 void PERWorld::Render(PERRenderer& renderer)
 {
-	// 위치의 z값이 작은 순서로 정렬
-	std::vector<PERObject*> sortedObjects;
-	sortedObjects.resize((size_t)m_numObject);
-	std::copy(m_objects.begin(), m_objects.begin() + m_numObject, sortedObjects.begin());
-	std::sort(sortedObjects.begin(), sortedObjects.end(), [](PERObject* a, PERObject* b) {
-		return a->GetPosition().z < b->GetPosition().z;
-	});
+	UpdateSortedObjects();
 
 	for (int i = 0; i < m_numObject; ++i) {
-		sortedObjects[i]->GetGraphics().Render(*sortedObjects[i], renderer);
+		m_sortedObjects[i]->GetGraphics().Render(*m_sortedObjects[i], renderer);
 	}
 }
 
@@ -79,6 +73,8 @@ void PERWorld::AddObject(PERObject* object)
 	}
 	object->SetIDInWorld(m_numObject);
 	m_numObject++;
+
+	m_isUpdateSortedObject = false;
 }
 
 void PERWorld::DeleteObject(int id)
@@ -88,6 +84,8 @@ void PERWorld::DeleteObject(int id)
 	m_objects[id] = m_objects[m_numObject];
 	m_objects[id]->SetIDInWorld(id);
 	m_objectPool->PushObject(object->GetObjectType(), object);
+
+	m_isUpdateSortedObject = false;
 }
 
 
@@ -125,4 +123,20 @@ void PERWorld::InitWorldObject(PERObject* player)
 	wall->SetPosition(PERVec3(0.0, -1.0, 1.0));
 	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
 	AddObject(wall);
+}
+
+void PERWorld::UpdateSortedObjects()
+{
+	if (m_isUpdateSortedObject) return;
+
+	m_sortedObjects.clear();
+
+	// 위치의 z값이 작은 순서로 정렬
+	m_sortedObjects.resize((size_t)m_numObject);
+	std::copy(m_objects.begin(), m_objects.begin() + m_numObject, m_sortedObjects.begin());
+	std::sort(m_sortedObjects.begin(), m_sortedObjects.end(), [](PERObject* a, PERObject* b) {
+		return a->GetPosition().z < b->GetPosition().z;
+		});
+
+	m_isUpdateSortedObject = true;
 }
