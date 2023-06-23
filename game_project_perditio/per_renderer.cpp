@@ -46,9 +46,37 @@ void PERRenderer::RenderShape(PERShapeType type, PERVec3 pos, PERVec3 size, PERC
 		break;
 	}
 
-	(HBRUSH)SelectObject(m_memoryDC, oldBrush);
+	SelectObject(m_memoryDC, oldBrush);
 	DeleteObject(newBrush);
 	DeleteObject(oldBrush);
+}
+
+void PERRenderer::RenderFont(const wchar_t* text, int textSize, double size, PERVec2 pos, PERColor color)
+{
+	HPEN newPen, oldPen;
+	HFONT newFont, oldFont;
+
+	newPen = (HPEN)GetStockObject(NULL_PEN);  // ≈ı∏Ìº±
+	oldPen = (HPEN)SelectObject(m_memoryDC, newPen);
+	size = MatchSizeWithScreenSizeAndRatioForFont(size);
+	size = size * PER_PIXEL_PER_METER;
+	newFont = CreateFont((int)size, 0, 0, 0,
+		FW_BOLD, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, L"∏º¿∫ ∞ÌµÒ");
+	SetTextColor(m_memoryDC, RGB(color.r, color.g, color.b));
+	SetBkMode(m_memoryDC, TRANSPARENT);
+	oldFont = (HFONT)SelectObject(m_memoryDC, newFont);
+
+	pos = ConvertCoordinateOpenGLToWindowsForVec2(pos);
+	pos = pos * PER_PIXEL_PER_METER;
+
+	TextOut(m_memoryDC, (int)pos.x, (int)pos.y, text, textSize);
+
+	SelectObject(m_memoryDC, oldFont);
+	DeleteObject(newPen);
+	DeleteObject(oldFont);
+	SelectObject(m_memoryDC, oldPen);
+	DeleteObject(newFont);
+	DeleteObject(oldPen);
 }
 
 void PERRenderer::RenderEllipse(PERVec3 pos, PERVec3 size)
@@ -126,4 +154,11 @@ PERVec2 PERRenderer::MatchSizeWithScreenSizeAndRatioForVec2(PERVec2 vec)
 	vec.y *= m_halfHeight / (double)PER_DEFAULT_WINDOW_HEIGHT;
 
 	return vec;
+}
+
+double PERRenderer::MatchSizeWithScreenSizeAndRatioForFont(double size)
+{
+	size *= m_halfWidth / (double)PER_DEFAULT_WINDOW_WIDTH;
+
+	return size;
 }

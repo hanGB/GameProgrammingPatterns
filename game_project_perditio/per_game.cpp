@@ -39,26 +39,31 @@ void PERGame::Update(int time)
 {
 	double dTime = time / 1'000'000.0;
 
+	m_fpsUpdateTime -= dTime;
+	if (m_fpsUpdateTime < 0.0) {
+		m_fps = (int)(1'000'000.0 / (double)time);
+		m_fpsUpdateTime = c_FPS_UPDATE_GAP;
+	}
 	m_controller->Update(dTime);
 
 	// 죽은 오브젝트 월드에서 제거
-	m_world->DoGarbegeCollection(dTime);
+	m_world->Update(dTime);
 
-	m_world->InputUpdate(*m_controller, dTime);
+	m_world->ObjectsInputUpdate(*m_controller, dTime);
 
 	// 정해진 시간만큼 업데이트가 필요한 항목 업데이트
 	m_updateLag += time;
 	// PER_MILLISEC_PER_UPDATE 만큼씩 업데이트
 	for (int i = 0; i < PER_MAXIMUM_UPDATE_LOOP_COUNT && m_updateLag >= PER_MICROSEC_PER_UPDATE; ++i) {
 		// 정해진 시간만큼 게임 월드 업데이트
-		m_world->AiUpdate(PER_MICROSEC_PER_UPDATE / 1'000'000.0);
-		m_world->PhysicsUpdate(PER_MICROSEC_PER_UPDATE / 1'000'000.0);
+		m_world->ObjectsAiUpdate(PER_MICROSEC_PER_UPDATE / 1'000'000.0);
+		m_world->ObjectsPhysicsUpdate(PER_MICROSEC_PER_UPDATE / 1'000'000.0);
 		m_updateLag -= PER_MICROSEC_PER_UPDATE;
 	}
 	// 최대 업데이트 루프 횟수를 넘어서 끝날 경우를 대비해 업데이트에 걸리는 시간으로 나눔
 	m_updateLag %= PER_MICROSEC_PER_UPDATE;
 
-	m_world->GraphicsUpdate(dTime);
+	m_world->ObjectsGraphicsUpdate(dTime);
 }
 
 void PERGame::Render(HWND hWnd)
@@ -83,6 +88,8 @@ void PERGame::Render(HWND hWnd)
 	// 게임 월드 렌더링
 	m_world->Render(*m_renderer);
 
+	wsprintf(m_fpsText, L"FPS: %d", m_fps);
+	m_renderer->RenderFont(m_fpsText, 8, 1.0, PERVec2(-5.0, 3.0), PERColor(0, 0, 0));
 	// 실제 출력 버퍼로 이동
 	BitBlt(hDC, 0, 0, rect.right, rect.bottom, memDC, 0, 0, SRCCOPY);
 

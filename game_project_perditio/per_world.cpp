@@ -20,6 +20,90 @@ PERWorld::~PERWorld()
 	
 }
 
+void PERWorld::Update(double dTime)
+{
+	DoGarbegeCollection(dTime);
+
+	ProcessPendingMessage();
+
+	UpdateSortedObjects();
+}
+
+void PERWorld::ObjectsInputUpdate(PERController& controller, double dTime)
+{
+	for (int i = 0; i < m_numObject; ++i) 
+	{
+		m_objects[i]->GetInput().Update(*m_objects[i], *this, controller, dTime);
+	}
+}
+
+void PERWorld::ObjectsAiUpdate(double dTime)
+{
+	for (int i = 0; i < m_numObject; ++i) 
+	{
+		m_objects[i]->GetAi().Update(*m_objects[i], *this, dTime);
+	}
+}
+
+void PERWorld::ObjectsPhysicsUpdate(double dTime)
+{
+	for (int i = 0; i < m_numObject; ++i) 
+	{
+		m_objects[i]->GetPhysics().Update(*m_objects[i], *this, dTime);
+	}
+}
+
+void PERWorld::ObjectsGraphicsUpdate(double dTime)
+{
+	for (int i = 0; i < m_numObject; ++i) 
+	{
+		m_objects[i]->GetGraphics().Update(*m_objects[i], *this, dTime);
+	}
+}
+
+void PERWorld::Render(PERRenderer& renderer)
+{
+	for (int i = 0; i < m_numObject; ++i) {
+		m_sortedObjects[i]->GetGraphics().Render(*m_sortedObjects[i], renderer);
+	}
+}
+
+void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, PERVec3 position, PERVec3 currentAccel, double lifeTime)
+{
+	PERWorldMessage message;
+	message.id = PERWorldMessageId::WORLD_MESSAGE_ADD_OBJECT;
+	message.object = parent;
+	message.type = type;
+	message.position = position;
+	message.currentAccel = currentAccel;
+	message.lifeTime = lifeTime;
+
+	// 락을 걸고 추가
+	m_mutex.lock();
+
+	if (m_maxPending == m_numPending) ResizePedingArray();
+	m_pending[m_numPending] = message;
+	m_numPending++;
+
+	m_mutex.unlock();
+}
+
+void PERWorld::RequestDeleteObject(PERObject* object)
+{
+	PERWorldMessage message;
+	message.id = PERWorldMessageId::WORLD_MESSAGE_DELETE_OBJECT;
+	message.object = object;
+
+	// 락을 걸고 추가
+	m_mutex.lock();
+
+	if (m_maxPending == m_numPending) ResizePedingArray();
+	m_pending[m_numPending] = message;
+	m_numPending++;
+
+	m_mutex.unlock();
+}
+
 void PERWorld::DoGarbegeCollection(double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) {
@@ -30,45 +114,26 @@ void PERWorld::DoGarbegeCollection(double dTime)
 	}
 }
 
-void PERWorld::InputUpdate(PERController& controller, double dTime)
+void PERWorld::ProcessPendingMessage()
 {
-	for (int i = 0; i < m_numObject; ++i) 
-	{
-		m_objects[i]->GetInput().Update(*m_objects[i], *this, controller, dTime);
-	}
-}
+	for (int i = 0; i < m_numPending; ++i) {
+		PERWorldMessage message = m_pending[i];
 
-void PERWorld::AiUpdate(double dTime)
-{
-	for (int i = 0; i < m_numObject; ++i) 
-	{
-		m_objects[i]->GetAi().Update(*m_objects[i], *this, dTime);
+		switch (message.id) {
+		case PERWorldMessageId::WORLD_MESSAGE_ADD_OBJECT: {
+			PERObject* object = AddAndGetObject(message.type);
+			object->SetPosition(message.position);
+			object->SetCurrentAccel(message.currentAccel);
+			object->SetLifeTime(message.lifeTime);
+			object->SetParent(message.object);
+			break;
+		}
+		case PERWorldMessageId::WORLD_MESSAGE_DELETE_OBJECT: 
+			DeleteObject(message.object);
+			break;
+		}
 	}
-}
-
-void PERWorld::PhysicsUpdate(double dTime)
-{
-	for (int i = 0; i < m_numObject; ++i) 
-	{
-		m_objects[i]->GetPhysics().Update(*m_objects[i], *this, dTime);
-	}
-}
-
-void PERWorld::GraphicsUpdate(double dTime)
-{
-	for (int i = 0; i < m_numObject; ++i) 
-	{
-		m_objects[i]->GetGraphics().Update(*m_objects[i], *this, dTime);
-	}
-}
-
-void PERWorld::Render(PERRenderer& renderer)
-{
-	UpdateSortedObjects();
-
-	for (int i = 0; i < m_numObject; ++i) {
-		m_sortedObjects[i]->GetGraphics().Render(*m_sortedObjects[i], renderer);
-	}
+	m_numPending = 0;
 }
 
 void PERWorld::AddObject(PERObject* object)
@@ -153,4 +218,15 @@ void PERWorld::UpdateSortedObjects()
 		});
 
 	m_isUpdateSortedObject = true;
+}
+
+void PERWorld::ResizePedingArray()
+{
+	// 현재 배열 크기를 2배로 증가
+	m_maxPending *= 2;
+	PERWorldMessage* newArray = new PERWorldMessage[m_maxPending];
+	memmove(newArray, m_pending, sizeof(m_pending));
+
+	delete[] m_pending;
+	m_pending = newArray;
 }

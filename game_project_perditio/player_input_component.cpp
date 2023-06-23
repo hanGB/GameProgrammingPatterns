@@ -69,15 +69,12 @@ void PlayerInputComponent::ShootBullet(PERObject& object, PERWorld& world, PERCo
 
 	// ÃÑ¾Ë ¹ß»ç
 	if (controller.IsKeyboardPressed(PERKeyboardValue::KEYBOARD_D)) {
-		PERObject* bullet = world.AddAndGetObject(PERObjectType::OBJECT_TYPE_BULLET);
+		PERVec3 position(object.GetPosition().x, object.GetPosition().y, -1.0);
+;		PERVec3 speed((double)m_dirX * c_BULLER_VERTICAL_FORCE, (double)m_dirY * c_BULLER_VERTICAL_FORCE, 0.0);
+		world.RequestAddObject(
+			&object, PERObjectType::OBJECT_TYPE_BULLET,
+			position, speed, 3.0);
+
 		m_shootingCoolTime = c_DEFAULT_SHOOT_BULLET_COOL_TIME;
-
-		std::cout << m_dirX << ", " << m_dirY << std::endl;
-
-		PERVec3 speed((double)m_dirX * c_BULLER_VERTICAL_FORCE, (double)m_dirY * c_BULLER_VERTICAL_FORCE, 0.0);
-		bullet->SetCurrentAccel(speed);
-		bullet->SetParent(&object);
-		bullet->SetPosition(PERVec3(object.GetPosition().x, object.GetPosition().y, -1.0));
-		bullet->SetLifeTime(3.0f);
 	}
 }

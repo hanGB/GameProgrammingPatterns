@@ -9,6 +9,7 @@ public:
 	void MatchWindowSizeAndCurrentMemoryDC(HWND hWnd, HDC memDC);
 	// 모양 렌더링
 	void RenderShape(PERShapeType type, PERVec3 pos, PERVec3 size, PERColor color);
+	void RenderFont(const wchar_t* text, int textSize, double size, PERVec2 pos, PERColor color);
 
 private:
 	// 각종 모양 렌더링
@@ -26,6 +27,7 @@ private:
 	void MatchSizeWithScreenSizeAndRatio(double* x, double* y);
 	PERVec3 MatchSizeWithScreenSizeAndRatioForVec3(PERVec3 vec);
 	PERVec2 MatchSizeWithScreenSizeAndRatioForVec2(PERVec2 vec);
+	double MatchSizeWithScreenSizeAndRatioForFont(double size);
 
 	double m_halfWidth;
 	double m_halfHeight;

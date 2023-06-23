@@ -18,6 +18,8 @@ public:
 	PERRenderer& GetRenderer();
 
 private:
+	const double c_FPS_UPDATE_GAP = 0.5;
+
 	int m_updateLag = 0;
 
 	PERController*	m_controller;
@@ -26,4 +28,9 @@ private:
 
 	PERObject*	m_player;
 	PERWorld*	m_world;
+
+	// 프레임 측정 관련
+	double m_fpsUpdateTime = 0.0;
+	wchar_t m_fpsText[10];
+	int m_fps;
 };

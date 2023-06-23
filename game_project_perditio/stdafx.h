@@ -4,7 +4,9 @@
 #include <Windows.h>
 #include <tchar.h>
 // 멀티 스레드
+#include <mutex>
 #include <ppl.h>
+#include <concurrent_queue.h>
 // 콘솔 입출력
 #include <iostream>
 // 프레임 타임 측정
@@ -43,6 +45,9 @@
 // 객체
 #define PER_DEFAULT_OBJECT_POOL_SIZE  1024
 #define PER_DEFAULT_MAX_OBJECTS		  1024
+
+// 이벤트
+#define PER_DEFAULT_MAX_EVENT_PENDING  512
 
 // 시간
 // 최대 라이프 타임(100년)
