@@ -9,7 +9,7 @@ void IntelligentAiComponent::Update(PERObject& object, PERWorld& world, double d
 	PERVec3 cAcc = object.GetCurrentAccel();
 	double mass = object.GetMass();
 
-	cAcc.x -= m_verticalForce / mass;
+	cAcc.x -= m_verticalForce / mass * dTime;
 
 	object.SetCurrentAccel(cAcc);
 }

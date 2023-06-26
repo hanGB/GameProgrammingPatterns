@@ -25,8 +25,6 @@ void PERWorld::Update(double dTime)
 	DoGarbegeCollection(dTime);
 
 	ProcessPendingMessage();
-
-	UpdateSortedObjects();
 }
 
 void PERWorld::ObjectsInputUpdate(PERController& controller, double dTime)
@@ -57,13 +55,13 @@ void PERWorld::ObjectsGraphicsUpdate(double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetGraphics().Update(*m_objects[i], *this, dTime);
+		m_objects[i]->GetGraphics().Update(*m_objects[i], dTime);
 	}
 }
 
 void PERWorld::Render(PERRenderer& renderer)
 {
-	for (int i = 0; i < m_numObject; ++i) {
+	for (int i = 0; i < m_sortedObjects.size(); ++i) {
 		m_sortedObjects[i]->GetGraphics().Render(*m_sortedObjects[i], renderer);
 	}
 }

@@ -32,6 +32,8 @@ public:
 	void ObjectsPhysicsUpdate(double dTime);
 	void ObjectsGraphicsUpdate(double dTime);
 
+	void UpdateSortedObjects();
+
 	void Render(PERRenderer& renderer);
 
 	// 요청을 받는 함수
@@ -42,8 +44,6 @@ public:
 	
 private:
 	void InitWorldObject(PERObject* player);
-	void UpdateSortedObjects();
-
 	void DoGarbegeCollection(double dTime);
 	void ProcessPendingMessage();
 

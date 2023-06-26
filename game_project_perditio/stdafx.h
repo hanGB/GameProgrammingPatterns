@@ -4,7 +4,9 @@
 #include <Windows.h>
 #include <tchar.h>
 // 멀티 스레드
+#include <thread>
 #include <mutex>
+#include <atomic>
 #include <ppl.h>
 #include <concurrent_queue.h>
 // 콘솔 입출력
@@ -32,6 +34,8 @@
 // 업데이트 타임 설정
 #define PER_MICROSEC_PER_UPDATE 8000
 #define PER_MAXIMUM_UPDATE_LOOP_COUNT 4
+// 최소 프레임 타임(최대 240FPS)
+#define PER_MINIMUM_FRAME_TIME 4000
 
 // 화면 설정
 #define PER_PIXEL_PER_METER 100

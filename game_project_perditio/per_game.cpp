@@ -37,6 +37,12 @@ void PERGame::HandleInput(WPARAM wParam, bool isDown)
 
 void PERGame::Update(int time)
 {
+	int restTime = PER_MINIMUM_FRAME_TIME - time;
+
+	if (restTime > 0) {
+		std::this_thread::sleep_for(std::chrono::microseconds(restTime));
+		time = PER_MINIMUM_FRAME_TIME;
+	}
 	double dTime = time / 1'000'000.0;
 
 	m_fpsUpdateTime -= dTime;
@@ -44,18 +50,20 @@ void PERGame::Update(int time)
 		m_fps = (int)(1'000'000.0 / (double)time);
 		m_fpsUpdateTime = c_FPS_UPDATE_GAP;
 	}
+	
+	
 	m_controller->Update(dTime);
 
 	// 죽은 오브젝트 월드에서 제거
 	m_world->Update(dTime);
 
-	m_world->ObjectsInputUpdate(*m_controller, dTime);
-
+	
 	// 정해진 시간만큼 업데이트가 필요한 항목 업데이트
 	m_updateLag += time;
 	// PER_MILLISEC_PER_UPDATE 만큼씩 업데이트
 	for (int i = 0; i < PER_MAXIMUM_UPDATE_LOOP_COUNT && m_updateLag >= PER_MICROSEC_PER_UPDATE; ++i) {
-		// 정해진 시간만큼 게임 월드 업데이트
+		// 정해진 시간만큼 게임 업데이트
+		m_world->ObjectsInputUpdate(*m_controller, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
 		m_world->ObjectsAiUpdate(PER_MICROSEC_PER_UPDATE / 1'000'000.0);
 		m_world->ObjectsPhysicsUpdate(PER_MICROSEC_PER_UPDATE / 1'000'000.0);
 		m_updateLag -= PER_MICROSEC_PER_UPDATE;
@@ -63,11 +71,24 @@ void PERGame::Update(int time)
 	// 최대 업데이트 루프 횟수를 넘어서 끝날 경우를 대비해 업데이트에 걸리는 시간으로 나눔
 	m_updateLag %= PER_MICROSEC_PER_UPDATE;
 
-	m_world->ObjectsGraphicsUpdate(dTime);
+	
+	// 렌더링 준비가 되었을 경우 리턴(아직 렌더링 하지 않음) 
+	if (m_isReadyForRender) return;
+
+	m_world->ObjectsGraphicsUpdate(dTime); 
+
+	m_world->UpdateSortedObjects();
+	wsprintf(m_fpsText, L"FPS: %d", m_fps);
+
+	// 렌더링 준비 완료
+	m_isReadyForRender = true;
 }
 
 void PERGame::Render(HWND hWnd)
 {
+	// 렌더링 준비가 되지 않은 경우 리턴
+	if (!m_isReadyForRender) return;
+
 	HDC hDC, memDC;
 	HBITMAP hBitmap, oldBitmap;
 	RECT rect;
@@ -87,8 +108,6 @@ void PERGame::Render(HWND hWnd)
 	m_renderer->MatchWindowSizeAndCurrentMemoryDC(hWnd, memDC);
 	// 게임 월드 렌더링
 	m_world->Render(*m_renderer);
-
-	wsprintf(m_fpsText, L"FPS: %d", m_fps);
 	m_renderer->RenderFont(m_fpsText, 8, 1.0, PERVec2(-5.0, 3.0), PERColor(0, 0, 0));
 	// 실제 출력 버퍼로 이동
 	BitBlt(hDC, 0, 0, rect.right, rect.bottom, memDC, 0, 0, SRCCOPY);
@@ -99,6 +118,9 @@ void PERGame::Render(HWND hWnd)
 	DeleteDC(hDC);
 	DeleteObject(hBitmap);
 	DeleteObject(oldBitmap);
+
+	// 렌더링 준비를 하도록 변경
+	m_isReadyForRender = false;
 }
 
 PERController& PERGame::GetController()

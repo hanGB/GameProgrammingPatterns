@@ -6,12 +6,13 @@ LPCTSTR lpszClass = L"Window Class";
 LPCTSTR lpszWindowName = L"Perditio";
 
 HWND g_hWnd;
-HANDLE g_hGameLoopThread;
+HANDLE g_hGameLoopThreads[2];
 PERGame* g_game;
 bool g_isGameEnd;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-DWORD WINAPI GameLoopTheadFuc(LPVOID temp);
+DWORD WINAPI GameTheadFunc(LPVOID temp);
+DWORD WINAPI RenderTheadFunc(LPVOID temp);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -72,7 +73,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		g_game = new PERGame();
 		g_isGameEnd = false;
 		// 게임 루프 스레드 생성
-		g_hGameLoopThread = CreateThread(NULL, 0, GameLoopTheadFuc, NULL, 0, &threadID);
+		g_hGameLoopThreads[0] = CreateThread(NULL, 0, GameTheadFunc, NULL, 0, &threadID);
+		g_hGameLoopThreads[1] = CreateThread(NULL, 0, RenderTheadFunc, NULL, 0, &threadID);
 		break;
 	
 	case WM_KEYDOWN:
@@ -89,7 +91,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		g_isGameEnd = true;
 		// 게임 루프 스레드가 종료될 때 까지 무한 대기
-		WaitForSingleObject(g_hGameLoopThread, INFINITE);
+		WaitForMultipleObjects(2, g_hGameLoopThreads, true, INFINITE);
 		delete g_game;
 #ifdef PER_DEBUG
 		FreeConsole();
@@ -101,7 +103,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);    
 }
 
-DWORD WINAPI GameLoopTheadFuc(LPVOID temp)
+DWORD WINAPI GameTheadFunc(LPVOID temp)
 {
 	auto lastTime = std::chrono::system_clock::now();
 	while (!g_isGameEnd) {
@@ -115,6 +117,14 @@ DWORD WINAPI GameLoopTheadFuc(LPVOID temp)
 		lastTime = currentTime;
 
 		g_game->Update(dTime);
+	}
+
+	return 0;
+}
+
+DWORD WINAPI RenderTheadFunc(LPVOID temp)
+{
+	while (!g_isGameEnd) {
 		g_game->Render(g_hWnd);
 	}
 

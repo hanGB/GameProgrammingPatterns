@@ -3,16 +3,15 @@
 #include "per_object.h"
 #include "per_renderer.h"
 
-void VisibleGraphicsComponent::Update(PERObject& object, PERWorld& world, double dTime)
+void VisibleGraphicsComponent::Update(PERObject& object, double dTime)
 {
+	m_position = object.GetPosition();
+	m_size = object.GetSize();
 }
 
 void VisibleGraphicsComponent::Render(PERObject& object, PERRenderer& renderer)
 {
-	PERVec3 pos = object.GetPosition();
-	PERVec3 size = object.GetSize();
-
-	renderer.RenderShape(m_shapeType, pos, size, m_color);
+	renderer.RenderShape(m_shapeType, m_position, m_size, m_color);
 }
 
 void VisibleGraphicsComponent::SetData(PERComponent::GraphicsData data)
