@@ -48,7 +48,7 @@ void ObjectPool::CreateObjectFactories()
         );
     input.isAttack = true, input.isMove = true, input.isCheck = false;
     ai.isAttack = false, ai.isMove = false;
-    physics.friction = true;
+    physics.friction = true; physics.isOccupySpace = true;
     graphics.shape = PERShapeType::SHAPE_TYPE_ELLIPSE; graphics.color = PERColor(0, 255, 255);
     playerFactory->SetInputData(input);             playerFactory->SetAiData(ai);
     playerFactory->SetPhysicsData(physics);         playerFactory->SetGraphicsData(graphics);
@@ -66,7 +66,7 @@ void ObjectPool::CreateObjectFactories()
         );
     input.isAttack = false, input.isMove = false, input.isCheck = false;
     ai.isAttack = false, ai.isMove = false;
-    physics.friction = true;
+    physics.friction = true; physics.isOccupySpace = true;
     graphics.shape = PERShapeType::SHAPE_TYPE_RECTANGLE; graphics.color = PERColor(255, 255, 255);
     blockFactory->SetInputData(input);              blockFactory->SetAiData(ai);
     blockFactory->SetPhysicsData(physics);          blockFactory->SetGraphicsData(graphics);
@@ -84,7 +84,7 @@ void ObjectPool::CreateObjectFactories()
         );
     input.isAttack = false, input.isMove = false, input.isCheck = false;
     ai.isAttack = true, ai.isMove = true;
-    physics.friction = true;
+    physics.friction = true; physics.isOccupySpace = true;
     graphics.shape = PERShapeType::SHAPE_TYPE_TRIANGLE; graphics.color = PERColor(255, 0, 0);
     monsterFactory->SetInputData(input);                monsterFactory->SetAiData(ai);
     monsterFactory->SetPhysicsData(physics);            monsterFactory->SetGraphicsData(graphics);
@@ -101,8 +101,8 @@ void ObjectPool::CreateObjectFactories()
             PERComponentType::COMPONENT_TYPE_VISIBLE
         );
     input.isAttack = false, input.isMove = false, input.isCheck = false;
-    ai.isAttack = false, ai.isMove = false;
-    physics.friction = false;
+    ai.isAttack = false, ai.isMove = false; 
+    physics.friction = false; physics.isOccupySpace = false;
     graphics.shape = PERShapeType::SHAPE_TYPE_ELLIPSE; graphics.color = PERColor(100, 100, 100);
     bulletFactory->SetInputData(input);                 bulletFactory->SetAiData(ai);
     bulletFactory->SetPhysicsData(physics);             bulletFactory->SetGraphicsData(graphics);

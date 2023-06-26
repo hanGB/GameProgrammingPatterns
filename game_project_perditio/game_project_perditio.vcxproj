@@ -141,6 +141,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="null_audio.h" />
+    <ClInclude Include="null_logger.h" />
+    <ClInclude Include="per_audio.h" />
+    <ClInclude Include="per_locator.h" />
+    <ClInclude Include="per_logger.h" />
     <ClInclude Include="per_component.h" />
     <ClInclude Include="object_pool.h" />
     <ClInclude Include="player_input_component.h" />
@@ -167,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="object_pool.cpp" />
+    <ClCompile Include="per_locator.cpp" />
     <ClCompile Include="player_input_component.cpp" />
     <ClCompile Include="unintelligent_ai_component.cpp" />
     <ClCompile Include="fixed_physics_component.cpp" />

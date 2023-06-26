@@ -25,6 +25,7 @@ namespace PERComponent {
 
 	struct PhysicsData {
 		bool friction;
+		bool isOccupySpace;
 	};
 
 	struct GraphicsData {

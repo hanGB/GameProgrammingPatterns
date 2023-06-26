@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "per_game.h"
+#include "per_locator.h"
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class";
@@ -63,6 +64,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	// 메세지 처리하기
 	switch (uMsg) {
 	case WM_CREATE:
+		PERLocator::Initialize();
+		PERLocator::Provide(nullptr, nullptr);
+
 #ifdef PER_DEBUG
 		AllocConsole();
 		FILE* stream;
