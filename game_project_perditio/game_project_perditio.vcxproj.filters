@@ -55,29 +55,29 @@
     <Filter Include="02. renderer">
       <UniqueIdentifier>{e7e2c447-9d35-4064-ae0a-506848b5dc15}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. user_interface">
+    <Filter Include="00. game\user_interface">
       <UniqueIdentifier>{3837a470-b30c-43eb-b648-d5d3a1dca8e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. event">
+    <Filter Include="03. event">
       <UniqueIdentifier>{9ef77057-07ea-4293-b26c-77d01042ba4b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05. byte_code">
-      <UniqueIdentifier>{603bee9a-e012-4678-bf3f-933c2f2b0b14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06. service_locator">
+    <Filter Include="05. service_locator">
       <UniqueIdentifier>{a79b5c6e-fb33-4d7e-afc8-62b09e5ad810}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. service_locator\service">
+    <Filter Include="05. service_locator\service">
       <UniqueIdentifier>{4b313b08-d193-4eb8-9133-5a035a304d13}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. service_locator\service\audio">
+    <Filter Include="05. service_locator\service\audio">
       <UniqueIdentifier>{c3c04d5a-3163-44c5-bb7f-6aaa20d73697}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. service_locator\service\logger">
+    <Filter Include="05. service_locator\service\logger">
       <UniqueIdentifier>{3752737d-ff8d-4e91-8458-c6ad8fa9f107}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. service_locator\service\logger\window">
+    <Filter Include="05. service_locator\service\logger\window">
       <UniqueIdentifier>{5aa1bb3b-ce43-4c60-956f-40b9bd1725c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. byte_code">
+      <UniqueIdentifier>{603bee9a-e012-4678-bf3f-933c2f2b0b14}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -151,31 +151,31 @@
       <Filter>02. renderer</Filter>
     </ClInclude>
     <ClInclude Include="per_locator.h">
-      <Filter>06. service_locator</Filter>
+      <Filter>05. service_locator</Filter>
     </ClInclude>
     <ClInclude Include="per_audio.h">
-      <Filter>06. service_locator\service\audio</Filter>
+      <Filter>05. service_locator\service\audio</Filter>
     </ClInclude>
     <ClInclude Include="per_logger.h">
-      <Filter>06. service_locator\service\logger</Filter>
+      <Filter>05. service_locator\service\logger</Filter>
     </ClInclude>
     <ClInclude Include="null_audio.h">
-      <Filter>06. service_locator\service\audio</Filter>
+      <Filter>05. service_locator\service\audio</Filter>
     </ClInclude>
     <ClInclude Include="null_logger.h">
-      <Filter>06. service_locator\service\logger</Filter>
+      <Filter>05. service_locator\service\logger</Filter>
     </ClInclude>
     <ClInclude Include="per_hud.h">
-      <Filter>03. user_interface</Filter>
+      <Filter>00. game\user_interface</Filter>
     </ClInclude>
     <ClInclude Include="event_dispatcher.h">
-      <Filter>04. event</Filter>
+      <Filter>03. event</Filter>
     </ClInclude>
     <ClInclude Include="event_reciver.h">
-      <Filter>04. event</Filter>
+      <Filter>03. event</Filter>
     </ClInclude>
     <ClInclude Include="per_event.h">
-      <Filter>04. event</Filter>
+      <Filter>03. event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -234,13 +234,13 @@
       <Filter>02. renderer</Filter>
     </ClCompile>
     <ClCompile Include="per_locator.cpp">
-      <Filter>06. service_locator</Filter>
+      <Filter>05. service_locator</Filter>
     </ClCompile>
     <ClCompile Include="per_hud.cpp">
-      <Filter>03. user_interface</Filter>
+      <Filter>00. game\user_interface</Filter>
     </ClCompile>
     <ClCompile Include="event_dispatcher.cpp">
-      <Filter>04. event</Filter>
+      <Filter>03. event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

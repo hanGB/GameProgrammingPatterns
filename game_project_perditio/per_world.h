@@ -4,6 +4,7 @@ class PERController;
 class PERRenderer;
 class PERObject;
 class ObjectPool;
+class PERHud;
 
 enum class PERWorldMessageId {
 	WORLD_MESSAGE_ADD_OBJECT,
@@ -66,4 +67,6 @@ private:
 	int m_maxPending = PER_DEFAULT_MAX_EVENT_PENDING;
 	PERWorldMessage* m_pending = new PERWorldMessage[PER_DEFAULT_MAX_EVENT_PENDING];
 	int m_numPending = 0;
+
+	PERHud* m_hud;
 };

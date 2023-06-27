@@ -3,6 +3,7 @@
 #include "per_object.h"
 #include "per_world.h"
 #include "per_controller.h"
+#include "event_dispatcher.h"
 
 void PlayerInputComponent::Update(PERObject& object, PERWorld& world, PERController& controller, double dTime)
 {
@@ -76,5 +77,8 @@ void PlayerInputComponent::ShootBullet(PERObject& object, PERWorld& world, PERCo
 			position, speed, 3.0);
 
 		m_shootingCoolTime = c_DEFAULT_SHOOT_BULLET_COOL_TIME;
+
+		// Å×½ºÆ®
+		EventDispatcher::Send(PEREvent::EVENT_UPDATE_HP, PERVec3(50.0, 0.0, 0.0));
 	}
 }

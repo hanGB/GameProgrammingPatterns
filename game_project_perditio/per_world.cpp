@@ -4,6 +4,8 @@
 #include "per_renderer.h"
 #include "per_object.h"
 #include "object_pool.h"
+#include "per_hud.h"
+#include "event_dispatcher.h"
 
 PERWorld::PERWorld(PERObject* player, ObjectPool* objectPool)
 	: m_objectPool(objectPool)
@@ -13,6 +15,9 @@ PERWorld::PERWorld(PERObject* player, ObjectPool* objectPool)
 	InitWorldObject(player);
 
 	std::cout << "Num Object: " << m_numObject << std::endl;
+
+	m_hud = new PERHud();
+	EventDispatcher::AddReciver(m_hud);
 }
 
 PERWorld::~PERWorld()
@@ -25,6 +30,8 @@ void PERWorld::Update(double dTime)
 	DoGarbegeCollection(dTime);
 
 	ProcessPendingMessage();
+
+	m_hud->Update(dTime);
 }
 
 void PERWorld::ObjectsInputUpdate(PERController& controller, double dTime)
@@ -64,6 +71,8 @@ void PERWorld::Render(PERRenderer& renderer)
 	for (int i = 0; i < m_sortedObjects.size(); ++i) {
 		m_sortedObjects[i]->GetGraphics().Render(*m_sortedObjects[i], renderer);
 	}
+
+	m_hud->Renderer(renderer);
 }
 
 void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, PERVec3 position, PERVec3 currentAccel, double lifeTime)
