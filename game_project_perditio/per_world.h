@@ -62,11 +62,8 @@ private:
 	std::vector<PERObject*> m_sortedObjects;
 	bool m_isUpdateSortedObject = false;
 
-	// 메세지 큐(오브젝트 생성 삭제 관련)
+	// 메세지 처리 대기 배열(오브젝트 생성 삭제 관련)
 	int m_maxPending = PER_DEFAULT_MAX_EVENT_PENDING;
 	PERWorldMessage* m_pending = new PERWorldMessage[PER_DEFAULT_MAX_EVENT_PENDING];
 	int m_numPending = 0;
-
-	// 락
-	std::mutex m_mutex;
 };

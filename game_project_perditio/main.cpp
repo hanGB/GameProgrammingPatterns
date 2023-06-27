@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "per_game.h"
 #include "per_locator.h"
+#include "event_dispatcher.h"
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class";
@@ -121,6 +122,7 @@ DWORD WINAPI GameTheadFunc(LPVOID temp)
 		lastTime = currentTime;
 
 		g_game->Update(dTime);
+		EventDispatcher::Update();
 	}
 
 	return 0;

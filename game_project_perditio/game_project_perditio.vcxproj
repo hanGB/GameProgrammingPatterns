@@ -141,8 +141,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="event_dispatcher.h" />
+    <ClInclude Include="event_reciver.h" />
     <ClInclude Include="null_audio.h" />
     <ClInclude Include="null_logger.h" />
+    <ClInclude Include="per_event.h" />
+    <ClInclude Include="per_hud.h" />
     <ClInclude Include="per_audio.h" />
     <ClInclude Include="per_locator.h" />
     <ClInclude Include="per_logger.h" />
@@ -171,7 +175,9 @@
     <ClInclude Include="visible_graphics_component.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="event_dispatcher.cpp" />
     <ClCompile Include="object_pool.cpp" />
+    <ClCompile Include="per_hud.cpp" />
     <ClCompile Include="per_locator.cpp" />
     <ClCompile Include="player_input_component.cpp" />
     <ClCompile Include="unintelligent_ai_component.cpp" />

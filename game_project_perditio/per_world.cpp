@@ -76,14 +76,9 @@ void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, PERVec3 p
 	message.currentAccel = currentAccel;
 	message.lifeTime = lifeTime;
 
-	// 락을 걸고 추가
-	m_mutex.lock();
-
 	if (m_maxPending == m_numPending) ResizePedingArray();
 	m_pending[m_numPending] = message;
 	m_numPending++;
-
-	m_mutex.unlock();
 }
 
 void PERWorld::RequestDeleteObject(PERObject* object)
@@ -92,22 +87,16 @@ void PERWorld::RequestDeleteObject(PERObject* object)
 	message.id = PERWorldMessageId::WORLD_MESSAGE_DELETE_OBJECT;
 	message.object = object;
 
-	// 락을 걸고 추가
-	m_mutex.lock();
-
 	if (m_maxPending == m_numPending) ResizePedingArray();
 	m_pending[m_numPending] = message;
 	m_numPending++;
-
-	m_mutex.unlock();
 }
 
 void PERWorld::DoGarbegeCollection(double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) {
 		if (m_objects[i]->IsLifeTimeIsEnd(dTime)) {
-			DeleteObject(m_objects[i]);
-			i--;
+			RequestDeleteObject(m_objects[i]);
 		}
 	}
 }

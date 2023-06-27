@@ -22,4 +22,3 @@ private:
 	static NullAudio m_nullAudio;
 	static NullLogger m_nullLogger;
 };
-
