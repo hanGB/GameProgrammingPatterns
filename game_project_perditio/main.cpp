@@ -11,6 +11,8 @@ HWND g_hWnd;
 HANDLE g_hGameLoopThreads[2];
 PERGame* g_game;
 bool g_isGameEnd;
+int g_windowSizeW, g_windowSizeH;
+bool g_isMaxScreenSize;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 DWORD WINAPI GameTheadFunc(LPVOID temp);
@@ -67,6 +69,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 		PERLocator::Initialize();
 		PERLocator::Provide(nullptr, nullptr);
+		g_windowSizeW = PER_DEFAULT_WINDOW_WIDTH;
+		g_windowSizeH = PER_DEFAULT_WINDOW_HEIGHT;
 
 #ifdef PER_DEBUG
 		AllocConsole();
@@ -82,10 +86,30 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		g_hGameLoopThreads[1] = CreateThread(NULL, 0, RenderTheadFunc, NULL, 0, &threadID);
 		break;
 	
+	case WM_GETMINMAXINFO:
+		((MINMAXINFO*)lParam)->ptMaxTrackSize.x = g_windowSizeW;
+		((MINMAXINFO*)lParam)->ptMaxTrackSize.y = g_windowSizeH;
+		((MINMAXINFO*)lParam)->ptMinTrackSize.x = g_windowSizeW;
+		((MINMAXINFO*)lParam)->ptMinTrackSize.y = g_windowSizeH;
+		break;
+
 	case WM_KEYDOWN:
 		// esc를 누를 경우 종료
 		if (wParam == VK_ESCAPE) PostMessageW(hWnd, WM_DESTROY, 0, 0);
-
+		if (wParam == VK_RETURN) {
+			if (g_isMaxScreenSize) {
+				g_windowSizeW = PER_DEFAULT_WINDOW_WIDTH;
+				g_windowSizeH = PER_DEFAULT_WINDOW_HEIGHT;
+				g_isMaxScreenSize = false;
+				SetWindowPos(hWnd, nullptr, PER_DEFAULT_WINDOW_LOCATION_X, PER_DEFAULT_WINDOW_LOCATION_Y, g_windowSizeW, g_windowSizeH, 0);
+			}
+			else {
+				g_windowSizeW = PER_MAXIMUM_WINDOW_WIDTH;
+				g_windowSizeH = PER_MAXIMUM_WINDOW_HEIGHT;
+				g_isMaxScreenSize = true;
+				SetWindowPos(hWnd, nullptr, 0, 0, g_windowSizeW, g_windowSizeH, 0);
+			}
+		}
 		g_game->HandleInput(wParam, true);
 		break;
 
