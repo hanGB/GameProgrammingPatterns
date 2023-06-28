@@ -47,8 +47,25 @@ void PERRenderer::RenderShape(PERShapeType type, PERVec3 pos, PERVec3 size, PERC
 	case PERShapeType::SHAPE_TYPE_RECTANGLE:
 		RenderRectangle(pos, size);
 		break;
+	case PERShapeType::SHAPE_TYPE_ROUND_RECTANGLE:
+		RenderRoundRectangle(pos, size, 20, 20);
+		break;
 	case PERShapeType::SHAPE_TYPE_TRIANGLE:
 		RenderTriangle(pos, size);
+		break;
+
+	// ¿ÞÂÊ À§ ¾ÞÄ¿ ¿ë
+	case PERShapeType::SHAPE_TYPE_ELLIPSE_WITH_LEFT_TOP_ANCHOR:
+		RenderEllipseWithLeftTopAnchor(pos, size);
+		break;
+	case PERShapeType::SHAPE_TYPE_RECTANGLE_WITH_LEFT_TOP_ANCHOR:
+		RenderRectangleWithLeftTopAnchor(pos, size);
+		break;
+	case PERShapeType::SHAPE_TYPE_ROUND_RECTANGLE_WITH_LEFT_TOP_ANCHOR:
+		RenderRoundRectangleWithLeftTopAnchor(pos, size, 20, 20);
+		break;
+	case PERShapeType::SHAPE_TYPE_TRIANGLE_WITH_LEFT_TOP_ANCHOR:
+		RenderTriangleWithLeftTopAnchor(pos, size);
 		break;
 	}
 
@@ -99,12 +116,42 @@ void PERRenderer::RenderRectangle(PERVec3 pos, PERVec3 size)
 	Rectangle(m_memoryDC, (int)(pos.x - size.x), (int)(pos.y - size.y), (int)(pos.x + size.x), (int)(pos.y + size.y));
 }
 
+void PERRenderer::RenderRoundRectangle(PERVec3 pos, PERVec3 size, int widthAngle, int heightAngle)
+{
+	RoundRect(m_memoryDC, (int)(pos.x - size.x), (int)(pos.y - size.y), (int)(pos.x + size.x), (int)(pos.y + size.y), widthAngle, heightAngle);
+}
+
 void PERRenderer::RenderTriangle(PERVec3 pos, PERVec3 size)
 {
 	POINT vertices[] = {
-		{ (long)pos.x,				  (long)(pos.y + size.y / 2) },
-		{ (long)(pos.x - size.x / 2), (long)(pos.y - size.y / 2) },
-		{ (long)(pos.x + size.x / 2), (long)(pos.y - size.y / 2) }
+		{ (long)pos.x,				  (long)(pos.y - size.y / 2) },
+		{ (long)(pos.x - size.x / 2), (long)(pos.y + size.y / 2) },
+		{ (long)(pos.x + size.x / 2), (long)(pos.y + size.y / 2) }
+	};
+	Polygon(m_memoryDC, vertices, sizeof(vertices) / sizeof(vertices[0]));
+}
+
+void PERRenderer::RenderEllipseWithLeftTopAnchor(PERVec3 pos, PERVec3 size)
+{
+	Ellipse(m_memoryDC, (int)(pos.x), (int)(pos.y), (int)(pos.x + size.x * 2), (int)(pos.y + size.y * 2));
+}
+
+void PERRenderer::RenderRectangleWithLeftTopAnchor(PERVec3 pos, PERVec3 size)
+{
+	Rectangle(m_memoryDC, (int)(pos.x), (int)(pos.y), (int)(pos.x + size.x * 2), (int)(pos.y + size.y * 2));
+}
+
+void PERRenderer::RenderRoundRectangleWithLeftTopAnchor(PERVec3 pos, PERVec3 size, int widthAngle, int heightAngle)
+{
+	RoundRect(m_memoryDC, (int)(pos.x), (int)(pos.y), (int)(pos.x + size.x * 2), (int)(pos.y + size.y * 2), widthAngle, heightAngle);
+}
+
+void PERRenderer::RenderTriangleWithLeftTopAnchor(PERVec3 pos, PERVec3 size)
+{
+	POINT vertices[] = {
+		{ (long)(pos.x + size.x / 2),	(long)(pos.y - size.y) },
+		{ (long)(pos.x),				(long)(pos.y) },
+		{ (long)(pos.x + size.x),		(long)(pos.y) }
 	};
 	Polygon(m_memoryDC, vertices, sizeof(vertices) / sizeof(vertices[0]));
 }

@@ -16,7 +16,13 @@ private:
 	// 각종 모양 렌더링
 	void RenderEllipse(PERVec3 pos, PERVec3 size);
 	void RenderRectangle(PERVec3 pos, PERVec3 size);
+	void RenderRoundRectangle(PERVec3 pos, PERVec3 size, int widthAngle, int heightAngle);
 	void RenderTriangle(PERVec3 pos, PERVec3 size);
+	// 왼쪽, 위 앵커 포인트
+	void RenderEllipseWithLeftTopAnchor(PERVec3 pos, PERVec3 size);
+	void RenderRectangleWithLeftTopAnchor(PERVec3 pos, PERVec3 size);
+	void RenderRoundRectangleWithLeftTopAnchor(PERVec3 pos, PERVec3 size, int widthAngle, int heightAngle);
+	void RenderTriangleWithLeftTopAnchor(PERVec3 pos, PERVec3 size);
 
 	// openGL과 윈도우즈 좌표계간 변환
 	void ConvertCoordinateOpenGLToWindows(double* x, double* y);

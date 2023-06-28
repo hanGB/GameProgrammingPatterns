@@ -29,11 +29,11 @@ void ProgressBar::Update(double dTime)
 void ProgressBar::Render(PERRenderer& renderer)
 {
 	// 바
-	renderer.RenderShape(PERShapeType::SHAPE_TYPE_RECTANGLE,
+	renderer.RenderShape(PERShapeType::SHAPE_TYPE_RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 		PERVec3(m_position.x, m_position.y, 0.0), PERVec3(m_size.x, m_size.y, 0.0), 
 		m_barColor, m_border, m_borderWidth, m_borderColor);
 	// 진행 상태
-	renderer.RenderShape(PERShapeType::SHAPE_TYPE_RECTANGLE,
+	renderer.RenderShape(PERShapeType::SHAPE_TYPE_RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 		PERVec3(m_position.x, m_position.y, 0.0), PERVec3(m_size.x * m_showing / (double)m_max, m_size.y, 0.0),
 		m_progressColor, false);
 }

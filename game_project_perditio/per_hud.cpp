@@ -4,10 +4,10 @@
 
 PERHud::PERHud()
 {
-	m_hpBar = new ProgressBar(PERVec2(-4.0, 2.0), 100, 100);
+	m_hpBar = new ProgressBar(PERVec2(-5.0, 2.0), 100, 100);
 	m_hpBar->SetColor(PERColor(255, 255, 255), PERColor(255, 0, 0));
 
-	m_mpBar = new ProgressBar(PERVec2(-4.0, 1.6), 100, 100);
+	m_mpBar = new ProgressBar(PERVec2(-5.0, 1.6), 100, 100);
 	m_mpBar->SetColor(PERColor(255, 255, 255), PERColor(0, 0, 255));
 }
 
