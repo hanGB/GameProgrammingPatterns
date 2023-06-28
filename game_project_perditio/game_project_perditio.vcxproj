@@ -153,6 +153,7 @@
     <ClInclude Include="per_component.h" />
     <ClInclude Include="object_pool.h" />
     <ClInclude Include="player_input_component.h" />
+    <ClInclude Include="progress_bar.h" />
     <ClInclude Include="unintelligent_ai_component.h" />
     <ClInclude Include="fixed_physics_component.h" />
     <ClInclude Include="hidden_graphics_component.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="per_hud.cpp" />
     <ClCompile Include="per_locator.cpp" />
     <ClCompile Include="player_input_component.cpp" />
+    <ClCompile Include="progress_bar.cpp" />
     <ClCompile Include="unintelligent_ai_component.cpp" />
     <ClCompile Include="fixed_physics_component.cpp" />
     <ClCompile Include="hidden_graphics_component.cpp" />

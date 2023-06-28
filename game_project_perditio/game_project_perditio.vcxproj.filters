@@ -79,6 +79,9 @@
     <Filter Include="00. game\object\component\implements\physics">
       <UniqueIdentifier>{fbc33c96-017e-433e-bc72-89a239fa3bae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\user_interface\progress_bar">
+      <UniqueIdentifier>{fc32f929-9da5-448b-acbc-e28746b8818d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -177,6 +180,9 @@
     <ClInclude Include="per_event.h">
       <Filter>03. event</Filter>
     </ClInclude>
+    <ClInclude Include="progress_bar.h">
+      <Filter>00. game\user_interface\progress_bar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -241,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="event_dispatcher.cpp">
       <Filter>03. event</Filter>
+    </ClCompile>
+    <ClCompile Include="progress_bar.cpp">
+      <Filter>00. game\user_interface\progress_bar</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
