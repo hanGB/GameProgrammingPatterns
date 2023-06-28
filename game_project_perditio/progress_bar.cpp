@@ -5,7 +5,7 @@
 ProgressBar::ProgressBar(PERVec2 pos, int max, int current)
 	: m_position(pos), m_max(max), m_current(m_current)
 {
-	m_size = PERVec2(2.4, 0.4);
+	m_size = PERVec2(0.4, 0.1);
 	m_barColor = PERColor(255, 255, 255);
 	m_progressColor = PERColor(127, 127, 127);
 
@@ -29,12 +29,12 @@ void ProgressBar::Update(double dTime)
 void ProgressBar::Render(PERRenderer& renderer)
 {
 	// 바
-	renderer.RenderShape(PERShapeType::SHAPE_TYPE_RECTANGLE_WITH_LEFT_TOP_ANCHOR,
-		PERVec3(m_position.x, m_position.y, 0.0), PERVec3(m_size.x, m_size.y, 0.0), 
+	renderer.RenderShapeInScreenCoordinate(PERShapeType::SHAPE_TYPE_RECTANGLE_WITH_LEFT_TOP_ANCHOR,
+		m_position, m_size, 
 		m_barColor, m_border, m_borderWidth, m_borderColor);
 	// 진행 상태
-	renderer.RenderShape(PERShapeType::SHAPE_TYPE_RECTANGLE_WITH_LEFT_TOP_ANCHOR,
-		PERVec3(m_position.x, m_position.y, 0.0), PERVec3(m_size.x * m_showing / (double)m_max, m_size.y, 0.0),
+	renderer.RenderShapeInScreenCoordinate(PERShapeType::SHAPE_TYPE_RECTANGLE_WITH_LEFT_TOP_ANCHOR,
+		m_position, PERVec2(m_size.x * m_showing / (double)m_max, m_size.y),
 		m_progressColor, false);
 }
 

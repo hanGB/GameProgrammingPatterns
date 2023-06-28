@@ -108,7 +108,7 @@ void PERGame::Render(HWND hWnd)
 	m_renderer->MatchWindowSizeAndCurrentMemoryDC(hWnd, memDC);
 	// 게임 월드 렌더링
 	m_world->Render(*m_renderer);
-	m_renderer->RenderFont(m_fpsText, 8, 1.0, PERVec2(-5.0, 3.0), PERColor(0, 0, 0));
+	m_renderer->RenderFontInScreenCoordinate(m_fpsText, 8, 0.001, PERVec2(-0.97, -0.9), PERColor(0, 0, 0));
 	// 실제 출력 버퍼로 이동
 	BitBlt(hDC, 0, 0, rect.right, rect.bottom, memDC, 0, 0, SRCCOPY);
 

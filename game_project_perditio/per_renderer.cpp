@@ -22,7 +22,52 @@ void PERRenderer::MatchWindowSizeAndCurrentMemoryDC(HWND hWnd, HDC memDC)
 	m_memoryDC = memDC;
 }
 
-void PERRenderer::RenderShape(PERShapeType type, PERVec3 pos, PERVec3 size, PERColor color, 
+void PERRenderer::SetCameraPosition(PERVec2 pos)
+{
+	m_cameraPosition = pos;
+}
+
+void PERRenderer::SetCameraSightWidth(double width)
+{
+	m_cameraSightWidth = width;
+}
+
+void PERRenderer::RenderShapeInWorldCoordinate(PERShapeType type, PERVec3 pos, PERVec3 size, PERColor color, 
+	bool border, int borderWidth, PERColor borderColor)
+{
+	// 위치 좌표 변환, 크기 화면에 맞추어 변경
+	PERVec2 posInVec2 = ConvertWorldCoordinateOpenGLToWindows(PERVec2(pos.x, pos.y));
+	PERVec2 sizeInVec2 = MatchSizeWithWorldCoordinate(PERVec2(size.x, size.y));
+
+	RenderShape(type, posInVec2, sizeInVec2, color, border, borderWidth, borderColor);
+}
+
+void PERRenderer::RenderFontInWorldCoordinate(const wchar_t* text, int textSize, double size, PERVec2 pos, PERColor color)
+{
+	pos = ConvertWorldCoordinateOpenGLToWindows(pos);
+	size = MatchSizeWithWorldCoordinate(size);
+
+	RenderFont(text, textSize, size, pos, color);
+}
+
+void PERRenderer::RenderShapeInScreenCoordinate(PERShapeType type, PERVec2 pos, PERVec2 size, PERColor color, 
+	bool border, int borderWidth, PERColor borderColor)
+{
+	pos = ConvertScreenCoordinateOpenGLToWindows(pos);
+	size = MatchSizeWithScreenCoordinate(size);
+
+	RenderShape(type, pos, size, color, border, borderWidth, borderColor);
+}
+
+void PERRenderer::RenderFontInScreenCoordinate(const wchar_t* text, int textSize, double size, PERVec2 pos, PERColor color)
+{
+	pos = ConvertScreenCoordinateOpenGLToWindows(pos);
+	size = MatchSizeWithScreenCoordinate(size);
+
+	RenderFont(text, textSize, size, pos, color);
+}
+
+void PERRenderer::RenderShape(PERShapeType type, PERVec2 pos, PERVec2 size, PERColor color,
 	bool border, int borderWidth, PERColor borderColor)
 {
 	HBRUSH newBrush, oldBrush;
@@ -33,12 +78,6 @@ void PERRenderer::RenderShape(PERShapeType type, PERVec3 pos, PERVec3 size, PERC
 	if (border) newPen = CreatePen(PS_SOLID, borderWidth, RGB(borderColor.r, borderColor.g, borderColor.b));
 	else newPen = CreatePen(PS_SOLID, 0, RGB(color.r, color.g, color.b));
 	oldPen = (HPEN)SelectObject(m_memoryDC, newPen);
-
-	// 위치 좌표 변환, 크기 화면에 맞추어 변경
-	pos = ConvertCoordinateOpenGLToWindowsForVec3(pos);
-	pos = pos * PER_PIXEL_PER_METER;
-	size = MatchSizeWithScreenSizeAndRatioForVec3(size);
-	size = size * PER_PIXEL_PER_METER;
 
 	switch (type) {
 	case PERShapeType::SHAPE_TYPE_ELLIPSE:
@@ -85,16 +124,11 @@ void PERRenderer::RenderFont(const wchar_t* text, int textSize, double size, PER
 
 	newPen = (HPEN)GetStockObject(NULL_PEN);  // 투명선
 	oldPen = (HPEN)SelectObject(m_memoryDC, newPen);
-	size = MatchSizeWithScreenSizeAndRatioForFont(size);
-	size = size * PER_PIXEL_PER_METER;
 	newFont = CreateFont((int)size, 0, 0, 0,
 		FW_BOLD, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, L"맑은 고딕");
 	SetTextColor(m_memoryDC, RGB(color.r, color.g, color.b));
 	SetBkMode(m_memoryDC, TRANSPARENT);
 	oldFont = (HFONT)SelectObject(m_memoryDC, newFont);
-
-	pos = ConvertCoordinateOpenGLToWindowsForVec2(pos);
-	pos = pos * PER_PIXEL_PER_METER;
 
 	TextOut(m_memoryDC, (int)pos.x, (int)pos.y, text, textSize);
 
@@ -106,22 +140,23 @@ void PERRenderer::RenderFont(const wchar_t* text, int textSize, double size, PER
 	DeleteObject(oldPen);
 }
 
-void PERRenderer::RenderEllipse(PERVec3 pos, PERVec3 size)
+void PERRenderer::RenderEllipse(PERVec2 pos, PERVec2 size)
 {
-	Ellipse(m_memoryDC, (int)(pos.x - size.x), (int)(pos.y - size.y), (int)(pos.x + size.x), (int)(pos.y + size.y));
+	Ellipse(m_memoryDC, (int)(pos.x - size.x / 2), (int)(pos.y - size.y / 2), (int)(pos.x + size.x / 2), (int)(pos.y + size.y / 2));
 }
 
-void PERRenderer::RenderRectangle(PERVec3 pos, PERVec3 size)
+void PERRenderer::RenderRectangle(PERVec2 pos, PERVec2 size)
 {
-	Rectangle(m_memoryDC, (int)(pos.x - size.x), (int)(pos.y - size.y), (int)(pos.x + size.x), (int)(pos.y + size.y));
+	Rectangle(m_memoryDC, (int)(pos.x - size.x / 2), (int)(pos.y - size.y / 2), (int)(pos.x + size.x / 2), (int)(pos.y + size.y / 2));
 }
 
-void PERRenderer::RenderRoundRectangle(PERVec3 pos, PERVec3 size, int widthAngle, int heightAngle)
+void PERRenderer::RenderRoundRectangle(PERVec2 pos, PERVec2 size, int widthAngle, int heightAngle)
 {
-	RoundRect(m_memoryDC, (int)(pos.x - size.x), (int)(pos.y - size.y), (int)(pos.x + size.x), (int)(pos.y + size.y), widthAngle, heightAngle);
+	RoundRect(m_memoryDC, (int)(pos.x - size.x / 2), (int)(pos.y - size.y / 2), 
+		(int)(pos.x + size.x / 2), (int)(pos.y + size.y / 2), widthAngle, heightAngle);
 }
 
-void PERRenderer::RenderTriangle(PERVec3 pos, PERVec3 size)
+void PERRenderer::RenderTriangle(PERVec2 pos, PERVec2 size)
 {
 	POINT vertices[] = {
 		{ (long)pos.x,				  (long)(pos.y - size.y / 2) },
@@ -131,22 +166,23 @@ void PERRenderer::RenderTriangle(PERVec3 pos, PERVec3 size)
 	Polygon(m_memoryDC, vertices, sizeof(vertices) / sizeof(vertices[0]));
 }
 
-void PERRenderer::RenderEllipseWithLeftTopAnchor(PERVec3 pos, PERVec3 size)
+void PERRenderer::RenderEllipseWithLeftTopAnchor(PERVec2 pos, PERVec2 size)
 {
-	Ellipse(m_memoryDC, (int)(pos.x), (int)(pos.y), (int)(pos.x + size.x * 2), (int)(pos.y + size.y * 2));
+	Ellipse(m_memoryDC, (int)(pos.x), (int)(pos.y), (int)(pos.x + size.x), (int)(pos.y + size.y));
 }
 
-void PERRenderer::RenderRectangleWithLeftTopAnchor(PERVec3 pos, PERVec3 size)
+void PERRenderer::RenderRectangleWithLeftTopAnchor(PERVec2 pos, PERVec2 size)
 {
-	Rectangle(m_memoryDC, (int)(pos.x), (int)(pos.y), (int)(pos.x + size.x * 2), (int)(pos.y + size.y * 2));
+	Rectangle(m_memoryDC, (int)(pos.x), (int)(pos.y), (int)(pos.x + size.x), (int)(pos.y + size.y));
 }
 
-void PERRenderer::RenderRoundRectangleWithLeftTopAnchor(PERVec3 pos, PERVec3 size, int widthAngle, int heightAngle)
+void PERRenderer::RenderRoundRectangleWithLeftTopAnchor(PERVec2 pos, PERVec2 size, int widthAngle, int heightAngle)
 {
-	RoundRect(m_memoryDC, (int)(pos.x), (int)(pos.y), (int)(pos.x + size.x * 2), (int)(pos.y + size.y * 2), widthAngle, heightAngle);
+	RoundRect(m_memoryDC, (int)(pos.x), (int)(pos.y), 
+		(int)(pos.x + size.x), (int)(pos.y + size.y), widthAngle, heightAngle);
 }
 
-void PERRenderer::RenderTriangleWithLeftTopAnchor(PERVec3 pos, PERVec3 size)
+void PERRenderer::RenderTriangleWithLeftTopAnchor(PERVec2 pos, PERVec2 size)
 {
 	POINT vertices[] = {
 		{ (long)(pos.x + size.x / 2),	(long)(pos.y - size.y) },
@@ -156,66 +192,73 @@ void PERRenderer::RenderTriangleWithLeftTopAnchor(PERVec3 pos, PERVec3 size)
 	Polygon(m_memoryDC, vertices, sizeof(vertices) / sizeof(vertices[0]));
 }
 
-
-void PERRenderer::ConvertCoordinateOpenGLToWindows(double* x, double* y)
+PERVec2 PERRenderer::ConvertWorldCoordinateOpenGLToWindows(PERVec2 pos)
 {
-	*x += m_halfWidth / (double)PER_PIXEL_PER_METER;
-	*y *= -1;
-	*y += m_halfHeight / (double)PER_PIXEL_PER_METER;
-}
-void PERRenderer::ConvertCoordinateWindowsToOpenGL(double* x, double* y)
-{
-	*x -= m_halfWidth;
-	*y -= m_halfHeight;
-	*y *= -1;
+	pos.y *= -1;
 
-	*x /= (double)PER_PIXEL_PER_METER;
-	*y /= (double)PER_PIXEL_PER_METER;
-}
+	double cameraSightHeight = m_cameraSightWidth * m_halfHeight / m_halfWidth;
 
-PERVec3 PERRenderer::ConvertCoordinateOpenGLToWindowsForVec3(PERVec3 vec)
-{
-	vec.x += m_halfWidth / (double)PER_PIXEL_PER_METER;
-	vec.y *= -1;
-	vec.y += m_halfHeight / (double)PER_PIXEL_PER_METER;
+	double widthSizePerMeter = (m_halfWidth * 2.0) / m_cameraSightWidth;
+	double heightSizePerMeter = (m_halfHeight * 2.0) / cameraSightHeight;
 
-	return vec;
+	pos.x -= m_cameraPosition.x;
+	pos.x += m_cameraSightWidth / 2.0;
+	pos.x *= widthSizePerMeter;
+	pos.y -= m_cameraPosition.y;
+	pos.y += cameraSightHeight / 2.0;
+	pos.y *= heightSizePerMeter;
+
+	return pos;
 }
 
-PERVec2 PERRenderer::ConvertCoordinateOpenGLToWindowsForVec2(PERVec2 vec)
+PERVec2 PERRenderer::MatchSizeWithWorldCoordinate(PERVec2 size)
 {
-	vec.x += m_halfWidth / (double)PER_PIXEL_PER_METER;
-	vec.y *= -1;
-	vec.y += m_halfHeight / (double)PER_PIXEL_PER_METER;
+	double cameraSightHeight = m_cameraSightWidth * m_halfHeight / m_halfWidth;
 
-	return vec;
+	double widthSizePerMeter = (m_halfWidth * 2.0) / m_cameraSightWidth;
+	double heightSizePerMeter = (m_halfHeight * 2.0) / cameraSightHeight;
+
+	size.x *= widthSizePerMeter;
+	size.y *= heightSizePerMeter;
+
+	return size;
 }
 
-void PERRenderer::MatchSizeWithScreenSizeAndRatio(double* x, double* y)
+double PERRenderer::MatchSizeWithWorldCoordinate(double size)
 {
-	*x *= m_halfWidth / (double)PER_DEFAULT_WINDOW_WIDTH;
-	*y *= m_halfHeight / (double)PER_DEFAULT_WINDOW_HEIGHT;
+	double cameraSightHeight = m_cameraSightWidth * m_halfHeight / m_halfWidth;
+
+	double width = (m_halfWidth * 2.0) / m_cameraSightWidth;
+	double height = (m_halfHeight * 2.0) / cameraSightHeight;
+
+	size *= (width + height) / 2.0;
+
+	return size;
 }
 
-PERVec3 PERRenderer::MatchSizeWithScreenSizeAndRatioForVec3(PERVec3 vec)
+PERVec2 PERRenderer::ConvertScreenCoordinateOpenGLToWindows(PERVec2 pos)
 {
-	vec.x *= m_halfWidth / (double)PER_DEFAULT_WINDOW_WIDTH;
-	vec.y *= m_halfHeight / (double)PER_DEFAULT_WINDOW_HEIGHT;
+	pos.y *= -1;
 
-	return vec;
+	pos.x += 1.0;
+	pos.x *= m_halfWidth;
+	pos.y += 1.0;
+	pos.y *= m_halfHeight;
+
+	return pos;
 }
 
-PERVec2 PERRenderer::MatchSizeWithScreenSizeAndRatioForVec2(PERVec2 vec)
+PERVec2 PERRenderer::MatchSizeWithScreenCoordinate(PERVec2 pos)
 {
-	vec.x *= m_halfWidth / (double)PER_DEFAULT_WINDOW_WIDTH;
-	vec.y *= m_halfHeight / (double)PER_DEFAULT_WINDOW_HEIGHT;
+	pos.x *= m_halfWidth;
+	pos.y *= m_halfHeight;
 
-	return vec;
+	return pos;
 }
 
-double PERRenderer::MatchSizeWithScreenSizeAndRatioForFont(double size)
+double PERRenderer::MatchSizeWithScreenCoordinate(double size)
 {
-	size *= m_halfWidth / (double)PER_DEFAULT_WINDOW_WIDTH;
+	size *= (m_halfWidth + m_halfHeight) / 2.0;
 
 	return size;
 }
