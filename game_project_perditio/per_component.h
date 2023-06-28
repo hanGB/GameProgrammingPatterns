@@ -31,5 +31,8 @@ namespace PERComponent {
 	struct GraphicsData {
 		PERShapeType shape;
 		PERColor color;
+		bool border;
+		int borderWidth;
+		PERColor borderColor;
 	};
 }

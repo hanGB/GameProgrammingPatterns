@@ -22,11 +22,17 @@ void PERRenderer::MatchWindowSizeAndCurrentMemoryDC(HWND hWnd, HDC memDC)
 	m_memoryDC = memDC;
 }
 
-void PERRenderer::RenderShape(PERShapeType type, PERVec3 pos, PERVec3 size, PERColor color)
+void PERRenderer::RenderShape(PERShapeType type, PERVec3 pos, PERVec3 size, PERColor color, 
+	bool border, int borderWidth, PERColor borderColor)
 {
 	HBRUSH newBrush, oldBrush;
 	newBrush = CreateSolidBrush(RGB(color.r, color.g, color.b));
 	oldBrush = (HBRUSH)SelectObject(m_memoryDC, newBrush);
+
+	HPEN newPen, oldPen;
+	if (border) newPen = CreatePen(PS_SOLID, borderWidth, RGB(borderColor.r, borderColor.g, borderColor.b));
+	else newPen = CreatePen(PS_SOLID, 0, RGB(color.r, color.g, color.b));
+	oldPen = (HPEN)SelectObject(m_memoryDC, newPen);
 
 	// 위치 좌표 변환, 크기 화면에 맞추어 변경
 	pos = ConvertCoordinateOpenGLToWindowsForVec3(pos);
@@ -49,6 +55,10 @@ void PERRenderer::RenderShape(PERShapeType type, PERVec3 pos, PERVec3 size, PERC
 	SelectObject(m_memoryDC, oldBrush);
 	DeleteObject(newBrush);
 	DeleteObject(oldBrush);
+
+	SelectObject(m_memoryDC, oldPen);
+	DeleteObject(newPen);
+	DeleteObject(oldPen);
 }
 
 void PERRenderer::RenderFont(const wchar_t* text, int textSize, double size, PERVec2 pos, PERColor color)

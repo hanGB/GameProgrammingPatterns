@@ -8,7 +8,8 @@ public:
 	// 현재 윈도우 사이즈와 메모리DC 설정
 	void MatchWindowSizeAndCurrentMemoryDC(HWND hWnd, HDC memDC);
 	// 모양 렌더링
-	void RenderShape(PERShapeType type, PERVec3 pos, PERVec3 size, PERColor color);
+	void RenderShape(PERShapeType type, PERVec3 pos, PERVec3 size, PERColor color, 
+		bool border = true, int borderWidth = 1, PERColor borderColor = PERColor(0, 0, 0));
 	void RenderFont(const wchar_t* text, int textSize, double size, PERVec2 pos, PERColor color);
 
 private:

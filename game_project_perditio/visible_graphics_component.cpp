@@ -11,12 +11,16 @@ void VisibleGraphicsComponent::Update(PERObject& object, double dTime)
 
 void VisibleGraphicsComponent::Render(PERObject& object, PERRenderer& renderer)
 {
-	renderer.RenderShape(m_shapeType, m_position, m_size, m_color);
+	renderer.RenderShape(m_shapeType, m_position, m_size, m_color, m_border, m_borderWidth, m_borderColor);
 }
 
 void VisibleGraphicsComponent::SetData(PERComponent::GraphicsData data)
 {
 	m_shapeType = data.shape;
 	m_color = data.color;
+
+	m_border = data.border;
+	m_borderWidth = data.borderWidth;
+	m_borderColor = data.borderColor;
 }
 

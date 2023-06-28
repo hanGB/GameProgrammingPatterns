@@ -16,32 +16,11 @@
     <Filter Include="00. game">
       <UniqueIdentifier>{869e2fb2-c1af-4273-9d60-2ed329ba0909}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\component">
-      <UniqueIdentifier>{127ca7ae-a578-41a5-a00c-4146ae8f06c1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. game\object">
       <UniqueIdentifier>{054d06d7-a0de-44f8-b550-e5dcc164346e}</UniqueIdentifier>
     </Filter>
     <Filter Include="00. game\world">
       <UniqueIdentifier>{56ff81bd-bcf5-41e3-b08e-5e45de332309}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. game\component\interface">
-      <UniqueIdentifier>{0b717086-9c44-404c-b79b-ee5615fe8280}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. game\component\implements">
-      <UniqueIdentifier>{0cacde96-4cb3-4dfc-a08d-edaf56a39149}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. game\component\implements\ai">
-      <UniqueIdentifier>{a45634cc-0f0c-4828-a91e-bb1a7021ce32}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. game\component\implements\graphics">
-      <UniqueIdentifier>{3c6282bc-136c-4849-8c90-dda90ef32306}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. game\component\implements\input">
-      <UniqueIdentifier>{c6f3cb57-8501-428c-8d0b-914e5d460c5f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. game\component\implements\physics">
-      <UniqueIdentifier>{fbc33c96-017e-433e-bc72-89a239fa3bae}</UniqueIdentifier>
     </Filter>
     <Filter Include="00. game\object\object_pool">
       <UniqueIdentifier>{bd326c91-2bc6-4bef-b02f-a25b330a1761}</UniqueIdentifier>
@@ -79,6 +58,27 @@
     <Filter Include="04. byte_code">
       <UniqueIdentifier>{603bee9a-e012-4678-bf3f-933c2f2b0b14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\object\component">
+      <UniqueIdentifier>{127ca7ae-a578-41a5-a00c-4146ae8f06c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\interface">
+      <UniqueIdentifier>{0b717086-9c44-404c-b79b-ee5615fe8280}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements">
+      <UniqueIdentifier>{0cacde96-4cb3-4dfc-a08d-edaf56a39149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\ai">
+      <UniqueIdentifier>{a45634cc-0f0c-4828-a91e-bb1a7021ce32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\graphics">
+      <UniqueIdentifier>{3c6282bc-136c-4849-8c90-dda90ef32306}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\input">
+      <UniqueIdentifier>{c6f3cb57-8501-428c-8d0b-914e5d460c5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\physics">
+      <UniqueIdentifier>{fbc33c96-017e-433e-bc72-89a239fa3bae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -97,40 +97,40 @@
       <Filter>00. game\object</Filter>
     </ClInclude>
     <ClInclude Include="per_ai_component.h">
-      <Filter>00. game\component\interface</Filter>
+      <Filter>00. game\object\component\interface</Filter>
     </ClInclude>
     <ClInclude Include="per_graphics_component.h">
-      <Filter>00. game\component\interface</Filter>
+      <Filter>00. game\object\component\interface</Filter>
     </ClInclude>
     <ClInclude Include="per_input_component.h">
-      <Filter>00. game\component\interface</Filter>
+      <Filter>00. game\object\component\interface</Filter>
     </ClInclude>
     <ClInclude Include="per_physics_component.h">
-      <Filter>00. game\component\interface</Filter>
+      <Filter>00. game\object\component\interface</Filter>
     </ClInclude>
     <ClInclude Include="movable_physics_component.h">
-      <Filter>00. game\component\implements\physics</Filter>
+      <Filter>00. game\object\component\implements\physics</Filter>
     </ClInclude>
     <ClInclude Include="fixed_physics_component.h">
-      <Filter>00. game\component\implements\physics</Filter>
+      <Filter>00. game\object\component\implements\physics</Filter>
     </ClInclude>
     <ClInclude Include="visible_graphics_component.h">
-      <Filter>00. game\component\implements\graphics</Filter>
+      <Filter>00. game\object\component\implements\graphics</Filter>
     </ClInclude>
     <ClInclude Include="hidden_graphics_component.h">
-      <Filter>00. game\component\implements\graphics</Filter>
+      <Filter>00. game\object\component\implements\graphics</Filter>
     </ClInclude>
     <ClInclude Include="interact_input_component.h">
-      <Filter>00. game\component\implements\input</Filter>
+      <Filter>00. game\object\component\implements\input</Filter>
     </ClInclude>
     <ClInclude Include="no_interact_input_component.h">
-      <Filter>00. game\component\implements\input</Filter>
+      <Filter>00. game\object\component\implements\input</Filter>
     </ClInclude>
     <ClInclude Include="intelligent_ai_component.h">
-      <Filter>00. game\component\implements\ai</Filter>
+      <Filter>00. game\object\component\implements\ai</Filter>
     </ClInclude>
     <ClInclude Include="unintelligent_ai_component.h">
-      <Filter>00. game\component\implements\ai</Filter>
+      <Filter>00. game\object\component\implements\ai</Filter>
     </ClInclude>
     <ClInclude Include="object_factory.h">
       <Filter>00. game\object\object_factory</Filter>
@@ -139,10 +139,10 @@
       <Filter>00. game\object\object_pool</Filter>
     </ClInclude>
     <ClInclude Include="per_component.h">
-      <Filter>00. game\component</Filter>
+      <Filter>00. game\object\component</Filter>
     </ClInclude>
     <ClInclude Include="player_input_component.h">
-      <Filter>00. game\component\implements\input</Filter>
+      <Filter>00. game\object\component\implements\input</Filter>
     </ClInclude>
     <ClInclude Include="per_controller.h">
       <Filter>01. controller</Filter>
@@ -195,28 +195,28 @@
       <Filter>00. game\object</Filter>
     </ClCompile>
     <ClCompile Include="fixed_physics_component.cpp">
-      <Filter>00. game\component\implements\physics</Filter>
+      <Filter>00. game\object\component\implements\physics</Filter>
     </ClCompile>
     <ClCompile Include="movable_physics_component.cpp">
-      <Filter>00. game\component\implements\physics</Filter>
+      <Filter>00. game\object\component\implements\physics</Filter>
     </ClCompile>
     <ClCompile Include="interact_input_component.cpp">
-      <Filter>00. game\component\implements\input</Filter>
+      <Filter>00. game\object\component\implements\input</Filter>
     </ClCompile>
     <ClCompile Include="unintelligent_ai_component.cpp">
-      <Filter>00. game\component\implements\ai</Filter>
+      <Filter>00. game\object\component\implements\ai</Filter>
     </ClCompile>
     <ClCompile Include="visible_graphics_component.cpp">
-      <Filter>00. game\component\implements\graphics</Filter>
+      <Filter>00. game\object\component\implements\graphics</Filter>
     </ClCompile>
     <ClCompile Include="intelligent_ai_component.cpp">
-      <Filter>00. game\component\implements\ai</Filter>
+      <Filter>00. game\object\component\implements\ai</Filter>
     </ClCompile>
     <ClCompile Include="no_interact_input_component.cpp">
-      <Filter>00. game\component\implements\input</Filter>
+      <Filter>00. game\object\component\implements\input</Filter>
     </ClCompile>
     <ClCompile Include="hidden_graphics_component.cpp">
-      <Filter>00. game\component\implements\graphics</Filter>
+      <Filter>00. game\object\component\implements\graphics</Filter>
     </ClCompile>
     <ClCompile Include="object_factory.cpp">
       <Filter>00. game\object\object_factory</Filter>
@@ -225,7 +225,7 @@
       <Filter>00. game\object\object_pool</Filter>
     </ClCompile>
     <ClCompile Include="player_input_component.cpp">
-      <Filter>00. game\component\implements\input</Filter>
+      <Filter>00. game\object\component\implements\input</Filter>
     </ClCompile>
     <ClCompile Include="per_controller.cpp">
       <Filter>01. controller</Filter>
