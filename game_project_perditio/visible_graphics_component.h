@@ -4,7 +4,7 @@
 class VisibleGraphicsComponent : public PERGraphicsComponent {
 public:
 	virtual void Update(PERObject& object, double dTime);
-	virtual void Render(PERObject& object, PERRenderer& renderer);
+	virtual void Render(PERObject& object, PERRenderer& renderer, double frameGap);
 	virtual void SetData(PERComponent::GraphicsData data);
 
 private:
@@ -18,4 +18,5 @@ private:
 
 	PERVec3 m_position;
 	PERVec3 m_size;
+	PERVec3 m_currentVelocity;
 };

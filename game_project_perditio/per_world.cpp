@@ -66,10 +66,10 @@ void PERWorld::ObjectsGraphicsUpdate(double dTime)
 	}
 }
 
-void PERWorld::Render(PERRenderer& renderer)
+void PERWorld::Render(PERRenderer& renderer, double frameGap)
 {
 	for (int i = 0; i < m_sortedObjects.size(); ++i) {
-		m_sortedObjects[i]->GetGraphics().Render(*m_sortedObjects[i], renderer);
+		m_sortedObjects[i]->GetGraphics().Render(*m_sortedObjects[i], renderer, frameGap);
 	}
 
 	m_hud->Renderer(renderer);

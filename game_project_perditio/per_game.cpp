@@ -70,11 +70,11 @@ void PERGame::Update(int time)
 	}
 	// 최대 업데이트 루프 횟수를 넘어서 끝날 경우를 대비해 업데이트에 걸리는 시간으로 나눔
 	m_updateLag %= PER_MICROSEC_PER_UPDATE;
-
 	
 	// 렌더링 준비가 되었을 경우 리턴(아직 렌더링 하지 않음) 
 	if (m_isReadyForRender) return;
 
+	m_frameGap = (double)m_updateLag / (double)PER_MICROSEC_PER_UPDATE;
 	m_world->ObjectsGraphicsUpdate(dTime); 
 
 	m_world->UpdateSortedObjects();
@@ -107,7 +107,7 @@ void PERGame::Render(HWND hWnd)
 	// 렌더러에 있는 메모리 DC를 현재 메모리 DC로 맞춤
 	m_renderer->MatchWindowSizeAndCurrentMemoryDC(hWnd, memDC);
 	// 게임 월드 렌더링
-	m_world->Render(*m_renderer);
+	m_world->Render(*m_renderer, m_frameGap);
 	m_renderer->RenderFontInScreenCoordinate(m_fpsText, 8, 0.001, PERVec2(-0.97, -0.9), PERColor(0, 0, 0));
 	// 실제 출력 버퍼로 이동
 	BitBlt(hDC, 0, 0, rect.right, rect.bottom, memDC, 0, 0, SRCCOPY);

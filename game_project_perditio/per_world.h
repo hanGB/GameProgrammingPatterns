@@ -35,7 +35,7 @@ public:
 
 	void UpdateSortedObjects();
 
-	void Render(PERRenderer& renderer);
+	void Render(PERRenderer& renderer, double frameGap);
 
 	// 요청을 받는 함수
 	void RequestAddObject(

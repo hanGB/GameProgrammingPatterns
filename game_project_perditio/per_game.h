@@ -21,6 +21,7 @@ private:
 	const double c_FPS_UPDATE_GAP = 0.5;
 
 	int m_updateLag = 0;
+	std::atomic<double> m_frameGap;
 	std::atomic<bool> m_isReadyForRender = false;
 
 	PERController*	m_controller;
