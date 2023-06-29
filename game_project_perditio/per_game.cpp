@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "per_game.h"
 
-PERGame::PERGame()
+PERGame::PERGame(HWND hWnd)
 {
 	m_controller = new PERController();
-	m_renderer = new PERRenderer();
+	m_renderer = new PERRenderer(hWnd);
 	m_objectPool = new ObjectPool();
 
 	m_player = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_PLAYER);
@@ -74,6 +74,8 @@ void PERGame::Update(int time)
 	// 렌더링 준비가 되었을 경우 리턴(아직 렌더링 하지 않음) 
 	if (m_isReadyForRender) return;
 
+	m_world->UIUpdate(dTime);
+
 	m_frameGap = (double)m_updateLag / (double)PER_MICROSEC_PER_UPDATE;
 	m_world->ObjectsGraphicsUpdate(dTime); 
 
@@ -89,35 +91,20 @@ void PERGame::Render(HWND hWnd)
 	// 렌더링 준비가 되지 않은 경우 리턴
 	if (!m_isReadyForRender) return;
 
-	HDC hDC, memDC;
-	HBITMAP hBitmap, oldBitmap;
-	RECT rect;
+	// 윈도우 크기 설정
+	m_renderer->MatchWindowSize(hWnd);
 
-	hDC = GetDC(hWnd);
+	m_renderer->ResetMemoryDC(hWnd);
+	m_renderer->ResetUIMemoryDC(hWnd);
 
-	// 더블 버퍼링 관련 설정
-	GetClientRect(hWnd, &rect);
-	memDC = CreateCompatibleDC(hDC);
-	hBitmap = CreateCompatibleBitmap(hDC, rect.right, rect.bottom);
-	oldBitmap = (HBITMAP)SelectObject(memDC, hBitmap);
-
-	// 전체 흰색 초기화
-	Rectangle(memDC, -1, -1, rect.right + 1, rect.bottom + 1);
-
-	// 렌더러에 있는 메모리 DC를 현재 메모리 DC로 맞춤
-	m_renderer->MatchWindowSizeAndCurrentMemoryDC(hWnd, memDC);
 	// 게임 월드 렌더링
 	m_world->Render(*m_renderer, m_frameGap);
+	m_renderer->RenderShapeInScreenCoordinate(PERShapeType::SHAPE_TYPE_RECTANGLE,
+		PERVec2(-0.95, -0.95), PERVec2(0.2, 0.1), PERColor(255, 255, 255), false);
 	m_renderer->RenderFontInScreenCoordinate(m_fpsText, 8, 0.001, PERVec2(-0.97, -0.9), PERColor(0, 0, 0));
-	// 실제 출력 버퍼로 이동
-	BitBlt(hDC, 0, 0, rect.right, rect.bottom, memDC, 0, 0, SRCCOPY);
+	m_world->UIRender(*m_renderer);
 
-	// 더블 버퍼링관련 데이터 삭제
-	DeleteObject(SelectObject(memDC, oldBitmap));
-	DeleteDC(memDC);
-	DeleteDC(hDC);
-	DeleteObject(hBitmap);
-	DeleteObject(oldBitmap);
+	m_renderer->FillHDCWithMemoryDCs(hWnd);
 
 	// 렌더링 준비를 하도록 변경
 	m_isReadyForRender = false;

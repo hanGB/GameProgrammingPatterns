@@ -7,12 +7,12 @@
 
 class PERGame {
 public:
-	PERGame();
+	PERGame(HWND hWnd);
 	~PERGame();
 
 	void HandleInput(WPARAM wParam, bool isDown);
 	void Update(int deltaTime);
-	void Render(HWND m_hWnd);
+	void Render(HWND hWnd);
 
 	PERController& GetController();
 	PERRenderer& GetRenderer();

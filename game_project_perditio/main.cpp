@@ -79,7 +79,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		freopen_s(&stream, "CONOUT$", "w", stderr);
 		freopen_s(&stream, "CONOUT$", "w", stdout);
 #endif 
-		g_game = new PERGame();
+		g_game = new PERGame(g_hWnd);
 		g_isGameEnd = false;
 		// 게임 루프 스레드 생성
 		g_hGameLoopThreads[0] = CreateThread(NULL, 0, GameTheadFunc, NULL, 0, &threadID);

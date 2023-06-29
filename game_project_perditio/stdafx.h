@@ -1,4 +1,7 @@
 #pragma once
+// 투명 관련 라이브러리
+#pragma comment(lib, "Msimg32.lib")
+
 // 윈도우즈 API 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
@@ -33,6 +36,9 @@
 #define PER_DEFAULT_WINDOW_HEIGHT 720
 #define PER_MAXIMUM_WINDOW_WIDTH 1800
 #define PER_MAXIMUM_WINDOW_HEIGHT 1000
+
+// 투명 레이어
+#define PER_TRANSPARENT_COLOR RGB(1, 12, 123)
 
 // 업데이트 타임 설정
 #define PER_MICROSEC_PER_UPDATE 8000

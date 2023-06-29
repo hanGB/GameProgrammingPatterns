@@ -30,7 +30,10 @@ void PERWorld::Update(double dTime)
 	DoGarbegeCollection(dTime);
 
 	ProcessPendingMessage();
+}
 
+void PERWorld::UIUpdate(double dTime)
+{
 	m_hud->Update(dTime);
 }
 
@@ -71,7 +74,10 @@ void PERWorld::Render(PERRenderer& renderer, double frameGap)
 	for (int i = 0; i < m_sortedObjects.size(); ++i) {
 		m_sortedObjects[i]->GetGraphics().Render(*m_sortedObjects[i], renderer, frameGap);
 	}
+}
 
+void PERWorld::UIRender(PERRenderer& renderer)
+{
 	m_hud->Renderer(renderer);
 }
 

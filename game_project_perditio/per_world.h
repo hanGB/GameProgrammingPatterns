@@ -27,6 +27,7 @@ public:
 	~PERWorld();
 
 	void Update(double dTime);
+	void UIUpdate(double dTime);
 
 	void ObjectsInputUpdate(PERController& controller, double dTime);
 	void ObjectsAiUpdate(double dTime);
@@ -36,6 +37,7 @@ public:
 	void UpdateSortedObjects();
 
 	void Render(PERRenderer& renderer, double frameGap);
+	void UIRender(PERRenderer& renderer);
 
 	// 요청을 받는 함수
 	void RequestAddObject(
