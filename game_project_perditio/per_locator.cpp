@@ -33,3 +33,9 @@ void PERLocator::Provide(PERAudio* audio, PERLogger* logger)
     if (logger == nullptr) m_logger = &m_nullLogger;
     else m_logger = logger;
 }
+
+void PERLocator::DeleteAllServices()
+{
+    if (m_audio != &m_nullAudio) delete m_audio;
+    if (m_logger != &m_nullLogger) delete m_logger;
+}

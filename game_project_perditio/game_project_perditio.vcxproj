@@ -175,6 +175,7 @@
     <ClInclude Include="per_world.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="visible_graphics_component.h" />
+    <ClInclude Include="console_logger.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="event_dispatcher.cpp" />
@@ -202,6 +203,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="visible_graphics_component.cpp" />
+    <ClCompile Include="console_logger.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

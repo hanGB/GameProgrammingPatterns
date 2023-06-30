@@ -13,6 +13,7 @@ public:
 	static PERLogger& GetLogger();
 
 	static void Provide(PERAudio* audio, PERLogger* logger);
+	static void DeleteAllServices();
 
 private:
 	static PERAudio* m_audio;

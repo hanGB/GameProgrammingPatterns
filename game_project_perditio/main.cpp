@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "per_game.h"
 #include "per_locator.h"
+#include "console_logger.h"
 #include "event_dispatcher.h"
 
 HINSTANCE g_hInst;
@@ -71,17 +72,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg) {
 	case WM_CREATE:
 		PERLocator::Initialize();
-		PERLocator::Provide(nullptr, nullptr);
+		PERLocator::Provide(nullptr, new ConsoleLogger());
 		g_windowSizeW = PER_DEFAULT_WINDOW_WIDTH;
 		g_windowSizeH = PER_DEFAULT_WINDOW_HEIGHT;
-
-#ifdef PER_DEBUG
-		AllocConsole();
-		FILE* stream;
-		freopen_s(&stream, "CONIN$", "r", stdin);
-		freopen_s(&stream, "CONOUT$", "w", stderr);
-		freopen_s(&stream, "CONOUT$", "w", stdout);
-#endif 
 		g_game = new PERGame(g_hWnd);
 		g_isGameEnd = false;
 		// 게임 루프 스레드 생성
@@ -128,11 +121,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		g_isGameEnd = true;
 		// 게임 루프 스레드가 종료될 때 까지 무한 대기
-		WaitForMultipleObjects(2, g_hGameLoopThreads, true, INFINITE);
+		WaitForMultipleObjects(5, g_hGameLoopThreads, true, INFINITE);
+		PERLocator::DeleteAllServices();
 		delete g_game;
-#ifdef PER_DEBUG
-		FreeConsole();
-#endif
 		PostQuitMessage(0);
 		break;
 	}

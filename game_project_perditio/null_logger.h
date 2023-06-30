@@ -3,9 +3,11 @@
 
 class NullLogger : public PERLogger {
 public:
-	virtual void ShowLog(const char* text) {}
-	virtual void ShowWarnning(const char* text) {}
-	virtual void ShowError(const char* text) {}
+	virtual void Update() {}
+
+	virtual void Info(const char* text) {}
+	virtual void Warnning(const char* text) {}
+	virtual void Error(const char* text) {}
 
 	virtual void SaveLogs() {}
 	virtual void SaveWarnnings() {}

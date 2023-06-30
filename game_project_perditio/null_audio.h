@@ -3,6 +3,8 @@
 
 class NullAudio : public PERAudio {
 public:
+	virtual void Update() {}
+
 	virtual void PlaySound(PERSoundId id, double volume) {}
 	virtual void StopSound(PERSoundId id) {}
 	virtual void StopAllSounds() {}

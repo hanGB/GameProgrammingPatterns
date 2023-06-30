@@ -6,6 +6,7 @@
 #include "object_pool.h"
 #include "per_hud.h"
 #include "event_dispatcher.h"
+#include "per_locator.h"
 
 PERWorld::PERWorld(PERObject* player, ObjectPool* objectPool)
 	: m_objectPool(objectPool)
@@ -13,8 +14,7 @@ PERWorld::PERWorld(PERObject* player, ObjectPool* objectPool)
 	m_objects.reserve(PER_DEFAULT_MAX_OBJECTS);
 	
 	InitWorldObject(player);
-
-	std::cout << "Num Object: " << m_numObject << std::endl;
+	PERLocator::GetLogger().InfoWithFormat("Num Object: %d", m_numObject);
 
 	m_hud = new PERHud();
 	EventDispatcher::AddReciver(m_hud);
