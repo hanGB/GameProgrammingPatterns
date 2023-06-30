@@ -56,15 +56,12 @@ private:
 	PERVec2 m_cameraPosition = PERVec2(0.0, 0.0);
 	double m_cameraSightWidth = 20.0;
 
-	double m_halfWidth;
-	double m_halfHeight;
+	// 윈도우 크기
+	RECT m_windowSizeRect;
 
 	// 메모리 DC
 	HDC m_memoryDC;
 	HDC m_uiMemoryDC;
 	HBITMAP m_newBitmap, m_oldBitmap;
 	HBITMAP m_uiNewBitmap, m_uiOldBitmap;
-
-	// 윈도우 크기 저장
-	RECT m_windowSizeRect;
 };

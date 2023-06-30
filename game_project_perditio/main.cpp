@@ -8,7 +8,7 @@ LPCTSTR lpszClass = L"Window Class";
 LPCTSTR lpszWindowName = L"Perditio";
 
 HWND g_hWnd;
-HANDLE g_hGameLoopThreads[2];
+HANDLE g_hGameLoopThreads[5];
 PERGame* g_game;
 bool g_isGameEnd;
 int g_windowSizeW, g_windowSizeH;
@@ -17,6 +17,9 @@ bool g_isMaxScreenSize;
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 DWORD WINAPI GameTheadFunc(LPVOID temp);
 DWORD WINAPI RenderTheadFunc(LPVOID temp);
+DWORD WINAPI UIUpdateTheadFunc(LPVOID temp);
+DWORD WINAPI UIRenderTheadFunc(LPVOID temp);
+DWORD WINAPI EventDispatchterTheadFunc(LPVOID temp);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -45,7 +48,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	g_hWnd = CreateWindow(lpszClass, lpszWindowName,
 		WS_OVERLAPPEDWINDOW, 
 		PER_DEFAULT_WINDOW_LOCATION_X, PER_DEFAULT_WINDOW_LOCATION_Y, 
-		PER_DEFAULT_WINDOW_WIDTH, PER_DEFAULT_WINDOW_HEIGHT, 
+		PER_DEFAULT_WINDOW_WIDTH, PER_DEFAULT_WINDOW_HEIGHT,
 		NULL, (HMENU)NULL, hInstance, NULL);
 
 	// 윈도우 출력
@@ -84,6 +87,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// 게임 루프 스레드 생성
 		g_hGameLoopThreads[0] = CreateThread(NULL, 0, GameTheadFunc, NULL, 0, &threadID);
 		g_hGameLoopThreads[1] = CreateThread(NULL, 0, RenderTheadFunc, NULL, 0, &threadID);
+		g_hGameLoopThreads[2] = CreateThread(NULL, 0, UIUpdateTheadFunc, NULL, 0, &threadID);
+		g_hGameLoopThreads[3] = CreateThread(NULL, 0, UIRenderTheadFunc, NULL, 0, &threadID);
+		g_hGameLoopThreads[4] = CreateThread(NULL, 0, EventDispatchterTheadFunc, NULL, 0, &threadID);
 		break;
 	
 	case WM_GETMINMAXINFO:
@@ -102,12 +108,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				g_windowSizeH = PER_DEFAULT_WINDOW_HEIGHT;
 				g_isMaxScreenSize = false;
 				SetWindowPos(hWnd, nullptr, PER_DEFAULT_WINDOW_LOCATION_X, PER_DEFAULT_WINDOW_LOCATION_Y, g_windowSizeW, g_windowSizeH, 0);
+				g_game->GetRenderer().MatchWindowSize(hWnd);
 			}
 			else {
 				g_windowSizeW = PER_MAXIMUM_WINDOW_WIDTH;
 				g_windowSizeH = PER_MAXIMUM_WINDOW_HEIGHT;
 				g_isMaxScreenSize = true;
 				SetWindowPos(hWnd, nullptr, 0, 0, g_windowSizeW, g_windowSizeH, 0);
+				g_game->GetRenderer().MatchWindowSize(hWnd);
 			}
 		}
 		g_game->HandleInput(wParam, true);
@@ -156,6 +164,42 @@ DWORD WINAPI RenderTheadFunc(LPVOID temp)
 {
 	while (!g_isGameEnd) {
 		g_game->Render(g_hWnd);
+	}
+
+	return 0;
+}
+
+DWORD WINAPI UIUpdateTheadFunc(LPVOID temp)
+{
+	auto lastTime = std::chrono::system_clock::now();
+	while (!g_isGameEnd) {
+		auto currentTime = std::chrono::system_clock::now();
+		auto deltaTime = currentTime - lastTime;
+
+		// 경과된 시간(마이크로초 단위)
+		int dTime = (int)std::chrono::duration_cast<std::chrono::microseconds>(deltaTime).count();
+
+		// 현재 시간을 마지막 시간으로 저장
+		lastTime = currentTime;
+
+		g_game->UIUpdate(dTime);
+	}
+
+	return 0;
+}
+DWORD WINAPI UIRenderTheadFunc(LPVOID temp)
+{
+	while (!g_isGameEnd) {
+		g_game->UIRender(g_hWnd);
+	}
+
+	return 0;
+}
+
+DWORD WINAPI EventDispatchterTheadFunc(LPVOID temp)
+{
+	while (!g_isGameEnd) {
+		EventDispatcher::Update();
 	}
 
 	return 0;

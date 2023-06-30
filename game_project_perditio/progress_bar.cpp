@@ -3,7 +3,7 @@
 #include "per_renderer.h"
 
 ProgressBar::ProgressBar(PERVec2 pos, int max, int current)
-	: m_position(pos), m_max(max), m_current(m_current)
+	: m_position(pos), m_max(max), m_current(current)
 {
 	m_size = PERVec2(0.4, 0.1);
 	m_barColor = PERColor(255, 255, 255);

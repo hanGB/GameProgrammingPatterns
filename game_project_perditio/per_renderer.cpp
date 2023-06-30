@@ -3,8 +3,11 @@
 
 PERRenderer::PERRenderer(HWND hWnd)
 {
-	MatchWindowSize(hWnd);
-	
+	m_windowSizeRect.left = 0;
+	m_windowSizeRect.right = PER_DEFAULT_WINDOW_WIDTH - PER_DEFAULT_WINDOW_BORDER_WIDTH;
+	m_windowSizeRect.top = 0;
+	m_windowSizeRect.bottom = PER_DEFAULT_WINDOW_HEIGHT - PER_DEFAULT_WINDOW_BAR_HEIGHT;
+
 	HDC hDC;
 	hDC = GetDC(hWnd);
 
@@ -24,9 +27,6 @@ PERRenderer::~PERRenderer()
 void PERRenderer::MatchWindowSize(HWND hWnd)
 {
 	GetClientRect(hWnd, &m_windowSizeRect);
-
-	m_halfWidth = m_windowSizeRect.right / 2.0;
-	m_halfHeight = m_windowSizeRect.bottom / 2.0;
 }
 
 void PERRenderer::SetCameraPosition(PERVec2 pos)
@@ -264,10 +264,10 @@ PERVec2 PERRenderer::ConvertWorldCoordinateOpenGLToWindows(PERVec2 pos)
 {
 	pos.y *= -1;
 
-	double cameraSightHeight = m_cameraSightWidth * m_halfHeight / m_halfWidth;
+	double cameraSightHeight = m_cameraSightWidth * (double)m_windowSizeRect.bottom / (double)m_windowSizeRect.right;
 
-	double widthSizePerMeter = (m_halfWidth * 2.0) / m_cameraSightWidth;
-	double heightSizePerMeter = (m_halfHeight * 2.0) / cameraSightHeight;
+	double widthSizePerMeter  = (double)m_windowSizeRect.right / m_cameraSightWidth;
+	double heightSizePerMeter = (double)m_windowSizeRect.bottom / cameraSightHeight;
 
 	pos.x -= m_cameraPosition.x;
 	pos.x += m_cameraSightWidth / 2.0;
@@ -281,10 +281,10 @@ PERVec2 PERRenderer::ConvertWorldCoordinateOpenGLToWindows(PERVec2 pos)
 
 PERVec2 PERRenderer::MatchSizeWithWorldCoordinate(PERVec2 size)
 {
-	double cameraSightHeight = m_cameraSightWidth * m_halfHeight / m_halfWidth;
+	double cameraSightHeight = m_cameraSightWidth * (double)m_windowSizeRect.bottom / (double)m_windowSizeRect.right;
 
-	double widthSizePerMeter = (m_halfWidth * 2.0) / m_cameraSightWidth;
-	double heightSizePerMeter = (m_halfHeight * 2.0) / cameraSightHeight;
+	double widthSizePerMeter  = (double)m_windowSizeRect.right / m_cameraSightWidth;
+	double heightSizePerMeter = (double)m_windowSizeRect.bottom / cameraSightHeight;
 
 	size.x *= widthSizePerMeter;
 	size.y *= heightSizePerMeter;
@@ -294,10 +294,10 @@ PERVec2 PERRenderer::MatchSizeWithWorldCoordinate(PERVec2 size)
 
 double PERRenderer::MatchSizeWithWorldCoordinate(double size)
 {
-	double cameraSightHeight = m_cameraSightWidth * m_halfHeight / m_halfWidth;
+	double cameraSightHeight = m_cameraSightWidth * (double)m_windowSizeRect.bottom / (double)m_windowSizeRect.right;
 
-	double width = (m_halfWidth * 2.0) / m_cameraSightWidth;
-	double height = (m_halfHeight * 2.0) / cameraSightHeight;
+	double width  = (double)m_windowSizeRect.right / m_cameraSightWidth;
+	double height = (double)m_windowSizeRect.bottom / cameraSightHeight;
 
 	size *= (width + height) / 2.0;
 
@@ -309,24 +309,24 @@ PERVec2 PERRenderer::ConvertScreenCoordinateOpenGLToWindows(PERVec2 pos)
 	pos.y *= -1;
 
 	pos.x += 1.0;
-	pos.x *= m_halfWidth;
+	pos.x *= (double)m_windowSizeRect.right / 2.0;
 	pos.y += 1.0;
-	pos.y *= m_halfHeight;
+	pos.y *= (double)m_windowSizeRect.bottom / 2.0;
 
 	return pos;
 }
 
 PERVec2 PERRenderer::MatchSizeWithScreenCoordinate(PERVec2 pos)
 {
-	pos.x *= m_halfWidth;
-	pos.y *= m_halfHeight;
+	pos.x *= (double)m_windowSizeRect.right / 2.0;
+	pos.y *= (double)m_windowSizeRect.bottom / 2.0;
 
 	return pos;
 }
 
 double PERRenderer::MatchSizeWithScreenCoordinate(double size)
 {
-	size *= (m_halfWidth + m_halfHeight) / 2.0;
+	size *= (double)(m_windowSizeRect.bottom / 4.0 + m_windowSizeRect.right / 4.0);
 
 	return size;
 }

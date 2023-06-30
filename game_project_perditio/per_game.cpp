@@ -71,43 +71,61 @@ void PERGame::Update(int time)
 	// 최대 업데이트 루프 횟수를 넘어서 끝날 경우를 대비해 업데이트에 걸리는 시간으로 나눔
 	m_updateLag %= PER_MICROSEC_PER_UPDATE;
 	
-	// 렌더링 준비가 되었을 경우 리턴(아직 렌더링 하지 않음) 
-	if (m_isReadyForRender) return;
-
-	m_world->UIUpdate(dTime);
-
+	// 업데이트가 끝난 경우 리턴
+	if (m_isUpdateEnd) return;
 	m_frameGap = (double)m_updateLag / (double)PER_MICROSEC_PER_UPDATE;
 	m_world->ObjectsGraphicsUpdate(dTime); 
 
 	m_world->UpdateSortedObjects();
-	wsprintf(m_fpsText, L"FPS: %d", m_fps);
 
-	// 렌더링 준비 완료
-	m_isReadyForRender = true;
+	// 업데이트 끝 완료
+	m_isUpdateEnd = true;
+}
+
+void PERGame::UIUpdate(int time)
+{
+	if (m_isUpdateUIEnd) return;
+
+	int fps = m_fps;
+	wsprintf(m_fpsText, L"FPS: %d", fps);
+	m_world->UIUpdate((double)time / 1'000'000.0);
+	m_isUpdateUIEnd = true;
 }
 
 void PERGame::Render(HWND hWnd)
 {
 	// 렌더링 준비가 되지 않은 경우 리턴
-	if (!m_isReadyForRender) return;
+	if (!m_isUpdateEnd) return;
 
-	// 윈도우 크기 설정
-	m_renderer->MatchWindowSize(hWnd);
+	if (!m_isRenderEnd) {
+		m_renderer->ResetMemoryDC(hWnd);
 
-	m_renderer->ResetMemoryDC(hWnd);
+		// 게임 월드 렌더링
+		m_world->Render(*m_renderer, m_frameGap);
+		m_isRenderEnd = true;
+	}
+	
+	if (!m_isRenderUIEnd) return;
+
+	m_renderer->FillHDCWithMemoryDCs(hWnd);
+
+	m_isRenderUIEnd = false;
+	m_isUpdateEnd = false;
+	m_isRenderEnd = false;
+}
+
+void PERGame::UIRender(HWND hWnd)
+{
+	if (!m_isUpdateUIEnd || m_isRenderUIEnd) return;
+
 	m_renderer->ResetUIMemoryDC(hWnd);
-
-	// 게임 월드 렌더링
-	m_world->Render(*m_renderer, m_frameGap);
 	m_renderer->RenderShapeInScreenCoordinate(PERShapeType::SHAPE_TYPE_RECTANGLE,
 		PERVec2(-0.95, -0.95), PERVec2(0.2, 0.1), PERColor(255, 255, 255), false);
 	m_renderer->RenderFontInScreenCoordinate(m_fpsText, 8, 0.001, PERVec2(-0.97, -0.9), PERColor(0, 0, 0));
 	m_world->UIRender(*m_renderer);
 
-	m_renderer->FillHDCWithMemoryDCs(hWnd);
-
-	// 렌더링 준비를 하도록 변경
-	m_isReadyForRender = false;
+	m_isRenderUIEnd = true;
+	m_isUpdateUIEnd = false;
 }
 
 PERController& PERGame::GetController()
