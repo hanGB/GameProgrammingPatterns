@@ -183,6 +183,9 @@
     <ClInclude Include="progress_bar.h">
       <Filter>00. game\user_interface\progress_bar</Filter>
     </ClInclude>
+    <ClInclude Include="cs_provider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

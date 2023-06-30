@@ -1,6 +1,7 @@
 #pragma once
 #include "per_event.h"
 #include "event_reciver.h"
+#include "cs_provider.h"
 
 struct EventData {
 	PEREvent event;
@@ -21,6 +22,8 @@ private:
 	static void ResizePending();
 
 	static std::vector<EventReciver*> m_recivers;
+
+	static CSProvider m_csProvider;
 
 	static int m_maxPending;
 	static EventData* m_pending;

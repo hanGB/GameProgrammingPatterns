@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="cs_provider.h" />
     <ClInclude Include="event_dispatcher.h" />
     <ClInclude Include="event_reciver.h" />
     <ClInclude Include="null_audio.h" />
