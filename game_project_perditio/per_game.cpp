@@ -1,8 +1,11 @@
 #include "stdafx.h"
 #include "per_game.h"
+#include "per_locator.h"
 
 PERGame::PERGame(HWND hWnd)
 {
+	PERLocator::GetLogger().Info("게임 클래스 생성 시작");
+
 	m_controller = new PERController();
 	m_renderer = new PERRenderer(hWnd);
 	m_objectPool = new ObjectPool();
@@ -10,15 +13,21 @@ PERGame::PERGame(HWND hWnd)
 	m_player = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_PLAYER);
 
 	m_world = new PERWorld(m_player, m_objectPool);
+
+	PERLocator::GetLogger().Info("게임 클래스 생성 완료");
 }
 
 PERGame::~PERGame()
 {
+	PERLocator::GetLogger().Info("게임 클래스 삭제 시작");
+
 	delete m_controller;
 	delete m_renderer;
 	delete m_world;
 	delete m_objectPool;
 	delete m_player;
+
+	PERLocator::GetLogger().Info("게임 클래스 삭제 완료");
 }
 
 void PERGame::HandleInput(WPARAM wParam, bool isDown)

@@ -1,14 +1,19 @@
 #include "stdafx.h"
 #include "object_pool.h"
+#include "per_locator.h"
 
 ObjectPool::ObjectPool()
 {
+    PERLocator::GetLogger().Info("오브젝트 풀 생성");
+
     CreateObjectFactories();
     FillObjectPools();
 }
 
 ObjectPool::~ObjectPool()
 {
+    PERLocator::GetLogger().Info("오브젝트 풀 삭제");
+
     ClearObjectPools();
     DeleteObjectFactories();
 }

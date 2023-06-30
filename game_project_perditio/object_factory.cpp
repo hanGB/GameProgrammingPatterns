@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "object_factory.h"
+#include "per_locator.h"
 
 // 각종 컨포넌트
 // input
@@ -21,6 +22,8 @@ ObjectFactory::ObjectFactory(
     PERComponentType input, PERComponentType ai, 
     PERComponentType physics, PERComponentType graphics)
 {
+    PERLocator::GetLogger().InfoWithFormat("오브젝트 팩토리 object type(%d) 생성", (int)objectType);
+
     m_objectType = objectType;
     m_componentTypes = { input, ai, physics, graphics };
 
@@ -29,7 +32,7 @@ ObjectFactory::ObjectFactory(
 
 ObjectFactory::~ObjectFactory()
 {
-
+    PERLocator::GetLogger().InfoWithFormat("오브젝트 팩토리 object type(%d) 삭제", (int)m_objectType);
 }
 
 

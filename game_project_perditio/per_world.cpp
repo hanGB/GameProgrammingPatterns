@@ -11,10 +11,12 @@
 PERWorld::PERWorld(PERObject* player, ObjectPool* objectPool)
 	: m_objectPool(objectPool)
 {
+	PERLocator::GetLogger().Info("월드 생성");
+
 	m_objects.reserve(PER_DEFAULT_MAX_OBJECTS);
 	
 	InitWorldObject(player);
-	PERLocator::GetLogger().InfoWithFormat("Num Object: %d", m_numObject);
+	PERLocator::GetLogger().InfoWithFormat("총 오브젝트 수: %d", m_numObject);
 
 	m_hud = new PERHud();
 	EventDispatcher::AddReciver(m_hud);
@@ -22,7 +24,7 @@ PERWorld::PERWorld(PERObject* player, ObjectPool* objectPool)
 
 PERWorld::~PERWorld()
 {
-	
+	PERLocator::GetLogger().Info("월드 삭제");
 }
 
 void PERWorld::Update(double dTime)

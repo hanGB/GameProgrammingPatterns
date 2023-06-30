@@ -1,4 +1,6 @@
 #pragma once
+#define PER_DEBUG
+
 // 투명 관련 라이브러리
 #pragma comment(lib, "Msimg32.lib")
 
@@ -38,6 +40,9 @@
 #define PER_DEFAULT_WINDOW_BAR_HEIGHT 39
 #define PER_MAXIMUM_WINDOW_WIDTH 1800
 #define PER_MAXIMUM_WINDOW_HEIGHT 1000
+
+// 스레드
+#define PER_NUM_WORKER_THREAD 6
 
 // 투명 레이어
 #define PER_TRANSPARENT_COLOR RGB(1, 12, 123)

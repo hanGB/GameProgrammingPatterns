@@ -1,8 +1,11 @@
 #include "stdafx.h"
 #include "per_renderer.h"
+#include "per_locator.h"
 
 PERRenderer::PERRenderer(HWND hWnd)
 {
+	PERLocator::GetLogger().Info("·»´õ·¯ »ý¼º");
+
 	m_windowSizeRect.left = 0;
 	m_windowSizeRect.right = PER_DEFAULT_WINDOW_WIDTH - PER_DEFAULT_WINDOW_BORDER_WIDTH;
 	m_windowSizeRect.top = 0;
@@ -20,6 +23,8 @@ PERRenderer::PERRenderer(HWND hWnd)
 
 PERRenderer::~PERRenderer()
 {
+	PERLocator::GetLogger().Info("·»´õ·¯ »èÁ¦");
+
 	DeleteDC(m_memoryDC);
 	DeleteDC(m_uiMemoryDC);
 }

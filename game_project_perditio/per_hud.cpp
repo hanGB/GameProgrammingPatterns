@@ -1,9 +1,12 @@
 #include "stdafx.h"
 #include "per_hud.h"
 #include "per_renderer.h"
+#include "per_locator.h"
 
 PERHud::PERHud()
 {
+	PERLocator::GetLogger().Info("HUD »ý¼º");
+
 	m_hpBar = new ProgressBar(PERVec2(-0.95, 0.9), 100, 100);
 	m_hpBar->SetColor(PERColor(255, 255, 255), PERColor(255, 0, 0));
 
