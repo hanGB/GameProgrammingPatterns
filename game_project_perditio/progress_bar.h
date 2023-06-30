@@ -18,7 +18,7 @@ public:
 private:
 	void UpdateShowingValue(double dTime);
 
-	const double c_UPDATE_TIME = 0.5;
+	const double c_UPDATE_TIME = 0.2;
 
 	// 모양 정보
 	PERVec2		m_position;

@@ -37,12 +37,6 @@ void PERGame::HandleInput(WPARAM wParam, bool isDown)
 
 void PERGame::Update(int time)
 {
-	int restTime = PER_MINIMUM_FRAME_TIME - time;
-
-	if (restTime > 0) {
-		std::this_thread::sleep_for(std::chrono::microseconds(restTime));
-		time = PER_MINIMUM_FRAME_TIME;
-	}
 	double dTime = time / 1'000'000.0;
 
 	m_fpsUpdateTime -= dTime;
@@ -50,7 +44,6 @@ void PERGame::Update(int time)
 		m_fps = (int)(1'000'000.0 / (double)time);
 		m_fpsUpdateTime = c_FPS_UPDATE_GAP;
 	}
-	
 	
 	m_controller->Update(dTime);
 

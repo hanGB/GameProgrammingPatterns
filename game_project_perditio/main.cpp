@@ -154,7 +154,12 @@ DWORD WINAPI GameTheadFunc(LPVOID temp)
 		lastTime = currentTime;
 
 		g_game->Update(dTime);
-		EventDispatcher::Update();
+
+		// 너무 빠를 경우 휴식
+		int restTime = PER_MINIMUM_FRAME_TIME - dTime;
+		if (restTime > 0) {
+			Sleep(int(restTime / 1'000.0));
+		}
 	}
 
 	return 0;
@@ -183,6 +188,12 @@ DWORD WINAPI UIUpdateTheadFunc(LPVOID temp)
 		lastTime = currentTime;
 
 		g_game->UIUpdate(dTime);
+
+		// 너무 빠를 경우 휴식
+		int restTime = PER_MINIMUM_FRAME_TIME - dTime;
+		if (restTime > 0) {
+			Sleep(int(restTime / 1'000.0));
+		}
 	}
 
 	return 0;
