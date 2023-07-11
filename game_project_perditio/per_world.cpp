@@ -2,29 +2,34 @@
 #include "per_world.h"
 #include "per_controller.h"
 #include "per_renderer.h"
+#include "per_game.h"
 #include "per_object.h"
 #include "object_pool.h"
+#include "game_mode.h"
 #include "per_hud.h"
 #include "event_dispatcher.h"
 #include "per_locator.h"
 
-PERWorld::PERWorld(PERObject* player, ObjectPool* objectPool)
-	: m_objectPool(objectPool)
+PERWorld::PERWorld()
 {
 	PERLocator::GetLogger().Info("월드 생성");
 
 	m_objects.reserve(PER_DEFAULT_MAX_OBJECTS);
 	
-	InitWorldObject(player);
-	PERLocator::GetLogger().InfoWithFormat("총 오브젝트 수: %d", m_numObject);
-
-	m_hud = new PERHud();
-	EventDispatcher::AddReciver(m_hud);
+	InitWorldObject();
+	PERLocator::GetLogger().InfoWithFormat("월드 내 오브젝트 수: %d", m_numObject);
 }
 
 PERWorld::~PERWorld()
 {
 	PERLocator::GetLogger().Info("월드 삭제");
+}
+
+void PERWorld::SetGameMode(GameMode* mode)
+{
+	m_gameMode = mode;
+	m_gameMode->GetPlayer()->SetPosition(PERVec3(0.0, 0.0, 0.0));
+	AddObject(m_gameMode->GetPlayer());
 }
 
 void PERWorld::Update(double dTime)
@@ -36,7 +41,7 @@ void PERWorld::Update(double dTime)
 
 void PERWorld::UIUpdate(double dTime)
 {
-	m_hud->Update(dTime);
+	m_gameMode->GetHud()->Update(dTime);
 }
 
 void PERWorld::ObjectsInputUpdate(PERController& controller, double dTime)
@@ -80,7 +85,23 @@ void PERWorld::Render(PERRenderer& renderer, double frameGap)
 
 void PERWorld::UIRender(PERRenderer& renderer)
 {
-	m_hud->Renderer(renderer);
+	m_gameMode->GetHud()->Renderer(renderer);
+}
+
+void PERWorld::Enter()
+{
+}
+
+void PERWorld::Exit()
+{
+}
+
+void PERWorld::Pause()
+{
+}
+
+void PERWorld::Resume()
+{
 }
 
 void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, PERVec3 position, PERVec3 currentAccel, double lifeTime)
@@ -160,49 +181,48 @@ void PERWorld::DeleteObject(PERObject* object)
 	int id = object->GetIDInWorld();
 	m_objects[id] = m_objects[m_numObject];
 	m_objects[id]->SetIDInWorld(id);
-	m_objectPool->PushObject(object->GetObjectType(), object);
+	PERGame::Instance().RemoveObject(object->GetObjectType(), object);
 
 	m_isUpdateSortedObject = false;
 }
 
 PERObject* PERWorld::AddAndGetObject(PERObjectType type)
 {
-	PERObject* object = m_objectPool->PopObject(type);
+	PERObject* object = PERGame::Instance().CreateObject(type);
 	AddObject(object);
 	return object;
 }
 
-void PERWorld::InitWorldObject(PERObject* player)
+void PERWorld::InitWorldObject()
 {
-	player->SetPosition(PERVec3(0.0, 0.0, 0.0));
-	AddObject(player);
+	PERGame& game = PERGame::Instance();
 
 	PERObject* monster;
 	for (double x = -10.0; x < 10.0; x += 0.5) {
 		for (double y = -10.0; y < 10.0; y += 0.5) {
-			monster = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_MONSTER);
+			monster = game.CreateObject(PERObjectType::OBJECT_TYPE_MONSTER);
 			monster->SetPosition(PERVec3(x, y, -1.0));
 			AddObject(monster);
 		}
 	}
 
 	PERObject* wall;
-	wall = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_BLOCK);
+	wall = game.CreateObject(PERObjectType::OBJECT_TYPE_BLOCK);
 	wall->SetPosition(PERVec3(1.0, 0.0, 1.0));
 	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_BLOCK);
+	wall = game.CreateObject(PERObjectType::OBJECT_TYPE_BLOCK);
 	wall->SetPosition(PERVec3(-1.0, 0.0, 1.1));
 	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_BLOCK);
+	wall = game.CreateObject(PERObjectType::OBJECT_TYPE_BLOCK);
 	wall->SetPosition(PERVec3(0.0, 1.0, 1.2));
 	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_BLOCK);
+	wall = game.CreateObject(PERObjectType::OBJECT_TYPE_BLOCK);
 	wall->SetPosition(PERVec3(0.0, -1.0, 1.3));
 	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
 	AddObject(wall);

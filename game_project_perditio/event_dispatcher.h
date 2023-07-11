@@ -11,6 +11,7 @@ struct EventData {
 class EventDispatcher {
 public:
 	static void AddReciver(EventReciver* reciver);
+	static void RemoveReciver(EventReciver* reciver);
 	static void RemoveAllRecivers();
 
 	static void Update();

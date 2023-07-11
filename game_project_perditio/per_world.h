@@ -3,8 +3,7 @@
 class PERController;
 class PERRenderer;
 class PERObject;
-class ObjectPool;
-class PERHud;
+class GameMode;
 
 enum class PERWorldMessageId {
 	WORLD_MESSAGE_ADD_OBJECT,
@@ -23,8 +22,10 @@ struct PERWorldMessage {
 
 class PERWorld {
 public:
-	PERWorld(PERObject* player, ObjectPool* objectPool);
+	PERWorld();
 	~PERWorld();
+
+	void SetGameMode(GameMode* mode);
 
 	void Update(double dTime);
 	void UIUpdate(double dTime);
@@ -39,6 +40,11 @@ public:
 	void Render(PERRenderer& renderer, double frameGap);
 	void UIRender(PERRenderer& renderer);
 
+	void Enter();
+	void Exit();
+	void Pause();
+	void Resume();
+
 	// 요청을 받는 함수
 	void RequestAddObject(
 		PERObject* parent, PERObjectType type, 
@@ -46,7 +52,7 @@ public:
 	void RequestDeleteObject(PERObject* object);
 	
 private:
-	void InitWorldObject(PERObject* player);
+	void InitWorldObject();
 	void DoGarbegeCollection(double dTime);
 	void ProcessPendingMessage();
 
@@ -55,8 +61,6 @@ private:
 	void DeleteObject(PERObject* object);
 
 	void ResizePedingArray();
-
-	ObjectPool* m_objectPool;
 
 	std::vector<PERObject*> m_objects;
 	int m_numObject = 0;
@@ -70,5 +74,5 @@ private:
 	PERWorldMessage* m_pending = new PERWorldMessage[PER_DEFAULT_MAX_EVENT_PENDING];
 	int m_numPending = 0;
 
-	PERHud* m_hud;
+	GameMode* m_gameMode;
 };

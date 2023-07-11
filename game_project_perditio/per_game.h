@@ -2,12 +2,14 @@
 #include "per_controller.h"
 #include "per_renderer.h"
 #include "per_world.h"
+#include "game_mode.h"
 #include "object_pool.h"
 #include "per_object.h"
 
 class PERGame {
 public:
-	PERGame(HWND hWnd);
+	static PERGame& Instance();
+	void InitRenderer(HWND hWnd);
 	~PERGame();
 
 	void HandleInput(WPARAM wParam, bool isDown);
@@ -16,10 +18,23 @@ public:
 	void Render(HWND hWnd);
 	void UIRender(HWND hWnd);
 
-	PERController& GetController();
-	PERRenderer& GetRenderer();
+	// 윈도우 hwnd 재설정
+	void MatchWindowHWND(HWND hWnd);
+
+	// 오브젝트 생성, 삭제
+	PERObject* CreateObject(PERObjectType type);
+	void RemoveObject(PERObjectType type, PERObject* object);
+
+	// 게임 월드, 모드 변경
+	void Run(PERWorld* world, GameMode* gameMode);
+	void ChangeWorld(PERWorld* world, GameMode* gameMode);
+	void PushWorld(PERWorld* world, GameMode* gameMode);
+	void PopWorld();
+	void Quit();
 
 private:
+	PERGame();
+
 	const double c_FPS_UPDATE_GAP = 0.5;
 
 	int m_updateLag = 0;
@@ -35,7 +50,8 @@ private:
 	ObjectPool*	m_objectPool;
 
 	PERObject*	m_player;
-	PERWorld*	m_world;
+	PERWorld*	m_currentWorld;
+	GameMode*   m_currentGameMode;
 
 	// 프레임 측정 관련
 	double m_fpsUpdateTime = 0.0;

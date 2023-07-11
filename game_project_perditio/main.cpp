@@ -3,6 +3,8 @@
 #include "per_locator.h"
 #include "console_logger.h"
 #include "event_dispatcher.h"
+#include "per_world.h"
+#include "game_mode.h"
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class";
@@ -10,7 +12,6 @@ LPCTSTR lpszWindowName = L"Perditio";
 
 HWND g_hWnd;
 HANDLE g_hWorkerThreads[PER_NUM_WORKER_THREAD];
-PERGame* g_game;
 bool g_isGameEnd;
 int g_windowSizeW, g_windowSizeH;
 bool g_isMaxScreenSize;
@@ -80,7 +81,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 #endif 
 		g_windowSizeW = PER_DEFAULT_WINDOW_WIDTH;
 		g_windowSizeH = PER_DEFAULT_WINDOW_HEIGHT;
-		g_game = new PERGame(g_hWnd);
+		
+		// 렌더러 초기화
+		PERGame::Instance().InitRenderer(hWnd);
+		// 월드 실행
+		PERGame::Instance().Run(new PERWorld(), new GameMode());
+
 		g_isGameEnd = false;
 		// 게임 루프 스레드 생성
 		g_hWorkerThreads[0] = CreateThread(NULL, 0, GameTheadFunc, NULL, 0, &threadID);
@@ -107,28 +113,27 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				g_windowSizeH = PER_DEFAULT_WINDOW_HEIGHT;
 				g_isMaxScreenSize = false;
 				SetWindowPos(hWnd, nullptr, PER_DEFAULT_WINDOW_LOCATION_X, PER_DEFAULT_WINDOW_LOCATION_Y, g_windowSizeW, g_windowSizeH, 0);
-				g_game->GetRenderer().MatchWindowSize(hWnd);
+				PERGame::Instance().MatchWindowHWND(hWnd);
 			}
 			else {
 				g_windowSizeW = PER_MAXIMUM_WINDOW_WIDTH;
 				g_windowSizeH = PER_MAXIMUM_WINDOW_HEIGHT;
 				g_isMaxScreenSize = true;
 				SetWindowPos(hWnd, nullptr, 0, 0, g_windowSizeW, g_windowSizeH, 0);
-				g_game->GetRenderer().MatchWindowSize(hWnd);
+				PERGame::Instance().MatchWindowHWND(hWnd);
 			}
 		}
-		g_game->HandleInput(wParam, true);
+		PERGame::Instance().HandleInput(wParam, true);
 		break;
 
 	case WM_KEYUP:
-		g_game->HandleInput(wParam, false);
+		PERGame::Instance().HandleInput(wParam, false);
 		break;
 
 	case WM_DESTROY:
 		g_isGameEnd = true;
 		// 게임 루프 스레드가 종료될 때 까지 무한 대기
 		WaitForMultipleObjects(PER_NUM_WORKER_THREAD, g_hWorkerThreads, true, INFINITE);
-		delete g_game;
 
 #ifdef PER_DEBUG
 		system("pause");
@@ -157,7 +162,7 @@ DWORD WINAPI GameTheadFunc(LPVOID temp)
 		// 현재 시간을 마지막 시간으로 저장
 		lastTime = currentTime;
 
-		g_game->Update(dTime);
+		PERGame::Instance().Update(dTime);
 
 		// 너무 빠를 경우 휴식
 		int restTime = PER_MINIMUM_FRAME_TIME - dTime;
@@ -175,7 +180,7 @@ DWORD WINAPI RenderTheadFunc(LPVOID temp)
 	PERLocator::GetLogger().Info("렌더 스레드 시작");
 
 	while (!g_isGameEnd) {
-		g_game->Render(g_hWnd);
+		PERGame::Instance().Render(g_hWnd);
 	}
 
 	PERLocator::GetLogger().Info("렌더 스레드 종료");
@@ -197,7 +202,7 @@ DWORD WINAPI UIUpdateTheadFunc(LPVOID temp)
 		// 현재 시간을 마지막 시간으로 저장
 		lastTime = currentTime;
 
-		g_game->UIUpdate(dTime);
+		PERGame::Instance().UIUpdate(dTime);
 
 		// 너무 빠를 경우 휴식
 		int restTime = PER_MINIMUM_FRAME_TIME - dTime;
@@ -214,7 +219,7 @@ DWORD WINAPI UIRenderTheadFunc(LPVOID temp)
 	PERLocator::GetLogger().Info("UI 렌더 스레드 시작");
 
 	while (!g_isGameEnd) {
-		g_game->UIRender(g_hWnd);
+		PERGame::Instance().UIRender(g_hWnd);
 	}
 
 	PERLocator::GetLogger().Info("UI 렌더 스레드 종료");

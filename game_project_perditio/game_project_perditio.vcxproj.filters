@@ -82,6 +82,9 @@
     <Filter Include="05. service_locator\service\logger\console">
       <UniqueIdentifier>{5aa1bb3b-ce43-4c60-956f-40b9bd1725c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\game_mode">
+      <UniqueIdentifier>{3d52f6c0-ad17-42fc-8b9b-9350f661ec59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -189,6 +192,9 @@
     <ClInclude Include="console_logger.h">
       <Filter>05. service_locator\service\logger\console</Filter>
     </ClInclude>
+    <ClInclude Include="game_mode.h">
+      <Filter>00. game\game_mode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -259,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="console_logger.cpp">
       <Filter>05. service_locator\service\logger\console</Filter>
+    </ClCompile>
+    <ClCompile Include="game_mode.cpp">
+      <Filter>00. game\game_mode</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

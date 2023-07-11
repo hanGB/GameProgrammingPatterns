@@ -18,6 +18,22 @@ void EventDispatcher::AddReciver(EventReciver* reciver)
 	m_csProvider.Unlock();
 }
 
+void EventDispatcher::RemoveReciver(EventReciver* reciver)
+{
+	m_csProvider.Lock();
+
+	auto it = m_recivers.begin();
+	while (true) {
+		if ((*it) == reciver) {
+			m_recivers.erase(it);
+			break;
+		}
+		it++;
+	}
+
+	m_csProvider.Unlock();
+}
+
 void EventDispatcher::RemoveAllRecivers()
 {
 	m_csProvider.Lock();
