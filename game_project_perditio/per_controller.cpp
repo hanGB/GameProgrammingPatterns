@@ -1,17 +1,16 @@
 #include "stdafx.h"
 #include "per_controller.h"
-#include "per_locator.h"
 
 PERController::PERController()
 {
-	PERLocator::GetLogger().Info("컨트롤러 생성");
+	PERLog::Logger().Info("컨트롤러 생성");
 
 	InitKeyboardInputDatas();
 }
 
 PERController::~PERController()
 {
-	PERLocator::GetLogger().Info("컨트롤러 삭제");
+	PERLog::Logger().Info("컨트롤러 삭제");
 }
 
 bool PERController::IsKeyboardPressed(PERKeyboardValue value)

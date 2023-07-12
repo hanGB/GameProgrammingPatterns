@@ -21,9 +21,9 @@ ProgressBar::~ProgressBar()
 {
 }
 
-void ProgressBar::Update(double dTime)
+void ProgressBar::Update(PERAudio* audio, double dTime)
 {
-	if (m_showing != m_current) UpdateShowingValue(dTime);
+	if (m_showing != m_current) UpdateShowingValue(audio, dTime);
 }
 
 void ProgressBar::Render(PERRenderer& renderer)
@@ -62,7 +62,7 @@ void ProgressBar::SetBorder(bool border, int width, PERColor color)
 	m_borderColor = color;
 }
 
-void ProgressBar::UpdateShowingValue(double dTime)
+void ProgressBar::UpdateShowingValue(PERAudio* audio, double dTime)
 {
 	// 현재 값이랑 보이는 값이 같아지도록 증감
 	if (m_updateSpeed > 0.0) {

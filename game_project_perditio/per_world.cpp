@@ -8,11 +8,10 @@
 #include "game_mode.h"
 #include "per_hud.h"
 #include "event_dispatcher.h"
-#include "per_locator.h"
 
 PERWorld::PERWorld(ObjectPool* objectPool, GameMode* mode)
 {
-	PERLocator::GetLogger().Info("월드 생성");
+	PERLog::Logger().Info("월드 생성");
 
 	m_objectPool = objectPool;
 	m_gameMode = mode;
@@ -22,50 +21,50 @@ PERWorld::PERWorld(ObjectPool* objectPool, GameMode* mode)
 
 PERWorld::~PERWorld()
 {
-	PERLocator::GetLogger().Info("월드 삭제");
+	PERLog::Logger().Info("월드 삭제");
 }
 
-void PERWorld::Update(double dTime)
+void PERWorld::Update(PERAudio* audio, double dTime)
 {
 	DoGarbegeCollection(dTime);
 
 	ProcessPendingMessage();
 }
 
-void PERWorld::UIUpdate(double dTime)
+void PERWorld::UIUpdate(PERAudio* audio, double dTime)
 {
-	m_gameMode->GetHud().Update(dTime);
+	m_gameMode->GetHud().Update(audio, dTime);
 }
 
-void PERWorld::ObjectsInputUpdate(PERController& controller, double dTime)
+void PERWorld::ObjectsInputUpdate(PERController& controller, PERAudio* audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetInput().Update(*m_objects[i], *this, controller, dTime);
+		m_objects[i]->GetInput().Update(*m_objects[i], *this, controller, audio, dTime);
 	}
 }
 
-void PERWorld::ObjectsAiUpdate(double dTime)
+void PERWorld::ObjectsAiUpdate(PERAudio* audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetAi().Update(*m_objects[i], *this, dTime);
+		m_objects[i]->GetAi().Update(*m_objects[i], *this, audio, dTime);
 	}
 }
 
-void PERWorld::ObjectsPhysicsUpdate(double dTime)
+void PERWorld::ObjectsPhysicsUpdate(PERAudio* audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetPhysics().Update(*m_objects[i], *this, dTime);
+		m_objects[i]->GetPhysics().Update(*m_objects[i], *this, audio, dTime);
 	}
 }
 
-void PERWorld::ObjectsGraphicsUpdate(double dTime)
+void PERWorld::ObjectsGraphicsUpdate(PERAudio* audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetGraphics().Update(*m_objects[i], dTime);
+		m_objects[i]->GetGraphics().Update(*m_objects[i], audio, dTime);
 	}
 }
 
@@ -222,7 +221,7 @@ void PERWorld::InitWorldObject()
 	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
 	AddObject(wall);
 
-	PERLocator::GetLogger().InfoWithFormat("월드 내 오브젝트 수: %d", m_numObject);
+	PERLog::Logger().InfoWithFormat("월드 내 오브젝트 수: %d", m_numObject);
 }
 
 void PERWorld::UpdateSortedObjects()

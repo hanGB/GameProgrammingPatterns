@@ -29,6 +29,9 @@
 
 // 필요 구조체
 #include "per_vector.h"
+// 로그
+#include "per_log.h"
+
 
 // 기본 설정
 // 윈도우 창 크기 및 위치
@@ -72,9 +75,6 @@
 // 시간
 // 최대 라이프 타임(100년)
 #define PER_MAXIMUM_LIFE_TIME 3'153'600'000.0
-
-// 로그
-#define PER_LOG_BUFFER_SIZE 1024
 
 
 enum class PERShapeType {
@@ -138,4 +138,3 @@ enum class PERObjectType {
 	OBJECT_TYPE_SWITCH,
 	NUM_OBJECT_TYPE
 };
-

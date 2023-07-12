@@ -26,11 +26,6 @@ public:
 		Error(m_buffer);
 	}
 
-	virtual void SaveLogs() = 0;
-	virtual void SaveWarnnings() = 0;
-	virtual void SaveErrors() = 0;
-	virtual void SaveAll() = 0;
-
 protected:
 	const char* GetNowTime() {
 		auto now = std::chrono::system_clock::now();
@@ -40,9 +35,11 @@ protected:
 		return m_timeBuffer;
 	}
 
-	char m_buffer[PER_LOG_BUFFER_SIZE];
-	int m_bufferSize = PER_LOG_BUFFER_SIZE;
+	static const int c_LOG_BUFFER_SIZE = 1024;
 
-	char m_timeBuffer[PER_LOG_BUFFER_SIZE];
-	int m_timeBufferSize = PER_LOG_BUFFER_SIZE;
+	char m_buffer[c_LOG_BUFFER_SIZE];
+	int m_bufferSize = c_LOG_BUFFER_SIZE;
+
+	char m_timeBuffer[c_LOG_BUFFER_SIZE];
+	int m_timeBufferSize = c_LOG_BUFFER_SIZE;
 };

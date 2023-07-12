@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "per_hud.h"
 #include "per_renderer.h"
-#include "per_locator.h"
 
 PERHud::PERHud()
 {
-	PERLocator::GetLogger().Info("HUD 持失");
+	PERLog::Logger().Info("HUD 持失");
 
 	m_hpBar = new ProgressBar(PERVec2(-0.95, 0.9), 100, 100);
 	m_hpBar->SetColor(PERColor(255, 255, 255), PERColor(255, 0, 0));
@@ -20,10 +19,10 @@ PERHud::~PERHud()
 	delete m_mpBar;
 }
 
-void PERHud::Update(double dTime)
+void PERHud::Update(PERAudio* audio, double dTime)
 {
-	m_hpBar->Update(dTime);
-	m_mpBar->Update(dTime);
+	m_hpBar->Update(audio, dTime);
+	m_mpBar->Update(audio, dTime);
 }
 
 void PERHud::Renderer(PERRenderer& renderer)

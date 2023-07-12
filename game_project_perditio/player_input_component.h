@@ -3,13 +3,13 @@
 
 class PlayerInputComponent : public PERInputComponent {
 public:
-	virtual void Update(PERObject& object, PERWorld& world, PERController& controller, double dTime);
+	virtual void Update(PERObject& object, PERWorld& world, PERController& controller, PERAudio* audio, double dTime);
 	virtual void SetData(PERComponent::InputData data);
 
 private:
-	void Move(PERObject& object, PERController& controller);
+	void Move(PERObject& object, PERController& controller, PERAudio* audio);
 	void UpdateDirection(PERVec3 currentAccel);
-	void ShootBullet(PERObject& object, PERWorld& world, PERController& controller, double dTime);
+	void ShootBullet(PERObject& object, PERWorld& world, PERController& controller, PERAudio* audio, double dTime);
 
 	const int c_DEFAULT_VERTICAL_FORCE = 1000;
 	const int c_DEFAULT_HORIZONTAL_FORCE = 2000;

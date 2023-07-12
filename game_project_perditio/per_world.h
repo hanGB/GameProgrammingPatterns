@@ -1,5 +1,6 @@
 #pragma once
 
+class PERAudio;
 class ObjectPool;
 class PERController;
 class PERRenderer;
@@ -26,13 +27,13 @@ public:
 	PERWorld(ObjectPool* objectPool, GameMode* mode);
 	~PERWorld();
 
-	void Update(double dTime);
-	void UIUpdate(double dTime);
+	void Update(PERAudio* audio, double dTime);
+	void UIUpdate(PERAudio* audio, double dTime);
 
-	void ObjectsInputUpdate(PERController& controller, double dTime);
-	void ObjectsAiUpdate(double dTime);
-	void ObjectsPhysicsUpdate(double dTime);
-	void ObjectsGraphicsUpdate(double dTime);
+	void ObjectsInputUpdate(PERController& controller, PERAudio* audio, double dTime);
+	void ObjectsAiUpdate(PERAudio* audio, double dTime);
+	void ObjectsPhysicsUpdate(PERAudio* audio, double dTime);
+	void ObjectsGraphicsUpdate(PERAudio* audio, double dTime);
 
 	void UpdateSortedObjects();
 

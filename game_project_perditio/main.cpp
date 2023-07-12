@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "per_game.h"
-#include "per_locator.h"
 #include "console_logger.h"
 #include "event_dispatcher.h"
 
@@ -72,11 +71,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	// 메세지 처리하기
 	switch (uMsg) {
 	case WM_CREATE:
-		PERLocator::Initialize();
 #ifdef PER_DEBUG
-		PERLocator::Provide(nullptr, new ConsoleLogger());
+		PERLog::SetLogger(new ConsoleLogger());
 #else
-		PERLocator::Provide(nullptr, nullptr);
+		PERLog::SetLogger(nullptr);
 #endif 
 		g_windowSizeW = PER_DEFAULT_WINDOW_WIDTH;
 		g_windowSizeH = PER_DEFAULT_WINDOW_HEIGHT;
@@ -138,7 +136,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 #ifdef PER_DEBUG
 		system("pause");
 #endif 
-		PERLocator::DeleteAllServices();
 		
 		PostQuitMessage(0);
 		break;
@@ -149,7 +146,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 DWORD WINAPI GameTheadFunc(LPVOID temp)
 {
-	PERLocator::GetLogger().Info("게임 스레드 시작");
+	PERLog::Logger().Info("게임 스레드 시작");
 
 	auto lastTime = std::chrono::system_clock::now();
 	while (!g_isGameEnd) {
@@ -171,25 +168,25 @@ DWORD WINAPI GameTheadFunc(LPVOID temp)
 		}
 	}
 
-	PERLocator::GetLogger().Info("게임 스레드 종료");
+	PERLog::Logger().Info("게임 스레드 종료");
 	return 0;
 }
 
 DWORD WINAPI RenderTheadFunc(LPVOID temp)
 {
-	PERLocator::GetLogger().Info("렌더 스레드 시작");
+	PERLog::Logger().Info("렌더 스레드 시작");
 
 	while (!g_isGameEnd) {
 		g_game->Render(g_hWnd);
 	}
 
-	PERLocator::GetLogger().Info("렌더 스레드 종료");
+	PERLog::Logger().Info("렌더 스레드 종료");
 	return 0;
 }
 
 DWORD WINAPI UIUpdateTheadFunc(LPVOID temp)
 {
-	PERLocator::GetLogger().Info("UI 업데이트 스레드 시작");
+	PERLog::Logger().Info("UI 업데이트 스레드 시작");
 
 	auto lastTime = std::chrono::system_clock::now();
 	while (!g_isGameEnd) {
@@ -211,41 +208,41 @@ DWORD WINAPI UIUpdateTheadFunc(LPVOID temp)
 		}
 	}
 
-	PERLocator::GetLogger().Info("UI 업데이트 스레드 종료");
+	PERLog::Logger().Info("UI 업데이트 스레드 종료");
 	return 0;
 }
 DWORD WINAPI UIRenderTheadFunc(LPVOID temp)
 {
-	PERLocator::GetLogger().Info("UI 렌더 스레드 시작");
+	PERLog::Logger().Info("UI 렌더 스레드 시작");
 
 	while (!g_isGameEnd) {
 		g_game->UIRender(g_hWnd);
 	}
 
-	PERLocator::GetLogger().Info("UI 렌더 스레드 종료");
+	PERLog::Logger().Info("UI 렌더 스레드 종료");
 	return 0;
 }
 
 DWORD WINAPI AudioTheadFunc(LPVOID temp)
 {
-	PERLocator::GetLogger().Info("오디오 스레드 시작");
+	PERLog::Logger().Info("오디오 스레드 시작");
 
 	while (!g_isGameEnd) {
-		PERLocator::GetAudio().Update();
+		g_game->AudioUpdate();
 	}
 
-	PERLocator::GetLogger().Info("오디오 스레드 종료");
+	PERLog::Logger().Info("오디오 스레드 종료");
 	return 0;
 }
 
 DWORD WINAPI EventDispatchterTheadFunc(LPVOID temp)
 {
-	PERLocator::GetLogger().Info("이벤트 디스패쳐 스레드 시작");
+	PERLog::Logger().Info("이벤트 디스패쳐 스레드 시작");
 
 	while (!g_isGameEnd) {
 		EventDispatcher::Update();
 	}
 
-	PERLocator::GetLogger().Info("이벤트 디스패쳐 스레드 종료");
+	PERLog::Logger().Info("이벤트 디스패쳐 스레드 종료");
 	return 0;
 }

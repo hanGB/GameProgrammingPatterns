@@ -2,7 +2,7 @@
 #include "movable_physics_component.h"
 #include "per_object.h"
 
-void MovablePhysicsComponent::Update(PERObject& object, PERWorld& world, double dTime)
+void MovablePhysicsComponent::Update(PERObject& object, PERWorld& world, PERAudio* audio, double dTime)
 {
 	m_MoveFunc(*this, object, dTime);
 }

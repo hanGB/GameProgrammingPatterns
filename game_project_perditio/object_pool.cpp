@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "object_pool.h"
-#include "per_locator.h"
 
 ObjectPool::ObjectPool()
 {
-    PERLocator::GetLogger().Info("오브젝트 풀 생성");
+    PERLog::Logger().Info("오브젝트 풀 생성");
 
     CreateObjectFactories();
     FillObjectPools();
@@ -12,7 +11,7 @@ ObjectPool::ObjectPool()
 
 ObjectPool::~ObjectPool()
 {
-    PERLocator::GetLogger().Info("오브젝트 풀 삭제");
+    PERLog::Logger().Info("오브젝트 풀 삭제");
 
     ClearObjectPools();
     DeleteObjectFactories();

@@ -1,21 +1,22 @@
 #include "stdafx.h"
 #include "per_game.h"
-#include "per_locator.h"
+#include "null_audio.h"
 
 PERGame::PERGame(HWND hWnd)
 {
-	PERLocator::GetLogger().Info("게임 클래스 생성 시작");
+	PERLog::Logger().Info("게임 클래스 생성 시작");
 
 	m_renderer = new PERRenderer(hWnd);
 	m_controller = new PERController();
+	m_audio = new NullAudio();
 	m_objectPool = new ObjectPool();
 
-	PERLocator::GetLogger().Info("게임 클래스 생성 완료");
+	PERLog::Logger().Info("게임 클래스 생성 완료");
 }
 
 PERGame::~PERGame()
 {
-	PERLocator::GetLogger().Info("게임 클래스 삭제 시작");
+	PERLog::Logger().Info("게임 클래스 삭제 시작");
 
 	delete m_controller;
 	delete m_renderer;
@@ -23,7 +24,7 @@ PERGame::~PERGame()
 	delete m_objectPool;
 	delete m_player;
 
-	PERLocator::GetLogger().Info("게임 클래스 삭제 완료");
+	PERLog::Logger().Info("게임 클래스 삭제 완료");
 }
 
 void PERGame::Recive(PEREvent event, PERVec3 data)
@@ -66,7 +67,7 @@ void PERGame::Update(int time)
 	m_controller->Update(dTime);
 
 	// 죽은 오브젝트 월드에서 제거
-	m_currentWorld->Update(dTime);
+	m_currentWorld->Update(m_audio, dTime);
 
 	
 	// 정해진 시간만큼 업데이트가 필요한 항목 업데이트
@@ -74,9 +75,9 @@ void PERGame::Update(int time)
 	// PER_MILLISEC_PER_UPDATE 만큼씩 업데이트
 	for (int i = 0; i < PER_MAXIMUM_UPDATE_LOOP_COUNT && m_updateLag >= PER_MICROSEC_PER_UPDATE; ++i) {
 		// 정해진 시간만큼 게임 업데이트
-		m_currentWorld->ObjectsInputUpdate(*m_controller, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
-		m_currentWorld->ObjectsAiUpdate(PER_MICROSEC_PER_UPDATE / 1'000'000.0);
-		m_currentWorld->ObjectsPhysicsUpdate(PER_MICROSEC_PER_UPDATE / 1'000'000.0);
+		m_currentWorld->ObjectsInputUpdate(*m_controller, m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
+		m_currentWorld->ObjectsAiUpdate(m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
+		m_currentWorld->ObjectsPhysicsUpdate(m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
 		m_updateLag -= PER_MICROSEC_PER_UPDATE;
 	}
 	// 최대 업데이트 루프 횟수를 넘어서 끝날 경우를 대비해 업데이트에 걸리는 시간으로 나눔
@@ -85,7 +86,7 @@ void PERGame::Update(int time)
 	// 업데이트가 끝난 경우 리턴
 	if (m_isUpdateEnd) return;
 	m_frameGap = (double)m_updateLag / (double)PER_MICROSEC_PER_UPDATE;
-	m_currentWorld->ObjectsGraphicsUpdate(dTime);
+	m_currentWorld->ObjectsGraphicsUpdate(m_audio, dTime);
 
 	m_currentWorld->UpdateSortedObjects();
 
@@ -99,7 +100,7 @@ void PERGame::UIUpdate(int time)
 
 	int fps = m_fps;
 	wsprintf(m_fpsText, L"FPS: %d", fps);
-	m_currentWorld->UIUpdate((double)time / 1'000'000.0);
+	m_currentWorld->UIUpdate(m_audio, (double)time / 1'000'000.0);
 	m_isUpdateUIEnd = true;
 }
 
@@ -139,6 +140,11 @@ void PERGame::UIRender(HWND hWnd)
 	m_isUpdateUIEnd = false;
 }
 
+void PERGame::AudioUpdate()
+{
+	m_audio->Update();
+}
+
 void PERGame::MatchWindowHWND(HWND hWnd)
 {
 	m_renderer->MatchWindowSize(hWnd);
@@ -146,7 +152,7 @@ void PERGame::MatchWindowHWND(HWND hWnd)
 
 void PERGame::Run(PERWorld* world, GameMode* gameMode)
 {
-	PERLocator::GetLogger().Info("월드 최초 실행");
+	PERLog::Logger().Info("월드 최초 실행");
 
 	world->Enter();
 

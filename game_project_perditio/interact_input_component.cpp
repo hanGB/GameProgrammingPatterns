@@ -3,16 +3,16 @@
 #include "per_object.h"
 #include "per_controller.h"
 
-void InteractInputComponent::Update(PERObject& object, PERWorld& world, PERController& controller, double dTime)
+void InteractInputComponent::Update(PERObject& object, PERWorld& world, PERController& controller, PERAudio* audio, double dTime)
 {
-	Move(object, controller, dTime);
+	Move(object, controller, audio, dTime);
 }
 
 void InteractInputComponent::SetData(PERComponent::InputData data)
 {
 }
 
-void InteractInputComponent::Move(PERObject& object, PERController& controller, double dTime)
+void InteractInputComponent::Move(PERObject& object, PERController& controller, PERAudio* audio, double dTime)
 {
 	// 필요 정보 얻기
 	PERVec3 vel = object.GetVelocity();

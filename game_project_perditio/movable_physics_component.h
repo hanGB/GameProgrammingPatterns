@@ -3,7 +3,7 @@
 
 class MovablePhysicsComponent : public PERPhysicsComponent {
 public:
-	virtual void Update(PERObject& object, PERWorld& world, double dTime);
+	virtual void Update(PERObject& object, PERWorld& world, PERAudio* audio, double dTime);
 	virtual void SetData(PERComponent::PhysicsData data);
 
 private:

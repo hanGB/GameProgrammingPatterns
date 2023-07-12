@@ -3,11 +3,11 @@
 
 class InteractInputComponent : public PERInputComponent {
 public:
-	virtual void Update(PERObject& object, PERWorld& world, PERController& controller, double dTime);
+	virtual void Update(PERObject& object, PERWorld& world, PERController& controller, PERAudio* audio, double dTime);
 	virtual void SetData(PERComponent::InputData data);
 
 private:
-	void Move(PERObject& object, PERController& controller, double dTime);
+	void Move(PERObject& object, PERController& controller, PERAudio* audio, double dTime);
 
 	// 초당 가하는 힘
 	const int c_DEFAULT_VERTICAL_FORCE = 10000;

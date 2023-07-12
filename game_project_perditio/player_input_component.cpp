@@ -5,18 +5,18 @@
 #include "per_controller.h"
 #include "event_dispatcher.h"
 
-void PlayerInputComponent::Update(PERObject& object, PERWorld& world, PERController& controller, double dTime)
+void PlayerInputComponent::Update(PERObject& object, PERWorld& world, PERController& controller, PERAudio* audio, double dTime)
 {
-	Move(object, controller);
+	Move(object, controller, audio);
 	UpdateDirection(object.GetCurrentAccel());
-	ShootBullet(object, world, controller, dTime);
+	ShootBullet(object, world, controller, audio, dTime);
 }
 
 void PlayerInputComponent::SetData(PERComponent::InputData data)
 {
 }
 
-void PlayerInputComponent::Move(PERObject& object, PERController& controller)
+void PlayerInputComponent::Move(PERObject& object, PERController& controller, PERAudio* audio)
 {
 	// 필요 정보 얻기
 	PERVec3 vel = object.GetVelocity();
@@ -63,7 +63,7 @@ void PlayerInputComponent::UpdateDirection(PERVec3 currentAccel)
 	else m_dirY = 0;
 }
 
-void PlayerInputComponent::ShootBullet(PERObject& object, PERWorld& world, PERController& controller, double dTime)
+void PlayerInputComponent::ShootBullet(PERObject& object, PERWorld& world, PERController& controller, PERAudio* audio, double dTime)
 {
 	m_shootingCoolTime -= dTime;
 	if (m_shootingCoolTime > 0.0) return;

@@ -1,13 +1,14 @@
 #pragma once
 
 class PERRenderer;
+class PERAudio;
 
 class ProgressBar {
 public:
 	ProgressBar(PERVec2 pos, int max, int current);
 	~ProgressBar();
 
-	void Update(double dTime);
+	void Update(PERAudio* audio, double dTime);
 	void Render(PERRenderer& renderer);
 	void SetCurrent(int current);
 
@@ -16,7 +17,7 @@ public:
 	void SetBorder(bool border, int width, PERColor color);
 
 private:
-	void UpdateShowingValue(double dTime);
+	void UpdateShowingValue(PERAudio* audio, double dTime);
 
 	const double c_UPDATE_TIME = 0.2;
 

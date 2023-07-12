@@ -1,6 +1,7 @@
 #pragma once
 #include "per_controller.h"
 #include "per_renderer.h"
+#include "per_audio.h"
 #include "per_world.h"
 #include "game_mode.h"
 #include "object_pool.h"
@@ -15,10 +16,13 @@ public:
 	virtual void Recive(PEREvent event, PERVec3 data);
 
 	void HandleInput(WPARAM wParam, bool isDown);
+
 	void Update(int deltaTime);
 	void UIUpdate(int deltaTime);
 	void Render(HWND hWnd);
 	void UIRender(HWND hWnd);
+
+	void AudioUpdate();
 
 	// 윈도우 hwnd 재설정
 	void MatchWindowHWND(HWND hWnd);
@@ -43,6 +47,7 @@ private:
 
 	PERController*	m_controller;
 	PERRenderer*	m_renderer;
+	PERAudio*		m_audio;
 	ObjectPool*		m_objectPool;
 
 	PERObject*	m_player;

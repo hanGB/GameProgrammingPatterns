@@ -37,21 +37,6 @@
     <Filter Include="00. game\user_interface">
       <UniqueIdentifier>{3837a470-b30c-43eb-b648-d5d3a1dca8e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. event">
-      <UniqueIdentifier>{9ef77057-07ea-4293-b26c-77d01042ba4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05. service_locator">
-      <UniqueIdentifier>{a79b5c6e-fb33-4d7e-afc8-62b09e5ad810}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05. service_locator\service">
-      <UniqueIdentifier>{4b313b08-d193-4eb8-9133-5a035a304d13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05. service_locator\service\audio">
-      <UniqueIdentifier>{c3c04d5a-3163-44c5-bb7f-6aaa20d73697}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05. service_locator\service\logger">
-      <UniqueIdentifier>{3752737d-ff8d-4e91-8458-c6ad8fa9f107}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. game\object\component">
       <UniqueIdentifier>{127ca7ae-a578-41a5-a00c-4146ae8f06c1}</UniqueIdentifier>
     </Filter>
@@ -76,9 +61,6 @@
     <Filter Include="00. game\user_interface\progress_bar">
       <UniqueIdentifier>{fc32f929-9da5-448b-acbc-e28746b8818d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05. service_locator\service\logger\console">
-      <UniqueIdentifier>{5aa1bb3b-ce43-4c60-956f-40b9bd1725c7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. game\game_mode">
       <UniqueIdentifier>{3d52f6c0-ad17-42fc-8b9b-9350f661ec59}</UniqueIdentifier>
     </Filter>
@@ -87,6 +69,18 @@
     </Filter>
     <Filter Include="00. game\object\object_state">
       <UniqueIdentifier>{a3b48305-d4ed-4b66-854a-d4890e1df75a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. audio">
+      <UniqueIdentifier>{c3c04d5a-3163-44c5-bb7f-6aaa20d73697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. event">
+      <UniqueIdentifier>{9ef77057-07ea-4293-b26c-77d01042ba4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. logger">
+      <UniqueIdentifier>{3752737d-ff8d-4e91-8458-c6ad8fa9f107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. logger\console">
+      <UniqueIdentifier>{5aa1bb3b-ce43-4c60-956f-40b9bd1725c7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -159,32 +153,29 @@
     <ClInclude Include="per_renderer.h">
       <Filter>02. renderer</Filter>
     </ClInclude>
-    <ClInclude Include="per_locator.h">
-      <Filter>05. service_locator</Filter>
-    </ClInclude>
     <ClInclude Include="per_audio.h">
-      <Filter>05. service_locator\service\audio</Filter>
+      <Filter>03. audio</Filter>
     </ClInclude>
     <ClInclude Include="per_logger.h">
-      <Filter>05. service_locator\service\logger</Filter>
+      <Filter>05. logger</Filter>
     </ClInclude>
     <ClInclude Include="null_audio.h">
-      <Filter>05. service_locator\service\audio</Filter>
+      <Filter>03. audio</Filter>
     </ClInclude>
     <ClInclude Include="null_logger.h">
-      <Filter>05. service_locator\service\logger</Filter>
+      <Filter>05. logger</Filter>
     </ClInclude>
     <ClInclude Include="per_hud.h">
       <Filter>00. game\user_interface</Filter>
     </ClInclude>
     <ClInclude Include="event_dispatcher.h">
-      <Filter>03. event</Filter>
+      <Filter>04. event</Filter>
     </ClInclude>
     <ClInclude Include="event_reciver.h">
-      <Filter>03. event</Filter>
+      <Filter>04. event</Filter>
     </ClInclude>
     <ClInclude Include="per_event.h">
-      <Filter>03. event</Filter>
+      <Filter>04. event</Filter>
     </ClInclude>
     <ClInclude Include="progress_bar.h">
       <Filter>00. game\user_interface\progress_bar</Filter>
@@ -193,7 +184,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="console_logger.h">
-      <Filter>05. service_locator\service\logger\console</Filter>
+      <Filter>05. logger\console</Filter>
     </ClInclude>
     <ClInclude Include="game_mode.h">
       <Filter>00. game\game_mode</Filter>
@@ -203,6 +194,9 @@
     </ClInclude>
     <ClInclude Include="object_state.h">
       <Filter>00. game\object\object_state</Filter>
+    </ClInclude>
+    <ClInclude Include="per_log.h">
+      <Filter>05. logger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -260,20 +254,17 @@
     <ClCompile Include="per_renderer.cpp">
       <Filter>02. renderer</Filter>
     </ClCompile>
-    <ClCompile Include="per_locator.cpp">
-      <Filter>05. service_locator</Filter>
-    </ClCompile>
     <ClCompile Include="per_hud.cpp">
       <Filter>00. game\user_interface</Filter>
     </ClCompile>
     <ClCompile Include="event_dispatcher.cpp">
-      <Filter>03. event</Filter>
+      <Filter>04. event</Filter>
     </ClCompile>
     <ClCompile Include="progress_bar.cpp">
       <Filter>00. game\user_interface\progress_bar</Filter>
     </ClCompile>
     <ClCompile Include="console_logger.cpp">
-      <Filter>05. service_locator\service\logger\console</Filter>
+      <Filter>05. logger\console</Filter>
     </ClCompile>
     <ClCompile Include="game_mode.cpp">
       <Filter>00. game\game_mode</Filter>
@@ -283,6 +274,9 @@
     </ClCompile>
     <ClCompile Include="object_state.cpp">
       <Filter>00. game\object\object_state</Filter>
+    </ClCompile>
+    <ClCompile Include="per_log.cpp">
+      <Filter>05. logger</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
