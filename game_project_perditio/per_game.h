@@ -23,10 +23,6 @@ public:
 	// 윈도우 hwnd 재설정
 	void MatchWindowHWND(HWND hWnd);
 
-	// 오브젝트 생성, 삭제
-	PERObject* CreateObject(PERObjectType type);
-	void RemoveObject(PERObjectType type, PERObject* object);
-
 private:
 	// 게임 월드, 모드 변경
 	void Run(PERWorld* world, GameMode* gameMode);
@@ -47,7 +43,7 @@ private:
 
 	PERController*	m_controller;
 	PERRenderer*	m_renderer;
-	ObjectPool*	m_objectPool;
+	ObjectPool*		m_objectPool;
 
 	PERObject*	m_player;
 	PERWorld*	m_currentWorld;

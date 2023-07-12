@@ -23,11 +23,8 @@ struct PERWorldMessage {
 
 class PERWorld {
 public:
-	PERWorld();
+	PERWorld(ObjectPool* objectPool, GameMode* mode);
 	~PERWorld();
-
-	void SetObjectPool(ObjectPool* objectPool);
-	void SetGameMode(GameMode* mode);
 
 	void Update(double dTime);
 	void UIUpdate(double dTime);
@@ -42,7 +39,7 @@ public:
 	void Render(PERRenderer& renderer, double frameGap);
 	void UIRender(PERRenderer& renderer);
 
-	void Enter(GameMode* gameMode);
+	void Enter();
 	void Exit();
 	void Pause();
 	void Resume();

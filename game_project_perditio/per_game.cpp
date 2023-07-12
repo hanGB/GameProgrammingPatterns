@@ -29,9 +29,13 @@ PERGame::~PERGame()
 void PERGame::Recive(PEREvent event, PERVec3 data)
 {
 	switch (event) {
-	case PEREvent::EVENT_RUN_DEFAULT_WORLD_AND_GAME_MODE:
-		Run(new PERWorld(), new GameMode());
-		break;
+	case PEREvent::EVENT_RUN_DEFAULT_WORLD_AND_GAME_MODE: {
+		GameMode* gameMode = new GameMode();
+		PERWorld* world = new PERWorld(m_objectPool, gameMode);
+		Run(world, gameMode);
+		break; 
+	}
+
 	}
 }
 
@@ -140,22 +144,11 @@ void PERGame::MatchWindowHWND(HWND hWnd)
 	m_renderer->MatchWindowSize(hWnd);
 }
 
-PERObject* PERGame::CreateObject(PERObjectType type)
-{
-	return m_objectPool->PopObject(type);
-}
-
-void PERGame::RemoveObject(PERObjectType type, PERObject* object)
-{
-	m_objectPool->PushObject(type, object);
-}
-
 void PERGame::Run(PERWorld* world, GameMode* gameMode)
 {
 	PERLocator::GetLogger().Info("월드 최초 실행");
 
-	world->SetObjectPool(m_objectPool);
-	world->Enter(gameMode);
+	world->Enter();
 
 	m_currentWorld = world;
 	m_currentGameMode = gameMode;

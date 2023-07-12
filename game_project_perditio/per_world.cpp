@@ -10,9 +10,12 @@
 #include "event_dispatcher.h"
 #include "per_locator.h"
 
-PERWorld::PERWorld()
+PERWorld::PERWorld(ObjectPool* objectPool, GameMode* mode)
 {
 	PERLocator::GetLogger().Info("월드 생성");
+
+	m_objectPool = objectPool;
+	m_gameMode = mode;
 
 	m_objects.reserve(PER_DEFAULT_MAX_OBJECTS);
 }
@@ -20,18 +23,6 @@ PERWorld::PERWorld()
 PERWorld::~PERWorld()
 {
 	PERLocator::GetLogger().Info("월드 삭제");
-}
-
-void PERWorld::SetObjectPool(ObjectPool* objectPool)
-{
-	m_objectPool = objectPool;
-}
-
-void PERWorld::SetGameMode(GameMode* mode)
-{
-	m_gameMode = mode;
-	m_gameMode->GetPlayer().SetPosition(PERVec3(0.0, 0.0, 0.0));
-	AddObject(&m_gameMode->GetPlayer());
 }
 
 void PERWorld::Update(double dTime)
@@ -90,10 +81,12 @@ void PERWorld::UIRender(PERRenderer& renderer)
 	m_gameMode->GetHud().Renderer(renderer);
 }
 
-void PERWorld::Enter(GameMode* gameMode)
+void PERWorld::Enter()
 {
+	m_gameMode->GetPlayer().SetPosition(PERVec3(0.0, 0.0, 0.0));
+	AddObject(&m_gameMode->GetPlayer());
+
 	InitWorldObject();
-	SetGameMode(gameMode);
 }
 
 void PERWorld::Exit()
