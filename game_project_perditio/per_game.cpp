@@ -2,25 +2,15 @@
 #include "per_game.h"
 #include "per_locator.h"
 
-PERGame::PERGame()
+PERGame::PERGame(HWND hWnd)
 {
 	PERLocator::GetLogger().Info("게임 클래스 생성 시작");
 
+	m_renderer = new PERRenderer(hWnd);
 	m_controller = new PERController();
 	m_objectPool = new ObjectPool();
 
 	PERLocator::GetLogger().Info("게임 클래스 생성 완료");
-}
-
-PERGame& PERGame::Instance()
-{
-	static PERGame* instance = new PERGame();
-	return *instance;
-}
-
-void PERGame::InitRenderer(HWND hWnd)
-{
-	m_renderer = new PERRenderer(hWnd);
 }
 
 PERGame::~PERGame()
@@ -34,6 +24,15 @@ PERGame::~PERGame()
 	delete m_player;
 
 	PERLocator::GetLogger().Info("게임 클래스 삭제 완료");
+}
+
+void PERGame::Recive(PEREvent event, PERVec3 data)
+{
+	switch (event) {
+	case PEREvent::EVENT_RUN_DEFAULT_WORLD_AND_GAME_MODE:
+		Run(new PERWorld(), new GameMode());
+		break;
+	}
 }
 
 void PERGame::HandleInput(WPARAM wParam, bool isDown)
@@ -155,8 +154,8 @@ void PERGame::Run(PERWorld* world, GameMode* gameMode)
 {
 	PERLocator::GetLogger().Info("월드 최초 실행");
 
-	world->Enter();
-	world->SetGameMode(gameMode);
+	world->SetObjectPool(m_objectPool);
+	world->Enter(gameMode);
 
 	m_currentWorld = world;
 	m_currentGameMode = gameMode;

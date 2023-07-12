@@ -1,18 +1,32 @@
 #pragma once
-class PERObject;
+class ObjectFactory;
+
 class PERHud;
-class ObjectPool;
+class GameState;
+class PERObject;
+class ObjectState;
+
 
 class GameMode {
 public:
 	GameMode();
 	~GameMode();
 
-	void Init();
-	PERObject* GetPlayer();
-	PERHud* GetHud();
+	void StartUse();
+	void EndUse();
+
+	PERHud& GetHud();
+	GameState& GetGameState();
+	PERObject& GetPlayer();
+	ObjectState& GetPlayerState();
 
 private:
-	PERObject* m_player;
+	void CreatePlayerFactory();
+
+	ObjectFactory* m_playerFactory;
+
 	PERHud* m_hud;
+	GameState* m_gameState;
+	PERObject* m_player;
+	ObjectState* m_playerState;
 };

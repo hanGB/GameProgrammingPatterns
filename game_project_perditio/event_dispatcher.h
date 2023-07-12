@@ -10,6 +10,8 @@ struct EventData {
 
 class EventDispatcher {
 public:
+	static void SetGame(EventReciver* reciver);
+
 	static void AddReciver(EventReciver* reciver);
 	static void RemoveReciver(EventReciver* reciver);
 	static void RemoveAllRecivers();
@@ -22,6 +24,7 @@ public:
 private:
 	static void ResizePending();
 
+	static EventReciver* m_game;
 	static std::vector<EventReciver*> m_recivers;
 
 	static CSProvider m_csProvider;

@@ -2,12 +2,25 @@
 #include "event_dispatcher.h"
 
 // static 변수 선언
+EventReciver* EventDispatcher::m_game;
 std::vector<EventReciver*> EventDispatcher::m_recivers;
+
 CSProvider EventDispatcher::m_csProvider = CSProvider();
+
 int EventDispatcher::m_maxPending = EventDispatcher::c_DEFAULT_MAX_PENDING;
 EventData* EventDispatcher::m_pending = new EventData[EventDispatcher::m_maxPending];
 int EventDispatcher::m_head = 0;
 int EventDispatcher::m_tail = 0;
+
+void EventDispatcher::SetGame(EventReciver* reciver)
+{
+	m_csProvider.Lock();
+
+	m_game = reciver;
+	AddReciver(m_game);
+
+	m_csProvider.Unlock();
+}
 
 void EventDispatcher::AddReciver(EventReciver* reciver)
 {
@@ -30,6 +43,9 @@ void EventDispatcher::RemoveReciver(EventReciver* reciver)
 		}
 		it++;
 	}
+
+	// 무조건 게임 클래스는 이벤트를 받아야 함
+	AddReciver(m_game);
 
 	m_csProvider.Unlock();
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+class ObjectPool;
 class PERController;
 class PERRenderer;
 class PERObject;
@@ -25,6 +26,7 @@ public:
 	PERWorld();
 	~PERWorld();
 
+	void SetObjectPool(ObjectPool* objectPool);
 	void SetGameMode(GameMode* mode);
 
 	void Update(double dTime);
@@ -40,7 +42,7 @@ public:
 	void Render(PERRenderer& renderer, double frameGap);
 	void UIRender(PERRenderer& renderer);
 
-	void Enter();
+	void Enter(GameMode* gameMode);
 	void Exit();
 	void Pause();
 	void Resume();
@@ -61,6 +63,8 @@ private:
 	void DeleteObject(PERObject* object);
 
 	void ResizePedingArray();
+
+	ObjectPool* m_objectPool;
 
 	std::vector<PERObject*> m_objects;
 	int m_numObject = 0;

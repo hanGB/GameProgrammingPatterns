@@ -5,12 +5,14 @@
 #include "game_mode.h"
 #include "object_pool.h"
 #include "per_object.h"
+#include "event_reciver.h"
 
-class PERGame {
+class PERGame : public EventReciver {
 public:
-	static PERGame& Instance();
-	void InitRenderer(HWND hWnd);
+	PERGame(HWND hWnd);
 	~PERGame();
+
+	virtual void Recive(PEREvent event, PERVec3 data);
 
 	void HandleInput(WPARAM wParam, bool isDown);
 	void Update(int deltaTime);
@@ -25,15 +27,13 @@ public:
 	PERObject* CreateObject(PERObjectType type);
 	void RemoveObject(PERObjectType type, PERObject* object);
 
+private:
 	// 게임 월드, 모드 변경
 	void Run(PERWorld* world, GameMode* gameMode);
 	void ChangeWorld(PERWorld* world, GameMode* gameMode);
 	void PushWorld(PERWorld* world, GameMode* gameMode);
 	void PopWorld();
 	void Quit();
-
-private:
-	PERGame();
 
 	const double c_FPS_UPDATE_GAP = 0.5;
 

@@ -85,6 +85,12 @@
     <Filter Include="00. game\game_mode">
       <UniqueIdentifier>{3d52f6c0-ad17-42fc-8b9b-9350f661ec59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\game_state">
+      <UniqueIdentifier>{0ceaf35e-ad1d-48b4-99bf-a5751bd8c87c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\object_state">
+      <UniqueIdentifier>{a3b48305-d4ed-4b66-854a-d4890e1df75a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -195,6 +201,12 @@
     <ClInclude Include="game_mode.h">
       <Filter>00. game\game_mode</Filter>
     </ClInclude>
+    <ClInclude Include="game_state.h">
+      <Filter>00. game\game_state</Filter>
+    </ClInclude>
+    <ClInclude Include="object_state.h">
+      <Filter>00. game\object\object_state</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -268,6 +280,12 @@
     </ClCompile>
     <ClCompile Include="game_mode.cpp">
       <Filter>00. game\game_mode</Filter>
+    </ClCompile>
+    <ClCompile Include="game_state.cpp">
+      <Filter>00. game\game_state</Filter>
+    </ClCompile>
+    <ClCompile Include="object_state.cpp">
+      <Filter>00. game\object\object_state</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

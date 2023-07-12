@@ -31,6 +31,9 @@ PERObject* ObjectPool::PopObject(PERObjectType type)
 
 void ObjectPool::PushObject(PERObjectType type, PERObject* object)
 {
+    // 플레이어는 게임 모드에서 생성하기 때문에 제외
+    if (type == PERObjectType::OBJECT_TYPE_PLAYER) return;
+
     m_objectPools.find(type)->second.push(object);
 }
 
@@ -41,25 +44,6 @@ void ObjectPool::CreateObjectFactories()
     AiData ai;
     PhysicsData physics;
     GraphicsData graphics;
-
-    // player
-    ObjectFactory* playerFactory
-        = new ObjectFactory(
-            PERObjectType::OBJECT_TYPE_PLAYER,
-            PERComponentType::COMPONENT_TYPE_PLAYER_INPUT,
-            PERComponentType::COMPONENT_TYPE_UNINTELLIGENT,
-            PERComponentType::COMPONENT_TYPE_MOVABLE,
-            PERComponentType::COMPONENT_TYPE_VISIBLE
-        );
-    input.isAttack = true, input.isMove = true, input.isCheck = false;
-    ai.isAttack = false, ai.isMove = false;
-    physics.friction = true; physics.isOccupySpace = true;
-    graphics.shape = PERShapeType::SHAPE_TYPE_ELLIPSE; graphics.color = PERColor(0, 255, 255);
-    graphics.border = true; graphics.borderWidth = 3; graphics.borderColor = PERColor(0, 127, 127);
-    playerFactory->SetInputData(input);             playerFactory->SetAiData(ai);
-    playerFactory->SetPhysicsData(physics);         playerFactory->SetGraphicsData(graphics);
-    playerFactory->SetSize(PERVec3(0.5, 0.5, 0.5)); playerFactory->SetMass(50);
-    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::OBJECT_TYPE_PLAYER, playerFactory));
 
     // block
     ObjectFactory* blockFactory
@@ -121,7 +105,7 @@ void ObjectPool::CreateObjectFactories()
 
 void ObjectPool::DeleteObjectFactories()
 {
-    for (int type = (int)PERObjectType::OBJECT_TYPE_PLAYER; type < (int)PERObjectType::NUM_OBJECT_TYPE; ++type) {
+    for (int type = (int)PERObjectType::OBJECT_TYPE_PLAYER + 1; type < (int)PERObjectType::NUM_OBJECT_TYPE; ++type) {
         auto it = m_objectFactories.find((PERObjectType)type);
         if (it == m_objectFactories.end()) continue;
 
@@ -133,7 +117,7 @@ void ObjectPool::DeleteObjectFactories()
 void ObjectPool::FillObjectPools()
 {
     
-    for (int type = (int)PERObjectType::OBJECT_TYPE_PLAYER; type < (int)PERObjectType::NUM_OBJECT_TYPE; ++type) {
+    for (int type = (int)PERObjectType::OBJECT_TYPE_PLAYER + 1; type < (int)PERObjectType::NUM_OBJECT_TYPE; ++type) {
         std::queue<PERObject*> pool;
         
         auto it = m_objectFactories.find((PERObjectType)type);

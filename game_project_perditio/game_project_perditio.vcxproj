@@ -145,8 +145,10 @@
     <ClInclude Include="event_dispatcher.h" />
     <ClInclude Include="event_reciver.h" />
     <ClInclude Include="game_mode.h" />
+    <ClInclude Include="game_state.h" />
     <ClInclude Include="null_audio.h" />
     <ClInclude Include="null_logger.h" />
+    <ClInclude Include="object_state.h" />
     <ClInclude Include="per_event.h" />
     <ClInclude Include="per_hud.h" />
     <ClInclude Include="per_audio.h" />
@@ -181,7 +183,9 @@
   <ItemGroup>
     <ClCompile Include="event_dispatcher.cpp" />
     <ClCompile Include="game_mode.cpp" />
+    <ClCompile Include="game_state.cpp" />
     <ClCompile Include="object_pool.cpp" />
+    <ClCompile Include="object_state.cpp" />
     <ClCompile Include="per_hud.cpp" />
     <ClCompile Include="per_locator.cpp" />
     <ClCompile Include="player_input_component.cpp" />
