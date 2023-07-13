@@ -17,6 +17,7 @@ struct PERVec3 {
 
 		return res;
 	}
+
 };
 struct PERVec2 {
 	double x;

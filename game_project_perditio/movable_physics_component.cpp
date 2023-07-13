@@ -5,12 +5,48 @@
 void MovablePhysicsComponent::Update(PERObject& object, PERWorld& world, PERAudio* audio, double dTime)
 {
 	m_MoveFunc(*this, object, dTime);
+	if (world.CheckCollision(object, object.GetPosition(), object.GetSize(), object.GetVelocity(), object.GetBoundingType())) {
+		// Ã³¸®
+	}
 }
 
 void MovablePhysicsComponent::SetData(PERComponent::PhysicsData data)
 {
 	if (data.friction) m_MoveFunc = &MovablePhysicsComponent::Move;
 	else m_MoveFunc = &MovablePhysicsComponent::MoveWithoutFriction;
+}
+
+void MovablePhysicsComponent::ProcessCollision(PERObject& myObject, 
+	PERVec3 otherPos, PERVec3 otherSize, PERVec3 otherVel, PERBoundingType otherType)
+{
+	PERVec3 myPos = myObject.GetPosition(), myHalfSize = myObject.GetSize() * 0.5, myVel = myObject.GetVelocity();
+	PERBoundingType myType = myObject.GetBoundingType();
+	PERVec3 otherHalfSize = otherSize * 0.5;
+	double moveGap = 0.1;
+
+	if (myType == PERBoundingType::RECTANGLE && otherType == PERBoundingType::RECTANGLE) {
+		double myLeft = myPos.x - myHalfSize.x, myRight = myPos.x + myHalfSize.x,
+			myBottom = myPos.y - myHalfSize.y, myTop = myPos.y + myHalfSize.y;
+		double otherLeft = otherPos.x - otherHalfSize.x, otherRight = otherPos.x + otherHalfSize.x,
+			otherBottom = otherPos.y - otherHalfSize.y, otherTop = otherPos.y + otherHalfSize.y;
+
+
+		if (otherVel.x == 0.0 && otherVel.y == 0.0) {
+			if (otherPos.x < myLeft && myLeft < otherRight && myVel.x < 0.0) {
+				myPos.x = myPos.x + (otherRight - myLeft);
+			}
+			if (otherLeft < myRight && myRight < otherPos.x && myVel.x > 0.0) {
+				myPos.x = myPos.x - (myRight - otherLeft);
+			}
+			if (otherPos.y < myBottom && myBottom < otherTop && myVel.y < 0.0) {
+				myPos.y = myPos.y + (otherTop - myBottom);
+			}
+			if (otherBottom < myTop && myTop < otherPos.y && myVel.y > 0.0) {
+				myPos.y = myPos.y - (myTop - otherBottom);
+			}
+		}
+		myObject.SetPosition(myPos);
+	}
 }
 
 void MovablePhysicsComponent::Move(PERObject& object, double dTime)

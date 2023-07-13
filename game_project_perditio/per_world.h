@@ -50,6 +50,9 @@ public:
 		PERObject* parent, PERObjectType type, 
 		PERVec3 position, PERVec3 currentAccel, double lifeTime);
 	void RequestDeleteObject(PERObject* object);
+
+	// 충돌 확인
+	bool CheckCollision(PERObject& object, PERVec3 position, PERVec3 size, PERVec3 velocity, PERBoundingType type);
 	
 private:
 	void InitWorldObject();
@@ -61,6 +64,10 @@ private:
 	void DeleteObject(PERObject* object);
 
 	void ResizePedingArray();
+
+	bool CheckAABBCollision(
+		PERVec3 aPos, PERVec3 aSize, PERVec3 aVel, 
+		PERVec3 bPos, PERVec3 bSize, PERVec3 bVel);
 
 	ObjectPool* m_objectPool;
 
