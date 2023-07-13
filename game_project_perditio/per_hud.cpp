@@ -34,10 +34,10 @@ void PERHud::Renderer(PERRenderer& renderer)
 void PERHud::Recive(PEREvent event, PERVec3 data)
 {
 	switch (event) {
-	case PEREvent::EVENT_UPDATE_HP:
+	case PEREvent::UPDATE_HP:
 		m_hpBar->SetCurrent((int)data.x);
 		break;
-	case PEREvent::EVENT_UPDATE_MP:
+	case PEREvent::UPDATE_MP:
 		m_mpBar->SetCurrent((int)data.x);
 		break;
 	}

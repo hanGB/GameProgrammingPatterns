@@ -29,11 +29,11 @@ void ProgressBar::Update(PERAudio* audio, double dTime)
 void ProgressBar::Render(PERRenderer& renderer)
 {
 	// 바
-	renderer.RenderShapeInScreenCoordinate(PERShapeType::SHAPE_TYPE_RECTANGLE_WITH_LEFT_TOP_ANCHOR,
+	renderer.RenderShapeInScreenCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 		m_position, m_size, 
 		m_barColor, m_border, m_borderWidth, m_borderColor);
 	// 진행 상태
-	renderer.RenderShapeInScreenCoordinate(PERShapeType::SHAPE_TYPE_RECTANGLE_WITH_LEFT_TOP_ANCHOR,
+	renderer.RenderShapeInScreenCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 		m_position, PERVec2(m_size.x * m_showing / (double)m_max, m_size.y),
 		m_progressColor, false);
 }

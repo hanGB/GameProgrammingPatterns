@@ -166,13 +166,13 @@
     <ClInclude Include="movable_physics_component.h" />
     <ClInclude Include="no_interact_input_component.h" />
     <ClInclude Include="object_factory.h" />
-    <ClInclude Include="per_ai_component.h" />
-    <ClInclude Include="per_graphics_component.h" />
+    <ClInclude Include="ai_component.h" />
+    <ClInclude Include="graphics_component.h" />
     <ClInclude Include="per_controller.h" />
     <ClInclude Include="per_game.h" />
-    <ClInclude Include="per_input_component.h" />
+    <ClInclude Include="input_component.h" />
     <ClInclude Include="per_object.h" />
-    <ClInclude Include="per_physics_component.h" />
+    <ClInclude Include="physics_component.h" />
     <ClInclude Include="per_renderer.h" />
     <ClInclude Include="per_vector.h" />
     <ClInclude Include="per_world.h" />

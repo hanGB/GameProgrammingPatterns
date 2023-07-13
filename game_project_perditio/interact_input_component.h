@@ -1,7 +1,7 @@
 #pragma once
-#include "per_input_component.h"
+#include "input_component.h"
 
-class InteractInputComponent : public PERInputComponent {
+class InteractInputComponent : public InputComponent {
 public:
 	virtual void Update(PERObject& object, PERWorld& world, PERController& controller, PERAudio* audio, double dTime);
 	virtual void SetData(PERComponent::InputData data);

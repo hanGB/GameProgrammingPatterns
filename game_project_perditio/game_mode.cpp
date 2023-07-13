@@ -67,16 +67,16 @@ void GameMode::CreatePlayerFactory()
     PERComponent::GraphicsData graphics;
 
     m_playerFactory   = new ObjectFactory(
-            PERObjectType::OBJECT_TYPE_PLAYER,
-            PERComponentType::COMPONENT_TYPE_PLAYER_INPUT,
-            PERComponentType::COMPONENT_TYPE_UNINTELLIGENT,
-            PERComponentType::COMPONENT_TYPE_MOVABLE,
-            PERComponentType::COMPONENT_TYPE_VISIBLE
+            PERObjectType::PLAYER,
+            PERComponentType::PLAYER_INPUT,
+            PERComponentType::UNINTELLIGENT,
+            PERComponentType::MOVABLE,
+            PERComponentType::VISIBLE
         );
     input.isAttack = true, input.isMove = true, input.isCheck = false;
     ai.isAttack = false, ai.isMove = false;
     physics.friction = true; physics.isOccupySpace = true;
-    graphics.shape = PERShapeType::SHAPE_TYPE_ELLIPSE; graphics.color = PERColor(0, 255, 255);
+    graphics.shape = PERShapeType::ELLIPSE; graphics.color = PERColor(0, 255, 255);
     graphics.border = true; graphics.borderWidth = 3; graphics.borderColor = PERColor(0, 127, 127);
     m_playerFactory->SetInputData(input);             m_playerFactory->SetAiData(ai);
     m_playerFactory->SetPhysicsData(physics);         m_playerFactory->SetGraphicsData(graphics);

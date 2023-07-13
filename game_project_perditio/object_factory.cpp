@@ -37,45 +37,45 @@ ObjectFactory::~ObjectFactory()
 
 PERObject* ObjectFactory::CreateObject()
 {
-    PERInputComponent* inputComponent = nullptr;
+    InputComponent* inputComponent = nullptr;
     switch (m_componentTypes.input) {
-    case PERComponentType::COMPONENT_TYPE_PLAYER_INPUT:
+    case PERComponentType::PLAYER_INPUT:
         inputComponent = new PlayerInputComponent();
         break;
-    case PERComponentType::COMPONENT_TYPE_INTERACT:
+    case PERComponentType::INTERACT:
         inputComponent = new InteractInputComponent();
         break;
-    case PERComponentType::COMPONENT_TYPE_NO_INTERACT:
+    case PERComponentType::NO_INTERACT:
         inputComponent = new NoInteractInputComponent();
         break;
     }
 
-    PERAiComponent* aiComponent = nullptr;
+    AiComponent* aiComponent = nullptr;
     switch (m_componentTypes.ai) {
-    case PERComponentType::COMPONENT_TYPE_UNINTELLIGENT:
+    case PERComponentType::UNINTELLIGENT:
         aiComponent = new UnintelligentAiComponent();
         break;
-    case PERComponentType::COMPONENT_TYPE_INTELLIGENT:
+    case PERComponentType::INTELLIGENT:
         aiComponent = new IntelligentAiComponent();
         break;
     }
 
-    PERPhysicsComponent* physicsComponent = nullptr;
+    PhysicsComponent* physicsComponent = nullptr;
     switch (m_componentTypes.physics) {
-    case PERComponentType::COMPONENT_TYPE_MOVABLE:
+    case PERComponentType::MOVABLE:
         physicsComponent = new MovablePhysicsComponent();
         break;
-    case PERComponentType::COMPONENT_TYPE_FIXED:
+    case PERComponentType::FIXED:
         physicsComponent = new FixedPhysicsComponent();
         break;
     }
 
-    PERGraphicsComponent* graphicsComponent = nullptr;
+    GraphicsComponent* graphicsComponent = nullptr;
     switch (m_componentTypes.graphics) {
-    case PERComponentType::COMPONENT_TYPE_VISIBLE:
+    case PERComponentType::VISIBLE:
         graphicsComponent = new VisibleGraphicsComponent();
         break;
-    case PERComponentType::COMPONENT_TYPE_HIDDEN:
+    case PERComponentType::HIDDEN:
         graphicsComponent = new HiddenGraphicsComponent();
         break;
     }
@@ -167,7 +167,7 @@ void ObjectFactory::InitData()
     // physics
     m_componentData.physics.friction = true;
     // graphics
-    m_componentData.graphics.shape = PERShapeType::SHAPE_TYPE_RECTANGLE;
+    m_componentData.graphics.shape = PERShapeType::RECTANGLE;
     m_componentData.graphics.color = PERColor(255, 255, 255);
 
     m_size = PERVec3(1.0, 1.0, 1.0);

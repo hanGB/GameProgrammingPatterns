@@ -24,22 +24,22 @@ void PlayerInputComponent::Move(PERObject& object, PERController& controller, PE
 	double mass = object.GetMass();
 
 	// x, y축 이동 설정
-	if (controller.IsKeyboardPressed(PERKeyboardValue::KEYBOARD_UP)) {
+	if (controller.IsKeyboardPressed(PERKeyboardValue::UP)) {
 		if (vel.y < object.c_MAXIMUM_VERTICAL_VELOCITY) {
 			cAcc.y += m_verticalForce / mass;
 		}
 	}
-	if (controller.IsKeyboardPressed(PERKeyboardValue::KEYBOARD_DOWN)) {
+	if (controller.IsKeyboardPressed(PERKeyboardValue::DOWN)) {
 		if (vel.y > -object.c_MAXIMUM_VERTICAL_VELOCITY) {
 			cAcc.y -= m_verticalForce / mass;
 		}
 	}
-	if (controller.IsKeyboardPressed(PERKeyboardValue::KEYBOARD_LEFT)) {
+	if (controller.IsKeyboardPressed(PERKeyboardValue::LEFT)) {
 		if (vel.x > -object.c_MAXIMUM_VERTICAL_VELOCITY) {
 			cAcc.x -= m_verticalForce / mass;
 		}
 	}
-	if (controller.IsKeyboardPressed(PERKeyboardValue::KEYBOARD_RIGHT)) {
+	if (controller.IsKeyboardPressed(PERKeyboardValue::RIGHT)) {
 		if (vel.x < object.c_MAXIMUM_VERTICAL_VELOCITY) {
 			cAcc.x += m_verticalForce / mass;
 		}
@@ -69,16 +69,16 @@ void PlayerInputComponent::ShootBullet(PERObject& object, PERWorld& world, PERCo
 	if (m_shootingCoolTime > 0.0) return;
 
 	// 총알 발사
-	if (controller.IsKeyboardPressed(PERKeyboardValue::KEYBOARD_D)) {
+	if (controller.IsKeyboardPressed(PERKeyboardValue::D)) {
 		PERVec3 position(object.GetPosition().x, object.GetPosition().y, -1.0);
 ;		PERVec3 speed((double)m_dirX * c_BULLER_VERTICAL_FORCE, (double)m_dirY * c_BULLER_VERTICAL_FORCE, 0.0);
 		world.RequestAddObject(
-			&object, PERObjectType::OBJECT_TYPE_BULLET,
+			&object, PERObjectType::BULLET,
 			position, speed, 3.0);
 
 		m_shootingCoolTime = c_DEFAULT_SHOOT_BULLET_COOL_TIME;
 
 		// 테스트
-		EventDispatcher::Send(PEREvent::EVENT_UPDATE_MP, PERVec3(10.0, 0.0, 0.0));
+		EventDispatcher::Send(PEREvent::UPDATE_MP, PERVec3(10.0, 0.0, 0.0));
 	}
 }

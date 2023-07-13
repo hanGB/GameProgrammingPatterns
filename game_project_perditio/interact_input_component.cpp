@@ -20,22 +20,22 @@ void InteractInputComponent::Move(PERObject& object, PERController& controller, 
 	double mass = object.GetMass();
 
 	// x, y축 이동 설정
-	if (controller.IsKeyboardPressed(PERKeyboardValue::KEYBOARD_UP)) {
+	if (controller.IsKeyboardPressed(PERKeyboardValue::UP)) {
 		if (vel.y < object.c_MAXIMUM_VERTICAL_VELOCITY) {
 			cAcc.y += m_verticalForce / mass * dTime;
 		}
 	}
-	if (controller.IsKeyboardPressed(PERKeyboardValue::KEYBOARD_DOWN)) {
+	if (controller.IsKeyboardPressed(PERKeyboardValue::DOWN)) {
 		if (vel.y > -object.c_MAXIMUM_VERTICAL_VELOCITY) {
 			cAcc.y -= m_verticalForce / mass * dTime;
 		}
 	}
-	if (controller.IsKeyboardPressed(PERKeyboardValue::KEYBOARD_LEFT)) {
+	if (controller.IsKeyboardPressed(PERKeyboardValue::LEFT)) {
 		if (vel.x > -object.c_MAXIMUM_VERTICAL_VELOCITY) {
 			cAcc.x -= m_verticalForce / mass * dTime;
 		}
 	}
-	if (controller.IsKeyboardPressed(PERKeyboardValue::KEYBOARD_RIGHT)) {
+	if (controller.IsKeyboardPressed(PERKeyboardValue::RIGHT)) {
 		if (vel.x < object.c_MAXIMUM_VERTICAL_VELOCITY) {
 			cAcc.x += m_verticalForce / mass * dTime;
 		}

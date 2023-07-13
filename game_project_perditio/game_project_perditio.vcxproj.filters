@@ -76,10 +76,10 @@
     <Filter Include="04. event">
       <UniqueIdentifier>{9ef77057-07ea-4293-b26c-77d01042ba4b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05. logger">
+    <Filter Include="05. log">
       <UniqueIdentifier>{3752737d-ff8d-4e91-8458-c6ad8fa9f107}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05. logger\console">
+    <Filter Include="05. log\console">
       <UniqueIdentifier>{5aa1bb3b-ce43-4c60-956f-40b9bd1725c7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -99,16 +99,16 @@
     <ClInclude Include="per_object.h">
       <Filter>00. game\object</Filter>
     </ClInclude>
-    <ClInclude Include="per_ai_component.h">
+    <ClInclude Include="ai_component.h">
       <Filter>00. game\object\component\interface</Filter>
     </ClInclude>
-    <ClInclude Include="per_graphics_component.h">
+    <ClInclude Include="graphics_component.h">
       <Filter>00. game\object\component\interface</Filter>
     </ClInclude>
-    <ClInclude Include="per_input_component.h">
+    <ClInclude Include="input_component.h">
       <Filter>00. game\object\component\interface</Filter>
     </ClInclude>
-    <ClInclude Include="per_physics_component.h">
+    <ClInclude Include="physics_component.h">
       <Filter>00. game\object\component\interface</Filter>
     </ClInclude>
     <ClInclude Include="movable_physics_component.h">
@@ -157,13 +157,13 @@
       <Filter>03. audio</Filter>
     </ClInclude>
     <ClInclude Include="per_logger.h">
-      <Filter>05. logger</Filter>
+      <Filter>05. log</Filter>
     </ClInclude>
     <ClInclude Include="null_audio.h">
       <Filter>03. audio</Filter>
     </ClInclude>
     <ClInclude Include="null_logger.h">
-      <Filter>05. logger</Filter>
+      <Filter>05. log</Filter>
     </ClInclude>
     <ClInclude Include="per_hud.h">
       <Filter>00. game\user_interface</Filter>
@@ -184,7 +184,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="console_logger.h">
-      <Filter>05. logger\console</Filter>
+      <Filter>05. log\console</Filter>
     </ClInclude>
     <ClInclude Include="game_mode.h">
       <Filter>00. game\game_mode</Filter>
@@ -196,7 +196,7 @@
       <Filter>00. game\object\object_state</Filter>
     </ClInclude>
     <ClInclude Include="per_log.h">
-      <Filter>05. logger</Filter>
+      <Filter>05. log</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -264,7 +264,7 @@
       <Filter>00. game\user_interface\progress_bar</Filter>
     </ClCompile>
     <ClCompile Include="console_logger.cpp">
-      <Filter>05. logger\console</Filter>
+      <Filter>05. log\console</Filter>
     </ClCompile>
     <ClCompile Include="game_mode.cpp">
       <Filter>00. game\game_mode</Filter>
@@ -276,7 +276,7 @@
       <Filter>00. game\object\object_state</Filter>
     </ClCompile>
     <ClCompile Include="per_log.cpp">
-      <Filter>05. logger</Filter>
+      <Filter>05. log</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

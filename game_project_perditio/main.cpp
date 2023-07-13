@@ -83,7 +83,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		g_game = new PERGame(g_hWnd);
 		EventDispatcher::SetGame(dynamic_cast<EventReciver*>(g_game));
 		// 월드 실행
-		g_game->Recive(PEREvent::EVENT_RUN_DEFAULT_WORLD_AND_GAME_MODE, PERVec3());
+		g_game->Recive(PEREvent::RUN_DEFAULT_WORLD_AND_GAME_MODE, PERVec3());
 
 		g_isGameEnd = false;
 		// 게임 루프 스레드 생성

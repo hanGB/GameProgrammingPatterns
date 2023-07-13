@@ -1,7 +1,7 @@
 #pragma once
-#include "per_physics_component.h"
+#include "physics_component.h"
 
-class MovablePhysicsComponent : public PERPhysicsComponent {
+class MovablePhysicsComponent : public PhysicsComponent {
 public:
 	virtual void Update(PERObject& object, PERWorld& world, PERAudio* audio, double dTime);
 	virtual void SetData(PERComponent::PhysicsData data);

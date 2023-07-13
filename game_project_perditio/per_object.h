@@ -2,10 +2,10 @@
 #include "per_controller.h"
 #include "per_world.h"
 #include "per_renderer.h"
-#include "per_input_component.h"
-#include "per_ai_component.h"
-#include "per_physics_component.h"
-#include "per_graphics_component.h"
+#include "input_component.h"
+#include "ai_component.h"
+#include "physics_component.h"
+#include "graphics_component.h"
 
 class ObjectFactory;
 
@@ -17,10 +17,10 @@ public:
 
 	bool IsLifeTimeIsEnd(double dTime);
 
-	PERInputComponent& GetInput();
-	PERAiComponent& GetAi();
-	PERPhysicsComponent& GetPhysics();
-	PERGraphicsComponent& GetGraphics();
+	InputComponent& GetInput();
+	AiComponent& GetAi();
+	PhysicsComponent& GetPhysics();
+	GraphicsComponent& GetGraphics();
 
 	// getter
 	PERObjectType GetObjectType() const;
@@ -32,6 +32,7 @@ public:
 	PERVec3 GetVelocity() const;
 	PERVec3 GetCurrentAccel() const;
 	double GetMass() const;
+	PERBoundingType GetBoundingType() const;
 
 	int GetIDInWorld() const;
 
@@ -43,6 +44,7 @@ public:
 	void SetVelocity(PERVec3 vel);
 	void SetCurrentAccel(PERVec3 acc);
 	void SetMass(double mass);
+	void SetBoundingType(PERBoundingType bounding);
 
 	void SetIDInWorld(int id);
 	void SetLifeTime(double time);
@@ -50,16 +52,16 @@ public:
 	static const int c_MAXIMUM_VERTICAL_VELOCITY = 3;
 
 private:
-	PERObject(ObjectFactory& factory, PERInputComponent* input, PERAiComponent* ai, PERPhysicsComponent* physics, PERGraphicsComponent* graphics);
+	PERObject(ObjectFactory& factory, InputComponent* input, AiComponent* ai, PhysicsComponent* physics, GraphicsComponent* graphics);
 
 	// ÆÑÅä¸®
 	ObjectFactory& m_factory;
 
 	// ÄÁÆ÷³ÍÆ®
-	PERInputComponent*		m_input;
-	PERAiComponent*			m_ai;
-	PERPhysicsComponent*	m_physics;
-	PERGraphicsComponent*	m_graphics;
+	InputComponent*		m_input;
+	AiComponent*			m_ai;
+	PhysicsComponent*	m_physics;
+	GraphicsComponent*	m_graphics;
 
 	// ºÎ¸ð
 	PERObject* m_parent = nullptr;
@@ -70,7 +72,8 @@ private:
 	PERVec3 m_velocity = PERVec3(0.0, 0.0, 0.0);
 	PERVec3 m_currentAccel = PERVec3(0.0, 0.0, 0.0);
 	double	m_mass = 50.0;
-
+	PERBoundingType m_boundingType = PERBoundingType::RECTANGLE;
+	
 	int m_idInWorld = -1;
 	double m_lifeTime = PER_MAXIMUM_LIFE_TIME;
 };

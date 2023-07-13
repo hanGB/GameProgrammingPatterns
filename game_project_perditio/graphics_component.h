@@ -5,9 +5,9 @@ class PERObject;
 class PERAudio;
 class PERRenderer;
 
-class PERGraphicsComponent {
+class GraphicsComponent {
 public:
-	virtual ~PERGraphicsComponent() {}
+	virtual ~GraphicsComponent() {}
 
 	virtual void Update(PERObject& object, PERAudio* audio, double dTime) = 0;
 	virtual void Render(PERObject& object, PERRenderer& renderer, double frameGap) = 0;

@@ -8,8 +8,8 @@ class PERObject;
 class GameMode;
 
 enum class PERWorldMessageId {
-	WORLD_MESSAGE_ADD_OBJECT,
-	WORLD_MESSAGE_DELETE_OBJECT,
+	ADD_OBJECT,
+	DELETE_OBJECT,
 	NUM_WROLD_MESSAGE_ID
 };
 

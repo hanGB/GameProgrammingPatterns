@@ -152,30 +152,30 @@ void PERRenderer::RenderShape(PERShapeType type, PERVec2 pos, PERVec2 size, PERC
 	oldPen = (HPEN)SelectObject(memDC, newPen);
 
 	switch (type) {
-	case PERShapeType::SHAPE_TYPE_ELLIPSE:
+	case PERShapeType::ELLIPSE:
 		RenderEllipse(pos, size, memDC);
 		break;
-	case PERShapeType::SHAPE_TYPE_RECTANGLE:
+	case PERShapeType::RECTANGLE:
 		RenderRectangle(pos, size, memDC);
 		break;
-	case PERShapeType::SHAPE_TYPE_ROUND_RECTANGLE:
+	case PERShapeType::ROUND_RECTANGLE:
 		RenderRoundRectangle(pos, size, 20, 20, memDC);
 		break;
-	case PERShapeType::SHAPE_TYPE_TRIANGLE:
+	case PERShapeType::TRIANGLE:
 		RenderTriangle(pos, size, memDC);
 		break;
 
 	// ¿ÞÂÊ À§ ¾ÞÄ¿ ¿ë
-	case PERShapeType::SHAPE_TYPE_ELLIPSE_WITH_LEFT_TOP_ANCHOR:
+	case PERShapeType::ELLIPSE_WITH_LEFT_TOP_ANCHOR:
 		RenderEllipseWithLeftTopAnchor(pos, size, memDC);
 		break;
-	case PERShapeType::SHAPE_TYPE_RECTANGLE_WITH_LEFT_TOP_ANCHOR:
+	case PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR:
 		RenderRectangleWithLeftTopAnchor(pos, size, memDC);
 		break;
-	case PERShapeType::SHAPE_TYPE_ROUND_RECTANGLE_WITH_LEFT_TOP_ANCHOR:
+	case PERShapeType::ROUND_RECTANGLE_WITH_LEFT_TOP_ANCHOR:
 		RenderRoundRectangleWithLeftTopAnchor(pos, size, 20, 20, memDC);
 		break;
-	case PERShapeType::SHAPE_TYPE_TRIANGLE_WITH_LEFT_TOP_ANCHOR:
+	case PERShapeType::TRIANGLE_WITH_LEFT_TOP_ANCHOR:
 		RenderTriangleWithLeftTopAnchor(pos, size, memDC);
 		break;
 	}

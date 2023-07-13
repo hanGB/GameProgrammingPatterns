@@ -103,7 +103,7 @@ void PERWorld::Resume()
 void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, PERVec3 position, PERVec3 currentAccel, double lifeTime)
 {
 	PERWorldMessage message;
-	message.id = PERWorldMessageId::WORLD_MESSAGE_ADD_OBJECT;
+	message.id = PERWorldMessageId::ADD_OBJECT;
 	message.object = parent;
 	message.type = type;
 	message.position = position;
@@ -118,7 +118,7 @@ void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, PERVec3 p
 void PERWorld::RequestDeleteObject(PERObject* object)
 {
 	PERWorldMessage message;
-	message.id = PERWorldMessageId::WORLD_MESSAGE_DELETE_OBJECT;
+	message.id = PERWorldMessageId::DELETE_OBJECT;
 	message.object = object;
 
 	if (m_maxPending == m_numPending) ResizePedingArray();
@@ -141,7 +141,7 @@ void PERWorld::ProcessPendingMessage()
 		PERWorldMessage message = m_pending[i];
 
 		switch (message.id) {
-		case PERWorldMessageId::WORLD_MESSAGE_ADD_OBJECT: {
+		case PERWorldMessageId::ADD_OBJECT: {
 			PERObject* object = AddAndGetObject(message.type);
 			object->SetPosition(message.position);
 			object->SetCurrentAccel(message.currentAccel);
@@ -149,7 +149,7 @@ void PERWorld::ProcessPendingMessage()
 			object->SetParent(message.object);
 			break;
 		}
-		case PERWorldMessageId::WORLD_MESSAGE_DELETE_OBJECT: 
+		case PERWorldMessageId::DELETE_OBJECT: 
 			DeleteObject(message.object);
 			break;
 		}
@@ -194,29 +194,29 @@ void PERWorld::InitWorldObject()
 	PERObject* monster;
 	for (double x = -10.0; x < 10.0; x += 0.5) {
 		for (double y = -10.0; y < 10.0; y += 0.5) {
-			monster = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_MONSTER);
+			monster = m_objectPool->PopObject(PERObjectType::MONSTER);
 			monster->SetPosition(PERVec3(x, y, -1.0));
 			AddObject(monster);
 		}
 	}
 
 	PERObject* wall;
-	wall = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_BLOCK);
+	wall = m_objectPool->PopObject(PERObjectType::BLOCK);
 	wall->SetPosition(PERVec3(1.0, 0.0, 1.0));
 	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_BLOCK);
+	wall = m_objectPool->PopObject(PERObjectType::BLOCK);
 	wall->SetPosition(PERVec3(-1.0, 0.0, 1.1));
 	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_BLOCK);
+	wall = m_objectPool->PopObject(PERObjectType::BLOCK);
 	wall->SetPosition(PERVec3(0.0, 1.0, 1.2));
 	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::OBJECT_TYPE_BLOCK);
+	wall = m_objectPool->PopObject(PERObjectType::BLOCK);
 	wall->SetPosition(PERVec3(0.0, -1.0, 1.3));
 	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
 	AddObject(wall);

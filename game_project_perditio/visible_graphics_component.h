@@ -1,7 +1,7 @@
 #pragma once
-#include "per_graphics_component.h"
+#include "graphics_component.h"
 
-class VisibleGraphicsComponent : public PERGraphicsComponent {
+class VisibleGraphicsComponent : public GraphicsComponent {
 public:
 	virtual void Update(PERObject& object, PERAudio* audio, double dTime);
 	virtual void Render(PERObject& object, PERRenderer& renderer, double frameGap);

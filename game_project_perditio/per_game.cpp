@@ -30,7 +30,7 @@ PERGame::~PERGame()
 void PERGame::Recive(PEREvent event, PERVec3 data)
 {
 	switch (event) {
-	case PEREvent::EVENT_RUN_DEFAULT_WORLD_AND_GAME_MODE: {
+	case PEREvent::RUN_DEFAULT_WORLD_AND_GAME_MODE: {
 		GameMode* gameMode = new GameMode();
 		PERWorld* world = new PERWorld(m_objectPool, gameMode);
 		Run(world, gameMode);
@@ -42,16 +42,16 @@ void PERGame::Recive(PEREvent event, PERVec3 data)
 
 void PERGame::HandleInput(WPARAM wParam, bool isDown)
 {
-	if (wParam == VK_UP) m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_UP, isDown);
-	if (wParam == VK_DOWN) m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_DOWN, isDown);
-	if (wParam == VK_LEFT) m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_LEFT, isDown);
-	if (wParam == VK_RIGHT) m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_RIGHT, isDown);
-	if (wParam == VK_SPACE) m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_SPACE, isDown);
+	if (wParam == VK_UP) m_controller->SetKeyboardPressed(PERKeyboardValue::UP, isDown);
+	if (wParam == VK_DOWN) m_controller->SetKeyboardPressed(PERKeyboardValue::DOWN, isDown);
+	if (wParam == VK_LEFT) m_controller->SetKeyboardPressed(PERKeyboardValue::LEFT, isDown);
+	if (wParam == VK_RIGHT) m_controller->SetKeyboardPressed(PERKeyboardValue::RIGHT, isDown);
+	if (wParam == VK_SPACE) m_controller->SetKeyboardPressed(PERKeyboardValue::SPACE, isDown);
 
-	if (wParam == 'A' || wParam == 'a') m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_A, isDown);
-	if (wParam == 'S' || wParam == 's') m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_S, isDown);
-	if (wParam == 'D' || wParam == 'd') m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_D, isDown);
-	if (wParam == 'F' || wParam == 'f') m_controller->SetKeyboardPressed(PERKeyboardValue::KEYBOARD_F, isDown);
+	if (wParam == 'A' || wParam == 'a') m_controller->SetKeyboardPressed(PERKeyboardValue::A, isDown);
+	if (wParam == 'S' || wParam == 's') m_controller->SetKeyboardPressed(PERKeyboardValue::S, isDown);
+	if (wParam == 'D' || wParam == 'd') m_controller->SetKeyboardPressed(PERKeyboardValue::D, isDown);
+	if (wParam == 'F' || wParam == 'f') m_controller->SetKeyboardPressed(PERKeyboardValue::F, isDown);
 }
 
 void PERGame::Update(int time)
@@ -131,7 +131,7 @@ void PERGame::UIRender(HWND hWnd)
 	if (!m_isUpdateUIEnd || m_isRenderUIEnd) return;
 
 	m_renderer->ResetUIMemoryDC(hWnd);
-	m_renderer->RenderShapeInScreenCoordinate(PERShapeType::SHAPE_TYPE_RECTANGLE,
+	m_renderer->RenderShapeInScreenCoordinate(PERShapeType::RECTANGLE,
 		PERVec2(-0.95, -0.95), PERVec2(0.2, 0.1), PERColor(255, 255, 255), false);
 	m_renderer->RenderFontInScreenCoordinate(m_fpsText, 8, 0.001, PERVec2(-0.97, -0.9), PERColor(0, 0, 0));
 	m_currentWorld->UIRender(*m_renderer);

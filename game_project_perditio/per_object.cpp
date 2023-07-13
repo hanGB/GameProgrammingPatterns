@@ -3,8 +3,8 @@
 #include "object_factory.h"
 
 PERObject::PERObject(ObjectFactory& factory,
-	PERInputComponent* input, PERAiComponent* ai, 
-	PERPhysicsComponent* physics, PERGraphicsComponent* graphics)
+	InputComponent* input, AiComponent* ai, 
+	PhysicsComponent* physics, GraphicsComponent* graphics)
 	: m_factory(factory),
 	m_input(input), m_ai(ai),
 	m_physics(physics), m_graphics(graphics)
@@ -34,22 +34,22 @@ bool PERObject::IsLifeTimeIsEnd(double dTime)
 	return  0.0 > m_lifeTime;
 }
 
-PERInputComponent& PERObject::GetInput()
+InputComponent& PERObject::GetInput()
 {
 	return *m_input;
 }
 
-PERAiComponent& PERObject::GetAi()
+AiComponent& PERObject::GetAi()
 {
 	return *m_ai;
 }
 
-PERPhysicsComponent& PERObject::GetPhysics()
+PhysicsComponent& PERObject::GetPhysics()
 {
 	return *m_physics;
 }
 
-PERGraphicsComponent& PERObject::GetGraphics()
+GraphicsComponent& PERObject::GetGraphics()
 {
 	return *m_graphics;
 }
@@ -90,6 +90,11 @@ double PERObject::GetMass() const
 	return m_mass;
 }
 
+PERBoundingType PERObject::GetBoundingType() const
+{
+	return m_boundingType;
+}
+
 int PERObject::GetIDInWorld() const
 {
 	return m_idInWorld;
@@ -123,6 +128,11 @@ void PERObject::SetCurrentAccel(PERVec3 acc)
 void PERObject::SetMass(double mass)
 {
 	m_mass = mass;
+}
+
+void PERObject::SetBoundingType(PERBoundingType bounding)
+{
+	m_boundingType = bounding;
 }
 
 void PERObject::SetIDInWorld(int id)
