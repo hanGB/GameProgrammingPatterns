@@ -79,7 +79,7 @@ void ObjectPool::CreateObjectFactories()
     graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(127, 0, 0);
     monsterFactory->SetInputData(input);                monsterFactory->SetAiData(ai);
     monsterFactory->SetPhysicsData(physics);            monsterFactory->SetGraphicsData(graphics);
-    monsterFactory->SetSize(PERVec3(0.25, 0.25, 0.25)); monsterFactory->SetMass(100);
+    monsterFactory->SetSize(PERVec3(0.25, 0.25, 0.25)); monsterFactory->SetMass(30);
     m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::MONSTER, monsterFactory));
 
     // bullet

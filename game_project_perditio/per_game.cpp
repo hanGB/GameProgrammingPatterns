@@ -67,7 +67,7 @@ void PERGame::Update(int time)
 	m_controller->Update(dTime);
 
 	// 죽은 오브젝트 월드에서 제거
-	m_currentWorld->Update(m_audio, dTime);
+	m_currentWorld->Update(*m_audio, dTime);
 
 	
 	// 정해진 시간만큼 업데이트가 필요한 항목 업데이트
@@ -75,9 +75,9 @@ void PERGame::Update(int time)
 	// PER_MILLISEC_PER_UPDATE 만큼씩 업데이트
 	for (int i = 0; i < PER_MAXIMUM_UPDATE_LOOP_COUNT && m_updateLag >= PER_MICROSEC_PER_UPDATE; ++i) {
 		// 정해진 시간만큼 게임 업데이트
-		m_currentWorld->ObjectsInputUpdate(*m_controller, m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
-		m_currentWorld->ObjectsAiUpdate(m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
-		m_currentWorld->ObjectsPhysicsUpdate(m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
+		m_currentWorld->ObjectsInputUpdate(*m_controller, *m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
+		m_currentWorld->ObjectsAiUpdate(*m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
+		m_currentWorld->ObjectsPhysicsUpdate(*m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
 		m_updateLag -= PER_MICROSEC_PER_UPDATE;
 	}
 	// 최대 업데이트 루프 횟수를 넘어서 끝날 경우를 대비해 업데이트에 걸리는 시간으로 나눔
@@ -86,7 +86,7 @@ void PERGame::Update(int time)
 	// 업데이트가 끝난 경우 리턴
 	if (m_isUpdateEnd) return;
 	m_frameGap = (double)m_updateLag / (double)PER_MICROSEC_PER_UPDATE;
-	m_currentWorld->ObjectsGraphicsUpdate(m_audio, dTime);
+	m_currentWorld->ObjectsGraphicsUpdate(*m_audio, dTime);
 
 	m_currentWorld->UpdateSortedObjects();
 
@@ -100,7 +100,7 @@ void PERGame::UIUpdate(int time)
 
 	int fps = m_fps;
 	wsprintf(m_fpsText, L"FPS: %d", fps);
-	m_currentWorld->UIUpdate(m_audio, (double)time / 1'000'000.0);
+	m_currentWorld->UIUpdate(*m_audio, (double)time / 1'000'000.0);
 	m_isUpdateUIEnd = true;
 }
 

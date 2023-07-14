@@ -49,7 +49,7 @@ public:
 	void SetIDInWorld(int id);
 	void SetLifeTime(double time);
 
-	static const int c_MAXIMUM_VERTICAL_VELOCITY = 3;
+	static const int c_MAXIMUM_XY_VELOCITY = 3;
 
 private:
 	PERObject(ObjectFactory& factory, InputComponent* input, AiComponent* ai, PhysicsComponent* physics, GraphicsComponent* graphics);

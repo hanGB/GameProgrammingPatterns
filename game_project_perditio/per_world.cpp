@@ -24,19 +24,19 @@ PERWorld::~PERWorld()
 	PERLog::Logger().Info("월드 삭제");
 }
 
-void PERWorld::Update(PERAudio* audio, double dTime)
+void PERWorld::Update(PERAudio& audio, double dTime)
 {
 	DoGarbegeCollection(dTime);
 
 	ProcessPendingMessage();
 }
 
-void PERWorld::UIUpdate(PERAudio* audio, double dTime)
+void PERWorld::UIUpdate(PERAudio& audio, double dTime)
 {
 	m_gameMode->GetHud().Update(audio, dTime);
 }
 
-void PERWorld::ObjectsInputUpdate(PERController& controller, PERAudio* audio, double dTime)
+void PERWorld::ObjectsInputUpdate(PERController& controller, PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
@@ -44,7 +44,7 @@ void PERWorld::ObjectsInputUpdate(PERController& controller, PERAudio* audio, do
 	}
 }
 
-void PERWorld::ObjectsAiUpdate(PERAudio* audio, double dTime)
+void PERWorld::ObjectsAiUpdate(PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
@@ -52,7 +52,7 @@ void PERWorld::ObjectsAiUpdate(PERAudio* audio, double dTime)
 	}
 }
 
-void PERWorld::ObjectsPhysicsUpdate(PERAudio* audio, double dTime)
+void PERWorld::ObjectsPhysicsUpdate(PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
@@ -60,7 +60,7 @@ void PERWorld::ObjectsPhysicsUpdate(PERAudio* audio, double dTime)
 	}
 }
 
-void PERWorld::ObjectsGraphicsUpdate(PERAudio* audio, double dTime)
+void PERWorld::ObjectsGraphicsUpdate(PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{

@@ -27,13 +27,13 @@ public:
 	PERWorld(ObjectPool* objectPool, GameMode* mode);
 	~PERWorld();
 
-	void Update(PERAudio* audio, double dTime);
-	void UIUpdate(PERAudio* audio, double dTime);
+	void Update(PERAudio& audio, double dTime);
+	void UIUpdate(PERAudio& audio, double dTime);
 
-	void ObjectsInputUpdate(PERController& controller, PERAudio* audio, double dTime);
-	void ObjectsAiUpdate(PERAudio* audio, double dTime);
-	void ObjectsPhysicsUpdate(PERAudio* audio, double dTime);
-	void ObjectsGraphicsUpdate(PERAudio* audio, double dTime);
+	void ObjectsInputUpdate(PERController& controller, PERAudio& audio, double dTime);
+	void ObjectsAiUpdate(PERAudio& audio, double dTime);
+	void ObjectsPhysicsUpdate(PERAudio& audio, double dTime);
+	void ObjectsGraphicsUpdate(PERAudio& audio, double dTime);
 
 	void UpdateSortedObjects();
 

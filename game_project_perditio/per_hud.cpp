@@ -19,7 +19,7 @@ PERHud::~PERHud()
 	delete m_mpBar;
 }
 
-void PERHud::Update(PERAudio* audio, double dTime)
+void PERHud::Update(PERAudio& audio, double dTime)
 {
 	m_hpBar->Update(audio, dTime);
 	m_mpBar->Update(audio, dTime);

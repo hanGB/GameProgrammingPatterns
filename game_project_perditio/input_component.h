@@ -10,6 +10,6 @@ class InputComponent {
 public:
 	virtual ~InputComponent() {}
 
-	virtual void Update(PERObject& object, PERWorld& world, PERController& controller, PERAudio* audio, double dTime) = 0;
+	virtual void Update(PERObject& object, PERWorld& world, PERController& controller, PERAudio& audio, double dTime) = 0;
 	virtual void SetData(PERComponent::InputData data) = 0;
 };

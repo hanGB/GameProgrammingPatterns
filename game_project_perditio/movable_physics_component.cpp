@@ -2,7 +2,7 @@
 #include "movable_physics_component.h"
 #include "per_object.h"
 
-void MovablePhysicsComponent::Update(PERObject& object, PERWorld& world, PERAudio* audio, double dTime)
+void MovablePhysicsComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
 {
 	m_MoveFunc(*this, object, dTime);
 	if (world.CheckCollision(object, object.GetPosition(), object.GetSize(), object.GetVelocity(), object.GetBoundingType())) {
@@ -33,19 +33,25 @@ void MovablePhysicsComponent::ProcessCollision(PERObject& myObject,
 
 		if (otherVel.x == 0.0 && otherVel.y == 0.0) {
 			if (otherPos.x < myLeft && myLeft < otherRight && myVel.x < 0.0) {
-				myPos.x = myPos.x + (otherRight - myLeft);
+				myPos.x = otherPos.x + otherHalfSize.x + myHalfSize.x;
+				myVel.y = 0; // 다른 축의 속도를 0으로 변경해서 다른 축의 좌표로 잘못 계산하지 않도록 변경
 			}
 			if (otherLeft < myRight && myRight < otherPos.x && myVel.x > 0.0) {
-				myPos.x = myPos.x - (myRight - otherLeft);
+				myPos.x = otherPos.x - otherHalfSize.x - myHalfSize.x;
+				myVel.y = 0;
+
 			}
 			if (otherPos.y < myBottom && myBottom < otherTop && myVel.y < 0.0) {
-				myPos.y = myPos.y + (otherTop - myBottom);
+				myPos.y = otherPos.y + otherHalfSize.y + myHalfSize.y;
+				myVel.x = 0;
 			}
 			if (otherBottom < myTop && myTop < otherPos.y && myVel.y > 0.0) {
-				myPos.y = myPos.y - (myTop - otherBottom);
+				myPos.y = otherPos.y - otherHalfSize.y - myHalfSize.y;
+				myVel.x = 0;
 			}
 		}
 		myObject.SetPosition(myPos);
+		myObject.SetVelocity(myVel);
 	}
 }
 

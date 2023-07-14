@@ -10,7 +10,7 @@ public:
 	PERHud();
 	~PERHud();
 
-	void Update(PERAudio* audio, double dTime);
+	void Update(PERAudio& audio, double dTime);
 	void Renderer(PERRenderer& renderer);
 
 	virtual void Recive(PEREvent event, PERVec3 data);

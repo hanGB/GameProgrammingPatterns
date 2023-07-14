@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "unintelligent_ai_component.h"
 
-void UnintelligentAiComponent::Update(PERObject& object, PERWorld& world, PERAudio* audio, double dTime)
+void UnintelligentAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
 {
 }
 

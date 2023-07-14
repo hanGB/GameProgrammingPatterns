@@ -134,7 +134,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		WaitForMultipleObjects(PER_NUM_WORKER_THREAD, g_hWorkerThreads, true, INFINITE);
 
 #ifdef PER_DEBUG
-		system("pause");
+		//system("pause");
 #endif 
 		
 		PostQuitMessage(0);
