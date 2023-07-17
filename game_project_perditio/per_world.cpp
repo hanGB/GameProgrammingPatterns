@@ -126,8 +126,13 @@ void PERWorld::RequestDeleteObject(PERObject* object)
 	m_numPending++;
 }
 
-bool PERWorld::CheckCollision(PERObject& object, PERVec3 position, PERVec3 size, PERVec3 velocity, PERBoundingType type)
+bool PERWorld::CheckCollision(PERObject& object, double dTime)
 {
+	PERObjectType type = object.GetObjectType();
+	PERVec3 position = object.GetPosition(), size = object.GetSize(), velocity = object.GetVelocity();
+	double mass = object.GetMass();
+	PERBoundingType boundingtype = object.GetBoundingType();
+
 	int id = object.GetIDInWorld();
 	for (int i = 0; i < m_numObject; ++i) {
 		// id가 같은 거(본인) 건너뜀
@@ -135,13 +140,16 @@ bool PERWorld::CheckCollision(PERObject& object, PERVec3 position, PERVec3 size,
 		// 같은 높이에 있지 않을 경우 충돌 불가하여 건너뜀
 		if ((int)(position.z) != (int)(m_objects[i]->GetPosition().z)) continue;
 
+		PERObjectType otherType = m_objects[i]->GetObjectType();
 		PERVec3 otherPos = m_objects[i]->GetPosition(), otherSize = m_objects[i]->GetSize(), otherVel = m_objects[i]->GetVelocity();
-		PERBoundingType otherType = m_objects[i]->GetBoundingType();
+		double otherMass = m_objects[i]->GetMass();
+		PERBoundingType otherBoundingType = m_objects[i]->GetBoundingType();
 		
-		if (m_objects[i]->GetBoundingType() == PERBoundingType::RECTANGLE && type == PERBoundingType::RECTANGLE) {
-			if (CheckAABBCollision(position, size, velocity, otherPos, otherSize, otherVel)) {
-				object.GetPhysics().ProcessCollision(object, otherPos, otherSize, otherVel, otherType);
-				m_objects[i]->GetPhysics().ProcessCollision(*m_objects[i], position, size, velocity, type);
+		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE) {
+			if (CheckAABBCollision(position, size, otherPos, otherSize)) {
+				// 각 오브젝트에 대한 충돌 처리
+				object.GetPhysics().ProcessCollision(object, *m_objects[i], velocity, dTime);
+				m_objects[i]->GetPhysics().ProcessCollision(*m_objects[i], object, otherVel, dTime);
 			}
 		}
 	}
@@ -214,52 +222,69 @@ PERObject* PERWorld::AddAndGetObject(PERObjectType type)
 
 void PERWorld::InitWorldObject()
 {
-	PERObject* monster;
+	/*PERObject* monster;
 	for (double x = -5.0; x < 5.0; x += 1.0) {
 		for (double y = -5.0; y < 5.0; y += 1.0) {
 			monster = m_objectPool->PopObject(PERObjectType::MONSTER);
-			monster->SetPosition(PERVec3(x, y, 0.0));
+			monster->SetPosition(PERVec3(x, y, 1.0));
 			AddObject(monster);
 		}
-	}
+	}*/
+
+	PERObject* block;
+	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block->SetPosition(PERVec3(3.0, 1.0, 0.0));
+	AddObject(block);
+
+	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block->SetPosition(PERVec3(-3.0, 1.0, 0.0));
+	AddObject(block);
+
+	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block->SetPosition(PERVec3(1.0, 3.0, 0.0));
+	AddObject(block);
+
+	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block->SetPosition(PERVec3(1.0, -3.0, 0.0));
+	AddObject(block);
 
 	PERObject* wall;
-	wall = m_objectPool->PopObject(PERObjectType::BLOCK);
+	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(1.0, 0.0, 1.0));
 	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::BLOCK);
+	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(-1.0, 0.0, 1.1));
 	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::BLOCK);
+	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(0.0, 1.0, 1.2));
 	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::BLOCK);
+	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(0.0, -1.0, 1.3));
 	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::BLOCK);
+	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(5.0, 0.0, 0.0));
 	wall->SetSize(PERVec3(0.5, 5.0, 1.0));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::BLOCK);
+	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(-5.0, 0.0, 0.1));
 	wall->SetSize(PERVec3(0.5, 5.0, 1.0));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::BLOCK);
+	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(0.0, 5.0, 0.2));
 	wall->SetSize(PERVec3(5.0, 0.5, 1.0));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::BLOCK);
+	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(0.0, -5.0, 0.3));
 	wall->SetSize(PERVec3(5.0, 0.5, 1.0));
 	AddObject(wall);
@@ -294,7 +319,7 @@ void PERWorld::ResizePedingArray()
 	m_pending = newArray;
 }
 
-bool PERWorld::CheckAABBCollision(PERVec3 aPos, PERVec3 aSize, PERVec3 aVel, PERVec3 bPos, PERVec3 bSize, PERVec3 bVel)
+bool PERWorld::CheckAABBCollision(PERVec3 aPos, PERVec3 aSize, PERVec3 bPos, PERVec3 bSize)
 {
 	PERVec3 aHalfSize = aSize * 0.5;
 	PERVec3 bHalfSize = bSize * 0.5;

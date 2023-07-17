@@ -5,7 +5,7 @@
 void MovablePhysicsComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
 {
 	m_MoveFunc(*this, object, dTime);
-	if (world.CheckCollision(object, object.GetPosition(), object.GetSize(), object.GetVelocity(), object.GetBoundingType())) {
+	if (world.CheckCollision(object, dTime)) {
 		// 처리
 	}
 }
@@ -16,43 +16,19 @@ void MovablePhysicsComponent::SetData(PERComponent::PhysicsData data)
 	else m_MoveFunc = &MovablePhysicsComponent::MoveWithoutFriction;
 }
 
-void MovablePhysicsComponent::ProcessCollision(PERObject& myObject, 
-	PERVec3 otherPos, PERVec3 otherSize, PERVec3 otherVel, PERBoundingType otherType)
+void MovablePhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& otherObject, PERVec3 changedVelocity, double collisionTime)
 {
-	PERVec3 myPos = myObject.GetPosition(), myHalfSize = myObject.GetSize() * 0.5, myVel = myObject.GetVelocity();
-	PERBoundingType myType = myObject.GetBoundingType();
-	PERVec3 otherHalfSize = otherSize * 0.5;
-	double moveGap = 0.1;
+	// 변경된 속도 적용
+	myObject.SetVelocity(changedVelocity);
 
-	if (myType == PERBoundingType::RECTANGLE && otherType == PERBoundingType::RECTANGLE) {
-		double myLeft = myPos.x - myHalfSize.x, myRight = myPos.x + myHalfSize.x,
-			myBottom = myPos.y - myHalfSize.y, myTop = myPos.y + myHalfSize.y;
-		double otherLeft = otherPos.x - otherHalfSize.x, otherRight = otherPos.x + otherHalfSize.x,
-			otherBottom = otherPos.y - otherHalfSize.y, otherTop = otherPos.y + otherHalfSize.y;
+	PERVec3 pos = myObject.GetPosition();
+	PERVec3 vel = myObject.GetVelocity();
 
+	// 충돌한 시간만큼 반대 방향으로 이동
+	pos.x = pos.x - vel.x * collisionTime;
+	pos.y = pos.y - vel.y * collisionTime;
 
-		if (otherVel.x == 0.0 && otherVel.y == 0.0) {
-			if (otherPos.x < myLeft && myLeft < otherRight && myVel.x < 0.0) {
-				myPos.x = otherPos.x + otherHalfSize.x + myHalfSize.x;
-				myVel.y = 0; // 다른 축의 속도를 0으로 변경해서 다른 축의 좌표로 잘못 계산하지 않도록 변경
-			}
-			if (otherLeft < myRight && myRight < otherPos.x && myVel.x > 0.0) {
-				myPos.x = otherPos.x - otherHalfSize.x - myHalfSize.x;
-				myVel.y = 0;
-
-			}
-			if (otherPos.y < myBottom && myBottom < otherTop && myVel.y < 0.0) {
-				myPos.y = otherPos.y + otherHalfSize.y + myHalfSize.y;
-				myVel.x = 0;
-			}
-			if (otherBottom < myTop && myTop < otherPos.y && myVel.y > 0.0) {
-				myPos.y = otherPos.y - otherHalfSize.y - myHalfSize.y;
-				myVel.x = 0;
-			}
-		}
-		myObject.SetPosition(myPos);
-		myObject.SetVelocity(myVel);
-	}
+	myObject.SetPosition(pos);
 }
 
 void MovablePhysicsComponent::Move(PERObject& object, double dTime)

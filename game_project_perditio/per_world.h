@@ -52,7 +52,7 @@ public:
 	void RequestDeleteObject(PERObject* object);
 
 	// 충돌 확인
-	bool CheckCollision(PERObject& object, PERVec3 position, PERVec3 size, PERVec3 velocity, PERBoundingType type);
+	bool CheckCollision(PERObject& object, double dTime);
 	
 private:
 	void InitWorldObject();
@@ -65,9 +65,10 @@ private:
 
 	void ResizePedingArray();
 
+	// AABB 충돌 관련
 	bool CheckAABBCollision(
-		PERVec3 aPos, PERVec3 aSize, PERVec3 aVel, 
-		PERVec3 bPos, PERVec3 bSize, PERVec3 bVel);
+		PERVec3 aPos, PERVec3 aSize, 
+		PERVec3 bPos, PERVec3 bSize);
 
 	ObjectPool* m_objectPool;
 

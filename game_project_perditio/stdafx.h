@@ -140,9 +140,11 @@ enum class PERComponentType {
 
 enum class PERObjectType {
 	PLAYER,
-	BLOCK,
+	FIXED_BLOCK,
+	MOVABLE_BLOCK,
 	MONSTER,
 	BULLET,
 	SWITCH,
+	TRIGGER,
 	NUM_OBJECT_TYPE
 };

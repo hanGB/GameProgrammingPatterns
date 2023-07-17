@@ -44,10 +44,10 @@ void ObjectPool::CreateObjectFactories()
     PhysicsData physics;
     GraphicsData graphics;
 
-    // block
-    ObjectFactory* blockFactory
+    // fixed block
+    ObjectFactory* fixedBlockFactory
         = new ObjectFactory(
-            PERObjectType::BLOCK,
+            PERObjectType::FIXED_BLOCK,
             PERComponentType::NO_INTERACT,
             PERComponentType::UNINTELLIGENT,
             PERComponentType::FIXED,
@@ -58,10 +58,29 @@ void ObjectPool::CreateObjectFactories()
     physics.friction = true; physics.isOccupySpace = true;
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(255, 255, 255);
     graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(0, 0, 0);
-    blockFactory->SetInputData(input);              blockFactory->SetAiData(ai);
-    blockFactory->SetPhysicsData(physics);          blockFactory->SetGraphicsData(graphics);
-    blockFactory->SetSize(PERVec3(1.0, 1.0, 1.0));  blockFactory->SetMass(100);
-    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::BLOCK, blockFactory));
+    fixedBlockFactory->SetInputData(input);              fixedBlockFactory->SetAiData(ai);
+    fixedBlockFactory->SetPhysicsData(physics);          fixedBlockFactory->SetGraphicsData(graphics);
+    fixedBlockFactory->SetSize(PERVec3(1.0, 1.0, 1.0));  fixedBlockFactory->SetMass(100'000);
+    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::FIXED_BLOCK, fixedBlockFactory));
+
+    // movable block
+    ObjectFactory* movableBlockFactory
+        = new ObjectFactory(
+            PERObjectType::MOVABLE_BLOCK,
+            PERComponentType::NO_INTERACT,
+            PERComponentType::UNINTELLIGENT,
+            PERComponentType::MOVABLE,
+            PERComponentType::VISIBLE
+        );
+    input.isAttack = false, input.isMove = false, input.isCheck = false;
+    ai.isAttack = false, ai.isMove = false;
+    physics.friction = true; physics.isOccupySpace = true;
+    graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(255, 255, 255);
+    graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(0, 255, 0);
+    movableBlockFactory->SetInputData(input);              movableBlockFactory->SetAiData(ai);
+    movableBlockFactory->SetPhysicsData(physics);          movableBlockFactory->SetGraphicsData(graphics);
+    movableBlockFactory->SetSize(PERVec3(1.0, 1.0, 1.0));  movableBlockFactory->SetMass(10);
+    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::MOVABLE_BLOCK, movableBlockFactory));
 
     // monster
     ObjectFactory* monsterFactory
