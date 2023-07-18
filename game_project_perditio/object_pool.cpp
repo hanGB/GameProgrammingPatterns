@@ -112,12 +112,12 @@ void ObjectPool::CreateObjectFactories()
         );
     input.isAttack = false, input.isMove = false, input.isCheck = false;
     ai.isAttack = false, ai.isMove = false; 
-    physics.friction = false; physics.isOccupySpace = false;
+    physics.friction = false; physics.isOccupySpace = true;
     graphics.shape = PERShapeType::ELLIPSE; graphics.color = PERColor(100, 100, 100);
     graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(50, 50, 50);
     bulletFactory->SetInputData(input);                 bulletFactory->SetAiData(ai);
     bulletFactory->SetPhysicsData(physics);             bulletFactory->SetGraphicsData(graphics);
-    bulletFactory->SetSize(PERVec3(0.2, 0.2, 0.2));  bulletFactory->SetMass(10);
+    bulletFactory->SetSize(PERVec3(0.2, 0.2, 0.2));  bulletFactory->SetMass(5);
     m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::BULLET, bulletFactory));
 }
 

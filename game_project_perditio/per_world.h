@@ -52,7 +52,7 @@ public:
 	void RequestDeleteObject(PERObject* object);
 
 	// 面倒 犬牢
-	bool CheckCollision(PERObject& object, double dTime);
+	void CheckCollision(PERObject& object, double dTime);
 	
 private:
 	void InitWorldObject();
@@ -69,6 +69,11 @@ private:
 	bool CheckAABBCollision(
 		PERVec3 aPos, PERVec3 aSize, 
 		PERVec3 bPos, PERVec3 bSize);
+
+	// AABB 面倒 贸府
+	void ProcessCollisionBetweenFixedAndMovable(
+		PERObject& fixedObject, PERVec3 fixedPos, PERVec3 fixedSize, PERVec3 fixedVel,
+		PERObject& movableObject, PERVec3 movablePos, PERVec3 movableSize, PERVec3 movableVel, double dTime);
 
 	ObjectPool* m_objectPool;
 

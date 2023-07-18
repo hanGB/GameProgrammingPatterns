@@ -5,9 +5,7 @@
 void MovablePhysicsComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
 {
 	m_MoveFunc(*this, object, dTime);
-	if (world.CheckCollision(object, dTime)) {
-		// 처리
-	}
+	world.CheckCollision(object, dTime);
 }
 
 void MovablePhysicsComponent::SetData(PERComponent::PhysicsData data)
@@ -16,19 +14,17 @@ void MovablePhysicsComponent::SetData(PERComponent::PhysicsData data)
 	else m_MoveFunc = &MovablePhysicsComponent::MoveWithoutFriction;
 }
 
-void MovablePhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& otherObject, PERVec3 changedVelocity, double collisionTime)
+void MovablePhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& otherObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
 {
-	// 변경된 속도 적용
-	myObject.SetVelocity(changedVelocity);
-
 	PERVec3 pos = myObject.GetPosition();
 	PERVec3 vel = myObject.GetVelocity();
 
-	// 충돌한 시간만큼 반대 방향으로 이동
-	pos.x = pos.x - vel.x * collisionTime;
-	pos.y = pos.y - vel.y * collisionTime;
+	// 충돌한 시간만큼 충돌 속도로 반대로 이동
+	pos.x = pos.x - collisionVelocity.x * collisionTime;
+	pos.y = pos.y - collisionVelocity.y * collisionTime;
 
 	myObject.SetPosition(pos);
+	myObject.SetVelocity(changedVelocity);
 }
 
 void MovablePhysicsComponent::Move(PERObject& object, double dTime)

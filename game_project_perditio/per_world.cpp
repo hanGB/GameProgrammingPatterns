@@ -126,7 +126,7 @@ void PERWorld::RequestDeleteObject(PERObject* object)
 	m_numPending++;
 }
 
-bool PERWorld::CheckCollision(PERObject& object, double dTime)
+void PERWorld::CheckCollision(PERObject& object, double dTime)
 {
 	PERObjectType type = object.GetObjectType();
 	PERVec3 position = object.GetPosition(), size = object.GetSize(), velocity = object.GetVelocity();
@@ -135,8 +135,11 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 
 	int id = object.GetIDInWorld();
 	for (int i = 0; i < m_numObject; ++i) {
-		// id가 같은 거(본인) 건너뜀
+		// id가 같은 거(본인), 부모, 자식 건너뜀
 		if (id == i) continue;
+		if (object.GetParent() == m_objects[i]) continue;
+		if (&object == (m_objects[i]->GetParent())) continue;
+
 		// 같은 높이에 있지 않을 경우 충돌 불가하여 건너뜀
 		if ((int)(position.z) != (int)(m_objects[i]->GetPosition().z)) continue;
 
@@ -147,14 +150,23 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		
 		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE) {
 			if (CheckAABBCollision(position, size, otherPos, otherSize)) {
-				// 각 오브젝트에 대한 충돌 처리
-				object.GetPhysics().ProcessCollision(object, *m_objects[i], velocity, dTime);
-				m_objects[i]->GetPhysics().ProcessCollision(*m_objects[i], object, otherVel, dTime);
+				// 충돌 처리(무거운 쪽을 고정된 걸로 생각)
+				if (mass > otherMass) {
+					ProcessCollisionBetweenFixedAndMovable(
+						object, position, size, velocity,
+						*m_objects[i], otherPos, otherSize, otherVel, dTime);
+				}
+				else if (mass < otherMass) {
+					ProcessCollisionBetweenFixedAndMovable(
+						*m_objects[i], otherPos, otherSize, otherVel, 
+						object, position, size, velocity, dTime);
+				}
+				else {
+					// 둘다 이동가능으로 처리(중간으로 이동)
+				}
 			}
 		}
 	}
-
-	return false;
 }
 
 void PERWorld::DoGarbegeCollection(double dTime)
@@ -330,4 +342,44 @@ bool PERWorld::CheckAABBCollision(PERVec3 aPos, PERVec3 aSize, PERVec3 bPos, PER
 	if (aPos.y + aHalfSize.y < bPos.y - bHalfSize.y) return false;
 	
 	return true;
+}
+
+void PERWorld::ProcessCollisionBetweenFixedAndMovable(
+	PERObject& fixedObject, PERVec3 fixedPos, PERVec3 fixedSize, PERVec3 fixedVel,
+	PERObject& movableObject, PERVec3 movablePos, PERVec3 movableSize, PERVec3 movableVel, double dTime)
+{
+	// 충돌 속도 계산
+	PERVec3 collisionVelocity = movableVel - fixedVel;
+
+	// 충돌 거리 계산
+	PERVec3 fixedHalfSize = fixedSize * 0.5;
+	PERVec3 movableHalfSize = movableSize * 0.5;
+
+	PERVec3 collisionDistance = PERVec3(0.0, 0.0, 0.0);
+	PERVec3 collisionTimeRate = PERVec3(0.0, 0.0, 0.0);
+
+	if (collisionVelocity.x > 0.0) collisionDistance.x = (movablePos.x + movableHalfSize.x) - (fixedPos.x - fixedHalfSize.x);
+	else if (collisionVelocity.x < 0.0) collisionDistance.x = (fixedPos.x + fixedHalfSize.x) - (movablePos.x - movableHalfSize.x);
+
+	if (collisionVelocity.y > 0.0) collisionDistance.y = (movablePos.y + movableHalfSize.y) - (fixedPos.y - fixedHalfSize.y);
+	else if (collisionVelocity.y < 0.0) collisionDistance.y = (fixedPos.y + fixedHalfSize.y) - (movablePos.y - movableHalfSize.y);
+
+	if (collisionVelocity.x == 0.0) {
+		if (collisionDistance.x == 0.0) collisionTimeRate.x = 0.0;
+		else collisionTimeRate.x = 1.0;
+	}
+	else collisionTimeRate.x = std::abs(collisionDistance.x / collisionVelocity.x);
+
+	if (collisionVelocity.y == 0.0) {
+		if (collisionDistance.y == 0.0) collisionTimeRate.y = 0.0;
+		else collisionTimeRate.y = 1.0;
+	}
+	else collisionTimeRate.y = std::abs(collisionDistance.y / collisionVelocity.y);
+
+	double collisionTime = collisionTimeRate.x * dTime;
+	if (collisionTimeRate.x < collisionTimeRate.y) collisionTime = collisionTimeRate.y * dTime;
+
+	// 각 오브젝트에서 충돌 처리
+	fixedObject.GetPhysics().ProcessCollision(fixedObject, movableObject, PERVec3(0.0, 0.0, 0.0), fixedVel, 0.0);
+	movableObject.GetPhysics().ProcessCollision(movableObject, fixedObject, collisionVelocity, PERVec3(0.0, 0.0, movableVel.z), dTime * 1.5);
 }
