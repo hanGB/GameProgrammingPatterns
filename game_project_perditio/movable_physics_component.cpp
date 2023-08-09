@@ -5,7 +5,7 @@
 void MovablePhysicsComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
 {
 	m_MoveFunc(*this, object, dTime);
-	world.CheckCollision(object, dTime);
+	if (!world.CheckCollision(object, dTime)) object.SetCollidedObject(nullptr);
 }
 
 void MovablePhysicsComponent::SetData(PERComponent::PhysicsData data)
@@ -25,6 +25,8 @@ void MovablePhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& o
 
 	myObject.SetPosition(pos);
 	myObject.SetVelocity(changedVelocity);
+
+	myObject.SetCollidedObject(&otherObject);
 }
 
 void MovablePhysicsComponent::Move(PERObject& object, double dTime)

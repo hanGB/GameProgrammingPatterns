@@ -95,6 +95,25 @@ PERBoundingType PERObject::GetBoundingType() const
 	return m_boundingType;
 }
 
+PERVec3 PERObject::GetCollidedVelocity() const
+{
+	if (m_collidedObject) 
+		return PERVec3(
+			m_velocity.x + m_collidedObject->GetVelocity().x,
+			m_velocity.y + m_collidedObject->GetVelocity().y, 
+			m_velocity.z + m_collidedObject->GetVelocity().z
+		);
+
+	return m_velocity;
+}
+
+double PERObject::GetCollidedMass() const
+{
+	if (m_collidedObject) return m_mass + m_collidedObject->GetMass();
+
+	return m_mass;
+}
+
 int PERObject::GetIDInWorld() const
 {
 	return m_idInWorld;
@@ -143,5 +162,10 @@ void PERObject::SetIDInWorld(int id)
 void PERObject::SetLifeTime(double time)
 {
 	m_lifeTime = time;
+}
+
+void PERObject::SetCollidedObject(PERObject* object)
+{
+	m_collidedObject = object;
 }
 

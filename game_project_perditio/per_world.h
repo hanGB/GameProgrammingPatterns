@@ -52,7 +52,7 @@ public:
 	void RequestDeleteObject(PERObject* object);
 
 	// 충돌 확인
-	void CheckCollision(PERObject& object, double dTime);
+	bool CheckCollision(PERObject& object, double dTime);
 	
 private:
 	void InitWorldObject();

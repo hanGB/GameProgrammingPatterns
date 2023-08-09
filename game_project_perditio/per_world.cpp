@@ -126,11 +126,14 @@ void PERWorld::RequestDeleteObject(PERObject* object)
 	m_numPending++;
 }
 
-void PERWorld::CheckCollision(PERObject& object, double dTime)
+bool PERWorld::CheckCollision(PERObject& object, double dTime)
 {
+	bool collided = false;
+
 	PERObjectType type = object.GetObjectType();
-	PERVec3 position = object.GetPosition(), size = object.GetSize(), velocity = object.GetVelocity();
-	double mass = object.GetMass();
+	PERVec3 position = object.GetPosition(), size = object.GetSize();
+	// 이미 충돌된 오브젝트가 존재할 수 있으니 충돌된 값 사용
+	PERVec3	velocity = object.GetCollidedVelocity(); double mass = object.GetCollidedMass();
 	PERBoundingType boundingtype = object.GetBoundingType();
 
 	int id = object.GetIDInWorld();
@@ -144,14 +147,23 @@ void PERWorld::CheckCollision(PERObject& object, double dTime)
 		if ((int)(position.z) != (int)(m_objects[i]->GetPosition().z)) continue;
 
 		PERObjectType otherType = m_objects[i]->GetObjectType();
-		PERVec3 otherPos = m_objects[i]->GetPosition(), otherSize = m_objects[i]->GetSize(), otherVel = m_objects[i]->GetVelocity();
-		double otherMass = m_objects[i]->GetMass();
+		PERVec3 otherPos = m_objects[i]->GetPosition(), otherSize = m_objects[i]->GetSize();
+		// 이미 충돌된 오브젝트가 존재할 수 있으니 충돌된 값(충돌된 두 물체의 합) 사용
+		PERVec3 otherVel = m_objects[i]->GetCollidedVelocity(); double otherMass = m_objects[i]->GetCollidedMass();
 		PERBoundingType otherBoundingType = m_objects[i]->GetBoundingType();
 		
 		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE) {
 			if (CheckAABBCollision(position, size, otherPos, otherSize)) {
+				collided = true;
+
+				// 충돌된 오브젝트가 고정체 일 경우
+				if (otherType == PERObjectType::FIXED_BLOCK) {
+					ProcessCollisionBetweenFixedAndMovable(
+						*m_objects[i], otherPos, otherSize, otherVel,
+						object, position, size, velocity, dTime);
+				}
 				// 충돌 처리(무거운 쪽을 고정된 걸로 생각)
-				if (mass > otherMass) {
+				else if (mass > otherMass) {
 					ProcessCollisionBetweenFixedAndMovable(
 						object, position, size, velocity,
 						*m_objects[i], otherPos, otherSize, otherVel, dTime);
@@ -167,6 +179,8 @@ void PERWorld::CheckCollision(PERObject& object, double dTime)
 			}
 		}
 	}
+
+	return collided;
 }
 
 void PERWorld::DoGarbegeCollection(double dTime)
