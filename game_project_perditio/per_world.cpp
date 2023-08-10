@@ -132,9 +132,6 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 
 	PERObjectType type = object.GetObjectType();
 	PERVec3 position = object.GetPosition(), size = object.GetSize();
-	// 이미 충돌된 오브젝트가 존재할 수 있으니 충돌된 값 사용
-	PERVec3	velocity = object.GetCollidedVelocity(); double mass = object.GetCollidedMass();
-	PERBoundingType boundingtype = object.GetBoundingType();
 
 	int id = object.GetIDInWorld();
 	for (int i = 0; i < m_numObject; ++i) {
@@ -146,35 +143,34 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		// 같은 높이에 있지 않을 경우 충돌 불가하여 건너뜀
 		if ((int)(position.z) != (int)(m_objects[i]->GetPosition().z)) continue;
 
+		// 전에 충돌된 오브젝트가 같을 경우 충돌 오브젝트 제거
+		if (object.GetCollidedObject() == m_objects[i]) object.SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
+		if (&object == m_objects[i]->GetCollidedObject()) m_objects[i]->SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
+
+		// 충돌로 인해 실제로 변경된 값 얻기
+		PERVec3	velocity = object.GetCollidedVelocity(); double mass = object.GetCollidedMass();
+		PERBoundingType boundingtype = object.GetBoundingType();
+		
 		PERObjectType otherType = m_objects[i]->GetObjectType();
 		PERVec3 otherPos = m_objects[i]->GetPosition(), otherSize = m_objects[i]->GetSize();
-		// 이미 충돌된 오브젝트가 존재할 수 있으니 충돌된 값(충돌된 두 물체의 합) 사용
+		// 충돌로 인해 실제로 변경된 값 얻기
 		PERVec3 otherVel = m_objects[i]->GetCollidedVelocity(); double otherMass = m_objects[i]->GetCollidedMass();
 		PERBoundingType otherBoundingType = m_objects[i]->GetBoundingType();
 		
 		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE) {
 			if (CheckAABBCollision(position, size, otherPos, otherSize)) {
 				collided = true;
-
-				// 충돌된 오브젝트가 고정체 일 경우
-				if (otherType == PERObjectType::FIXED_BLOCK) {
-					ProcessCollisionBetweenFixedAndMovable(
-						*m_objects[i], otherPos, otherSize, otherVel,
-						object, position, size, velocity, dTime);
-				}
-				// 충돌 처리(무거운 쪽을 고정된 걸로 생각)
-				else if (mass > otherMass) {
+				
+				//충돌 처리(무거운 쪽을 고정된 걸로 생각)
+				if (mass > otherMass) {
 					ProcessCollisionBetweenFixedAndMovable(
 						object, position, size, velocity,
 						*m_objects[i], otherPos, otherSize, otherVel, dTime);
 				}
-				else if (mass < otherMass) {
+				else if (mass <= otherMass) {
 					ProcessCollisionBetweenFixedAndMovable(
 						*m_objects[i], otherPos, otherSize, otherVel, 
 						object, position, size, velocity, dTime);
-				}
-				else {
-					// 둘다 이동가능으로 처리(중간으로 이동)
 				}
 			}
 		}
@@ -394,6 +390,6 @@ void PERWorld::ProcessCollisionBetweenFixedAndMovable(
 	if (collisionTimeRate.x < collisionTimeRate.y) collisionTime = collisionTimeRate.y * dTime;
 
 	// 각 오브젝트에서 충돌 처리
-	fixedObject.GetPhysics().ProcessCollision(fixedObject, movableObject, PERVec3(0.0, 0.0, 0.0), fixedVel, 0.0);
+	fixedObject.GetPhysics().ProcessCollision(fixedObject, movableObject, collisionVelocity, fixedVel, 0.0);
 	movableObject.GetPhysics().ProcessCollision(movableObject, fixedObject, collisionVelocity, PERVec3(0.0, 0.0, movableVel.z), dTime * 1.5);
 }

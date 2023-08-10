@@ -37,6 +37,8 @@ public:
 	PERVec3 GetCollidedVelocity() const;
 	double GetCollidedMass() const;
 
+	PERObject* GetCollidedObject();
+
 	int GetIDInWorld() const;
 
 	// setter
@@ -52,7 +54,7 @@ public:
 	void SetIDInWorld(int id);
 	void SetLifeTime(double time);
 
-	void SetCollidedObject(PERObject* object);
+	void SetCollidedObject(PERObject* object, PERVec3 collidedMomentVel);
 
 	static const int c_MAXIMUM_XY_VELOCITY = 3;
 
@@ -81,6 +83,7 @@ private:
 
 	// 충돌된 오브젝트
 	PERObject* m_collidedObject = nullptr;
+	PERVec3 m_collidedMomentVelocity;
 
 	int m_idInWorld = -1;
 	double m_lifeTime = PER_MAXIMUM_LIFE_TIME;

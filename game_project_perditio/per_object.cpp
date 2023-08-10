@@ -99,9 +99,9 @@ PERVec3 PERObject::GetCollidedVelocity() const
 {
 	if (m_collidedObject) 
 		return PERVec3(
-			m_velocity.x + m_collidedObject->GetVelocity().x,
-			m_velocity.y + m_collidedObject->GetVelocity().y, 
-			m_velocity.z + m_collidedObject->GetVelocity().z
+			m_velocity.x + m_collidedMomentVelocity.x,
+			m_velocity.y + m_collidedMomentVelocity.y,
+			m_velocity.z + m_collidedMomentVelocity.z
 		);
 
 	return m_velocity;
@@ -112,6 +112,11 @@ double PERObject::GetCollidedMass() const
 	if (m_collidedObject) return m_mass + m_collidedObject->GetMass();
 
 	return m_mass;
+}
+
+PERObject* PERObject::GetCollidedObject()
+{
+	return m_collidedObject;
 }
 
 int PERObject::GetIDInWorld() const
@@ -164,8 +169,9 @@ void PERObject::SetLifeTime(double time)
 	m_lifeTime = time;
 }
 
-void PERObject::SetCollidedObject(PERObject* object)
+void PERObject::SetCollidedObject(PERObject* object, PERVec3 collidedMomentVel)
 {
 	m_collidedObject = object;
+	m_collidedMomentVelocity = collidedMomentVel;
 }
 

@@ -21,6 +21,7 @@ DWORD WINAPI UIUpdateTheadFunc(LPVOID temp);
 DWORD WINAPI UIRenderTheadFunc(LPVOID temp);
 DWORD WINAPI AudioTheadFunc(LPVOID temp);
 DWORD WINAPI EventDispatchterTheadFunc(LPVOID temp);
+DWORD WINAPI LogTheadFunc(LPVOID temp);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -93,6 +94,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		g_hWorkerThreads[3] = CreateThread(NULL, 0, UIRenderTheadFunc, NULL, 0, &threadID);
 		g_hWorkerThreads[4] = CreateThread(NULL, 0, AudioTheadFunc, NULL, 0, &threadID);
 		g_hWorkerThreads[5] = CreateThread(NULL, 0, EventDispatchterTheadFunc, NULL, 0, &threadID);
+		g_hWorkerThreads[6] = CreateThread(NULL, 0, LogTheadFunc, NULL, 0, &threadID);
 		break;
 	
 	case WM_GETMINMAXINFO:
@@ -244,5 +246,17 @@ DWORD WINAPI EventDispatchterTheadFunc(LPVOID temp)
 	}
 
 	PERLog::Logger().Info("이벤트 디스패쳐 스레드 종료");
+	return 0;
+}
+
+DWORD WINAPI LogTheadFunc(LPVOID temp)
+{
+	PERLog::Logger().Info("로그 스레드 시작");
+
+	while (!g_isGameEnd) {
+		PERLog::Logger().Update();
+	}
+
+	PERLog::Logger().Info("로그 스레드 종료");
 	return 0;
 }

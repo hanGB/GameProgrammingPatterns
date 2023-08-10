@@ -1,4 +1,5 @@
 #pragma once
+#include "cs_provider.h"
 
 class PERLogger {
 public:
@@ -36,10 +37,23 @@ protected:
 	}
 
 	static const int c_LOG_BUFFER_SIZE = 1024;
+	static const int c_LOG_WAIT_SIZE = 1000;
 
 	char m_buffer[c_LOG_BUFFER_SIZE];
 	int m_bufferSize = c_LOG_BUFFER_SIZE;
 
+	char m_textBuffer[c_LOG_BUFFER_SIZE];
+	int m_textBufferSize = c_LOG_BUFFER_SIZE;
+
 	char m_timeBuffer[c_LOG_BUFFER_SIZE];
 	int m_timeBufferSize = c_LOG_BUFFER_SIZE;
+
+	CSProvider m_csProvider;
+
+	// 출력 대기
+	char m_textOutputbuffer[c_LOG_WAIT_SIZE][c_LOG_BUFFER_SIZE];
+	char m_timeOutputbuffer[c_LOG_WAIT_SIZE][c_LOG_BUFFER_SIZE];
+
+	int m_head = 0, m_tail = 0;
+	int m_maxPending = c_LOG_WAIT_SIZE;
 };

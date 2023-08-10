@@ -21,28 +21,73 @@ ConsoleLogger::~ConsoleLogger()
 
 void ConsoleLogger::Update()
 {
+	m_csProvider.Lock();
 
+	if (m_head == m_tail) {
+		m_csProvider.Unlock();
+		return;
+	}
+
+	std::cout << m_timeOutputbuffer[m_head] << "\n";
+	std::cout << m_textOutputbuffer[m_head] << "\n";
+	std::cout << "---------------------------------------------------" << "\n";
+	m_head = (m_head + 1) % m_maxPending;
+
+	m_csProvider.Unlock();
 }
 
 void ConsoleLogger::Info(const char* text)
 {
-	std::cout << GetNowTime();
-	std::cout << "(INFO)" << text << "\n";
-	std::cout << "---------------------------------------------------" << "\n";
+	m_csProvider.Lock();
+
+	if ((m_tail + 1) % m_maxPending == m_head) {
+		m_csProvider.Unlock();
+		return;
+	}
+
+	sprintf_s(m_textBuffer, m_textBufferSize, "(INFO)%s", text);
+	memmove_s(m_textOutputbuffer[m_tail], c_LOG_BUFFER_SIZE, m_textBuffer, m_textBufferSize);
+	memmove_s(m_timeOutputbuffer[m_tail], c_LOG_BUFFER_SIZE, GetNowTime(), m_timeBufferSize);
+
+	m_tail = (m_tail + 1) % m_maxPending;
+
+	m_csProvider.Unlock();
 }
 
 void ConsoleLogger::Warnning(const char* text)
 {
-	std::cout << GetNowTime();
-	std::cout << "(WARN)" << text << "\n";
-	std::cout << "---------------------------------------------------" << "\n";
+	m_csProvider.Lock();
+
+	if ((m_tail + 1) % m_maxPending == m_head) {
+		m_csProvider.Unlock();
+		return;
+	}
+
+	sprintf_s(m_textBuffer, m_textBufferSize, "(WARN)%s", text);
+	memmove_s(m_textOutputbuffer[m_tail], c_LOG_BUFFER_SIZE, m_textBuffer, m_textBufferSize);
+	memmove_s(m_timeOutputbuffer[m_tail], c_LOG_BUFFER_SIZE, GetNowTime(), m_timeBufferSize);
+
+	m_tail = (m_tail + 1) % m_maxPending;
+
+	m_csProvider.Unlock();
 }
 
 void ConsoleLogger::Error(const char* text)
 {
-	std::cout << GetNowTime();
-	std::cout << "(ERRO)" << text << "\n";
-	std::cout << "---------------------------------------------------" << "\n";
+	m_csProvider.Lock();
+
+	if ((m_tail + 1) % m_maxPending == m_head) {
+		m_csProvider.Unlock();
+		return;
+	}
+
+	sprintf_s(m_textBuffer, m_textBufferSize, "(ERRO)%s", text);
+	memmove_s(m_textOutputbuffer[m_tail], c_LOG_BUFFER_SIZE, m_textBuffer, m_textBufferSize);
+	memmove_s(m_timeOutputbuffer[m_tail], c_LOG_BUFFER_SIZE, GetNowTime(), m_timeBufferSize);
+
+	m_tail = (m_tail + 1) % m_maxPending;
+
+	m_csProvider.Unlock();
 }
 
 
