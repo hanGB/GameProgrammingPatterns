@@ -71,9 +71,14 @@ private:
 		PERVec3 bPos, PERVec3 bSize);
 
 	// AABB 충돌 처리
+	// 위치 적용
+	void AdjustPositionWithObjects(PERObject& aObject, PERVec3 aPos, PERVec3 aSize,
+		PERObject& bObject, PERVec3 bPos, PERVec3 bSize, double dTime);
 	void ProcessCollisionBetweenFixedAndMovable(
 		PERObject& fixedObject, PERVec3 fixedPos, PERVec3 fixedSize, PERVec3 fixedVel,
 		PERObject& movableObject, PERVec3 movablePos, PERVec3 movableSize, PERVec3 movableVel, double dTime);
+	// 위치 이동 제외 충돌 처리
+	void ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType aType, PERObject& bObject, PERObjectType bType);
 
 	ObjectPool* m_objectPool;
 

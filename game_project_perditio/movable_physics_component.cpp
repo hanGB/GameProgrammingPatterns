@@ -6,7 +6,7 @@ void MovablePhysicsComponent::Update(PERObject& object, PERWorld& world, PERAudi
 {
 	m_MoveFunc(*this, object, dTime);
 	if (!world.CheckCollision(object, dTime)) object.SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
-	else PERLog::Logger().Info("Ãæµ¹µÊ");
+	//else PERLog::Logger().Info("Ãæµ¹µÊ");
 }
 
 void MovablePhysicsComponent::SetData(PERComponent::PhysicsData data)

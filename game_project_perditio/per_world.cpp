@@ -130,8 +130,10 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 {
 	bool collided = false;
 
+	// 본인 오브젝트 정보 얻기
 	PERObjectType type = object.GetObjectType();
 	PERVec3 position = object.GetPosition(), size = object.GetSize();
+	PERBoundingType boundingtype = object.GetBoundingType();
 
 	int id = object.GetIDInWorld();
 	for (int i = 0; i < m_numObject; ++i) {
@@ -147,35 +149,48 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		if (object.GetCollidedObject() == m_objects[i]) object.SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
 		if (&object == m_objects[i]->GetCollidedObject()) m_objects[i]->SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
 
-		// 충돌로 인해 실제로 변경된 값 얻기
-		PERVec3	velocity = object.GetCollidedVelocity(); double mass = object.GetCollidedMass();
-		PERBoundingType boundingtype = object.GetBoundingType();
-		
+		// 충돌 처리 설정 -> type(충돌 검사를 요청한 오브젝트의 타입)은 fixed object, trigger가 될 수 없음
+		// 
+		// movable object && movable object == 완전 무시
+		// movable object && trigger == 완전 무시
+		// bullet && trigger == 완전 무시
+		// 
+		// movable object && fixed object == fixed 오브젝트에 합쳐짐(변경 될 수 있음)
+		// movable object && (player || monster) == 물리적 처리
+		// (player || monster) && fixed object  == 물리적 처리
+		// 
+		// 나머지 관계 == 물리적 처리 없는 충돌 처리
+
+		// 상대 오브젝트 타입 얻기
 		PERObjectType otherType = m_objects[i]->GetObjectType();
 		PERVec3 otherPos = m_objects[i]->GetPosition(), otherSize = m_objects[i]->GetSize();
-		// 충돌로 인해 실제로 변경된 값 얻기
-		PERVec3 otherVel = m_objects[i]->GetCollidedVelocity(); double otherMass = m_objects[i]->GetCollidedMass();
 		PERBoundingType otherBoundingType = m_objects[i]->GetBoundingType();
 		
+		// 충돌 처리 무시 항목
+		if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::MOVABLE_BLOCK) continue;
+		else if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::TRIGGER) continue;
+		else if (type == PERObjectType::BULLET && otherType == PERObjectType::TRIGGER) continue;
+
 		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE) {
 			if (CheckAABBCollision(position, size, otherPos, otherSize)) {
 				collided = true;
+		
+				// 물리적 처리 항목
+				if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::FIXED_BLOCK)
+					AdjustPositionWithObjects(object, position, size, *m_objects[i], otherPos, otherSize, dTime);
+				else if (type == PERObjectType::MOVABLE_BLOCK && (otherType == PERObjectType::PLAYER || otherType == PERObjectType::MONSTER))
+					AdjustPositionWithObjects(object, position, size, *m_objects[i], otherPos, otherSize, dTime);
+				else if ((type == PERObjectType::PLAYER || type == PERObjectType::MONSTER) && otherType == PERObjectType::MOVABLE_BLOCK)
+					AdjustPositionWithObjects(object, position, size, *m_objects[i], otherPos, otherSize, dTime);
+				else if ((type == PERObjectType::PLAYER || type == PERObjectType::MONSTER) && otherType == PERObjectType::FIXED_BLOCK)
+					AdjustPositionWithObjects(object, position, size, *m_objects[i], otherPos, otherSize, dTime);
 				
-				//충돌 처리(무거운 쪽을 고정된 걸로 생각)
-				if (mass > otherMass) {
-					ProcessCollisionBetweenFixedAndMovable(
-						object, position, size, velocity,
-						*m_objects[i], otherPos, otherSize, otherVel, dTime);
-				}
-				else if (mass <= otherMass) {
-					ProcessCollisionBetweenFixedAndMovable(
-						*m_objects[i], otherPos, otherSize, otherVel, 
-						object, position, size, velocity, dTime);
-				}
+				// 물리적 처리 없이 다른 상호 작용
+				else ProcessCollisionWithoutMoving(object, type, *m_objects[i], otherType);
+				
 			}
 		}
 	}
-
 	return collided;
 }
 
@@ -354,6 +369,26 @@ bool PERWorld::CheckAABBCollision(PERVec3 aPos, PERVec3 aSize, PERVec3 bPos, PER
 	return true;
 }
 
+void PERWorld::AdjustPositionWithObjects(PERObject& aObject, PERVec3 aPos, PERVec3 aSize,
+	PERObject& bObject, PERVec3 bPos, PERVec3 bSize, double dTime)
+{
+	// 이전 충돌로 인해 실제로 변경된 값 얻기
+	PERVec3	aVel = aObject.GetCollidedVelocity(); double aMass = aObject.GetCollidedMass();
+	PERVec3 bVel = bObject.GetCollidedVelocity(); double bMass = bObject.GetCollidedMass();
+
+	// 충돌 처리(무거운 쪽을 고정된 걸로 생각)
+	if (aMass > bMass) {
+		ProcessCollisionBetweenFixedAndMovable(
+			aObject, aPos, aSize, aVel,
+			bObject, bPos, bSize, bVel, dTime);
+	}
+	else if (aMass <= bMass) {
+		ProcessCollisionBetweenFixedAndMovable(
+			bObject, bPos, bSize, bVel, 
+			aObject, aPos, aSize, aVel, dTime);
+	}
+}
+
 void PERWorld::ProcessCollisionBetweenFixedAndMovable(
 	PERObject& fixedObject, PERVec3 fixedPos, PERVec3 fixedSize, PERVec3 fixedVel,
 	PERObject& movableObject, PERVec3 movablePos, PERVec3 movableSize, PERVec3 movableVel, double dTime)
@@ -392,4 +427,14 @@ void PERWorld::ProcessCollisionBetweenFixedAndMovable(
 	// 각 오브젝트에서 충돌 처리
 	fixedObject.GetPhysics().ProcessCollision(fixedObject, movableObject, collisionVelocity, fixedVel, 0.0);
 	movableObject.GetPhysics().ProcessCollision(movableObject, fixedObject, collisionVelocity, PERVec3(0.0, 0.0, movableVel.z), dTime * 1.5);
+}
+
+void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType aType, PERObject& bObject, PERObjectType bType)
+{
+	// bullet && bullet == 물리적 처리만 무시, bullet 삭제
+	// bullet && fixed object == 물리적 처리만 무시, bullet 삭제
+	// bullet && movable object == 물리적 처리만 무시, bullet 삭제
+	// bullet && (player || monster) == 물리적 처리만 무시, bullet 삭제, 데미지 처리
+	// (player || monster) && (player || monster) == 물리적 처리만 무시, 데미지 처리		 
+	// (player || monster) && trigger == 물리적 처리만 무시
 }

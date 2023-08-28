@@ -144,7 +144,6 @@ enum class PERObjectType {
 	MOVABLE_BLOCK,
 	MONSTER,
 	BULLET,
-	SWITCH,
 	TRIGGER,
 	NUM_OBJECT_TYPE
 };
