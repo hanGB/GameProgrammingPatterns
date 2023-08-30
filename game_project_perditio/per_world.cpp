@@ -86,10 +86,13 @@ void PERWorld::Enter()
 	AddObject(&m_gameMode->GetPlayer());
 
 	InitWorldObject();
+
+	m_gameMode->StartUse();
 }
 
 void PERWorld::Exit()
 {
+	m_gameMode->EndUse();
 }
 
 void PERWorld::Pause()

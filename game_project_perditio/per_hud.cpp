@@ -6,39 +6,49 @@ PERHud::PERHud()
 {
 	PERLog::Logger().Info("HUD »ý¼º");
 
-	m_hpBar = new ProgressBar(PERVec2(-0.95, 0.9), 100, 100);
-	m_hpBar->SetColor(PERColor(255, 255, 255), PERColor(255, 0, 0));
+	m_bodyBar = new ProgressBar(PERVec2(-0.95, 0.9), 100, 100);
+	m_bodyBar->SetColor(PERColor(255, 255, 255), PERColor(255, 0, 0));
 
-	m_mpBar = new ProgressBar(PERVec2(-0.95, 0.8), 100, 100);
-	m_mpBar->SetColor(PERColor(255, 255, 255), PERColor(0, 0, 255));
+	m_mindBar = new ProgressBar(PERVec2(-0.95, 0.8), 100, 100);
+	m_mindBar->SetColor(PERColor(255, 255, 255), PERColor(0, 0, 255));
 }
 
 PERHud::~PERHud()
 {
-	delete m_hpBar;
-	delete m_mpBar;
+	delete m_bodyBar;
+	delete m_mindBar;
 }
 
 void PERHud::Update(PERAudio& audio, double dTime)
 {
-	m_hpBar->Update(audio, dTime);
-	m_mpBar->Update(audio, dTime);
+	m_bodyBar->Update(audio, dTime);
+	m_mindBar->Update(audio, dTime);
 }
 
 void PERHud::Renderer(PERRenderer& renderer)
 {
-	m_hpBar->Render(renderer);
-	m_mpBar->Render(renderer);
+	m_bodyBar->Render(renderer);
+	m_mindBar->Render(renderer);
 }
 
 void PERHud::Recive(PEREvent event, PERVec3 data)
 {
 	switch (event) {
 	case PEREvent::UPDATE_HP:
-		m_hpBar->SetCurrent((int)data.x);
+		m_bodyBar->SetCurrent((int)data.x);
 		break;
 	case PEREvent::UPDATE_MP: 
-		m_mpBar->SetCurrent((int)data.x);
+		m_mindBar->SetCurrent((int)data.x);
 		break;
 	}
+}
+
+ProgressBar* PERHud::GetBodyBar()
+{
+	return m_bodyBar;
+}
+
+ProgressBar* PERHud::GetMindBar()
+{
+	return m_mindBar;
 }

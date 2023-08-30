@@ -12,6 +12,8 @@ public:
 
 	PERStat GetStat() const;
 	int GetCollisionDamage() const;
+	int GetCurrentBody() const;
+	int GetCurrentMind() const;
 
 	void SetStat(PERStat stat);
 	void SetIsHasCollisionDamage(bool damage);

@@ -15,7 +15,10 @@ public:
 
 	virtual void Recive(PEREvent event, PERVec3 data);
 
+	ProgressBar* GetBodyBar();
+	ProgressBar* GetMindBar();
+
 private:
-	ProgressBar* m_hpBar;
-	ProgressBar* m_mpBar;
+	ProgressBar* m_bodyBar;
+	ProgressBar* m_mindBar;
 };

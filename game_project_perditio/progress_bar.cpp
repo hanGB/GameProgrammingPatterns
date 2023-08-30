@@ -44,6 +44,11 @@ void ProgressBar::SetCurrent(int current)
 	m_updateSpeed = m_current - m_showing;
 }
 
+void ProgressBar::SetMax(int max)
+{
+	m_max = max;
+}
+
 void ProgressBar::SetSize(PERVec2 size)
 {
 	m_size = size;

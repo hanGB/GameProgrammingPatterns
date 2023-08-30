@@ -16,7 +16,13 @@ GameMode::GameMode()
 	m_gameState = new GameState();
 
 	m_player = m_playerFactory->CreateObject();
-	m_playerState = new ObjectState();
+
+    // hud ¼³Á¤
+    ObjectState playerState = m_player->GetObjectState();
+    m_hud->GetBodyBar()->SetMax(playerState.GetStat().body);
+    m_hud->GetBodyBar()->SetCurrent(playerState.GetCurrentBody());
+    m_hud->GetMindBar()->SetMax(playerState.GetStat().mind);
+    m_hud->GetMindBar()->SetCurrent(playerState.GetCurrentBody());
 }
 
 GameMode::~GameMode()
@@ -24,7 +30,6 @@ GameMode::~GameMode()
 	delete m_hud;
 	delete m_gameState;
 	delete m_player;
-	delete m_playerState;
 
     delete m_playerFactory;
 }
@@ -52,11 +57,6 @@ GameState& GameMode::GetGameState()
 PERObject& GameMode::GetPlayer()
 {
 	return *m_player;
-}
-
-ObjectState& GameMode::GetPlayerState()
-{
-	return *m_playerState;
 }
 
 void GameMode::CreatePlayerFactory()

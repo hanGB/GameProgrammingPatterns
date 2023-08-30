@@ -18,7 +18,6 @@ public:
 	PERHud& GetHud();
 	GameState& GetGameState();
 	PERObject& GetPlayer();
-	ObjectState& GetPlayerState();
 
 private:
 	void CreatePlayerFactory();
@@ -28,5 +27,4 @@ private:
 	PERHud* m_hud;
 	GameState* m_gameState;
 	PERObject* m_player;
-	ObjectState* m_playerState;
 };

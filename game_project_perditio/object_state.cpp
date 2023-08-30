@@ -21,6 +21,16 @@ int ObjectState::GetCollisionDamage() const
 	return m_stat.physicalAttack / 2;
 }
 
+int ObjectState::GetCurrentBody() const
+{
+	return m_currentBody;
+}
+
+int ObjectState::GetCurrentMind() const
+{
+	return m_currentMind;
+}
+
 void ObjectState::SetStat(PERStat stat)
 {
 	m_stat = stat;
@@ -56,8 +66,6 @@ bool ObjectState::UseMind(int mind)
 {
 	if (m_currentMind < mind) return false;
 	m_currentMind -= mind;
-
-	PERLog::Logger().InfoWithFormat("Mind: %d", m_currentMind);
 
 	return true;
 }

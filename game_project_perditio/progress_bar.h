@@ -11,6 +11,7 @@ public:
 	void Update(PERAudio& audio, double dTime);
 	void Render(PERRenderer& renderer);
 	void SetCurrent(int current);
+	void SetMax(int max);
 
 	void SetSize(PERVec2 size);
 	void SetColor(PERColor bar, PERColor progress);
