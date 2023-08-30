@@ -37,7 +37,7 @@ void PERHud::Recive(PEREvent event, PERVec3 data)
 	case PEREvent::UPDATE_HP:
 		m_hpBar->SetCurrent((int)data.x);
 		break;
-	case PEREvent::UPDATE_MP:
+	case PEREvent::UPDATE_MP: 
 		m_mpBar->SetCurrent((int)data.x);
 		break;
 	}

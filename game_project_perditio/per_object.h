@@ -2,6 +2,7 @@
 #include "per_controller.h"
 #include "per_world.h"
 #include "per_renderer.h"
+#include "object_state.h"
 #include "input_component.h"
 #include "ai_component.h"
 #include "physics_component.h"
@@ -16,6 +17,8 @@ public:
 	~PERObject();
 
 	bool IsLifeTimeIsEnd(double dTime);
+
+	ObjectState& GetObjectState();
 
 	InputComponent& GetInput();
 	AiComponent& GetAi();
@@ -59,10 +62,13 @@ public:
 	static const int c_MAXIMUM_XY_VELOCITY = 3;
 
 private:
-	PERObject(ObjectFactory& factory, InputComponent* input, AiComponent* ai, PhysicsComponent* physics, GraphicsComponent* graphics);
+	PERObject(ObjectFactory& factory, ObjectState* m_objectState, InputComponent* input, AiComponent* ai, PhysicsComponent* physics, GraphicsComponent* graphics);
 
 	// ÆÑÅä¸®
 	ObjectFactory& m_factory;
+
+	// »óÅÂ
+	ObjectState* m_objectState;
 
 	// ÄÁÆ÷³ÍÆ®
 	InputComponent*		m_input;

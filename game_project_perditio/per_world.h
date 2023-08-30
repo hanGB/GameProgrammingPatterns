@@ -19,6 +19,7 @@ struct PERWorldMessage {
 	PERObjectType type;
 	PERVec3 position;
 	PERVec3 currentAccel;
+	PERStat stat;
 	double lifeTime;
 };
 
@@ -48,7 +49,7 @@ public:
 	// 요청을 받는 함수
 	void RequestAddObject(
 		PERObject* parent, PERObjectType type, 
-		PERVec3 position, PERVec3 currentAccel, double lifeTime);
+		PERVec3 position, PERVec3 currentAccel, PERStat stat, double lifeTime);
 	void RequestDeleteObject(PERObject* object);
 
 	// 충돌 확인

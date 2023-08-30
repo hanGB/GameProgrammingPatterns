@@ -100,7 +100,7 @@ void PERWorld::Resume()
 {
 }
 
-void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, PERVec3 position, PERVec3 currentAccel, double lifeTime)
+void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, PERVec3 position, PERVec3 currentAccel, PERStat stat, double lifeTime)
 {
 	PERWorldMessage message;
 	message.id = PERWorldMessageId::ADD_OBJECT;
@@ -109,6 +109,7 @@ void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, PERVec3 p
 	message.position = position;
 	message.currentAccel = currentAccel;
 	message.lifeTime = lifeTime;
+	message.stat = stat;
 
 	if (m_maxPending == m_numPending) ResizePedingArray();
 	m_pending[m_numPending] = message;
@@ -215,6 +216,7 @@ void PERWorld::ProcessPendingMessage()
 			object->SetCurrentAccel(message.currentAccel);
 			object->SetLifeTime(message.lifeTime);
 			object->SetParent(message.object);
+			object->GetObjectState().SetStat(message.stat);
 			break;
 		}
 		case PERWorldMessageId::DELETE_OBJECT: 
@@ -435,6 +437,33 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 	// bullet && fixed object == 拱府利 贸府父 公矫, bullet 昏力
 	// bullet && movable object == 拱府利 贸府父 公矫, bullet 昏力
 	// bullet && (player || monster) == 拱府利 贸府父 公矫, bullet 昏力, 单固瘤 贸府
+	// bullet && trigger == 肯傈 公矫
 	// (player || monster) && (player || monster) == 拱府利 贸府父 公矫, 单固瘤 贸府		 
 	// (player || monster) && trigger == 拱府利 贸府父 公矫
+
+	// 醚舅埃 惑尖
+	if (aType == PERObjectType::BULLET && bType == PERObjectType::BULLET) {
+		aObject.SetLifeTime(-1.0);
+		bObject.SetLifeTime(-1.0);
+	}
+	// 醚舅 单固瘤 贸府
+	else if (aType == PERObjectType::BULLET) {
+		if (bType == PERObjectType::TRIGGER) return;
+		aObject.SetLifeTime(-1.0);
+		bObject.GetObjectState().GiveDamage(
+			aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
+	}
+	else if (bType == PERObjectType::BULLET) {
+		if (aType == PERObjectType::TRIGGER) return;
+		bObject.SetLifeTime(-1.0);
+		bObject.GetObjectState().GiveDamage(
+			aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
+	}
+	// 唱赣瘤
+	else if (aType == PERObjectType::PLAYER && bType == PERObjectType::MONSTER) {
+		aObject.GetObjectState().GiveDamage(bObject.GetObjectState().GetCollisionDamage(), 0);
+	}
+	else if (bType == PERObjectType::PLAYER && aType == PERObjectType::MONSTER) {
+		bObject.GetObjectState().GiveDamage(aObject.GetObjectState().GetCollisionDamage(), 0);
+	}
 }

@@ -29,9 +29,10 @@
 
 // 필요 구조체
 #include "per_vector.h"
+#include "per_stat.h"
+
 // 로그
 #include "per_log.h"
-
 
 // 기본 설정
 // 윈도우 창 크기 및 위치
@@ -146,4 +147,11 @@ enum class PERObjectType {
 	BULLET,
 	TRIGGER,
 	NUM_OBJECT_TYPE
+};
+
+enum class PERObjectStateType {
+	PLAYER,
+	MONSTER,
+	NON,
+	NUM_OBJECT_STATE_TYPE
 };

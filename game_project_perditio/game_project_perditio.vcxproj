@@ -158,6 +158,7 @@
     <ClInclude Include="per_logger.h" />
     <ClInclude Include="per_component.h" />
     <ClInclude Include="object_pool.h" />
+    <ClInclude Include="per_stat.h" />
     <ClInclude Include="player_input_component.h" />
     <ClInclude Include="progress_bar.h" />
     <ClInclude Include="unintelligent_ai_component.h" />

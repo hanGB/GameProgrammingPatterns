@@ -68,6 +68,7 @@ void GameMode::CreatePlayerFactory()
 
     m_playerFactory   = new ObjectFactory(
             PERObjectType::PLAYER,
+            PERObjectStateType::PLAYER,
             PERComponentType::PLAYER_INPUT,
             PERComponentType::UNINTELLIGENT,
             PERComponentType::MOVABLE,

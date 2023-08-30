@@ -5,7 +5,7 @@
 class ObjectFactory {
 public:
 	ObjectFactory();
-	ObjectFactory(PERObjectType objectType, 
+	ObjectFactory(PERObjectType objectType, PERObjectStateType stateType,
 		PERComponentType input, PERComponentType ai, 
 		PERComponentType physics, PERComponentType graphics);
 	~ObjectFactory();
@@ -35,8 +35,11 @@ public:
 
 private:
 	void InitData();
+	// 오브젝트 스테이트 생성
+	ObjectState* CreateObjectState();
 
 	PERObjectType m_objectType;
+	PERObjectStateType m_objectStateType;
 	PERComponent::ComponentTypes m_componentTypes;
 
 	struct ComponentData {

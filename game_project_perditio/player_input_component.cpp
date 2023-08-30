@@ -69,15 +69,18 @@ void PlayerInputComponent::ShootBullet(PERObject& object, PERWorld& world, PERCo
 
 	// 총알 발사
 	if (controller.IsKeyboardPressed(PERKeyboardValue::D)) {
-		PERVec3 position(object.GetPosition().x, object.GetPosition().y, 0.0);
-;		PERVec3 speed((double)m_dirX * c_BULLER_XY_FORCE, (double)m_dirY * c_BULLER_XY_FORCE, 0.0);
-		world.RequestAddObject(
-			&object, PERObjectType::BULLET,
-			position, speed, 3.0);
+		if (object.GetObjectState().UseMind(10)) {
+			PERVec3 position(object.GetPosition().x, object.GetPosition().y, 0.0);
+			PERVec3 speed((double)m_dirX * c_BULLER_XY_FORCE, (double)m_dirY * c_BULLER_XY_FORCE, 0.0);
+			PERStat stat = { 0, 0, 10, 0, 0, 0 };
+			world.RequestAddObject(
+				&object, PERObjectType::BULLET,
+				position, speed, stat, 3.0);
 
-		m_shootingCoolTime = c_DEFAULT_SHOOT_BULLET_COOL_TIME;
+			m_shootingCoolTime = c_DEFAULT_SHOOT_BULLET_COOL_TIME;
 
-		// 테스트
-		EventDispatcher::Send(PEREvent::UPDATE_MP, PERVec3(10.0, 0.0, 0.0));
+			// 테스트
+			EventDispatcher::Send(PEREvent::UPDATE_MP, PERVec3(10.0, 0.0, 0.0));
+		}
 	}
 }

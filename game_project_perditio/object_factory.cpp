@@ -17,13 +17,14 @@
 #include "hidden_graphics_component.h"
 
 ObjectFactory::ObjectFactory(
-    PERObjectType objectType, 
+    PERObjectType objectType, PERObjectStateType objectStateType,
     PERComponentType input, PERComponentType ai, 
     PERComponentType physics, PERComponentType graphics)
 {
     PERLog::Logger().InfoWithFormat("오브젝트 팩토리 object type(%d) 생성", (int)objectType);
 
     m_objectType = objectType;
+    m_objectStateType = objectStateType;
     m_componentTypes = { input, ai, physics, graphics };
 
     InitData();
@@ -37,6 +38,10 @@ ObjectFactory::~ObjectFactory()
 
 PERObject* ObjectFactory::CreateObject()
 {
+    // 오브젝트 스테이트 생성
+    ObjectState* objectState = CreateObjectState();
+
+    // 각 컴포넌트 타입 별로 생성
     InputComponent* inputComponent = nullptr;
     switch (m_componentTypes.input) {
     case PERComponentType::PLAYER_INPUT:
@@ -80,7 +85,7 @@ PERObject* ObjectFactory::CreateObject()
         break;
     }
 
-    return new PERObject(*this, inputComponent, aiComponent, physicsComponent, graphicsComponent);
+    return new PERObject(*this, objectState, inputComponent, aiComponent, physicsComponent, graphicsComponent);
 }
 
 
@@ -172,4 +177,37 @@ void ObjectFactory::InitData()
 
     m_size = PERVec3(1.0, 1.0, 1.0);
     m_mass = 50.0;
+}
+
+ObjectState* ObjectFactory::CreateObjectState()
+{
+    ObjectState* objectState = nullptr;
+
+    switch (m_objectStateType) {
+    case PERObjectStateType::PLAYER: {
+        objectState = new ObjectState();
+        PERStat stat = {
+            100, 100, 10, 10, 10, 10
+        };
+        objectState->SetStat(stat);
+        break;
+    }
+    case PERObjectStateType::MONSTER: {
+        objectState = new ObjectState();
+        PERStat stat = {
+            50, 50, 5, 5, 5, 5
+        };
+        objectState->SetStat(stat);
+        objectState->SetIsHasCollisionDamage(true);
+
+        break;
+    }
+    case PERObjectStateType::NON: {
+        objectState = new ObjectState();
+        objectState->SetIsImmortal(true);
+        break;
+    }
+    }
+
+    return objectState;
 }

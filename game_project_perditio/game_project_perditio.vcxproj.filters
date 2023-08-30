@@ -198,6 +198,9 @@
     <ClInclude Include="per_log.h">
       <Filter>05. log</Filter>
     </ClInclude>
+    <ClInclude Include="per_stat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

@@ -2,10 +2,10 @@
 #include "per_object.h"
 #include "object_factory.h"
 
-PERObject::PERObject(ObjectFactory& factory,
+PERObject::PERObject(ObjectFactory& factory, ObjectState* objectState,
 	InputComponent* input, AiComponent* ai, 
 	PhysicsComponent* physics, GraphicsComponent* graphics)
-	: m_factory(factory),
+	: m_factory(factory), m_objectState(objectState),
 	m_input(input), m_ai(ai),
 	m_physics(physics), m_graphics(graphics)
 {
@@ -21,6 +21,7 @@ PERObject::PERObject(ObjectFactory& factory,
 
 PERObject::~PERObject()
 {
+	delete m_objectState;
 	delete m_input;
 	delete m_ai;
 	delete m_physics;
@@ -32,6 +33,11 @@ bool PERObject::IsLifeTimeIsEnd(double dTime)
 	m_lifeTime -= dTime;
 
 	return  0.0 > m_lifeTime;
+}
+
+ObjectState& PERObject::GetObjectState()
+{
+	return *m_objectState;
 }
 
 InputComponent& PERObject::GetInput()
@@ -174,4 +180,3 @@ void PERObject::SetCollidedObject(PERObject* object, PERVec3 collidedMomentVel)
 	m_collidedObject = object;
 	m_collidedMomentVelocity = collidedMomentVel;
 }
-

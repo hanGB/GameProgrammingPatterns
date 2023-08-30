@@ -48,6 +48,7 @@ void ObjectPool::CreateObjectFactories()
     ObjectFactory* fixedBlockFactory
         = new ObjectFactory(
             PERObjectType::FIXED_BLOCK,
+            PERObjectStateType::NON,
             PERComponentType::NO_INTERACT,
             PERComponentType::UNINTELLIGENT,
             PERComponentType::FIXED,
@@ -67,6 +68,7 @@ void ObjectPool::CreateObjectFactories()
     ObjectFactory* movableBlockFactory
         = new ObjectFactory(
             PERObjectType::MOVABLE_BLOCK,
+            PERObjectStateType::NON,
             PERComponentType::NO_INTERACT,
             PERComponentType::UNINTELLIGENT,
             PERComponentType::MOVABLE,
@@ -86,6 +88,7 @@ void ObjectPool::CreateObjectFactories()
     ObjectFactory* monsterFactory
         = new ObjectFactory(
             PERObjectType::MONSTER,
+            PERObjectStateType::MONSTER,
             PERComponentType::NO_INTERACT,
             PERComponentType::INTELLIGENT,
             PERComponentType::MOVABLE,
@@ -105,6 +108,7 @@ void ObjectPool::CreateObjectFactories()
     ObjectFactory* bulletFactory
         = new ObjectFactory(
             PERObjectType::BULLET,
+            PERObjectStateType::NON,
             PERComponentType::NO_INTERACT,
             PERComponentType::UNINTELLIGENT,
             PERComponentType::MOVABLE,
