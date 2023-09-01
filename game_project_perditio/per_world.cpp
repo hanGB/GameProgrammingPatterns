@@ -264,14 +264,14 @@ PERObject* PERWorld::AddAndGetObject(PERObjectType type)
 
 void PERWorld::InitWorldObject()
 {
-	/*PERObject* monster;
-	for (double x = -5.0; x < 5.0; x += 1.0) {
-		for (double y = -5.0; y < 5.0; y += 1.0) {
+	PERObject* monster;
+	for (double x = -1.0; x < 1.0; x += 1.0) {
+		for (double y = -1.0; y < 1.0; y += 1.0) {
 			monster = m_objectPool->PopObject(PERObjectType::MONSTER);
-			monster->SetPosition(PERVec3(x, y, 1.0));
+			monster->SetPosition(PERVec3(x, y, 2.0));
 			AddObject(monster);
 		}
-	}*/
+	}
 
 	PERObject* block;
 	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
@@ -453,20 +453,20 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 	else if (aType == PERObjectType::BULLET) {
 		if (bType == PERObjectType::TRIGGER) return;
 		aObject.SetLifeTime(-1.0);
-		bObject.GetObjectState().GiveDamage(
+		bObject.GetObjectState().GiveDamage(bObject,
 			aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
 	}
 	else if (bType == PERObjectType::BULLET) {
 		if (aType == PERObjectType::TRIGGER) return;
 		bObject.SetLifeTime(-1.0);
-		bObject.GetObjectState().GiveDamage(
+		bObject.GetObjectState().GiveDamage(bObject,
 			aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
 	}
 	// ³ª¸ÓÁö
 	else if (aType == PERObjectType::PLAYER && bType == PERObjectType::MONSTER) {
-		aObject.GetObjectState().GiveDamage(bObject.GetObjectState().GetCollisionDamage(), 0);
+		aObject.GetObjectState().GiveDamage(aObject, bObject.GetObjectState().GetCollisionDamage(), 0);
 	}
 	else if (bType == PERObjectType::PLAYER && aType == PERObjectType::MONSTER) {
-		bObject.GetObjectState().GiveDamage(aObject.GetObjectState().GetCollisionDamage(), 0);
+		bObject.GetObjectState().GiveDamage(bObject, aObject.GetObjectState().GetCollisionDamage(), 0);
 	}
 }

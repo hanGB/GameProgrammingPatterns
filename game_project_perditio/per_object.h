@@ -7,6 +7,7 @@
 #include "ai_component.h"
 #include "physics_component.h"
 #include "graphics_component.h"
+#include "ui_element.h"
 
 class ObjectFactory;
 
@@ -26,6 +27,8 @@ public:
 	GraphicsComponent& GetGraphics();
 
 	// getter
+	UiElement* GetFloatingUi();
+
 	PERObjectType GetObjectType() const;
 	
 	PERObject* GetParent();
@@ -45,6 +48,8 @@ public:
 	int GetIDInWorld() const;
 
 	// setter
+	void SetFlotingUi(UiElement* element);
+
 	void SetParent(PERObject* object);
 	
 	void SetPosition(PERVec3 pos);
@@ -62,7 +67,8 @@ public:
 	static const int c_MAXIMUM_XY_VELOCITY = 3;
 
 private:
-	PERObject(ObjectFactory& factory, ObjectState* m_objectState, InputComponent* input, AiComponent* ai, PhysicsComponent* physics, GraphicsComponent* graphics);
+	PERObject(ObjectFactory& factory, ObjectState* m_objectState, UiElement* floatingUi,
+		InputComponent* input, AiComponent* ai, PhysicsComponent* physics, GraphicsComponent* graphics);
 
 	// 팩토리
 	ObjectFactory& m_factory;
@@ -75,6 +81,9 @@ private:
 	AiComponent*			m_ai;
 	PhysicsComponent*	m_physics;
 	GraphicsComponent*	m_graphics;
+
+	// 오브젝트 위에 떠있는 ui
+	UiElement* m_flotingUi = nullptr;
 
 	// 부모
 	PERObject* m_parent = nullptr;

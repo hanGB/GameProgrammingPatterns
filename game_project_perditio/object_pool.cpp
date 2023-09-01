@@ -49,6 +49,7 @@ void ObjectPool::CreateObjectFactories()
         = new ObjectFactory(
             PERObjectType::FIXED_BLOCK,
             PERObjectStateType::NON,
+            PERFloatingUiType::NON,
             PERComponentType::NO_INTERACT,
             PERComponentType::UNINTELLIGENT,
             PERComponentType::FIXED,
@@ -69,6 +70,7 @@ void ObjectPool::CreateObjectFactories()
         = new ObjectFactory(
             PERObjectType::MOVABLE_BLOCK,
             PERObjectStateType::NON,
+            PERFloatingUiType::NON,
             PERComponentType::NO_INTERACT,
             PERComponentType::UNINTELLIGENT,
             PERComponentType::MOVABLE,
@@ -89,6 +91,7 @@ void ObjectPool::CreateObjectFactories()
         = new ObjectFactory(
             PERObjectType::MONSTER,
             PERObjectStateType::MONSTER,
+            PERFloatingUiType::PROGRESS_BAR,
             PERComponentType::NO_INTERACT,
             PERComponentType::INTELLIGENT,
             PERComponentType::MOVABLE,
@@ -109,6 +112,7 @@ void ObjectPool::CreateObjectFactories()
         = new ObjectFactory(
             PERObjectType::BULLET,
             PERObjectStateType::NON,
+            PERFloatingUiType::NON,
             PERComponentType::NO_INTERACT,
             PERComponentType::UNINTELLIGENT,
             PERComponentType::MOVABLE,

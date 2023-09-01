@@ -34,5 +34,6 @@ namespace PERComponent {
 		bool border;
 		int borderWidth;
 		PERColor borderColor;
+		double distanceVisiblefloatingUI;
 	};
 }

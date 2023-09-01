@@ -42,7 +42,7 @@ void PERHud::Renderer(PERRenderer& renderer)
 	int i = 0;
 	for (auto& element : m_uiElements) {
 		if (i == m_numElement) break;
-		element->Render(renderer);
+		element->RenderInScreen(renderer);
 	}
 }
 

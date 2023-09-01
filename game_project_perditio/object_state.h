@@ -5,6 +5,8 @@
 *	오브젝트가 소유하도록 구현
 */
 
+class PERObject;
+
 class ObjectState {
 public:
 	ObjectState();
@@ -20,8 +22,8 @@ public:
 	void SetIsImmortal(bool immortal);
 	
 	// 상태 변화
-	void GiveDamage(short physical, short mind);
-	bool UseMind(int mind);
+	void GiveDamage(PERObject& object, short physical, short mind);
+	bool UseMind(PERObject& object, int mind);
 
 private:
 	PERStat m_stat;

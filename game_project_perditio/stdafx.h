@@ -155,3 +155,10 @@ enum class PERObjectStateType {
 	NON,
 	NUM_OBJECT_STATE_TYPE
 };
+
+enum class PERFloatingUiType {
+	NON,
+	TEXT,
+	PROGRESS_BAR,
+	NUM_FLOATING_UI_TYPE
+};

@@ -10,12 +10,12 @@ public:
 	~ProgressBar();
 
 	virtual void Update(PERAudio& audio, double dTime);
-	virtual void Render(PERRenderer& renderer);
+	virtual void RenderInScreen(PERRenderer& renderer);
+	virtual void RenderInWorld(PERRenderer& renderer);
 
 	void SetCurrent(int current);
 	void SetMax(int max);
 
-	void SetSize(PERVec2 size);
 	void SetColor(PERColor bar, PERColor progress);
 	void SetBorder(bool border, int width, PERColor color);
 
@@ -24,9 +24,7 @@ private:
 
 	const double c_UPDATE_TIME = 0.2;
 
-	// 위치, 모양 정보
-	PERVec2		m_position;
-	PERVec2		m_size;
+	// 모양 정보
 	PERColor	m_barColor;
 	PERColor	m_progressColor;
 

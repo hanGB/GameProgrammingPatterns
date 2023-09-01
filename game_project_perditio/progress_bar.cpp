@@ -3,8 +3,9 @@
 #include "per_renderer.h"
 
 ProgressBar::ProgressBar(PERVec2 pos, int max, int current)
-	: m_position(pos), m_max(max), m_current(current)
+	: m_max(max), m_current(current)
 {
+	m_position = pos;
 	m_size = PERVec2(0.4, 0.1);
 	m_barColor = PERColor(255, 255, 255);
 	m_progressColor = PERColor(127, 127, 127);
@@ -26,7 +27,7 @@ void ProgressBar::Update(PERAudio& audio, double dTime)
 	if (m_showing != m_current) UpdateShowingValue(audio, dTime);
 }
 
-void ProgressBar::Render(PERRenderer& renderer)
+void ProgressBar::RenderInScreen(PERRenderer& renderer)
 {
 	// 바
 	renderer.RenderShapeInScreenCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
@@ -35,6 +36,18 @@ void ProgressBar::Render(PERRenderer& renderer)
 	// 진행 상태
 	renderer.RenderShapeInScreenCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 		m_position, PERVec2(m_size.x * m_showing / (double)m_max, m_size.y),
+		m_progressColor, false);
+}
+
+void ProgressBar::RenderInWorld(PERRenderer& renderer)
+{
+	// 바
+	renderer.RenderShapeInWorldCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
+		PERVec3(m_position.x, m_position.y, 0.0), PERVec3(m_size.x, m_size.y, 0.0),
+		m_barColor, m_border, m_borderWidth, m_borderColor);
+	// 진행 상태
+	renderer.RenderShapeInWorldCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
+		PERVec3(m_position.x, m_position.y, 0.0), PERVec3(m_size.x * m_showing / (double)m_max, m_size.y, 0.0),
 		m_progressColor, false);
 }
 
@@ -47,11 +60,6 @@ void ProgressBar::SetCurrent(int current)
 void ProgressBar::SetMax(int max)
 {
 	m_max = max;
-}
-
-void ProgressBar::SetSize(PERVec2 size)
-{
-	m_size = size;
 }
 
 void ProgressBar::SetColor(PERColor bar, PERColor progress)

@@ -9,8 +9,13 @@ public:
 	~UiElement();
 
 	virtual void Update(PERAudio& audio, double dTime) = 0;
-	virtual void Render(PERRenderer& renderer) = 0;
+	virtual void RenderInScreen(PERRenderer& renderer) = 0;
+	virtual void RenderInWorld(PERRenderer& renderer) = 0;
 
-private:
+	void SetPosition(PERVec2 position);
+	void SetSize(PERVec2 size);
 
+protected:
+	PERVec2	m_position;
+	PERVec2	m_size;
 };

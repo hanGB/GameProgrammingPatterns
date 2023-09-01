@@ -69,7 +69,7 @@ void PlayerInputComponent::ShootBullet(PERObject& object, PERWorld& world, PERCo
 
 	// ÃÑ¾Ë ¹ß»ç
 	if (controller.IsKeyboardPressed(PERKeyboardValue::D)) {
-		if (object.GetObjectState().UseMind(10)) {
+		if (object.GetObjectState().UseMind(object, 10)) {
 			PERVec3 position(object.GetPosition().x, object.GetPosition().y, 0.0);
 			PERVec3 speed((double)m_dirX * c_BULLER_XY_FORCE, (double)m_dirY * c_BULLER_XY_FORCE, 0.0);
 			PERStat stat = { 0, 0, 10, 0, 0, 0 };

@@ -16,15 +16,21 @@
 #include "visible_graphics_component.h"
 #include "hidden_graphics_component.h"
 
+// ui
+#include "progress_bar.h"
+
 ObjectFactory::ObjectFactory(
-    PERObjectType objectType, PERObjectStateType objectStateType,
+    PERObjectType objectType, PERObjectStateType objectStateType, PERFloatingUiType floatingUiType,
     PERComponentType input, PERComponentType ai, 
-    PERComponentType physics, PERComponentType graphics)
+    PERComponentType physics, PERComponentType graphics
+    )
 {
     PERLog::Logger().InfoWithFormat("오브젝트 팩토리 object type(%d) 생성", (int)objectType);
 
     m_objectType = objectType;
     m_objectStateType = objectStateType;
+    m_floatingUiType = floatingUiType;
+
     m_componentTypes = { input, ai, physics, graphics };
 
     InitData();
@@ -40,6 +46,9 @@ PERObject* ObjectFactory::CreateObject()
 {
     // 오브젝트 스테이트 생성
     ObjectState* objectState = CreateObjectState();
+
+    // 떠있는 ui 생성
+    UiElement* floatingUi = CreateFloatingUI();
 
     // 각 컴포넌트 타입 별로 생성
     InputComponent* inputComponent = nullptr;
@@ -85,7 +94,7 @@ PERObject* ObjectFactory::CreateObject()
         break;
     }
 
-    return new PERObject(*this, objectState, inputComponent, aiComponent, physicsComponent, graphicsComponent);
+    return new PERObject(*this, objectState, floatingUi, inputComponent, aiComponent, physicsComponent, graphicsComponent);
 }
 
 
@@ -174,6 +183,7 @@ void ObjectFactory::InitData()
     // graphics
     m_componentData.graphics.shape = PERShapeType::RECTANGLE;
     m_componentData.graphics.color = PERColor(255, 255, 255);
+    m_componentData.graphics.distanceVisiblefloatingUI = 0.0;
 
     m_size = PERVec3(1.0, 1.0, 1.0);
     m_mass = 50.0;
@@ -210,4 +220,23 @@ ObjectState* ObjectFactory::CreateObjectState()
     }
 
     return objectState;
+}
+
+UiElement* ObjectFactory::CreateFloatingUI()
+{
+    UiElement* floatingUi = nullptr;
+
+
+    switch (m_floatingUiType)
+    {
+    case PERFloatingUiType::TEXT:
+        break;
+    case PERFloatingUiType::PROGRESS_BAR: {
+        floatingUi = new ProgressBar(PERVec2(0.0, 0.0), 10, 10);
+        floatingUi->SetSize(PERVec2(1.0, 0.25));
+        break;
+    }
+    }
+
+    return floatingUi;
 }

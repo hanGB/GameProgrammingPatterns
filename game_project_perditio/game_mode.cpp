@@ -66,9 +66,10 @@ void GameMode::CreatePlayerFactory()
     PERComponent::PhysicsData physics;
     PERComponent::GraphicsData graphics;
 
-    m_playerFactory   = new ObjectFactory(
+    m_playerFactory = new ObjectFactory(
             PERObjectType::PLAYER,
             PERObjectStateType::PLAYER,
+            PERFloatingUiType::NON,
             PERComponentType::PLAYER_INPUT,
             PERComponentType::UNINTELLIGENT,
             PERComponentType::MOVABLE,

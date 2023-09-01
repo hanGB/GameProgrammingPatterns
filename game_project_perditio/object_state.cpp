@@ -48,8 +48,10 @@ void ObjectState::SetIsImmortal(bool immortal)
 	m_isImmortal = immortal;
 }
 
-void ObjectState::GiveDamage(short physical, short mind)
+void ObjectState::GiveDamage(PERObject& object, short physical, short mind)
 {
+	if (physical == 0 && mind == 0) return;
+
 	int physicalDamage = physical - m_stat.physicalDefense;
 	int mindDamage = mind - m_stat.mindDefense;
 
@@ -62,7 +64,7 @@ void ObjectState::GiveDamage(short physical, short mind)
 	m_currentBody -= finalDamage;
 }
 
-bool ObjectState::UseMind(int mind)
+bool ObjectState::UseMind(PERObject& object, int mind)
 {
 	if (m_currentMind < mind) return false;
 	m_currentMind -= mind;

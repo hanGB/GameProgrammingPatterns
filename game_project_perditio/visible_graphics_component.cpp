@@ -11,7 +11,11 @@ void VisibleGraphicsComponent::Update(PERObject& object, PERAudio& audio, double
 }
 
 void VisibleGraphicsComponent::Render(PERObject& object, PERRenderer& renderer, double frameGap)
-{
+{	
+	if (object.GetFloatingUi()) {
+		object.GetFloatingUi()->RenderInWorld(renderer);
+	}
+
 	PERVec3 renderPos = m_position;
 	PERVec3 gap = m_currentVelocity * frameGap * ((double)PER_MICROSEC_PER_UPDATE / 1'000'000.0);
 	renderPos = PERVec3(renderPos.x + gap.x, renderPos.y + gap.y, renderPos.z + gap.z);
