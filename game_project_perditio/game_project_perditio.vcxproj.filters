@@ -58,9 +58,6 @@
     <Filter Include="00. game\object\component\implements\physics">
       <UniqueIdentifier>{fbc33c96-017e-433e-bc72-89a239fa3bae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\user_interface\progress_bar">
-      <UniqueIdentifier>{fc32f929-9da5-448b-acbc-e28746b8818d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. game\game_mode">
       <UniqueIdentifier>{3d52f6c0-ad17-42fc-8b9b-9350f661ec59}</UniqueIdentifier>
     </Filter>
@@ -81,6 +78,15 @@
     </Filter>
     <Filter Include="05. log\console">
       <UniqueIdentifier>{5aa1bb3b-ce43-4c60-956f-40b9bd1725c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\user_interface\hud">
+      <UniqueIdentifier>{71013919-d016-4311-b732-d5c7954e5825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\user_interface\ui_element">
+      <UniqueIdentifier>{4318619c-b59e-4e4c-a885-6c12ae6e4eef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\user_interface\ui_element\progress_bar">
+      <UniqueIdentifier>{fc32f929-9da5-448b-acbc-e28746b8818d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -165,9 +171,6 @@
     <ClInclude Include="null_logger.h">
       <Filter>05. log</Filter>
     </ClInclude>
-    <ClInclude Include="per_hud.h">
-      <Filter>00. game\user_interface</Filter>
-    </ClInclude>
     <ClInclude Include="event_dispatcher.h">
       <Filter>04. event</Filter>
     </ClInclude>
@@ -176,9 +179,6 @@
     </ClInclude>
     <ClInclude Include="per_event.h">
       <Filter>04. event</Filter>
-    </ClInclude>
-    <ClInclude Include="progress_bar.h">
-      <Filter>00. game\user_interface\progress_bar</Filter>
     </ClInclude>
     <ClInclude Include="cs_provider.h">
       <Filter>Header Files</Filter>
@@ -200,6 +200,15 @@
     </ClInclude>
     <ClInclude Include="per_stat.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="per_hud.h">
+      <Filter>00. game\user_interface\hud</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_element.h">
+      <Filter>00. game\user_interface\ui_element</Filter>
+    </ClInclude>
+    <ClInclude Include="progress_bar.h">
+      <Filter>00. game\user_interface\ui_element\progress_bar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -257,14 +266,8 @@
     <ClCompile Include="per_renderer.cpp">
       <Filter>02. renderer</Filter>
     </ClCompile>
-    <ClCompile Include="per_hud.cpp">
-      <Filter>00. game\user_interface</Filter>
-    </ClCompile>
     <ClCompile Include="event_dispatcher.cpp">
       <Filter>04. event</Filter>
-    </ClCompile>
-    <ClCompile Include="progress_bar.cpp">
-      <Filter>00. game\user_interface\progress_bar</Filter>
     </ClCompile>
     <ClCompile Include="console_logger.cpp">
       <Filter>05. log\console</Filter>
@@ -280,6 +283,15 @@
     </ClCompile>
     <ClCompile Include="per_log.cpp">
       <Filter>05. log</Filter>
+    </ClCompile>
+    <ClCompile Include="per_hud.cpp">
+      <Filter>00. game\user_interface\hud</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_element.cpp">
+      <Filter>00. game\user_interface\ui_element</Filter>
+    </ClCompile>
+    <ClCompile Include="progress_bar.cpp">
+      <Filter>00. game\user_interface\ui_element\progress_bar</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
