@@ -9,8 +9,8 @@ void IntelligentAiComponent::Update(PERObject& object, PERWorld& world, PERAudio
 	PERVec3 cAcc = object.GetCurrentAccel();
 	double mass = object.GetMass();
 
-	if (vel.x < object.c_MAXIMUM_XY_VELOCITY)
-		cAcc.x += m_XYForce / mass * dTime;
+	//if (vel.x < object.c_MAXIMUM_XY_VELOCITY)
+	//	cAcc.x += m_XYForce / mass * dTime;
 
 	object.SetCurrentAccel(cAcc);
 }

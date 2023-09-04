@@ -8,6 +8,9 @@ public:
 	virtual void SetData(PERComponent::GraphicsData data);
 
 private:
+	void RenderWithFloatingUi(PERObject& object, PERRenderer& renderer, double frameGap);
+	void RenderOnlyObject(PERObject& object, PERRenderer& renderer, double frameGap);
+
 	// 모양 및 색상 설정
 	PERShapeType m_shapeType;
 	PERColor m_color;
@@ -19,4 +22,6 @@ private:
 	PERVec3 m_position;
 	PERVec3 m_size;
 	PERVec3 m_currentVelocity;
+
+	std::function<void(VisibleGraphicsComponent&, PERObject&, PERRenderer&, double)> m_RenderFunc;
 };

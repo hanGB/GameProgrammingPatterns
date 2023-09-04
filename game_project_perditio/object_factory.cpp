@@ -183,7 +183,8 @@ void ObjectFactory::InitData()
     // graphics
     m_componentData.graphics.shape = PERShapeType::RECTANGLE;
     m_componentData.graphics.color = PERColor(255, 255, 255);
-    m_componentData.graphics.distanceVisiblefloatingUI = 0.0;
+    m_componentData.graphics.floatingUi = false;
+    m_componentData.graphics.distanceVisiblefloatingUi = 0.0;
 
     m_size = PERVec3(1.0, 1.0, 1.0);
     m_mass = 50.0;
@@ -234,6 +235,7 @@ UiElement* ObjectFactory::CreateFloatingUI()
     case PERFloatingUiType::PROGRESS_BAR: {
         floatingUi = new ProgressBar(PERVec2(0.0, 0.0), 10, 10);
         floatingUi->SetSize(PERVec2(1.0, 0.25));
+        dynamic_cast<ProgressBar*>(floatingUi)->SetColor(PERColor(200, 200, 200), PERColor(255, 0, 0));
         break;
     }
     }

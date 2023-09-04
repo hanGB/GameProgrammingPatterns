@@ -43,11 +43,11 @@ void ProgressBar::RenderInWorld(PERRenderer& renderer)
 {
 	// 바
 	renderer.RenderShapeInWorldCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
-		PERVec3(m_position.x, m_position.y, 0.0), PERVec3(m_size.x, m_size.y, 0.0),
+		PERVec3(m_position.x - m_size.x / 2.0, m_position.y, 0.0), PERVec3(m_size.x, m_size.y, 0.0),
 		m_barColor, m_border, m_borderWidth, m_borderColor);
 	// 진행 상태
 	renderer.RenderShapeInWorldCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
-		PERVec3(m_position.x, m_position.y, 0.0), PERVec3(m_size.x * m_showing / (double)m_max, m_size.y, 0.0),
+		PERVec3(m_position.x - m_size.x / 2.0, m_position.y, 0.0), PERVec3(m_size.x * m_showing / (double)m_max, m_size.y, 0.0),
 		m_progressColor, false);
 }
 
