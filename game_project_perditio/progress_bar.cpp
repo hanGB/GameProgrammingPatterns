@@ -53,6 +53,7 @@ void ProgressBar::RenderInWorld(PERRenderer& renderer)
 
 void ProgressBar::SetCurrent(int current)
 {
+	current = std::clamp(current, 0, m_max);
 	m_current = current;
 	m_updateSpeed = m_current - m_showing;
 }
@@ -73,6 +74,11 @@ void ProgressBar::SetBorder(bool border, int width, PERColor color)
 	m_border = border;
 	m_borderWidth = width;
 	m_borderColor = color;
+}
+
+void ProgressBar::UpateShowingValueImmediately()
+{
+	m_showing = m_current;
 }
 
 void ProgressBar::UpdateShowingValue(PERAudio& audio, double dTime)

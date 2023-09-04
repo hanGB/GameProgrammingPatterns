@@ -38,7 +38,7 @@ private:
 	// 오브젝트 스테이트 생성
 	ObjectState* CreateObjectState();
 	// 떠있는 ui 생성
-	UiElement* CreateFloatingUI();
+	UiElement* CreateFloatingUI(ObjectState* objectState);
 
 	PERObjectType m_objectType;
 	PERObjectStateType m_objectStateType;

@@ -6,8 +6,8 @@ enum class PEREvent {
 	RUN_DEFAULT_WORLD_AND_GAME_MODE,
 
 	// ui
-	UPDATE_HP,
-	UPDATE_MP,
+	UPDATE_BD,
+	UPDATE_MD,
 
 	// 이벤트 수
 	NUM_EVENT

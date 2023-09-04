@@ -78,7 +78,6 @@ void PlayerInputComponent::ShootBullet(PERObject& object, PERWorld& world, PERCo
 				position, speed, stat, 3.0);
 
 			m_shootingCoolTime = c_DEFAULT_SHOOT_BULLET_COOL_TIME;
-			EventDispatcher::Send(PEREvent::UPDATE_MP, PERVec3(object.GetObjectState().GetCurrentMind(), 0.0, 0.0));
 		}
 	}
 }

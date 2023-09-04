@@ -16,6 +16,10 @@
 #include "visible_graphics_component.h"
 #include "hidden_graphics_component.h"
 
+// 오브젝트 스테이트
+#include "player_state.h"
+#include "monster_state.h"
+
 // ui
 #include "progress_bar.h"
 
@@ -47,8 +51,8 @@ PERObject* ObjectFactory::CreateObject()
     // 오브젝트 스테이트 생성
     ObjectState* objectState = CreateObjectState();
 
-    // 떠있는 ui 생성
-    UiElement* floatingUi = CreateFloatingUI();
+    // 떠있는 ui 생성(앞에 생성된 정보 제공)
+    UiElement* floatingUi = CreateFloatingUI(objectState);
 
     // 각 컴포넌트 타입 별로 생성
     InputComponent* inputComponent = nullptr;
@@ -196,7 +200,7 @@ ObjectState* ObjectFactory::CreateObjectState()
 
     switch (m_objectStateType) {
     case PERObjectStateType::PLAYER: {
-        objectState = new ObjectState();
+        objectState = new PlayerState();
         PERStat stat = {
             100, 100, 10, 10, 10, 10
         };
@@ -204,7 +208,7 @@ ObjectState* ObjectFactory::CreateObjectState()
         break;
     }
     case PERObjectStateType::MONSTER: {
-        objectState = new ObjectState();
+        objectState = new MonsterState();
         PERStat stat = {
             50, 50, 5, 5, 5, 5
         };
@@ -223,7 +227,7 @@ ObjectState* ObjectFactory::CreateObjectState()
     return objectState;
 }
 
-UiElement* ObjectFactory::CreateFloatingUI()
+UiElement* ObjectFactory::CreateFloatingUI(ObjectState* objectState)
 {
     UiElement* floatingUi = nullptr;
 
@@ -233,8 +237,8 @@ UiElement* ObjectFactory::CreateFloatingUI()
     case PERFloatingUiType::TEXT:
         break;
     case PERFloatingUiType::PROGRESS_BAR: {
-        floatingUi = new ProgressBar(PERVec2(0.0, 0.0), 10, 10);
-        floatingUi->SetSize(PERVec2(1.0, 0.25));
+        floatingUi = new ProgressBar(PERVec2(0.0, 0.0), objectState->GetStat().body, objectState->GetStat().body);
+        floatingUi->SetSize(PERVec2(1.0, 0.2));
         dynamic_cast<ProgressBar*>(floatingUi)->SetColor(PERColor(200, 200, 200), PERColor(255, 0, 0));
         break;
     }

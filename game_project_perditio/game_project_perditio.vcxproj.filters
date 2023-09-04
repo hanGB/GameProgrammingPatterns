@@ -88,6 +88,12 @@
     <Filter Include="00. game\user_interface\ui_element\progress_bar">
       <UniqueIdentifier>{fc32f929-9da5-448b-acbc-e28746b8818d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\object\object_state\player_state">
+      <UniqueIdentifier>{e33cbae8-595b-4cdc-a40f-f150d23061bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\object_state\monster_state">
+      <UniqueIdentifier>{332e1e11-f63a-4765-8dea-47816f465b51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -210,6 +216,12 @@
     <ClInclude Include="progress_bar.h">
       <Filter>00. game\user_interface\ui_element\progress_bar</Filter>
     </ClInclude>
+    <ClInclude Include="player_state.h">
+      <Filter>00. game\object\object_state\player_state</Filter>
+    </ClInclude>
+    <ClInclude Include="monster_state.h">
+      <Filter>00. game\object\object_state\monster_state</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -292,6 +304,12 @@
     </ClCompile>
     <ClCompile Include="progress_bar.cpp">
       <Filter>00. game\user_interface\ui_element\progress_bar</Filter>
+    </ClCompile>
+    <ClCompile Include="player_state.cpp">
+      <Filter>00. game\object\object_state\player_state</Filter>
+    </ClCompile>
+    <ClCompile Include="monster_state.cpp">
+      <Filter>00. game\object\object_state\monster_state</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

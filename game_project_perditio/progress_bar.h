@@ -19,6 +19,8 @@ public:
 	void SetColor(PERColor bar, PERColor progress);
 	void SetBorder(bool border, int width, PERColor color);
 
+	void UpateShowingValueImmediately();
+
 private:
 	void UpdateShowingValue(PERAudio& audio, double dTime);
 

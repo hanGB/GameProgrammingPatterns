@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "object_state.h"
+#include "per_object.h"
 
 ObjectState::ObjectState()
 {
@@ -48,9 +49,9 @@ void ObjectState::SetIsImmortal(bool immortal)
 	m_isImmortal = immortal;
 }
 
-void ObjectState::GiveDamage(PERObject& object, short physical, short mind)
+bool ObjectState::GiveDamage(PERObject& object, short physical, short mind)
 {
-	if (physical == 0 && mind == 0) return;
+	if (physical == 0 && mind == 0) return false;
 
 	int physicalDamage = physical - m_stat.physicalDefense;
 	int mindDamage = mind - m_stat.mindDefense;
@@ -62,6 +63,8 @@ void ObjectState::GiveDamage(PERObject& object, short physical, short mind)
 	finalDamage = std::clamp(finalDamage, 1, 999);
 
 	m_currentBody -= finalDamage;
+
+	return true;
 }
 
 bool ObjectState::UseMind(PERObject& object, int mind)

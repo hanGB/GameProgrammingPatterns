@@ -11,11 +11,11 @@ PERHud::PERHud()
 	m_uiElements.resize(m_maxElements);
 
 	ProgressBar* bodyBar = new ProgressBar(PERVec2(-0.95, 0.9), 100, 100);
-	bodyBar->SetColor(PERColor(255, 255, 255), PERColor(255, 0, 0));
+	bodyBar->SetColor(PERColor(200, 200, 200), PERColor(255, 0, 0));
 	m_bodyBarIndex = PushElement(bodyBar);
 
 	ProgressBar* mindBar = new ProgressBar(PERVec2(-0.95, 0.8), 100, 100);
-	mindBar->SetColor(PERColor(255, 255, 255), PERColor(0, 0, 255));
+	mindBar->SetColor(PERColor(200, 200, 200), PERColor(0, 0, 255));
 	m_mindBarIndex = PushElement(mindBar);
 }
 
@@ -49,10 +49,10 @@ void PERHud::Renderer(PERRenderer& renderer)
 void PERHud::Recive(PEREvent event, PERVec3 data)
 {
 	switch (event) {
-	case PEREvent::UPDATE_HP:
+	case PEREvent::UPDATE_BD:
 		dynamic_cast<ProgressBar*>(m_uiElements[m_bodyBarIndex])->SetCurrent((int)data.x);
 		break;
-	case PEREvent::UPDATE_MP: 
+	case PEREvent::UPDATE_MD: 
 		dynamic_cast<ProgressBar*>(m_uiElements[m_mindBarIndex])->SetCurrent((int)data.x);
 		break;
 	}

@@ -22,10 +22,10 @@ public:
 	void SetIsImmortal(bool immortal);
 	
 	// 상태 변화
-	void GiveDamage(PERObject& object, short physical, short mind);
-	bool UseMind(PERObject& object, int mind);
+	virtual bool GiveDamage(PERObject& object, short physical, short mind);
+	virtual bool UseMind(PERObject& object, int mind);
 
-private:
+protected:
 	PERStat m_stat;
 	int m_currentBody;
 	int m_currentMind;
