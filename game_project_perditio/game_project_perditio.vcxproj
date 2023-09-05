@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="black_board.h" />
     <ClInclude Include="cs_provider.h" />
     <ClInclude Include="event_dispatcher.h" />
     <ClInclude Include="event_reciver.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="console_logger.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="black_board.cpp" />
     <ClCompile Include="event_dispatcher.cpp" />
     <ClCompile Include="game_mode.cpp" />
     <ClCompile Include="game_state.cpp" />

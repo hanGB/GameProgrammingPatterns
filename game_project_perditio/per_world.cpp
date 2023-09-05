@@ -29,6 +29,8 @@ void PERWorld::Update(PERAudio& audio, double dTime)
 	DoGarbegeCollection(dTime);
 
 	ProcessPendingMessage();
+
+	m_gameMode->Update();
 }
 
 void PERWorld::UIUpdate(PERAudio& audio, double dTime)
@@ -265,17 +267,13 @@ PERObject* PERWorld::AddAndGetObject(PERObjectType type)
 void PERWorld::InitWorldObject()
 {
 	PERObject* monster;
-	/*for (double x = -1.0; x < 1.0; x += 1.0) {
-		for (double y = -1.0; y < 1.0; y += 1.0) {
+	for (double x = -3.0; x <= 3.0; x += 6.0) {
+		for (double y = -3.0; y <= 3.0; y += 6.0) {
 			monster = m_objectPool->PopObject(PERObjectType::MONSTER);
-			monster->SetPosition(PERVec3(x, y, 2.0));
+			monster->SetPosition(PERVec3(x, y, 0.0));
 			AddObject(monster);
 		}
-	}*/
-
-	monster = m_objectPool->PopObject(PERObjectType::MONSTER);
-	monster->SetPosition(PERVec3(-3.0, -3.0, 0.0));
-	AddObject(monster);
+	}
 
 	PERObject* block;
 	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);

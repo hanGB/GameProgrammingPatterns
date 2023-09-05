@@ -7,6 +7,7 @@
 #include "object_factory.h"
 #include "per_object.h"
 #include "object_state.h"
+#include "black_board.h"
 
 GameMode::GameMode()
 {
@@ -42,6 +43,11 @@ void GameMode::StartUse()
 void GameMode::EndUse()
 {
     EventDispatcher::RemoveReciver(m_hud);
+}
+
+void GameMode::Update()
+{
+    BlackBoard::SetPlayerPos(m_player->GetPosition());
 }
 
 PERHud& GameMode::GetHud()

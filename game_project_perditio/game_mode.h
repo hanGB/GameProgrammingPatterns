@@ -14,6 +14,7 @@ public:
 
 	void StartUse();
 	void EndUse();
+	void Update();
 
 	PERHud& GetHud();
 	GameState& GetGameState();
