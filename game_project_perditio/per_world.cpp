@@ -8,6 +8,7 @@
 #include "game_mode.h"
 #include "per_hud.h"
 #include "event_dispatcher.h"
+#include "navigation_data.h"
 
 PERWorld::PERWorld(ObjectPool* objectPool, GameMode* mode)
 {
@@ -17,10 +18,13 @@ PERWorld::PERWorld(ObjectPool* objectPool, GameMode* mode)
 	m_gameMode = mode;
 
 	m_objects.reserve(PER_DEFAULT_MAX_OBJECTS);
+
+	m_naviData = new NavigationData();
 }
 
 PERWorld::~PERWorld()
 {
+	delete m_naviData;
 	PERLog::Logger().Info("월드 삭제");
 }
 
@@ -292,6 +296,12 @@ void PERWorld::InitWorldObject()
 	block->SetPosition(PERVec3(1.0, -3.0, 0.0));
 	AddObject(block);
 
+	PERObject* ground;
+	ground = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+	ground->SetPosition(PERVec3(0.0, 0.0, -1.0));
+	ground->SetSize(PERVec3(10.0, 10.0, 1.0));
+	AddObject(ground);
+
 	PERObject* wall;
 	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(1.0, 0.0, 1.0));
@@ -332,6 +342,9 @@ void PERWorld::InitWorldObject()
 	wall->SetPosition(PERVec3(0.0, -5.0, 0.3));
 	wall->SetSize(PERVec3(5.0, 0.5, 1.0));
 	AddObject(wall);
+
+	m_naviData->SetNodes(m_objects, m_numObject);
+	//m_naviData->TextOutData();
 
 	PERLog::Logger().InfoWithFormat("월드 내 오브젝트 수: %d", m_numObject);
 }

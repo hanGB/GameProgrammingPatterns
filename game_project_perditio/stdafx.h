@@ -19,6 +19,8 @@
 #include <iostream>
 #include <string>
 #include <stdarg.h>
+// 파일 입출력
+#include <fstream>
 // 프레임 타임 측정
 #include <chrono>
 // 편의성

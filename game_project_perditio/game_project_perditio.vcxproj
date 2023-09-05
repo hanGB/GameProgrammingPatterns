@@ -150,6 +150,7 @@
     <ClInclude Include="game_mode.h" />
     <ClInclude Include="game_state.h" />
     <ClInclude Include="monster_state.h" />
+    <ClInclude Include="navigation_data.h" />
     <ClInclude Include="per_log.h" />
     <ClInclude Include="null_audio.h" />
     <ClInclude Include="null_logger.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="game_mode.cpp" />
     <ClCompile Include="game_state.cpp" />
     <ClCompile Include="monster_state.cpp" />
+    <ClCompile Include="navigation_data.cpp" />
     <ClCompile Include="per_log.cpp" />
     <ClCompile Include="object_pool.cpp" />
     <ClCompile Include="object_state.cpp" />

@@ -6,6 +6,7 @@ class PERController;
 class PERRenderer;
 class PERObject;
 class GameMode;
+class NavigationData;
 
 enum class PERWorldMessageId {
 	ADD_OBJECT,
@@ -96,4 +97,7 @@ private:
 	int m_numPending = 0;
 
 	GameMode* m_gameMode;
+
+	// 임시 변수
+	NavigationData* m_naviData;
 };

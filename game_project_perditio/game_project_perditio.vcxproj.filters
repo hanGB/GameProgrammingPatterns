@@ -97,6 +97,12 @@
     <Filter Include="06. ai">
       <UniqueIdentifier>{6bca05e9-4f50-484f-b5ca-aa06c2ef74b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. ai\black_board">
+      <UniqueIdentifier>{b0855ca8-caab-4836-9632-08c80d320039}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. ai\navigation_data">
+      <UniqueIdentifier>{ba85cf93-dd24-4fa4-9024-4dd5057780bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -226,7 +232,10 @@
       <Filter>00. game\object\object_state\monster_state</Filter>
     </ClInclude>
     <ClInclude Include="black_board.h">
-      <Filter>06. ai</Filter>
+      <Filter>06. ai\black_board</Filter>
+    </ClInclude>
+    <ClInclude Include="navigation_data.h">
+      <Filter>06. ai\navigation_data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -318,7 +327,10 @@
       <Filter>00. game\object\object_state\monster_state</Filter>
     </ClCompile>
     <ClCompile Include="black_board.cpp">
-      <Filter>06. ai</Filter>
+      <Filter>06. ai\black_board</Filter>
+    </ClCompile>
+    <ClCompile Include="navigation_data.cpp">
+      <Filter>06. ai\navigation_data</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
