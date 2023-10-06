@@ -18,6 +18,8 @@ public:
 	// 테스트용 텍스트 파일로 출력
 	void TextOutData();
 
+	NavigationCellType GetCellInfo(int x, int y) const;
+
 private:
 	static const int c_MAX_CELL = 100;
 	const double c_CELL_DISTANCE = 0.25;

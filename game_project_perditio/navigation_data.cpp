@@ -87,3 +87,8 @@ void NavigationData::TextOutData()
 
 	out.close();
 }
+
+NavigationCellType NavigationData::GetCellInfo(int x, int y) const
+{
+	return m_cells[x][y];
+}

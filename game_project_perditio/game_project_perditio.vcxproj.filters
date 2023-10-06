@@ -100,8 +100,14 @@
     <Filter Include="06. ai\black_board">
       <UniqueIdentifier>{b0855ca8-caab-4836-9632-08c80d320039}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. ai\navigation_data">
+    <Filter Include="06. ai\path_finding">
+      <UniqueIdentifier>{bc117f1c-1db7-47de-bec6-470efae46418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. ai\path_finding\navigation_data">
       <UniqueIdentifier>{ba85cf93-dd24-4fa4-9024-4dd5057780bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. ai\path_finding\a_star">
+      <UniqueIdentifier>{8e48377b-bdbe-4cac-822b-4a5c59404cf5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -235,7 +241,10 @@
       <Filter>06. ai\black_board</Filter>
     </ClInclude>
     <ClInclude Include="navigation_data.h">
-      <Filter>06. ai\navigation_data</Filter>
+      <Filter>06. ai\path_finding\navigation_data</Filter>
+    </ClInclude>
+    <ClInclude Include="a_star_calculator.h">
+      <Filter>06. ai\path_finding\a_star</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -330,7 +339,10 @@
       <Filter>06. ai\black_board</Filter>
     </ClCompile>
     <ClCompile Include="navigation_data.cpp">
-      <Filter>06. ai\navigation_data</Filter>
+      <Filter>06. ai\path_finding\navigation_data</Filter>
+    </ClCompile>
+    <ClCompile Include="a_star_calculator.cpp">
+      <Filter>06. ai\path_finding\a_star</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

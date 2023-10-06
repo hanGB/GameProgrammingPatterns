@@ -9,6 +9,7 @@
 #include "per_hud.h"
 #include "event_dispatcher.h"
 #include "black_board.h"
+#include "a_star_calculator.h"
 
 PERWorld::PERWorld(ObjectPool* objectPool, GameMode* mode)
 {
@@ -295,8 +296,8 @@ void PERWorld::AddFixedAndPhysicalObject()
 	AddObject(wall);
 
 	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(-1.0, 0.0, 1.1));
-	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
+	wall->SetPosition(PERVec3(-1.0, 0.0, 0.0));
+	wall->SetSize(PERVec3(1.0, 5.0, 1.0));
 	AddObject(wall);
 
 	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
@@ -340,6 +341,26 @@ void PERWorld::AddOtherObject()
 			AddObject(monster);
 		}
 	}
+
+	// a스타 알고리즘 테스트
+	AStarCalculator* astar = new AStarCalculator();
+	astar->SetStartAndDestination(PERVec3(-3.0, -3.0, 0.0), m_gameMode->GetPlayer().GetPosition());
+	astar->FindPath();
+
+	Cell* paths = astar->GetPaths();
+	int numPath = astar->GetNumPath();
+	PERObject* root;
+
+	PERLog::Logger().InfoWithFormat("패스 수: %d", numPath);
+
+	for (int i = 0; i < numPath; ++i) {
+		root = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+		root->SetPosition(PERVec3((paths[i].x - 50) * 0.25, (paths[i].y - 50) * 0.25, 2.0));
+		root->SetSize(PERVec3(0.25, 0.25, 1.0));
+		AddObject(root);
+	}
+
+	delete astar;
 
 	PERObject* block;
 	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
