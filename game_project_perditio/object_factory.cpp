@@ -9,6 +9,7 @@
 // ai
 #include "unintelligent_ai_component.h"
 #include "intelligent_ai_component.h"
+#include "monster_ai_component.h"
 // physics
 #include "movable_physics_component.h"
 #include "fixed_physics_component.h"
@@ -75,6 +76,9 @@ PERObject* ObjectFactory::CreateObject()
         break;
     case PERComponentType::INTELLIGENT:
         aiComponent = new IntelligentAiComponent();
+        break;
+    case PERComponentType::MONSTER_AI:
+        aiComponent = new MonsterAiComponent();
         break;
     }
 

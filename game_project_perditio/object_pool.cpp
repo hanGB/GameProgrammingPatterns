@@ -95,7 +95,7 @@ void ObjectPool::CreateObjectFactories()
             PERObjectStateType::MONSTER,
             PERFloatingUiType::PROGRESS_BAR,
             PERComponentType::NO_INTERACT,
-            PERComponentType::INTELLIGENT,
+            PERComponentType::MONSTER_AI,
             PERComponentType::MOVABLE,
             PERComponentType::VISIBLE
         );

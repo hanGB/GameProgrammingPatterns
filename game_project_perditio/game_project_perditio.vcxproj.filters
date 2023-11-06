@@ -246,6 +246,9 @@
     <ClInclude Include="a_star_calculator.h">
       <Filter>06. ai\path_finding\a_star</Filter>
     </ClInclude>
+    <ClInclude Include="monster_ai_component.h">
+      <Filter>00. game\object\component\implements\ai</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -343,6 +346,9 @@
     </ClCompile>
     <ClCompile Include="a_star_calculator.cpp">
       <Filter>06. ai\path_finding\a_star</Filter>
+    </ClCompile>
+    <ClCompile Include="monster_ai_component.cpp">
+      <Filter>00. game\object\component\implements\ai</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

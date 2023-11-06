@@ -129,6 +129,7 @@ enum class PERComponentType {
 	// ai
 	UNINTELLIGENT,
 	INTELLIGENT,
+	MONSTER_AI,
 
 	// pysics
 	FIXED,
