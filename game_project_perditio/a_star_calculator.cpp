@@ -16,6 +16,16 @@ AStarCalculator::AStarCalculator()
 
 AStarCalculator::~AStarCalculator()
 {
+	while (!m_cellQueue.empty()) {
+		Cell* cell = m_cellQueue.front();
+		m_cellQueue.pop();
+		delete cell;
+	}
+	while (!m_cellDataQueue.empty()) {
+		CellData* cellData = m_cellDataQueue.front();
+		m_cellDataQueue.pop();
+		delete cellData;
+	}
 }
 
 void AStarCalculator::SetStartAndDestination(PERVec3 start, PERVec3 dest)
@@ -29,14 +39,22 @@ void AStarCalculator::SetStartAndDestination(PERVec3 start, PERVec3 dest)
 	// 추정 거리 저장
 	m_distanceWithCell[m_startXIndexed][m_startYIndexed] = CalulateDistanceFromDest(m_startXIndexed, m_startYIndexed);
 
-	CellData* cData = new CellData();
+	// 저장된 큐에서 꺼내옴
+	if (m_cellDataQueue.empty()) m_cellDataQueue.push(new CellData());
+	CellData* cData = m_cellDataQueue.front();
+	m_cellDataQueue.pop();
+
 	cData->x = m_startXIndexed; cData->y = m_startYIndexed;
-	cData->f = CalulateDistanceFromDest(m_startXIndexed, m_startYIndexed);
+	cData->f = m_distanceWithCell[m_startXIndexed][m_startYIndexed];
 	cData->g = 0;
 
 	m_priorityQueue.push(cData);
 
-	m_parents[m_startXIndexed][m_startYIndexed] = new Cell(m_startXIndexed, m_startYIndexed);
+	// 저장된 큐에서 꺼내옴
+	if (m_cellQueue.empty()) m_cellQueue.push(new Cell());
+	m_parents[m_startXIndexed][m_startYIndexed] = m_cellQueue.front();
+	m_parents[m_startXIndexed][m_startYIndexed]->SetData(m_startXIndexed, m_startYIndexed);
+	m_cellQueue.pop();
 
 	PERLog::Logger().InfoWithFormat("시작점 - %d, %d", m_startXIndexed, m_startYIndexed);
 	PERLog::Logger().InfoWithFormat("도착점 - %d, %d", m_destXIndexed, m_destYIndexed);
@@ -50,7 +68,7 @@ void AStarCalculator::FindPath()
 
 		// 이미 방문한 경우 스킵
 		if (m_alreadyVisited[data->x][data->y]) {
-			delete data;
+			m_cellDataQueue.push(data);
 			continue;
 		}
 		
@@ -91,14 +109,21 @@ void AStarCalculator::FindPath()
 
 				// 저장
 				m_distanceWithCell[nextX][nextY] = g + h;
-				CellData* nextCell = new CellData();
+
+				if (m_cellDataQueue.empty()) m_cellDataQueue.push(new CellData());
+				CellData* nextCell = m_cellDataQueue.front();
+				m_cellDataQueue.pop();
 				nextCell->x = nextX;
 				nextCell->y = nextY;
 				nextCell->g = g;
 				nextCell->f = g + h;
 
 				m_priorityQueue.push(nextCell);
-				m_parents[nextX][nextY] = new Cell(data->x, data->y);
+
+				if (m_cellQueue.empty()) m_cellQueue.push(new Cell());
+				m_parents[nextX][nextY] = m_cellQueue.front();
+				m_parents[nextX][nextY]->SetData(data->x, data->y);
+				m_cellQueue.pop();
 			}
 		}
 	}
@@ -114,6 +139,27 @@ Cell* AStarCalculator::GetPaths()
 int AStarCalculator::GetNumPath() const
 {
 	return m_numPath;
+}
+
+void AStarCalculator::ClearPaths()
+{
+	// 부모 목록 초기화
+	for (int x = 0; x < c_MAX_CELL; ++x) {
+		for (int y = 0; y < c_MAX_CELL; ++y) {
+			if (!m_parents[x][y]) continue;
+			m_cellQueue.push(m_parents[x][y]);
+			m_parents[x][y] = nullptr;
+		}
+	}
+
+	// 방문 여부 초기화
+	memset(m_alreadyVisited, 0, c_MAX_CELL * c_MAX_CELL * sizeof(bool));
+	// 해당 셀을 포함한 거리 초기화
+	for (int x = 0; x < c_MAX_CELL; ++x) {
+		for (int y = 0; y < c_MAX_CELL; ++y) {
+			m_distanceWithCell[x][y] = INT_MAX;
+		}
+	}
 }
 
 int AStarCalculator::CalulateDistanceFromDest(int x, int y)

@@ -19,6 +19,11 @@ struct Cell {
 	Cell() {}
 	Cell(int x, int y) : x(x), y(y) {}
 
+	void SetData(int x, int y) {
+		this->x = x;
+		this->y = y;
+	}
+
 	int x;
 	int y;
 };
@@ -33,6 +38,8 @@ public:
 
 	Cell* GetPaths();
 	int GetNumPath() const;
+
+	void ClearPaths();
 
 private: 
 	// 도착까지 남은 거리 계산
@@ -67,4 +74,8 @@ private:
 	// 최종 경로
 	Cell m_paths[c_MAX_CELL];
 	int m_numPath = 0;
+
+	// 생성, 삭제를 줄이기 위한 저장소
+	std::queue<Cell*> m_cellQueue;
+	std::queue<CellData*> m_cellDataQueue;
 };

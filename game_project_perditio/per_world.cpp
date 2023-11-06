@@ -349,15 +349,48 @@ void PERWorld::AddOtherObject()
 
 	Cell* paths = astar->GetPaths();
 	int numPath = astar->GetNumPath();
-	PERObject* root;
+	PERObject* pathObject;
+	PERComponent::GraphicsData pathObjectGData;
+	pathObjectGData.shape = PERShapeType::ELLIPSE;
 
 	PERLog::Logger().InfoWithFormat("패스 수: %d", numPath);
 
 	for (int i = 0; i < numPath; ++i) {
-		root = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-		root->SetPosition(PERVec3((paths[i].x - 50) * 0.25, (paths[i].y - 50) * 0.25, 2.0));
-		root->SetSize(PERVec3(0.25, 0.25, 1.0));
-		AddObject(root);
+		pathObject = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+		pathObject->SetPosition(PERVec3((paths[i].x - 50) * 0.25, (paths[i].y - 50) * 0.25, 2.0));
+		pathObject->SetSize(PERVec3(0.25, 0.25, 1.0));
+
+		// 모양, 색상 설정
+		GraphicsComponent* graphics = &pathObject->GetGraphics();
+		pathObjectGData.color = PERColor(255, 255, 0);
+		graphics->SetData(pathObjectGData);
+
+		AddObject(pathObject);
+	}
+
+	// a스타 패스 초기화
+	astar->ClearPaths();
+
+	astar->SetStartAndDestination(PERVec3(3.0, 3.0, 0.0), m_gameMode->GetPlayer().GetPosition());
+	astar->FindPath();
+
+	paths = astar->GetPaths();
+	numPath = astar->GetNumPath();
+	pathObject;
+
+	PERLog::Logger().InfoWithFormat("패스 수: %d", numPath);
+
+	for (int i = 0; i < numPath; ++i) {
+		pathObject = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+		pathObject->SetPosition(PERVec3((paths[i].x - 50) * 0.25, (paths[i].y - 50) * 0.25, 2.0));
+		pathObject->SetSize(PERVec3(0.25, 0.25, 1.0));
+
+		// 모양, 색상 설정
+		GraphicsComponent* graphics = &pathObject->GetGraphics();
+		pathObjectGData.color = PERColor(255, 0, 255);
+		graphics->SetData(pathObjectGData);
+
+		AddObject(pathObject);
 	}
 
 	delete astar;
