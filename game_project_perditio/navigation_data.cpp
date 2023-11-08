@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "navigation_data.h"
 #include "per_object.h"
+#include "per_renderer.h"
 
 NavigationData::NavigationData()
 {
@@ -60,7 +61,6 @@ void NavigationData::SetCells(std::vector<PERObject*>& objects, int numObject)
 					m_cells[indexX][indexY] = NavigationCellType::WALL;
 				}
 			}
-
 		}
 		break;
 		case 1:
@@ -86,6 +86,22 @@ void NavigationData::TextOutData()
 	}
 
 	out.close();
+}
+
+void NavigationData::RenderOutData(PERRenderer& renderer)
+{
+	PERColor color;
+	for (int x = 0; x < PER_MAX_CELL; ++x) {
+		for (int y = 0; y < PER_MAX_CELL; ++y) {
+			if (GetCellInfo(x, y) == NavigationCellType::GROUND) color = PERColor(255, 255, 0);
+			else if (GetCellInfo(x, y) == NavigationCellType::WALL) color = PERColor(255, 0, 255);
+			else continue;
+
+	renderer.RenderShapeInWorldCoordinate(PERShapeType::ELLIPSE, 
+		PERVec3((x - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, (y - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, 2.0), 
+		PERVec3(0.1, 0.1, 1.0), color);
+		}
+	}
 }
 
 NavigationCellType NavigationData::GetCellInfo(int x, int y) const

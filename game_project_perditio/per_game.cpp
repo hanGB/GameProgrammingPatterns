@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "per_game.h"
 #include "null_audio.h"
+#include "black_board.h"
 
 PERGame::PERGame(HWND hWnd)
 {
@@ -114,6 +115,10 @@ void PERGame::Render(HWND hWnd)
 
 		// 게임 월드 렌더링
 		m_currentWorld->Render(*m_renderer, m_frameGap);
+
+		// 네비게이션 데이터 테스트용
+		BlackBoard::GetNavigationData().RenderOutData(*m_renderer);
+
 		m_isRenderEnd = true;
 	}
 	
