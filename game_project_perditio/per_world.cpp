@@ -341,6 +341,51 @@ void PERWorld::AddOtherObject()
 			AddObject(monster);
 		}
 	}
+	// a스타 알고리즘 테스트
+	AStarCalculator* astar = new AStarCalculator();
+	Cell paths[PER_MAX_CELL * PER_MAX_CELL / 10];
+	int numPath;
+	astar->FindPath(PERVec3(3.0, 3.0, 0.0), m_gameMode->GetPlayer().GetPosition(), paths, &numPath);
+	PERObject* pathObject;
+	PERComponent::GraphicsData pathObjectGData;
+	pathObjectGData.shape = PERShapeType::ELLIPSE;
+
+	PERLog::Logger().InfoWithFormat("패스 수: %d", numPath);
+
+	for (int i = 0; i < numPath; ++i) {
+		pathObject = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+		pathObject->SetPosition(PERVec3((paths[i].x - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, 
+			(paths[i].y - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, 2.0));
+		pathObject->SetSize(PERVec3(PER_CELL_DISTANCE, PER_CELL_DISTANCE, 1.0));
+
+		// 모양, 색상 설정
+		GraphicsComponent* graphics = &pathObject->GetGraphics();
+		pathObjectGData.color = PERColor(255, 255, 0);
+		graphics->SetData(pathObjectGData);
+
+		AddObject(pathObject);
+	}
+
+	astar->FindPath(PERVec3(3.0, -3.0, 0.0), m_gameMode->GetPlayer().GetPosition(), paths, &numPath);
+
+	PERLog::Logger().InfoWithFormat("패스 수: %d", numPath);
+
+	for (int i = 0; i < numPath; ++i) {
+		pathObject = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+		pathObject->SetPosition(PERVec3((paths[i].x - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, 
+	 (paths[i].y - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, 2.0));
+		pathObject->SetSize(PERVec3(PER_CELL_DISTANCE, PER_CELL_DISTANCE, 1.0));
+
+		// 모양, 색상 설정
+		GraphicsComponent* graphics = &pathObject->GetGraphics();
+		pathObjectGData.color = PERColor(255, 0, 255);
+		graphics->SetData(pathObjectGData);
+
+		AddObject(pathObject);
+	}
+
+	delete astar;
+
 
 	PERObject* block;
 	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);

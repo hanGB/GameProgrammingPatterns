@@ -33,21 +33,17 @@ public:
 	AStarCalculator();
 	~AStarCalculator();
 
-	void SetStartAndDestination(PERVec3 start, PERVec3 dest);
-	void FindPath();
-
-	Cell* GetPaths();
-	int GetNumPath() const;
-
-	void ClearPaths();
+	void FindPath(PERVec3 start, PERVec3 dest, Cell* paths, int* numPath);
 
 private: 
+	// 패스 계산
+	void SetStartAndDestination(PERVec3 start, PERVec3 dest);
+	void CalculateParents();
+	void ChangeParentsToPaths(Cell* paths, int* numPath);
+	void Clear();
+
 	// 도착까지 남은 거리 계산
 	int CalulateDistanceFromDest(int ax, int ay);
-	void ChangeParentsToPaths();
-
-	static const int c_MAX_CELL = 100;
-	const double c_CELL_DISTANCE = 0.25;
 
 	// 해당 좌표까지 이동하는 비용
 	int m_costs[3][3] = {
@@ -57,9 +53,9 @@ private:
 	};
 
 	// 해당 좌표를 이미 방문했는 지 여부
-	bool m_alreadyVisited[c_MAX_CELL][c_MAX_CELL];
+	bool m_alreadyVisited[PER_MAX_CELL][PER_MAX_CELL];
 	// 출발지부터 해당 좌표를 거처 도착까지의 추정 거리
-	int m_distanceWithCell[c_MAX_CELL][c_MAX_CELL];
+	int m_distanceWithCell[PER_MAX_CELL][PER_MAX_CELL];
 
 	// 우선순위 큐
 	std::priority_queue<CellData*, std::vector<CellData*>, CellDataCmp> m_priorityQueue;
@@ -70,10 +66,7 @@ private:
 	int m_destXIndexed, m_destYIndexed;
 	
 	// 도착지부터 시작해 처음 지점을 찾기 위한 부모 저장
-	Cell* m_parents[c_MAX_CELL][c_MAX_CELL];
-	// 최종 경로
-	Cell m_paths[c_MAX_CELL];
-	int m_numPath = 0;
+	Cell* m_parents[PER_MAX_CELL][PER_MAX_CELL];
 
 	// 생성, 삭제를 줄이기 위한 저장소
 	std::queue<Cell*> m_cellQueue;

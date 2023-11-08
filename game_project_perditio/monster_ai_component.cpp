@@ -3,24 +3,23 @@
 #include "per_object.h"
 #include "black_board.h"
 
+AStarCalculator* MonsterAiComponent::m_AStarCalculator = new AStarCalculator();
+
 MonsterAiComponent::MonsterAiComponent()
 {
-	m_AStarCalculator = new AStarCalculator();
+	
 }
 
 MonsterAiComponent::~MonsterAiComponent()
 {
-	delete m_AStarCalculator;
+	
 }
 
 void MonsterAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
 {
 	if (!m_isAStarCalculated) {
 		// 플레이어까지 경로 계산
-		m_AStarCalculator->SetStartAndDestination(object.GetPosition(), BlackBoard::GetPlayerPos());
-		m_AStarCalculator->FindPath();
-		m_paths = m_AStarCalculator->GetPaths();
-		m_numPath = m_AStarCalculator->GetNumPath();
+		m_AStarCalculator->FindPath(object.GetPosition(), BlackBoard::GetPlayerPos(), m_paths, &m_numPath);
 		m_currentPathIndex = 0;
 		m_isAStarCalculated = true;
 
@@ -34,7 +33,8 @@ void MonsterAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& au
 	// 플레이어 이동
 	// 위치와 골 계산
 	PERVec3 pos = object.GetPosition();
-	PERVec3 goal = PERVec3((m_paths[m_currentPathIndex].x - 50) * 0.25, (m_paths[m_currentPathIndex].y - 50) * 0.25, pos.z);
+	PERVec3 goal = PERVec3((m_paths[m_currentPathIndex].x - PER_MAX_CELL / 2) * PER_CELL_DISTANCE,
+		(m_paths[m_currentPathIndex].y - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, pos.z);
 
 	// 해당 지점까지 이동시 다음 지점로
 	if ((goal.x - c_PATH_GAP < pos.x) && (pos.x < goal.x + c_PATH_GAP)

@@ -21,8 +21,5 @@ public:
 	NavigationCellType GetCellInfo(int x, int y) const;
 
 private:
-	static const int c_MAX_CELL = 100;
-	const double c_CELL_DISTANCE = 0.25;
-
-	NavigationCellType m_cells[c_MAX_CELL][c_MAX_CELL];
+	NavigationCellType m_cells[PER_MAX_CELL][PER_MAX_CELL];
 };

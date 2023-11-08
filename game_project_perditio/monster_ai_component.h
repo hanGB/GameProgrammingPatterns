@@ -15,11 +15,11 @@ public:
 
 private:
 	// A*를 이용한 경로 계산기
-	AStarCalculator* m_AStarCalculator;
+	static AStarCalculator* m_AStarCalculator;
 
-	// 계산된 경로를 이용하기 위한 변수
+	// 계산된 경로를 저장 밎 이용하기 위한 변수
 	bool m_isAStarCalculated = false;
-	Cell* m_paths = nullptr;
+	Cell m_paths[PER_MAX_CELL * PER_MAX_CELL / 10];
 	int m_numPath = 0;
 	int m_currentPathIndex = 0;
 };

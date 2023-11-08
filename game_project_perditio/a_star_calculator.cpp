@@ -4,18 +4,13 @@
 
 AStarCalculator::AStarCalculator()
 {
-	// 방문 여부 초기화
-	memset(m_alreadyVisited, 0, c_MAX_CELL * c_MAX_CELL * sizeof(bool));
-	// 해당 셀을 포함한 거리 초기화
-	for (int x = 0; x < c_MAX_CELL; ++x) {
-		for (int y = 0; y < c_MAX_CELL; ++y) {
-			m_distanceWithCell[x][y] = INT_MAX;
-		}
-	}
+	Clear();
 }
 
 AStarCalculator::~AStarCalculator()
 {
+	Clear();
+
 	while (!m_cellQueue.empty()) {
 		Cell* cell = m_cellQueue.front();
 		m_cellQueue.pop();
@@ -28,13 +23,25 @@ AStarCalculator::~AStarCalculator()
 	}
 }
 
+void AStarCalculator::FindPath(PERVec3 start, PERVec3 dest, Cell* paths, int* numPath)
+{
+	// 시작 및 도작점 설정
+	SetStartAndDestination(start, dest);
+	// 경로 도출을 위한 부모 목록 계산
+	CalculateParents();
+	// 부모 목록을 실제 경로로 변경
+	ChangeParentsToPaths(paths, numPath);
+	// 초기화
+	Clear();
+}
+
 void AStarCalculator::SetStartAndDestination(PERVec3 start, PERVec3 dest)
 {
 	// 각 좌표를 인덱스화
-	m_startXIndexed = (int)(start.x / c_CELL_DISTANCE) + (c_MAX_CELL / 2);
-	m_startYIndexed = (int)(start.y / c_CELL_DISTANCE) + (c_MAX_CELL / 2);
-	m_destXIndexed = (int)(dest.x / c_CELL_DISTANCE) + (c_MAX_CELL / 2);
-	m_destYIndexed = (int)(dest.y / c_CELL_DISTANCE) + (c_MAX_CELL / 2);
+	m_startXIndexed = (int)(start.x / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
+	m_startYIndexed = (int)(start.y / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
+	m_destXIndexed = (int)(dest.x / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
+	m_destYIndexed = (int)(dest.y / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
 
 	// 추정 거리 저장
 	m_distanceWithCell[m_startXIndexed][m_startYIndexed] = CalulateDistanceFromDest(m_startXIndexed, m_startYIndexed);
@@ -60,7 +67,7 @@ void AStarCalculator::SetStartAndDestination(PERVec3 start, PERVec3 dest)
 	PERLog::Logger().InfoWithFormat("도착점 - %d, %d", m_destXIndexed, m_destYIndexed);
 }
 
-void AStarCalculator::FindPath()
+void AStarCalculator::CalculateParents()
 {
 	while (m_priorityQueue.size() > 0) {
 		CellData* data = m_priorityQueue.top();
@@ -71,9 +78,6 @@ void AStarCalculator::FindPath()
 			m_cellDataQueue.push(data);
 			continue;
 		}
-		
-		//PERLog::Logger().Info("처리되었나?");
-
 		// 방문 처리
 		m_alreadyVisited[data->x][data->y] = true;
 
@@ -92,7 +96,7 @@ void AStarCalculator::FindPath()
 
 				// 다음에 해당 되는 경우 스킵
 				// 맵 크기 밖
-				if (nextX < 0 || nextX > c_MAX_CELL || nextY < 0 || nextY > c_MAX_CELL) continue;
+				if (nextX < 0 || nextX >= PER_MAX_CELL || nextY < 0 || nextY >= PER_MAX_CELL) continue;
 				// 갈 수 없는 곳(땅이 아닌 곳)
 				if (BlackBoard::GetNavigationData().GetCellInfo(nextX, nextY) != NavigationCellType::GROUND) continue;
 				// 이미 방문한 셀
@@ -127,25 +131,42 @@ void AStarCalculator::FindPath()
 			}
 		}
 	}
-
-	ChangeParentsToPaths();
 }
 
-Cell* AStarCalculator::GetPaths()
+void AStarCalculator::ChangeParentsToPaths(Cell* paths, int* numPath)
 {
-	return m_paths;
+	int x = m_destXIndexed, y = m_destYIndexed;
+
+	// 도착지부터 그 지점의 부모를 따라 출발지까지 저장
+	*numPath = 0;
+	while (m_parents[x][y]->x != x || m_parents[x][y]->y != y) {
+		paths[(*numPath)++] = Cell(x, y);
+		// 현재 지점의 부모(그 지점으로 가기 전 지점)로 이동
+		Cell* parent = m_parents[x][y];
+		x = parent->x;
+		y = parent->y;
+	}
+	paths[(*numPath)++] = Cell(x, y);
+
+	// 출발지부터 정렬되도록 역정렬
+	for (int i = 0; i < *numPath / 2; ++i) {
+		Cell temp = paths[*numPath - 1 - i];
+		paths[*numPath - 1 - i] = paths[i];
+		paths[i] = temp;
+	}
 }
 
-int AStarCalculator::GetNumPath() const
+void AStarCalculator::Clear()
 {
-	return m_numPath;
-}
+	// 우선순위 큐에 남은 거 제거
+	while (!m_priorityQueue.empty()) {
+		m_cellDataQueue.push(m_priorityQueue.top());
+		m_priorityQueue.pop();
+	}
 
-void AStarCalculator::ClearPaths()
-{
 	// 부모 목록 초기화
-	for (int x = 0; x < c_MAX_CELL; ++x) {
-		for (int y = 0; y < c_MAX_CELL; ++y) {
+	for (int x = 0; x < PER_MAX_CELL; ++x) {
+		for (int y = 0; y < PER_MAX_CELL; ++y) {
 			if (!m_parents[x][y]) continue;
 			m_cellQueue.push(m_parents[x][y]);
 			m_parents[x][y] = nullptr;
@@ -153,10 +174,10 @@ void AStarCalculator::ClearPaths()
 	}
 
 	// 방문 여부 초기화
-	memset(m_alreadyVisited, 0, c_MAX_CELL * c_MAX_CELL * sizeof(bool));
+	memset(m_alreadyVisited, 0, PER_MAX_CELL * PER_MAX_CELL * sizeof(bool));
 	// 해당 셀을 포함한 거리 초기화
-	for (int x = 0; x < c_MAX_CELL; ++x) {
-		for (int y = 0; y < c_MAX_CELL; ++y) {
+	for (int x = 0; x < PER_MAX_CELL; ++x) {
+		for (int y = 0; y < PER_MAX_CELL; ++y) {
 			m_distanceWithCell[x][y] = INT_MAX;
 		}
 	}
@@ -195,26 +216,4 @@ int AStarCalculator::CalulateDistanceFromDest(int x, int y)
 	}
 
 	return cost;
-}
-
-void AStarCalculator::ChangeParentsToPaths()
-{
-	int x = m_destXIndexed, y = m_destYIndexed;
-
-	// 도착지부터 그 지점의 부모를 따라 출발지까지 저장
-	m_numPath = 0;
-	while (m_parents[x][y]->x != x || m_parents[x][y]->y != y) {
-		m_paths[m_numPath++] = Cell(x, y);
-		Cell* cell = m_parents[x][y];
-		x = cell->x;
-		y = cell->y;
-	}
-	m_paths[m_numPath++] = Cell(x, y);
-
-	// 출발지부터 정렬되도록 역정렬
-	for (int i = 0; i < m_numPath / 2; ++i) {
-		Cell temp = m_paths[m_numPath -1 -i];
-		m_paths[m_numPath -1 - i] = m_paths[i];
-		m_paths[i] = temp;
-	}
 }

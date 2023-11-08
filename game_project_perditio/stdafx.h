@@ -29,6 +29,9 @@
 #include <vector>
 #include <functional>
 
+// 디버깅
+#include <cassert>
+
 // 필요 구조체
 #include "per_vector.h"
 #include "per_stat.h"
@@ -74,6 +77,10 @@
 
 // 이벤트
 #define PER_DEFAULT_MAX_EVENT_PENDING  512
+
+// 네비게이션 데이터
+#define PER_CELL_DISTANCE	0.25
+#define PER_MAX_CELL		100
 
 // 시간
 // 최대 라이프 타임(100년)
