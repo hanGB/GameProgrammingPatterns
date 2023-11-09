@@ -343,7 +343,7 @@ void PERWorld::AddOtherObject()
 	}
 	// a스타 알고리즘 테스트
 	AStarCalculator* astar = new AStarCalculator();
-	Cell paths[PER_MAX_CELL * PER_MAX_CELL / 10];
+	PERVec3 paths[PER_MAX_CELL * PER_MAX_CELL / 10];
 	int numPath;
 	astar->FindPath(PERVec3(3.0, 3.0, 0.0), m_gameMode->GetPlayer().GetPosition(), paths, &numPath);
 	PERObject* pathObject;
@@ -354,8 +354,7 @@ void PERWorld::AddOtherObject()
 
 	for (int i = 0; i < numPath; ++i) {
 		pathObject = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-		pathObject->SetPosition(PERVec3((paths[i].x - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, 
-			(paths[i].y - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, 2.0));
+		pathObject->SetPosition(PERVec3(paths[i].x, paths[i].y, 2.0));
 		pathObject->SetSize(PERVec3(PER_CELL_DISTANCE, PER_CELL_DISTANCE, 1.0));
 
 		// 모양, 색상 설정
@@ -372,8 +371,7 @@ void PERWorld::AddOtherObject()
 
 	for (int i = 0; i < numPath; ++i) {
 		pathObject = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-		pathObject->SetPosition(PERVec3((paths[i].x - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, 
-	 (paths[i].y - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, 2.0));
+		pathObject->SetPosition(PERVec3(paths[i].x, paths[i].y, 2.0));
 		pathObject->SetSize(PERVec3(PER_CELL_DISTANCE, PER_CELL_DISTANCE, 1.0));
 
 		// 모양, 색상 설정
@@ -390,8 +388,7 @@ void PERWorld::AddOtherObject()
 
 	for (int i = 0; i < numPath; ++i) {
 		pathObject = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-		pathObject->SetPosition(PERVec3((paths[i].x - PER_MAX_CELL / 2) * PER_CELL_DISTANCE,
-			(paths[i].y - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, 2.0));
+		pathObject->SetPosition(PERVec3(paths[i].x, paths[i].y, 2.0));
 		pathObject->SetSize(PERVec3(PER_CELL_DISTANCE, PER_CELL_DISTANCE, 1.0));
 
 		// 모양, 색상 설정
@@ -408,8 +405,7 @@ void PERWorld::AddOtherObject()
 
 	for (int i = 0; i < numPath; ++i) {
 		pathObject = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-		pathObject->SetPosition(PERVec3((paths[i].x - PER_MAX_CELL / 2) * PER_CELL_DISTANCE,
-			(paths[i].y - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, 2.0));
+		pathObject->SetPosition(PERVec3(paths[i].x, paths[i].y, 2.0));
 		pathObject->SetSize(PERVec3(PER_CELL_DISTANCE, PER_CELL_DISTANCE, 1.0));
 
 		// 모양, 색상 설정

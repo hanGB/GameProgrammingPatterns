@@ -33,13 +33,13 @@ public:
 	AStarCalculator();
 	~AStarCalculator();
 
-	void FindPath(PERVec3 start, PERVec3 dest, Cell* paths, int* numPath);
+	void FindPath(PERVec3 start, PERVec3 dest, PERVec3* paths, int* numPath);
 
 private: 
 	// 패스 계산
 	void SetStartAndDestination(PERVec3 start, PERVec3 dest);
 	void CalculateParents();
-	void ChangeParentsToPaths(Cell* paths, int* numPath);
+	void ChangeParentsToPaths(PERVec3* paths, int* numPath);
 	void Clear();
 
 	// 도착까지 남은 거리 계산

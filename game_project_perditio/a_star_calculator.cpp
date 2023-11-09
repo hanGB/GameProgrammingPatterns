@@ -23,7 +23,7 @@ AStarCalculator::~AStarCalculator()
 	}
 }
 
-void AStarCalculator::FindPath(PERVec3 start, PERVec3 dest, Cell* paths, int* numPath)
+void AStarCalculator::FindPath(PERVec3 start, PERVec3 dest, PERVec3* paths, int* numPath)
 {
 	// 시작 및 도작점 설정
 	SetStartAndDestination(start, dest);
@@ -101,6 +101,13 @@ void AStarCalculator::CalculateParents()
 				if (BlackBoard::GetNavigationData().GetCellInfo(nextX, nextY) != NavigationCellType::GROUND) continue;
 				// 이미 방문한 셀
 				if (m_alreadyVisited[nextX][nextY]) continue;
+				// 대각선으로 갈 수 없는 경우(이동하면서 지나가는 지점이 땅이 아님)
+				if (m_costs[x + 1][y + 1] == 14)
+				{
+					// x, y 중 둘 중 하나가 0일 경우의 칸이 땅이 아닌 경우 스킵
+					if (BlackBoard::GetNavigationData().GetCellInfo(nextX, data->y) != NavigationCellType::GROUND) continue;
+					if (BlackBoard::GetNavigationData().GetCellInfo(data->x, nextY) != NavigationCellType::GROUND) continue;
+				}
 
 				// 가는 거리(비용) 계산
 				int g = data->g + m_costs[x + 1][y + 1];
@@ -133,24 +140,24 @@ void AStarCalculator::CalculateParents()
 	}
 }
 
-void AStarCalculator::ChangeParentsToPaths(Cell* paths, int* numPath)
+void AStarCalculator::ChangeParentsToPaths(PERVec3* paths, int* numPath)
 {
 	int x = m_destXIndexed, y = m_destYIndexed;
 
 	// 도착지부터 그 지점의 부모를 따라 출발지까지 저장
 	*numPath = 0;
 	while (m_parents[x][y]->x != x || m_parents[x][y]->y != y) {
-		paths[(*numPath)++] = Cell(x, y);
+		paths[(*numPath)++] = BlackBoard::GetNavigationData().ChangeCellToWorldPosition(x, y);
 		// 현재 지점의 부모(그 지점으로 가기 전 지점)로 이동
 		Cell* parent = m_parents[x][y];
 		x = parent->x;
 		y = parent->y;
 	}
-	paths[(*numPath)++] = Cell(x, y);
+	paths[(*numPath)++] = BlackBoard::GetNavigationData().ChangeCellToWorldPosition(x, y);
 
 	// 출발지부터 정렬되도록 역정렬
 	for (int i = 0; i < *numPath / 2; ++i) {
-		Cell temp = paths[*numPath - 1 - i];
+		PERVec3 temp = paths[*numPath - 1 - i];
 		paths[*numPath - 1 - i] = paths[i];
 		paths[i] = temp;
 	}

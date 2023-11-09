@@ -97,8 +97,9 @@ void NavigationData::RenderOutData(PERRenderer& renderer)
 			else if (GetCellInfo(x, y) == NavigationCellType::WALL) color = PERColor(255, 0, 255);
 			else continue;
 
-	renderer.RenderShapeInWorldCoordinate(PERShapeType::ELLIPSE, 
-		PERVec3((x - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, (y - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, 2.0), 
+		PERVec3 position = ChangeCellToWorldPosition(x, y);
+		renderer.RenderShapeInWorldCoordinate(PERShapeType::ELLIPSE, 
+		PERVec3(position.x, position.y, 2.0),
 		PERVec3(0.1, 0.1, 1.0), color);
 		}
 	}
@@ -107,4 +108,9 @@ void NavigationData::RenderOutData(PERRenderer& renderer)
 NavigationCellType NavigationData::GetCellInfo(int x, int y) const
 {
 	return m_cells[x][y];
+}
+
+inline PERVec3 NavigationData::ChangeCellToWorldPosition(int cellX, int cellY)
+{
+	return PERVec3((cellX - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, (cellY - PER_MAX_CELL / 2) * PER_CELL_DISTANCE, -1.0);
 }

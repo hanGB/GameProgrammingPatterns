@@ -22,6 +22,8 @@ public:
 	void RenderOutData(PERRenderer& renderer);
 
 	NavigationCellType GetCellInfo(int x, int y) const;
+	// ¼¿À» ¿ùµå ÁÂÇ¥·Î º¯°æ
+	PERVec3 ChangeCellToWorldPosition(int cellX, int cellY);
 
 private:
 	NavigationCellType m_cells[PER_MAX_CELL][PER_MAX_CELL];

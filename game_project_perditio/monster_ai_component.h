@@ -19,7 +19,7 @@ private:
 
 	// 계산된 경로를 저장 밎 이용하기 위한 변수
 	bool m_isAStarCalculated = false;
-	Cell m_paths[PER_MAX_CELL * PER_MAX_CELL / 10];
+	PERVec3 m_paths[PER_MAX_CELL * PER_MAX_CELL / 10];
 	int m_numPath = 0;
 	int m_currentPathIndex = 0;
 };
