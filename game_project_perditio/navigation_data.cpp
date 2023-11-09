@@ -31,8 +31,8 @@ void NavigationData::SetCells(std::vector<PERObject*>& objects, int numObject)
 		case -1:
 		{
 			// 땅 취급
-			for (double x = pos.x - size.x / 2; x < pos.x + size.x / 2; x += PER_CELL_DISTANCE) {
-				for (double y = pos.y - size.y / 2; y < pos.y + size.y / 2; y += PER_CELL_DISTANCE) {
+			for (double x = pos.x - size.x / 2; x < pos.x + size.x / 2 + PER_CELL_DISTANCE; x += PER_CELL_DISTANCE) {
+				for (double y = pos.y - size.y / 2; y < pos.y + size.y / 2 + PER_CELL_DISTANCE; y += PER_CELL_DISTANCE) {
 					if (x < 0.0) indexX = (PER_MAX_CELL / 2) + (int)(x / PER_CELL_DISTANCE);
 					else indexX = (int)(x / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
 					
@@ -50,8 +50,8 @@ void NavigationData::SetCells(std::vector<PERObject*>& objects, int numObject)
 		case 0:
 		{
 			// 벽 취급
-			for (double x = pos.x - size.x / 2; x < pos.x + size.x / 2; x += PER_CELL_DISTANCE) {
-				for (double y = pos.y - size.y / 2; y < pos.y + size.y / 2; y += PER_CELL_DISTANCE) {
+			for (double x = pos.x - size.x / 2; x < pos.x + size.x / 2 + PER_CELL_DISTANCE; x += PER_CELL_DISTANCE) {
+				for (double y = pos.y - size.y / 2; y < pos.y + size.y / 2 + PER_CELL_DISTANCE; y += PER_CELL_DISTANCE) {
 					if (x < 0.0) indexX = (PER_MAX_CELL / 2) + (int)(x / PER_CELL_DISTANCE);
 					else indexX = (int)(x / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
 

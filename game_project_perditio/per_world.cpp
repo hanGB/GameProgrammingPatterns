@@ -291,8 +291,8 @@ void PERWorld::AddFixedAndPhysicalObject()
 
 	PERObject* wall;
 	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(1.0, 0.0, 1.0));
-	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
+	wall->SetPosition(PERVec3(1.0, 0.0, 0.0));
+	wall->SetSize(PERVec3(1.0, 6.0, 1.0));
 	AddObject(wall);
 
 	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
@@ -419,7 +419,7 @@ void PERWorld::AddOtherObject()
 	delete astar;
 
 
-	PERObject* block;
+	/*PERObject* block;
 	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(3.0, 1.0, 0.0));
 	AddObject(block);
@@ -434,7 +434,7 @@ void PERWorld::AddOtherObject()
 
 	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(1.0, -3.0, 0.0));
-	AddObject(block);
+	AddObject(block);*/
 }
 
 void PERWorld::UpdateSortedObjects()
