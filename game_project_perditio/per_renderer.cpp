@@ -276,7 +276,7 @@ PERVec2 PERRenderer::ConvertWorldCoordinateOpenGLToWindows(PERVec2 pos)
 	pos.x -= m_cameraPosition.x;
 	pos.x += m_cameraSightWidth / 2.0;
 	pos.x *= widthSizePerMeter;
-	pos.y -= m_cameraPosition.y;
+	pos.y += m_cameraPosition.y;
 	pos.y += cameraSightHeight / 2.0;
 	pos.y *= heightSizePerMeter;
 

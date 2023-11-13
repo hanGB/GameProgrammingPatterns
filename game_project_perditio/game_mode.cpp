@@ -50,6 +50,14 @@ void GameMode::Update()
     BlackBoard::SetPlayerPos(m_player->GetPosition());
 }
 
+void GameMode::UpdateCamera(PERRenderer& renderer, double frameGap)
+{
+    PERVec3 pos = m_player->GetPosition();
+    PERVec3 gap = m_player->GetVelocity() * frameGap * ((double)PER_MICROSEC_PER_UPDATE / 1'000'000.0);;
+
+    renderer.SetCameraPosition(PERVec2(pos.x + gap.x, pos.y + gap.y));
+}
+
 PERHud& GameMode::GetHud()
 {
 	return *m_hud;

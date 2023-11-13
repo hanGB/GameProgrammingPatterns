@@ -5,7 +5,7 @@ class PERHud;
 class GameState;
 class PERObject;
 class ObjectState;
-
+class PERRenderer;
 
 class GameMode {
 public:
@@ -15,6 +15,7 @@ public:
 	void StartUse();
 	void EndUse();
 	void Update();
+	void UpdateCamera(PERRenderer& renderer, double frameGap);
 
 	PERHud& GetHud();
 	GameState& GetGameState();

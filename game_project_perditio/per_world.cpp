@@ -286,18 +286,18 @@ void PERWorld::AddFixedAndPhysicalObject()
 	PERObject* ground;
 	ground = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
 	ground->SetPosition(PERVec3(0.0, 0.0, -1.0));
-	ground->SetSize(PERVec3(10.0, 10.0, 1.0));
+	ground->SetSize(PERVec3(15.0, 20.0, 1.0));
 	AddObject(ground);
 
 	PERObject* wall;
 	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(1.0, 0.0, 0.0));
-	wall->SetSize(PERVec3(1.0, 6.0, 1.0));
+	wall->SetPosition(PERVec3(1.0, 0.0, 1.1));
+	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
 	AddObject(wall);
 
 	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(-1.0, 0.0, 0.0));
-	wall->SetSize(PERVec3(1.0, 5.0, 1.0));
+	wall->SetPosition(PERVec3(-1.0, 0.0, 1.1));
+	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
 	AddObject(wall);
 
 	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
@@ -341,85 +341,8 @@ void PERWorld::AddOtherObject()
 			AddObject(monster);
 		}
 	}
-	// a스타 알고리즘 테스트
-	AStarCalculator* astar = new AStarCalculator();
-	PERVec3 paths[PER_MAX_CELL * PER_MAX_CELL / 10];
-	int numPath;
-	astar->FindPath(PERVec3(3.0, 3.0, 0.0), m_gameMode->GetPlayer().GetPosition(), paths, &numPath);
-	PERObject* pathObject;
-	PERComponent::GraphicsData pathObjectGData;
-	pathObjectGData.shape = PERShapeType::ELLIPSE;
-
-	PERLog::Logger().InfoWithFormat("패스 수: %d", numPath);
-
-	for (int i = 0; i < numPath; ++i) {
-		pathObject = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-		pathObject->SetPosition(PERVec3(paths[i].x, paths[i].y, 2.0));
-		pathObject->SetSize(PERVec3(PER_CELL_DISTANCE, PER_CELL_DISTANCE, 1.0));
-
-		// 모양, 색상 설정
-		GraphicsComponent* graphics = &pathObject->GetGraphics();
-		pathObjectGData.color = PERColor(255, 255, 0);
-		graphics->SetData(pathObjectGData);
-
-		AddObject(pathObject);
-	}
-
-	astar->FindPath(PERVec3(3.0, -3.0, 0.0), m_gameMode->GetPlayer().GetPosition(), paths, &numPath);
-
-	PERLog::Logger().InfoWithFormat("패스 수: %d", numPath);
-
-	for (int i = 0; i < numPath; ++i) {
-		pathObject = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-		pathObject->SetPosition(PERVec3(paths[i].x, paths[i].y, 2.0));
-		pathObject->SetSize(PERVec3(PER_CELL_DISTANCE, PER_CELL_DISTANCE, 1.0));
-
-		// 모양, 색상 설정
-		GraphicsComponent* graphics = &pathObject->GetGraphics();
-		pathObjectGData.color = PERColor(255, 0, 255);
-		graphics->SetData(pathObjectGData);
-
-		AddObject(pathObject);
-	}
-
-	astar->FindPath(PERVec3(-3.0, -3.0, 0.0), m_gameMode->GetPlayer().GetPosition(), paths, &numPath);
-
-	PERLog::Logger().InfoWithFormat("패스 수: %d", numPath);
-
-	for (int i = 0; i < numPath; ++i) {
-		pathObject = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-		pathObject->SetPosition(PERVec3(paths[i].x, paths[i].y, 2.0));
-		pathObject->SetSize(PERVec3(PER_CELL_DISTANCE, PER_CELL_DISTANCE, 1.0));
-
-		// 모양, 색상 설정
-		GraphicsComponent* graphics = &pathObject->GetGraphics();
-		pathObjectGData.color = PERColor(255, 0, 125);
-		graphics->SetData(pathObjectGData);
-
-		AddObject(pathObject);
-	}
-
-	astar->FindPath(PERVec3(-3.0, 3.0, 0.0), m_gameMode->GetPlayer().GetPosition(), paths, &numPath);
-
-	PERLog::Logger().InfoWithFormat("패스 수: %d", numPath);
-
-	for (int i = 0; i < numPath; ++i) {
-		pathObject = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-		pathObject->SetPosition(PERVec3(paths[i].x, paths[i].y, 2.0));
-		pathObject->SetSize(PERVec3(PER_CELL_DISTANCE, PER_CELL_DISTANCE, 1.0));
-
-		// 모양, 색상 설정
-		GraphicsComponent* graphics = &pathObject->GetGraphics();
-		pathObjectGData.color = PERColor(125, 0, 255);
-		graphics->SetData(pathObjectGData);
-
-		AddObject(pathObject);
-	}
-
-	delete astar;
-
-
-	/*PERObject* block;
+	
+	PERObject* block;
 	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(3.0, 1.0, 0.0));
 	AddObject(block);
@@ -434,7 +357,7 @@ void PERWorld::AddOtherObject()
 
 	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(1.0, -3.0, 0.0));
-	AddObject(block);*/
+	AddObject(block);
 }
 
 void PERWorld::UpdateSortedObjects()
@@ -451,6 +374,12 @@ void PERWorld::UpdateSortedObjects()
 		});
 
 	m_isUpdateSortedObject = true;
+}
+
+void PERWorld::UpdateCamera(PERRenderer& renderer, double frameGap)
+{
+	// 게임 모드에 따라 카메라 업데이트
+	m_gameMode->UpdateCamera(renderer, frameGap);
 }
 
 void PERWorld::ResizePedingArray()

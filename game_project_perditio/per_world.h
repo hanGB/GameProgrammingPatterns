@@ -37,6 +37,7 @@ public:
 	void ObjectsGraphicsUpdate(PERAudio& audio, double dTime);
 
 	void UpdateSortedObjects();
+	void UpdateCamera(PERRenderer& renderer, double frameGap);
 
 	void Render(PERRenderer& renderer, double frameGap);
 	void UIRender(PERRenderer& renderer);

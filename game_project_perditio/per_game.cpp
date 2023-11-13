@@ -89,7 +89,10 @@ void PERGame::Update(int time)
 	m_frameGap = (double)m_updateLag / (double)PER_MICROSEC_PER_UPDATE;
 	m_currentWorld->ObjectsGraphicsUpdate(*m_audio, dTime);
 
+	// 오브젝트 정렬
 	m_currentWorld->UpdateSortedObjects();
+	// 카메라 업데이트
+	m_currentWorld->UpdateCamera(*m_renderer, m_frameGap);
 
 	// 업데이트 끝 완료
 	m_isUpdateEnd = true;
@@ -117,7 +120,7 @@ void PERGame::Render(HWND hWnd)
 		m_currentWorld->Render(*m_renderer, m_frameGap);
 
 		// 네비게이션 데이터 테스트용
-		BlackBoard::GetNavigationData().RenderOutData(*m_renderer);
+		//BlackBoard::GetNavigationData().RenderOutData(*m_renderer);
 
 		m_isRenderEnd = true;
 	}
