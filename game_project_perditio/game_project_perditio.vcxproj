@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="a_star_calculator.h" />
+    <ClInclude Include="behavior_tree.h" />
     <ClInclude Include="black_board.h" />
     <ClInclude Include="cs_provider.h" />
     <ClInclude Include="event_dispatcher.h" />
@@ -192,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="a_star_calculator.cpp" />
+    <ClCompile Include="behavior_tree.cpp" />
     <ClCompile Include="black_board.cpp" />
     <ClCompile Include="event_dispatcher.cpp" />
     <ClCompile Include="game_mode.cpp" />

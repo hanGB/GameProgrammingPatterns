@@ -63,8 +63,8 @@ void AStarCalculator::SetStartAndDestination(PERVec3 start, PERVec3 dest)
 	m_parents[m_startXIndexed][m_startYIndexed]->SetData(m_startXIndexed, m_startYIndexed);
 	m_cellQueue.pop();
 
-	PERLog::Logger().InfoWithFormat("시작점 - %d, %d", m_startXIndexed, m_startYIndexed);
-	PERLog::Logger().InfoWithFormat("도착점 - %d, %d", m_destXIndexed, m_destYIndexed);
+	//PERLog::Logger().InfoWithFormat("시작점 - %d, %d", m_startXIndexed, m_startYIndexed);
+	//PERLog::Logger().InfoWithFormat("도착점 - %d, %d", m_destXIndexed, m_destYIndexed);
 }
 
 void AStarCalculator::CalculateParents()

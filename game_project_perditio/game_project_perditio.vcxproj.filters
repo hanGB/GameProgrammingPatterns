@@ -109,6 +109,9 @@
     <Filter Include="06. ai\path_finding\a_star">
       <UniqueIdentifier>{8e48377b-bdbe-4cac-822b-4a5c59404cf5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. ai\behavior_tree">
+      <UniqueIdentifier>{d69dc6ed-6e45-4fb2-a4a5-a420d16720f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -249,6 +252,9 @@
     <ClInclude Include="monster_ai_component.h">
       <Filter>00. game\object\component\implements\ai</Filter>
     </ClInclude>
+    <ClInclude Include="behavior_tree.h">
+      <Filter>06. ai\behavior_tree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -349,6 +355,9 @@
     </ClCompile>
     <ClCompile Include="monster_ai_component.cpp">
       <Filter>00. game\object\component\implements\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree.cpp">
+      <Filter>06. ai\behavior_tree</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

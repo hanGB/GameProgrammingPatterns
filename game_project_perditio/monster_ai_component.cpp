@@ -7,31 +7,66 @@ AStarCalculator* MonsterAiComponent::m_AStarCalculator = new AStarCalculator();
 
 MonsterAiComponent::MonsterAiComponent()
 {
-	
+	InitBehaviorTree();
 }
 
 MonsterAiComponent::~MonsterAiComponent()
 {
-	
+	delete m_behaviorTree;
 }
 
 void MonsterAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
 {
-	if (!m_isAStarCalculated) {
-		// 플레이어까지 경로 계산
-		m_AStarCalculator->FindPath(object.GetPosition(), BlackBoard::GetPlayerPos(), m_paths, &m_numPath);
-		m_currentPathIndex = 0;
-		m_isAStarCalculated = true;
+	m_behaviorTree->Run(object, dTime);
+}
 
-		// 첫 번째는 현 위치임으로 두 번째 위치부터 목표하도록 설정
-		m_currentPathIndex++;
-	}
+void MonsterAiComponent::SetData(PERComponent::AiData data)
+{
+}
 
-	// 도착했을 경우 아무것도 안함
-	if (m_currentPathIndex >= m_numPath) return;
+void MonsterAiComponent::InitBehaviorTree()
+{
+	LeafNode<MonsterAiComponent>* findPlayerPositionNode 
+		= new LeafNode<MonsterAiComponent>("플레이어 찾기", &MonsterAiComponent::FindPlayerPosition, *this);
+	LeafNode<MonsterAiComponent>* calculatePathNode
+		= new LeafNode<MonsterAiComponent>("길 계산", &MonsterAiComponent::CalculatePath, *this);
+	LeafNode<MonsterAiComponent>* moveToLastPlayerPositionNode 
+		= new LeafNode<MonsterAiComponent>("마지막 플레이어 위치로 이동", &MonsterAiComponent::MoveToLastPlayerPosition, *this);
+	LeafNode<MonsterAiComponent>* doNothingNode 
+		= new LeafNode<MonsterAiComponent>("아무것도 안하기", &MonsterAiComponent::DoNothing, *this);
 
-	// 플레이어 이동
-	// 위치와 골 계산
+	SequencerNode* MoveToPlayerSequnce = new SequencerNode("플레이어로 이동");
+	MoveToPlayerSequnce->AddChild(findPlayerPositionNode);
+	MoveToPlayerSequnce->AddChild(calculatePathNode);
+	MoveToPlayerSequnce->AddChild(moveToLastPlayerPositionNode);
+	MoveToPlayerSequnce->AddChild(doNothingNode);
+
+	m_behaviorTree = new BehaviorTree("몬스터 행동 트리", MoveToPlayerSequnce);
+}
+
+PERBehaviorResult MonsterAiComponent::FindPlayerPosition(PERObject& object, double dTime)
+{
+	// 실제로는 플레이어가 볼 수 있는 위치에 있는 지 확인하는 절차 필요
+	m_lastPlayerPosition = BlackBoard::GetPlayerPos();
+
+	return PERBehaviorResult::SUCCESS;
+}
+
+PERBehaviorResult MonsterAiComponent::CalculatePath(PERObject& object, double dTime)
+{
+	m_AStarCalculator->FindPath(object.GetPosition(), m_lastPlayerPosition, m_paths, &m_numPath);
+	m_currentPathIndex = 0;
+	m_currentPathIndex++;
+
+	return PERBehaviorResult::SUCCESS;
+}
+
+PERBehaviorResult MonsterAiComponent::MoveToLastPlayerPosition(PERObject& object, double dTime)
+{
+	// 도착했을 경우 성공으로
+	if (m_currentPathIndex >= m_numPath) return PERBehaviorResult::SUCCESS;
+
+
 	PERVec3 pos = object.GetPosition();
 	PERVec3 goal = m_paths[m_currentPathIndex];
 
@@ -41,7 +76,7 @@ void MonsterAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& au
 	{
 		m_currentPathIndex++;
 		object.SetVelocity(PERVec3(0.0, 0.0, 0.0));
-		return;
+		return PERBehaviorResult::RUNNING;
 	}
 
 	// 해당 지점 방향으로 이동을 위한 속도 계산
@@ -52,8 +87,11 @@ void MonsterAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& au
 	vel.y = sin(angle) * c_DEFAULT_VELOCITY;
 
 	object.SetVelocity(vel);
+
+	return PERBehaviorResult::RUNNING;
 }
 
-void MonsterAiComponent::SetData(PERComponent::AiData data)
+PERBehaviorResult MonsterAiComponent::DoNothing(PERObject& object, double dTime)
 {
+	return PERBehaviorResult::SUCCESS;
 }
