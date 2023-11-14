@@ -82,3 +82,6 @@ struct PERColor {
 	PERColor(unsigned char r, unsigned char g, unsigned char b) : r(r), g(g), b(b) {}
 	PERColor(const PERColor& copy) : r(copy.r), g(copy.g), b(copy.b) {}
 };
+
+// 벡터 계산에 필요한 함수
+double DistanceSquareAandB(PERVec3 a, PERVec3 b);

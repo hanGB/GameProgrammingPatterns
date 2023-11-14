@@ -32,6 +32,11 @@ int ObjectState::GetCurrentMind() const
 	return m_currentMind;
 }
 
+PERVec3 ObjectState::GetSpawnPosition() const
+{
+	return m_spawnPosition;
+}
+
 void ObjectState::SetStat(PERStat stat)
 {
 	m_stat = stat;
@@ -47,6 +52,11 @@ void ObjectState::SetIsHasCollisionDamage(bool damage)
 void ObjectState::SetIsImmortal(bool immortal)
 {
 	m_isImmortal = immortal;
+}
+
+void ObjectState::SetSpawnPosition(PERVec3 position)
+{
+	m_spawnPosition = position;
 }
 
 bool ObjectState::GiveDamage(PERObject& object, short physical, short mind)

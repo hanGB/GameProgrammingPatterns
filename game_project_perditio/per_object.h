@@ -64,6 +64,9 @@ public:
 
 	void SetCollidedObject(PERObject* object, PERVec3 collidedMomentVel);
 
+	// 현재 위치를 스폰 위치로 설정
+	void SetCurrentPositionToSpawnPosition();
+
 	static const int c_MAXIMUM_XY_VELOCITY = 3;
 
 private:

@@ -193,3 +193,8 @@ void PERObject::SetCollidedObject(PERObject* object, PERVec3 collidedMomentVel)
 	m_collidedObject = object;
 	m_collidedMomentVelocity = collidedMomentVel;
 }
+
+void PERObject::SetCurrentPositionToSpawnPosition()
+{
+	m_objectState->SetSpawnPosition(m_position);
+}

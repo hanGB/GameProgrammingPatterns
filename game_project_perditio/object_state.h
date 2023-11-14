@@ -16,20 +16,27 @@ public:
 	int GetCollisionDamage() const;
 	int GetCurrentBody() const;
 	int GetCurrentMind() const;
+	PERVec3 GetSpawnPosition() const;
 
 	void SetStat(PERStat stat);
 	void SetIsHasCollisionDamage(bool damage);
 	void SetIsImmortal(bool immortal);
+	void SetSpawnPosition(PERVec3 position);
 	
 	// 상태 변화
 	virtual bool GiveDamage(PERObject& object, short physical, short mind);
 	virtual bool UseMind(PERObject& object, int mind);
 
 protected:
+	// 스탯
 	PERStat m_stat;
 	int m_currentBody;
 	int m_currentMind;
 
+	// 기본 정보
 	bool m_isHasCollsionDamage = false;
 	bool m_isImmortal = false;
+
+	// 스폰 위치
+	PERVec3 m_spawnPosition = PERVec3(0.0, 0.0, 0.0);
 };

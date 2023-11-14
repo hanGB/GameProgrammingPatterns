@@ -205,6 +205,7 @@
     <ClCompile Include="object_pool.cpp" />
     <ClCompile Include="object_state.cpp" />
     <ClCompile Include="per_hud.cpp" />
+    <ClCompile Include="per_vector.cpp" />
     <ClCompile Include="player_input_component.cpp" />
     <ClCompile Include="player_state.cpp" />
     <ClCompile Include="progress_bar.cpp" />

@@ -359,5 +359,8 @@
     <ClCompile Include="behavior_tree.cpp">
       <Filter>06. ai\behavior_tree</Filter>
     </ClCompile>
+    <ClCompile Include="per_vector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -87,6 +87,7 @@ void PERWorld::UIRender(PERRenderer& renderer)
 void PERWorld::Enter()
 {
 	m_gameMode->GetPlayer().SetPosition(PERVec3(0.0, 0.0, 0.0));
+	m_gameMode->GetPlayer().SetCurrentPositionToSpawnPosition();
 	AddObject(&m_gameMode->GetPlayer());
 
 	InitWorldObject();
@@ -338,6 +339,7 @@ void PERWorld::AddOtherObject()
 		for (double y = -3.0; y <= 3.0; y += 6.0) {
 			monster = m_objectPool->PopObject(PERObjectType::MONSTER);
 			monster->SetPosition(PERVec3(x, y, 0.0));
+			monster->SetCurrentPositionToSpawnPosition();
 			AddObject(monster);
 		}
 	}

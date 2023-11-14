@@ -12,17 +12,24 @@ public:
 	virtual void SetData(PERComponent::AiData data);
 
 	const double c_DEFAULT_VELOCITY = 2.0;
-	const double c_PATH_GAP = 0.05;
+	const double c_PATH_GAP_2 = 0.05 * 0.05;
+	const double c_WANDER_SPEED = 0.5;
 
 private:
 	// 행동 트리 생성
 	void InitBehaviorTree();
 
 	// 행동 트리 함수
-	PERBehaviorResult FindPlayerPosition(PERObject& object, double dTime);
+	// 플레이어한테 이동
+	PERBehaviorResult FindPlayerPositionAndSetDestination(PERObject& object, double dTime);
 	PERBehaviorResult CalculatePath(PERObject& object, double dTime);
-	PERBehaviorResult MoveToLastPlayerPosition(PERObject& object, double dTime);
+	PERBehaviorResult MoveToDestination(PERObject& object, double dTime);
 	PERBehaviorResult DoNothing(PERObject& object, double dTime);
+	// 스폰 위치로 이동
+	PERBehaviorResult SetDestinationToSpawnPosition(PERObject& object, double dTime);
+	// 배회
+	PERBehaviorResult MoveToWanderPosition(PERObject& object, double dTime);
+	PERBehaviorResult SetWanderPosition(PERObject& object, double dTime);
 
 	// 행동 트리
 	BehaviorTree* m_behaviorTree;
@@ -30,8 +37,11 @@ private:
 	// A*를 이용한 경로 계산기
 	static AStarCalculator* m_AStarCalculator;
 
-	// 마지막으로 발견된 플레이어 위치
-	PERVec3 m_lastPlayerPosition;
+	// 도착지
+	PERVec3 m_destination;
+	// 배회 각도 및 위치
+	double m_wanderAngle = 0.0;
+	PERVec3 m_wanderPosition;
 
 	// 계산된 경로를 저장 밎 이용하기 위한 변수
 	bool m_isAStarCalculated = false;
