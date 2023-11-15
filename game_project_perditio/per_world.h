@@ -61,6 +61,9 @@ private:
 	// 오브젝트 추가
 	void AddFixedAndPhysicalObject();
 	void AddOtherObject();
+	// 오브젝트 색상 모양 설정
+	void SetObjectShapeAndColor(PERObject* object, PERShapeType shape, PERColor color, 
+		bool border = true, int borderWidth = 1, PERColor borderColor = PERColor(0, 0, 0));
 
 	void DoGarbegeCollection(double dTime);
 	void ProcessPendingMessage();

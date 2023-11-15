@@ -28,7 +28,7 @@ void NavigationData::SetCells(std::vector<PERObject*>& objects, int numObject)
 		int indexX, indexY;
 
 		switch ((int)pos.z) {
-		case -1:
+		case PER_PLATFORM_Z_VALUE:
 		{
 			// 땅 취급
 			for (double x = pos.x - size.x / 2; x < pos.x + size.x / 2 + PER_CELL_DISTANCE; x += PER_CELL_DISTANCE) {
@@ -47,7 +47,7 @@ void NavigationData::SetCells(std::vector<PERObject*>& objects, int numObject)
 
 		}
 		break;
-		case 0:
+		case PER_NORAML_OBJECT_Z_VALUE:
 		{
 			// 벽 취급
 			for (double x = pos.x - size.x / 2; x < pos.x + size.x / 2 + PER_CELL_DISTANCE; x += PER_CELL_DISTANCE) {
@@ -63,7 +63,7 @@ void NavigationData::SetCells(std::vector<PERObject*>& objects, int numObject)
 			}
 		}
 		break;
-		case 1:
+		case PER_ROOF_Z_VALUE:
 		{
 			// 위에 있는 물체로 아무것도 안함
 		}
