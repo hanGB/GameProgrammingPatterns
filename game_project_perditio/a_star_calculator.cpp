@@ -2,6 +2,8 @@
 #include "a_star_calculator.h"
 #include "black_board.h"
 
+using namespace AStar;
+
 AStarCalculator::AStarCalculator()
 {
 	Clear();

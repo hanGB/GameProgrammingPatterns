@@ -1,32 +1,34 @@
 #pragma once
 #include <queue>
 
-struct CellData {
-	int x;
-	int y;
-	int f;
-	int g;
+namespace AStar {
+	struct CellData {
+		int x;
+		int y;
+		int f;
+		int g;
 
-};
+	};
 
-struct CellDataCmp {
-	bool operator()(CellData* a, CellData* b) {
-		return a->f > b->f;
-	}
-};
+	struct CellDataCmp {
+		bool operator()(CellData* a, CellData* b) {
+			return a->f > b->f;
+		}
+	};
 
-struct Cell {
-	Cell() {}
-	Cell(int x, int y) : x(x), y(y) {}
+	struct Cell {
+		Cell() {}
+		Cell(int x, int y) : x(x), y(y) {}
 
-	void SetData(int x, int y) {
-		this->x = x;
-		this->y = y;
-	}
+		void SetData(int x, int y) {
+			this->x = x;
+			this->y = y;
+		}
 
-	int x;
-	int y;
-};
+		int x;
+		int y;
+	};
+}
 
 class AStarCalculator {
 public:
@@ -58,7 +60,7 @@ private:
 	int m_distanceWithCell[PER_MAX_CELL][PER_MAX_CELL];
 
 	// 우선순위 큐
-	std::priority_queue<CellData*, std::vector<CellData*>, CellDataCmp> m_priorityQueue;
+	std::priority_queue<AStar::CellData*, std::vector<AStar::CellData*>, AStar::CellDataCmp> m_priorityQueue;
 
 	// 출발 지점 좌표
 	int m_startXIndexed, m_startYIndexed;
@@ -66,9 +68,9 @@ private:
 	int m_destXIndexed, m_destYIndexed;
 	
 	// 도착지부터 시작해 처음 지점을 찾기 위한 부모 저장
-	Cell* m_parents[PER_MAX_CELL][PER_MAX_CELL];
+	AStar::Cell* m_parents[PER_MAX_CELL][PER_MAX_CELL];
 
 	// 생성, 삭제를 줄이기 위한 저장소
-	std::queue<Cell*> m_cellQueue;
-	std::queue<CellData*> m_cellDataQueue;
+	std::queue<AStar::Cell*> m_cellQueue;
+	std::queue<AStar::CellData*> m_cellDataQueue;
 };
