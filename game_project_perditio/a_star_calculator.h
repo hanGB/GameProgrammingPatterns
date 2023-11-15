@@ -33,12 +33,12 @@ public:
 	AStarCalculator();
 	~AStarCalculator();
 
-	void FindPath(PERVec3 start, PERVec3 dest, PERVec3* paths, int* numPath);
+	bool FindPath(PERVec3 start, PERVec3 dest, PERVec3* paths, int* numPath);
 
 private: 
 	// 패스 계산
 	void SetStartAndDestination(PERVec3 start, PERVec3 dest);
-	void CalculateParents();
+	bool CalculateParents();
 	void ChangeParentsToPaths(PERVec3* paths, int* numPath);
 	void Clear();
 

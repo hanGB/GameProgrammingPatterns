@@ -23,16 +23,18 @@ AStarCalculator::~AStarCalculator()
 	}
 }
 
-void AStarCalculator::FindPath(PERVec3 start, PERVec3 dest, PERVec3* paths, int* numPath)
+bool AStarCalculator::FindPath(PERVec3 start, PERVec3 dest, PERVec3* paths, int* numPath)
 {
 	// 시작 및 도작점 설정
 	SetStartAndDestination(start, dest);
-	// 경로 도출을 위한 부모 목록 계산
-	CalculateParents();
+	// 경로 도출을 위한 부모 목록 계산(경로 검색에 실패했는 지 또한 반환)
+	bool result = CalculateParents();
 	// 부모 목록을 실제 경로로 변경
-	ChangeParentsToPaths(paths, numPath);
+	if (result) ChangeParentsToPaths(paths, numPath);
 	// 초기화
 	Clear();
+
+	return result;
 }
 
 void AStarCalculator::SetStartAndDestination(PERVec3 start, PERVec3 dest)
@@ -67,7 +69,7 @@ void AStarCalculator::SetStartAndDestination(PERVec3 start, PERVec3 dest)
 	//PERLog::Logger().InfoWithFormat("도착점 - %d, %d", m_destXIndexed, m_destYIndexed);
 }
 
-void AStarCalculator::CalculateParents()
+bool AStarCalculator::CalculateParents()
 {
 	while (m_priorityQueue.size() > 0) {
 		CellData* data = m_priorityQueue.top();
@@ -81,8 +83,8 @@ void AStarCalculator::CalculateParents()
 		// 방문 처리
 		m_alreadyVisited[data->x][data->y] = true;
 
-		// 도착했으니 루프를 나감
-		if (data->x == m_destXIndexed && data->y == m_destYIndexed) break;
+		// 도착했으니 성공 리턴
+		if (data->x == m_destXIndexed && data->y == m_destYIndexed) return true; 
 
 		// 주변 검색
 		for (int x = -1; x < 2; ++x) {
@@ -138,6 +140,9 @@ void AStarCalculator::CalculateParents()
 			}
 		}
 	}
+
+	// 도착을 못 했으니 실패 리턴
+	return false;
 }
 
 void AStarCalculator::ChangeParentsToPaths(PERVec3* paths, int* numPath)

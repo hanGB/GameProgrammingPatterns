@@ -85,11 +85,12 @@ PERBehaviorResult MonsterAiComponent::FindPlayerPositionAndSetDestination(PERObj
 
 PERBehaviorResult MonsterAiComponent::CalculatePath(PERObject& object, double dTime)
 {
-	m_AStarCalculator->FindPath(object.GetPosition(), m_destination, m_paths, &m_numPath);
+	bool result = m_AStarCalculator->FindPath(object.GetPosition(), m_destination, m_paths, &m_numPath);
 	m_currentPathIndex = 0;
 	m_currentPathIndex++;
 
-	return PERBehaviorResult::SUCCESS;
+	if (result) return PERBehaviorResult::SUCCESS;
+	return PERBehaviorResult::FAIL;
 }
 
 PERBehaviorResult MonsterAiComponent::MoveToDestination(PERObject& object, double dTime)
