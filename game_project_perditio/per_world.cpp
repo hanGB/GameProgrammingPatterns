@@ -138,6 +138,7 @@ void PERWorld::RequestDeleteObject(PERObject* object)
 bool PERWorld::CheckCollision(PERObject& object, double dTime)
 {
 	bool collided = false;
+	bool isOnPlatform = false;
 
 	// 본인 오브젝트 정보 얻기
 	PERObjectType type = object.GetObjectType();
@@ -151,8 +152,8 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		if (object.GetParent() == m_objects[i]) continue;
 		if (&object == (m_objects[i]->GetParent())) continue;
 
-		// 같은 높이에 있지 않을 경우 충돌 불가하여 건너뜀
-		if ((int)(position.z) != (int)(m_objects[i]->GetPosition().z)) continue;
+		// 상대의 z값이 지붕을 뜻하면 건너뜀
+		if ((int)(m_objects[i]->GetPosition().z) == PER_ROOF_Z_VALUE) continue;
 
 		// 전에 충돌된 오브젝트가 같을 경우 충돌 오브젝트 제거
 		if (object.GetCollidedObject() == m_objects[i]) object.SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
@@ -174,7 +175,7 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		PERObjectType otherType = m_objects[i]->GetObjectType();
 		PERVec3 otherPos = m_objects[i]->GetPosition(), otherSize = m_objects[i]->GetSize();
 		PERBoundingType otherBoundingType = m_objects[i]->GetBoundingType();
-		
+
 		// 충돌 처리 무시 항목
 		if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::MOVABLE_BLOCK) continue;
 		else if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::TRIGGER) continue;
@@ -182,8 +183,14 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 
 		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE) {
 			if (CheckAABBCollision(position, size, otherPos, otherSize)) {
+				// 상대가 플랫폼일 경우 플랫폼 위에 있다고 설정 후 건너뜀
+				if (!isOnPlatform && (int)(m_objects[i]->GetPosition().z) == PER_PLATFORM_Z_VALUE) {
+					isOnPlatform = true;  
+					continue;
+				}
+				// 충돌됬다고 설정
 				collided = true;
-		
+
 				// 물리적 처리 항목
 				if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::FIXED_BLOCK)
 					AdjustPositionWithObjects(object, position, size, *m_objects[i], otherPos, otherSize, dTime);
@@ -193,13 +200,20 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 					AdjustPositionWithObjects(object, position, size, *m_objects[i], otherPos, otherSize, dTime);
 				else if ((type == PERObjectType::PLAYER || type == PERObjectType::MONSTER) && otherType == PERObjectType::FIXED_BLOCK)
 					AdjustPositionWithObjects(object, position, size, *m_objects[i], otherPos, otherSize, dTime);
-				
+
 				// 물리적 처리 없이 다른 상호 작용
 				else ProcessCollisionWithoutMoving(object, type, *m_objects[i], otherType);
-				
+
 			}
 		}
 	}
+
+	// 플랫폼 위에 있지 않을 경우 떨어져 죽음
+	if (!isOnPlatform) {
+		// 임시로 라이프 타임이 0보다 작도록 설정해 단순히 오브젝트 제거
+		object.SetLifeTime(-1.0);
+	}
+
 	return collided;
 }
 
