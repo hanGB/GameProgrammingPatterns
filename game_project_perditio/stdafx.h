@@ -144,6 +144,7 @@ enum class PERComponentType {
 	// pysics
 	FIXED,
 	MOVABLE,
+	STUCK,
 
 	// graphics
 	VISIBLE,
@@ -158,6 +159,7 @@ enum class PERObjectType {
 	MOVABLE_BLOCK,
 	MONSTER,
 	BULLET,
+	BLADE,
 	TRIGGER,
 	NUM_OBJECT_TYPE
 };

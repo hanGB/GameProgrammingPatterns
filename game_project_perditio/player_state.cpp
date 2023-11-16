@@ -15,3 +15,23 @@ bool PlayerState::UseMind(PERObject& object, int mind)
     EventDispatcher::Send(PEREvent::UPDATE_MD, PERVec3(m_currentMind, 0.0, 0.0));
     return true;
 }
+
+double PlayerState::GetShootCoolTime() const
+{
+    return m_shootCoolTime;
+}
+
+PERVec3 PlayerState::GetBulletSize() const
+{
+    return m_bulletSize;
+}
+
+double PlayerState::GetSwingCoolTime() const
+{
+    return m_swingCoolTime;
+}
+
+PERVec3 PlayerState::GetBladeSize() const
+{
+    return m_bladeSize;
+}

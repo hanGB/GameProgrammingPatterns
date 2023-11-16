@@ -10,6 +10,7 @@
 #include "event_dispatcher.h"
 #include "black_board.h"
 #include "a_star_calculator.h"
+#include "per_component.h"
 
 PERWorld::PERWorld(ObjectPool* objectPool, GameMode* mode)
 {
@@ -108,13 +109,15 @@ void PERWorld::Resume()
 {
 }
 
-void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, PERVec3 position, PERVec3 currentAccel, PERStat stat, double lifeTime)
+void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, 
+	PERVec3 position, PERVec3 size, PERVec3 currentAccel, PERStat stat, double lifeTime)
 {
 	PERWorldMessage message;
 	message.id = PERWorldMessageId::ADD_OBJECT;
 	message.object = parent;
 	message.type = type;
 	message.position = position;
+	message.size = size;
 	message.currentAccel = currentAccel;
 	message.lifeTime = lifeTime;
 	message.stat = stat;
@@ -163,7 +166,7 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		// 
 		// movable object && movable object == 완전 무시
 		// movable object && trigger == 완전 무시
-		// bullet && trigger == 완전 무시
+		// bullet(blade) && trigger == 완전 무시
 		// 
 		// movable object && fixed object == fixed 오브젝트에 합쳐짐(변경 될 수 있음)
 		// movable object && (player || monster) == 물리적 처리
@@ -179,7 +182,7 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		// 충돌 처리 무시 항목
 		if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::MOVABLE_BLOCK) continue;
 		else if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::TRIGGER) continue;
-		else if (type == PERObjectType::BULLET && otherType == PERObjectType::TRIGGER) continue;
+		else if ((type == PERObjectType::BULLET || type == PERObjectType::BLADE) && otherType == PERObjectType::TRIGGER) continue;
 
 		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE) {
 			if (CheckAABBCollision(position, size, otherPos, otherSize)) {
@@ -235,10 +238,18 @@ void PERWorld::ProcessPendingMessage()
 		case PERWorldMessageId::ADD_OBJECT: {
 			PERObject* object = AddAndGetObject(message.type);
 			object->SetPosition(message.position);
+			object->SetSize(message.size);
 			object->SetCurrentAccel(message.currentAccel);
 			object->SetLifeTime(message.lifeTime);
 			object->SetParent(message.object);
 			object->GetObjectState().SetStat(message.stat);
+
+			// 칼날일 경우 위치값을 붙여진 위치로 설정
+			if (message.type == PERObjectType::BLADE) {
+				PERComponent::PhysicsData pData;
+				pData.stuckPosition = message.position;
+				object->GetPhysics().SetData(pData);
+			}
 			break;
 		}
 		case PERWorldMessageId::DELETE_OBJECT: 
@@ -509,13 +520,17 @@ void PERWorld::ProcessCollisionBetweenFixedAndMovable(
 
 void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType aType, PERObject& bObject, PERObjectType bType)
 {
-	// bullet && bullet == 물리적 처리만 무시, bullet 삭제
-	// bullet && fixed object == 물리적 처리만 무시, bullet 삭제
-	// bullet && movable object == 물리적 처리만 무시, bullet 삭제
-	// bullet && (player || monster) == 물리적 처리만 무시, bullet 삭제, 데미지 처리
-	// bullet && trigger == 완전 무시
+	// bullet(blade) && bullet(blade) == 물리적 처리만 무시, bullet(blade) 삭제
+	// bullet(blade) && fixed object == 물리적 처리만 무시, bullet(blade) 삭제
+	// bullet(blade) && movable object == 물리적 처리만 무시, bullet(blade) 삭제
+	// bullet(blade) && (player || monster) == 물리적 처리만 무시, bullet(blade) 삭제, 데미지 처리
+	// bullet(blade) && trigger == 완전 무시
 	// (player || monster) && (player || monster) == 물리적 처리만 무시, 데미지 처리		 
 	// (player || monster) && trigger == 물리적 처리만 무시
+
+	// 총알이랑 칼날은 처리 방식이 동일하기 때문에 칼날을 총알로 취급함
+	if (aType == PERObjectType::BLADE) aType = PERObjectType::BULLET;
+	if (bType == PERObjectType::BLADE) bType = PERObjectType::BULLET;
 
 	// 총알간 상쇄
 	if (aType == PERObjectType::BULLET && bType == PERObjectType::BULLET) {

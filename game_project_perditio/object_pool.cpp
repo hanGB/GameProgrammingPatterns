@@ -131,6 +131,28 @@ void ObjectPool::CreateObjectFactories()
     bulletFactory->SetPhysicsData(physics);             bulletFactory->SetGraphicsData(graphics);
     bulletFactory->SetSize(PERVec3(0.2, 0.2, 0.2));  bulletFactory->SetMass(5);
     m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::BULLET, bulletFactory));
+
+    // blade
+    ObjectFactory* bladeFactory
+        = new ObjectFactory(
+            PERObjectType::BLADE,
+            PERObjectStateType::NON,
+            PERFloatingUiType::NON,
+            PERComponentType::NO_INTERACT,
+            PERComponentType::UNINTELLIGENT,
+            PERComponentType::STUCK,
+            PERComponentType::VISIBLE
+        );
+    input.isAttack = false, input.isMove = false, input.isCheck = false;
+    ai.isAttack = false, ai.isMove = false;
+    physics.friction = false; physics.isOccupySpace = true;
+    graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(200, 200, 200);
+    graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(50, 50, 50);
+    graphics.floatingUi = false; graphics.distanceVisiblefloatingUi = 0.0;
+    bladeFactory->SetInputData(input);                bladeFactory->SetAiData(ai);
+    bladeFactory->SetPhysicsData(physics);            bladeFactory->SetGraphicsData(graphics);
+    bladeFactory->SetSize(PERVec3(0.5, 0.5, 0.5));    bladeFactory->SetMass(10);
+    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::BLADE, bladeFactory));
 }
 
 void ObjectPool::DeleteObjectFactories()

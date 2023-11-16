@@ -255,6 +255,9 @@
     <ClInclude Include="behavior_tree.h">
       <Filter>06. ai\behavior_tree</Filter>
     </ClInclude>
+    <ClInclude Include="stuck_physics_component.h">
+      <Filter>00. game\object\component\implements\physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -361,6 +364,9 @@
     </ClCompile>
     <ClCompile Include="per_vector.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stuck_physics_component.cpp">
+      <Filter>00. game\object\component\implements\physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

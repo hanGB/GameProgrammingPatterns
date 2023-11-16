@@ -134,6 +134,11 @@ int PERObject::GetIDInWorld() const
 	return m_idInWorld;
 }
 
+double PERObject::GetLifeTime() const
+{
+	return m_lifeTime;
+}
+
 void PERObject::SetFlotingUi(UiElement* element)
 {
 	m_flotingUi = element;

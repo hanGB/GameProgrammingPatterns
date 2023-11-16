@@ -13,6 +13,7 @@
 // physics
 #include "movable_physics_component.h"
 #include "fixed_physics_component.h"
+#include "stuck_physics_component.h"
 // graphics
 #include "visible_graphics_component.h"
 #include "hidden_graphics_component.h"
@@ -89,6 +90,9 @@ PERObject* ObjectFactory::CreateObject()
         break;
     case PERComponentType::FIXED:
         physicsComponent = new FixedPhysicsComponent();
+        break;
+    case PERComponentType::STUCK:
+        physicsComponent = new StuckPhysicsComponent();
         break;
     }
 

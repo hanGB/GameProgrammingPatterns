@@ -46,6 +46,7 @@ public:
 	PERObject* GetCollidedObject();
 
 	int GetIDInWorld() const;
+	double GetLifeTime() const;
 
 	// setter
 	void SetFlotingUi(UiElement* element);

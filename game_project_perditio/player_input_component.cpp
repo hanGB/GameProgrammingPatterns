@@ -4,12 +4,14 @@
 #include "per_world.h"
 #include "per_controller.h"
 #include "event_dispatcher.h"
+#include "player_state.h"
 
 void PlayerInputComponent::Update(PERObject& object, PERWorld& world, PERController& controller, PERAudio& audio, double dTime)
 {
 	Move(object, controller, audio, dTime);
 	UpdateDirection(object.GetCurrentAccel());
 	ShootBullet(object, world, controller, audio, dTime);
+	SwingBlade(object, world, controller, audio, dTime);
 }
 
 void PlayerInputComponent::SetData(PERComponent::InputData data)
@@ -70,14 +72,36 @@ void PlayerInputComponent::ShootBullet(PERObject& object, PERWorld& world, PERCo
 	// 총알 발사
 	if (controller.IsKeyboardPressed(PERKeyboardValue::D)) {
 		if (object.GetObjectState().UseMind(object, 10)) {
-			PERVec3 position(object.GetPosition().x, object.GetPosition().y, 0.0);
-			PERVec3 speed((double)m_dirX * c_BULLER_XY_FORCE, (double)m_dirY * c_BULLER_XY_FORCE, 0.0);
-			PERStat stat = { 0, 0, 10, 0, 0, 0 };
+			PlayerState& state = dynamic_cast<PlayerState&>(object.GetObjectState());
+
+			PERVec3 position(object.GetPosition().x, object.GetPosition().y, PER_NORAML_OBJECT_Z_VALUE);
+			PERVec3 speed((double)m_dirX * state.c_BULLET_XY_FORCE, (double)m_dirY * state.c_BULLET_XY_FORCE, 0.0);
+			PERStat stat = { 0, 0, 20, 0, 0, 0 };
 			world.RequestAddObject(
 				&object, PERObjectType::BULLET,
-				position, speed, stat, 3.0);
+				position, state.GetBulletSize(), speed, stat, 3.0);
 
-			m_shootingCoolTime = c_DEFAULT_SHOOT_BULLET_COOL_TIME;
+			m_shootingCoolTime = state.GetShootCoolTime();
 		}
+	}
+}
+
+void PlayerInputComponent::SwingBlade(PERObject& object, PERWorld& world, PERController& controller, PERAudio& audio, double dTime)
+{
+	m_swingCoolTime -= dTime;
+	if (m_swingCoolTime > 0.0) return;
+
+	// 검 휘두루기
+	if (controller.IsKeyboardPressed(PERKeyboardValue::S)) {
+		PlayerState& state = dynamic_cast<PlayerState&>(object.GetObjectState());
+
+		// 플레이어에 대한 상대적 위치를 위치값으로 넘김
+		PERVec3 stuckPosition = PERVec3((double)m_dirX * state.GetBladeSize().x, (double)m_dirY * state.GetBladeSize().y, 0.0);
+		PERStat stat = { 0, 0, 10, 0, 0, 0 };
+		world.RequestAddObject(
+			&object, PERObjectType::BLADE,
+			stuckPosition, state.GetBladeSize(), PERVec3(0.0, 0.0, 0.0), stat, 0.3);
+
+		m_swingCoolTime = state.GetSwingCoolTime();
 	}
 }
