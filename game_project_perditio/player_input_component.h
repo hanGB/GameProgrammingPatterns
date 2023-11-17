@@ -12,7 +12,7 @@ private:
 	void ShootBullet(PERObject& object, PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
 	void SwingBlade(PERObject& object, PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
 
-	const int c_DEFAULT_XY_FORCE = 100000;
+	const int c_DEFAULT_XY_FORCE = 150000;
 
 	// 이동 관련
 	int m_XYForce = c_DEFAULT_XY_FORCE;

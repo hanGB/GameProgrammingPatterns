@@ -188,7 +188,7 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE) {
 			if (CheckAABBCollision(position, size, otherPos, otherSize)) {
 				// »ó´ë°¡ ÇÃ·§ÆûÀÏ °æ¿ì ÇÃ·§Æû À§¿¡ ÀÖ´Ù°í ¼³Á¤ ÈÄ °Ç³Ê¶Ü
-				if (!isOnPlatform && (int)(m_objects[i]->GetPosition().z) == PER_PLATFORM_Z_VALUE) {
+				if ((int)(m_objects[i]->GetPosition().z) == PER_PLATFORM_Z_VALUE) {
 					isOnPlatform = true;  
 					continue;
 				}
@@ -317,6 +317,14 @@ void PERWorld::AddFixedAndPhysicalObject()
 	platform->SetSize(PERVec3(15.0, 20.0, 1.0));
 	SetObjectShapeAndColor(platform, PERShapeType::ROUND_RECTANGLE, PERColor(250, 230, 210));
 	AddObject(platform);
+
+	for (double x = 0.0; x <= 20.0; x += 20.0) {
+		platform = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+		platform->SetPosition(PERVec3(-10.0 + x, 0.0, (double)PER_PLATFORM_Z_VALUE));
+		platform->SetSize(PERVec3(5.0, 5.0, 1.0));
+		SetObjectShapeAndColor(platform, PERShapeType::ROUND_RECTANGLE, PERColor(250, 230, 210));
+		AddObject(platform);
+	}
 
 	// º®
 	PERObject* wall;

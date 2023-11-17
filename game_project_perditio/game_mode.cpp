@@ -97,5 +97,5 @@ void GameMode::CreatePlayerFactory()
     graphics.floatingUi = false; graphics.distanceVisiblefloatingUi = 0.0;
     m_playerFactory->SetInputData(input);             m_playerFactory->SetAiData(ai);
     m_playerFactory->SetPhysicsData(physics);         m_playerFactory->SetGraphicsData(graphics);
-    m_playerFactory->SetSize(PERVec3(0.5, 0.5, 0.5)); m_playerFactory->SetMass(50);
+    m_playerFactory->SetSize(PERVec3(0.5, 0.5, 0.5)); m_playerFactory->SetMass(70);
 }
