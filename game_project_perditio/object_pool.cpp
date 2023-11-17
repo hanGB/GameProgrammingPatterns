@@ -85,7 +85,7 @@ void ObjectPool::CreateObjectFactories()
     graphics.floatingUi = false; graphics.distanceVisiblefloatingUi = 0.0;
     movableBlockFactory->SetInputData(input);              movableBlockFactory->SetAiData(ai);
     movableBlockFactory->SetPhysicsData(physics);          movableBlockFactory->SetGraphicsData(graphics);
-    movableBlockFactory->SetSize(PERVec3(1.0, 1.0, 1.0));  movableBlockFactory->SetMass(10);
+    movableBlockFactory->SetSize(PERVec3(1.0, 1.0, 1.0));  movableBlockFactory->SetMass(50);
     m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::MOVABLE_BLOCK, movableBlockFactory));
 
     // monster

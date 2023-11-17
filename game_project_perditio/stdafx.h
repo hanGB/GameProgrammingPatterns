@@ -70,6 +70,7 @@
 // ¹°¸® °ª
 #define PER_GRAVITY 9.8
 #define PER_FRICTION 0.7
+#define PER_KNOCK_BACK_POWER 50000.0
 
 // °´Ã¼
 #define PER_DEFAULT_OBJECT_POOL_SIZE  1024

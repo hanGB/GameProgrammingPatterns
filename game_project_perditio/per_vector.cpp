@@ -8,3 +8,9 @@ double DistanceSquareAandB(PERVec3 a, PERVec3 b)
 
 	return x * x + y * y + z * z;
 }
+
+PERVec3 NormalizeVector(PERVec3 vec)
+{
+	double value = sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+	return PERVec3(vec.x / value, vec.y / value, vec.z / value);
+}

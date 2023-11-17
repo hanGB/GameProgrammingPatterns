@@ -30,6 +30,20 @@ void MovablePhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& o
 	myObject.SetCollidedObject(&otherObject, collisionVelocity);
 }
 
+void MovablePhysicsComponent::GiveForce(PERObject& object, PERWorld& world, PERVec3 force, double dTime)
+{
+	double mass = object.GetMass();
+
+	object.SetVelocity(PERVec3(0.0, 0.0, 0.0));
+	object.SetCurrentAccel(PERVec3(force.x / mass, force.y / mass, force.z / mass));
+
+	// 이동 시키고 다시 계산
+	m_MoveFunc(*this, object, dTime);
+	if (!world.CheckCollision(object, dTime)) object.SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
+
+	object.SetVelocity(PERVec3(0.0, 0.0, 0.0));
+}
+
 void MovablePhysicsComponent::Move(PERObject& object, double dTime)
 {
 	// 필요 정보 얻기

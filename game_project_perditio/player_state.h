@@ -19,7 +19,7 @@ private:
 	const double c_DEFAULT_SHOOT_BULLET_COOL_TIME	= 0.5;
 	const PERVec3 C_DEFAULT_BULLET_SIZE				= PERVec3(0.2, 0.2, 0.0);
 	const double C_DEFAULT_SWING_BLADE_COOL_TIME	= 0.5;
-	const PERVec3 C_DEFAULT_BLADE_SIZE				= PERVec3(0.5, 0.5, 0.0);
+	const PERVec3 C_DEFAULT_BLADE_SIZE				= PERVec3(0.7, 0.7, 0.0);
 	
 
 	// 공격체 관련

@@ -11,6 +11,7 @@
 #include "black_board.h"
 #include "a_star_calculator.h"
 #include "per_component.h"
+#include "stuck_physics_component.h"
 
 PERWorld::PERWorld(ObjectPool* objectPool, GameMode* mode)
 {
@@ -205,7 +206,7 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 					AdjustPositionWithObjects(object, position, size, *m_objects[i], otherPos, otherSize, dTime);
 
 				// 물리적 처리 없이 다른 상호 작용
-				else ProcessCollisionWithoutMoving(object, type, *m_objects[i], otherType);
+				else ProcessCollisionWithoutMoving(object, type, *m_objects[i], otherType, dTime);
 
 			}
 		}
@@ -518,7 +519,7 @@ void PERWorld::ProcessCollisionBetweenFixedAndMovable(
 	movableObject.GetPhysics().ProcessCollision(movableObject, fixedObject, collisionVelocity, PERVec3(0.0, 0.0, movableVel.z), dTime * 1.5);
 }
 
-void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType aType, PERObject& bObject, PERObjectType bType)
+void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType aType, PERObject& bObject, PERObjectType bType, double dTime)
 {
 	// bullet(blade) && bullet(blade) == 물리적 처리만 무시, bullet(blade) 삭제
 	// bullet(blade) && fixed object == 물리적 처리만 무시, bullet(blade) 삭제
@@ -543,12 +544,32 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 		aObject.SetLifeTime(-1.0);
 		bObject.GetObjectState().GiveDamage(bObject,
 			aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
+
+		// 총알 속도 방향으로 약간 이동(넉백)
+		if (aObject.GetObjectType() == PERObjectType::BULLET) {
+			bObject.GetPhysics().GiveForce(bObject, *this, NormalizeVector(aObject.GetVelocity()) * PER_KNOCK_BACK_POWER, dTime);
+		}
+		// 칼날의 상대적 위치 방향으로 약간 이동(넉백)
+		else if (aObject.GetObjectType() == PERObjectType::BLADE) {
+			StuckPhysicsComponent& stuckPhysics = dynamic_cast<StuckPhysicsComponent&>(aObject.GetPhysics());
+			bObject.GetPhysics().GiveForce(bObject, *this, NormalizeVector(stuckPhysics.GetStuckPosition()) * PER_KNOCK_BACK_POWER, dTime);
+		}
 	}
 	else if (bType == PERObjectType::BULLET) {
 		if (aType == PERObjectType::TRIGGER) return;
 		bObject.SetLifeTime(-1.0);
 		bObject.GetObjectState().GiveDamage(bObject,
 			aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
+
+		// 총알 속도 방향으로 약간 이동(넉백)
+		if (bObject.GetObjectType() == PERObjectType::BULLET) {
+			aObject.GetPhysics().GiveForce(aObject, *this, NormalizeVector(bObject.GetVelocity()) * PER_KNOCK_BACK_POWER, dTime);
+		}
+		// 칼날의 상대적 위치 방향으로 약간 이동(넉백)
+		else if (aObject.GetObjectType() == PERObjectType::BLADE) {
+			StuckPhysicsComponent& stuckPhysics = dynamic_cast<StuckPhysicsComponent&>(bObject.GetPhysics());
+			aObject.GetPhysics().GiveForce(aObject, *this, NormalizeVector(stuckPhysics.GetStuckPosition()) * PER_KNOCK_BACK_POWER, dTime);
+		}
 	}
 	// 나머지
 	else if (aType == PERObjectType::PLAYER && bType == PERObjectType::MONSTER) {

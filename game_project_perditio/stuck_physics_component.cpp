@@ -27,3 +27,12 @@ void StuckPhysicsComponent::SetData(PERComponent::PhysicsData data)
 void StuckPhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& otherObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
 {
 }
+
+void StuckPhysicsComponent::GiveForce(PERObject& object, PERWorld& world, PERVec3 force, double dTime)
+{
+}
+
+PERVec3 StuckPhysicsComponent::GetStuckPosition() const
+{
+	return m_stuckPosition;
+}
