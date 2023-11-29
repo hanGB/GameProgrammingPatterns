@@ -151,6 +151,10 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 
 	int id = object.GetIDInWorld();
 	for (int i = 0; i < m_numObject; ++i) {
+		// 본인이 죽었거나 죽은 오브젝트 건너뜀
+		if (object.GetLifeTime() < 0.0) return collided;
+		if (m_objects[i]->GetLifeTime() < 0.0) continue;
+
 		// id가 같은 거(본인), 부모, 자식 건너뜀
 		if (id == i) continue;
 		if (object.GetParent() == m_objects[i]) continue;
@@ -549,12 +553,12 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 	// 총알 데미지 처리
 	else if (aType == PERObjectType::BULLET) {
 		if (bType == PERObjectType::TRIGGER) return;
-		aObject.SetLifeTime(-1.0);
 		bObject.GetObjectState().GiveDamage(bObject,
 			aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
 
 		// 총알 속도 방향으로 약간 이동(넉백)
 		if (aObject.GetObjectType() == PERObjectType::BULLET) {
+			aObject.SetLifeTime(-1.0);
 			bObject.GetPhysics().GiveForce(bObject, *this, NormalizeVector(aObject.GetVelocity()) * PER_KNOCK_BACK_POWER, dTime);
 		}
 		// 칼날의 상대적 위치 방향으로 약간 이동(넉백)
@@ -565,12 +569,12 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 	}
 	else if (bType == PERObjectType::BULLET) {
 		if (aType == PERObjectType::TRIGGER) return;
-		bObject.SetLifeTime(-1.0);
 		bObject.GetObjectState().GiveDamage(bObject,
 			aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
 
 		// 총알 속도 방향으로 약간 이동(넉백)
 		if (bObject.GetObjectType() == PERObjectType::BULLET) {
+			bObject.SetLifeTime(-1.0);
 			aObject.GetPhysics().GiveForce(aObject, *this, NormalizeVector(bObject.GetVelocity()) * PER_KNOCK_BACK_POWER, dTime);
 		}
 		// 칼날의 상대적 위치 방향으로 약간 이동(넉백)

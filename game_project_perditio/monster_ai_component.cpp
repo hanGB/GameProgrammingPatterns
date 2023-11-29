@@ -18,6 +18,11 @@ MonsterAiComponent::~MonsterAiComponent()
 
 void MonsterAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
 {
+	// 대미지 무시 시간
+	object.GetObjectState().UseIgnoreDamageTime(dTime);
+	// 시간 당 회복
+	object.GetObjectState().RecoverPerTime(object, dTime);
+	// 행동 트리 실행
 	m_behaviorTree->Run(object, dTime);
 }
 

@@ -6,6 +6,7 @@ class PlayerState : public ObjectState {
 public:
 	virtual bool GiveDamage(PERObject& object, short physical, short mind);
 	virtual bool UseMind(PERObject& object, int mind);
+	virtual void RecoverPerTime(PERObject& object, double dTime);
 
 	// getter
 	double GetShootCoolTime() const;

@@ -10,6 +10,11 @@ ObjectState::~ObjectState()
 {
 }
 
+void ObjectState::UseIgnoreDamageTime(double dTime)
+{
+	m_damageDelay -= dTime;
+}
+
 PERStat ObjectState::GetStat() const
 {
 	return m_stat;
@@ -62,6 +67,7 @@ void ObjectState::SetSpawnPosition(PERVec3 position)
 bool ObjectState::GiveDamage(PERObject& object, short physical, short mind)
 {
 	if (physical == 0 && mind == 0) return false;
+	if (m_damageDelay > 0.0) return false;
 
 	int physicalDamage = physical - m_stat.physicalDefense;
 	int mindDamage = mind - m_stat.mindDefense;
@@ -74,6 +80,8 @@ bool ObjectState::GiveDamage(PERObject& object, short physical, short mind)
 
 	m_currentBody -= finalDamage;
 
+	m_damageDelay = c_DEFAULT_IGNORE_DAMAGE_TIME;
+
 	return true;
 }
 
@@ -83,4 +91,8 @@ bool ObjectState::UseMind(PERObject& object, int mind)
 	m_currentMind -= mind;
 
 	return true;
+}
+
+void ObjectState::RecoverPerTime(PERObject& object, double dTime)
+{
 }

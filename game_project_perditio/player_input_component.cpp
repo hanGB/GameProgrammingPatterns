@@ -100,7 +100,7 @@ void PlayerInputComponent::SwingBlade(PERObject& object, PERWorld& world, PERCon
 		PERStat stat = { 0, 0, 10, 0, 0, 0 };
 		world.RequestAddObject(
 			&object, PERObjectType::BLADE,
-			stuckPosition, state.GetBladeSize(), PERVec3(0.0, 0.0, 0.0), stat, 0.3);
+			stuckPosition, state.GetBladeSize(), PERVec3(0.0, 0.0, 0.0), stat, 0.1);
 
 		m_swingCoolTime = state.GetSwingCoolTime();
 	}

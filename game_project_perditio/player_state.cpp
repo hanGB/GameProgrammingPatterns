@@ -16,6 +16,23 @@ bool PlayerState::UseMind(PERObject& object, int mind)
     return true;
 }
 
+void PlayerState::RecoverPerTime(PERObject& object, double dTime)
+{
+    if (m_currentBody == m_stat.body && m_currentMind == m_stat.mind) return;
+
+    m_recoverDelay += dTime;
+
+    if (m_recoverDelay < m_recoverTime) return;
+
+    // 특정량 회복
+    m_currentBody = std::clamp(m_currentBody + (int)(m_stat.body * m_bodyRecoverPercent), 0, (int)m_stat.body);
+    m_currentMind = std::clamp(m_currentMind + (int)(m_stat.mind * m_mindRecoverPercent), 0, (int)m_stat.mind);
+    EventDispatcher::Send(PEREvent::UPDATE_BD, PERVec3(m_currentBody, 0.0, 0.0));
+    EventDispatcher::Send(PEREvent::UPDATE_MD, PERVec3(m_currentMind, 0.0, 0.0));
+
+    m_recoverDelay = 0.0;
+}
+
 double PlayerState::GetShootCoolTime() const
 {
     return m_shootCoolTime;

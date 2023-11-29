@@ -5,6 +5,11 @@
 
 void IntelligentAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
 {
+	// 대미지 무시 시간
+	object.GetObjectState().UseIgnoreDamageTime(dTime);
+	// 시간 당 회복
+	object.GetObjectState().RecoverPerTime(object, dTime);
+
 	// 필요 정보 얻기
 	PERVec3 vel = object.GetVelocity();
 	PERVec3 cAcc = object.GetCurrentAccel();
