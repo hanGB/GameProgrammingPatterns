@@ -2,9 +2,9 @@
 #include "player_state.h"
 #include "event_dispatcher.h"
 
-bool PlayerState::GiveDamage(PERObject& object, short physical, short mind)
+bool PlayerState::GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind)
 {
-    if (!ObjectState::GiveDamage(object, physical, mind)) return false;
+    if (!ObjectState::GiveDamage(object, opponent, physical, mind)) return false;
     EventDispatcher::Send(PEREvent::UPDATE_BD, PERVec3(m_currentBody, 0.0, 0.0));
     return true;
 }
@@ -31,6 +31,12 @@ void PlayerState::RecoverPerTime(PERObject& object, double dTime)
     EventDispatcher::Send(PEREvent::UPDATE_MD, PERVec3(m_currentMind, 0.0, 0.0));
 
     m_recoverDelay = 0.0;
+}
+
+void PlayerState::GiveExp(PERObject& object, int exp)
+{
+    ObjectState::GiveExp(object, exp);
+    PERLog::Logger().InfoWithFormat("플레이어가 경험치 %d를 획득", exp);
 }
 
 double PlayerState::GetShootCoolTime() const

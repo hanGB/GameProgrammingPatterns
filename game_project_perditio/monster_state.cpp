@@ -3,9 +3,10 @@
 #include "per_object.h"
 #include "progress_bar.h"
 
-bool MonsterState::GiveDamage(PERObject& object, short physical, short mind)
+bool MonsterState::GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind)
 {
-    if (!ObjectState::GiveDamage(object, physical, mind)) return false;
+    if (!ObjectState::GiveDamage(object, opponent, physical, mind)) return false;
+
     dynamic_cast<ProgressBar*>(object.GetFloatingUi())->SetCurrent(m_currentBody);
     dynamic_cast<ProgressBar*>(object.GetFloatingUi())->UpateShowingValueImmediately();
     return true;

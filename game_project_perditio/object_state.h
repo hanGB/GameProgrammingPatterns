@@ -16,9 +16,10 @@ public:
 	void UseIgnoreDamageTime(double dTime);
 
 	// 상태 변화
-	virtual bool GiveDamage(PERObject& object, short physical, short mind);
+	virtual bool GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind);
 	virtual bool UseMind(PERObject& object, int mind);
 	virtual void RecoverPerTime(PERObject& object, double dTime);
+	virtual void GiveExp(PERObject& object, int exp);
 
 	PERStat GetStat() const;
 	int GetCollisionDamage() const;
@@ -36,11 +37,14 @@ protected:
 	const double c_DEFAULT_BODY_RECOVER_PERCENT = 0.025;
 	const double c_DEFAULT_MIND_RECOVER_PERCENT = 0.1;
 	const double c_DEFAULT_IGNORE_DAMAGE_TIME = 0.1;
+	const int	 c_DEFAULT_LEVEL_EXP_GAP = 2;
 
 	// 스탯
 	PERStat m_stat;
 	int m_currentBody;
 	int m_currentMind;
+	int m_exp;
+
 	// 대미지 무시
 	double m_damageDelay = 0.0;
 	// 자동 회복

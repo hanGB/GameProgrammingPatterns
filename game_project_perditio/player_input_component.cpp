@@ -76,7 +76,7 @@ void PlayerInputComponent::ShootBullet(PERObject& object, PERWorld& world, PERCo
 
 			PERVec3 position(object.GetPosition().x, object.GetPosition().y, PER_NORAML_OBJECT_Z_VALUE);
 			PERVec3 speed((double)m_dirX * state.c_BULLET_XY_FORCE, (double)m_dirY * state.c_BULLET_XY_FORCE, 0.0);
-			PERStat stat = { 0, 0, 20, 0, 0, 0 };
+			PERStat stat = { 1, 0, 0, 20, 0, 0, 0 };
 			world.RequestAddObject(
 				&object, PERObjectType::BULLET,
 				position, state.GetBulletSize(), speed, stat, 3.0);
@@ -97,7 +97,7 @@ void PlayerInputComponent::SwingBlade(PERObject& object, PERWorld& world, PERCon
 
 		// 플레이어에 대한 상대적 위치를 위치값으로 넘김
 		PERVec3 stuckPosition = PERVec3((double)m_dirX * state.GetBladeSize().x * 0.8, (double)m_dirY * state.GetBladeSize().y * 0.8, 0.0);
-		PERStat stat = { 0, 0, 10, 0, 0, 0 };
+		PERStat stat = { 1, 0, 0, 10, 0, 0, 0 };
 		world.RequestAddObject(
 			&object, PERObjectType::BLADE,
 			stuckPosition, state.GetBladeSize(), PERVec3(0.0, 0.0, 0.0), stat, 0.1);

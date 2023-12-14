@@ -1,6 +1,7 @@
 #pragma once
 
 struct PERStat {
+	short level = 1;
 	short body = 0;
 	short mind = 0;
 	short physicalAttack = 0;

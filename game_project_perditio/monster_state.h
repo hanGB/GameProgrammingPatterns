@@ -4,7 +4,7 @@
 
 class MonsterState : public ObjectState {
 public:
-	virtual bool GiveDamage(PERObject& object, short physical, short mind);
+	virtual bool GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind);
 	virtual bool UseMind(PERObject& object, int mind);
 
 	// setter

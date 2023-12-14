@@ -553,7 +553,7 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 	// 총알 데미지 처리
 	else if (aType == PERObjectType::BULLET) {
 		if (bType == PERObjectType::TRIGGER) return;
-		bObject.GetObjectState().GiveDamage(bObject,
+		bObject.GetObjectState().GiveDamage(bObject, aObject,
 			aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
 
 		// 총알 속도 방향으로 약간 이동(넉백)
@@ -569,8 +569,8 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 	}
 	else if (bType == PERObjectType::BULLET) {
 		if (aType == PERObjectType::TRIGGER) return;
-		bObject.GetObjectState().GiveDamage(bObject,
-			aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
+		aObject.GetObjectState().GiveDamage(aObject, bObject,
+			bObject.GetObjectState().GetStat().physicalAttack, bObject.GetObjectState().GetStat().mindAttack);
 
 		// 총알 속도 방향으로 약간 이동(넉백)
 		if (bObject.GetObjectType() == PERObjectType::BULLET) {
@@ -585,9 +585,9 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 	}
 	// 나머지
 	else if (aType == PERObjectType::PLAYER && bType == PERObjectType::MONSTER) {
-		aObject.GetObjectState().GiveDamage(aObject, bObject.GetObjectState().GetCollisionDamage(), 0);
+		aObject.GetObjectState().GiveDamage(aObject, bObject, bObject.GetObjectState().GetCollisionDamage(), 0);
 	}
 	else if (bType == PERObjectType::PLAYER && aType == PERObjectType::MONSTER) {
-		bObject.GetObjectState().GiveDamage(bObject, aObject.GetObjectState().GetCollisionDamage(), 0);
+		bObject.GetObjectState().GiveDamage(bObject, aObject, aObject.GetObjectState().GetCollisionDamage(), 0);
 	}
 }

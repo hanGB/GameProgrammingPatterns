@@ -210,7 +210,7 @@ ObjectState* ObjectFactory::CreateObjectState()
     case PERObjectStateType::PLAYER: {
         objectState = new PlayerState();
         PERStat stat = {
-            100, 100, 10, 10, 10, 10
+            1, 100, 100, 10, 10, 10, 10
         };
         objectState->SetStat(stat);
         break;
@@ -218,7 +218,7 @@ ObjectState* ObjectFactory::CreateObjectState()
     case PERObjectStateType::MONSTER: {
         objectState = new MonsterState();
         PERStat stat = {
-            50, 50, 5, 5, 5, 5
+            1, 50, 50, 5, 5, 5, 5
         };
         objectState->SetStat(stat);
         objectState->SetIsHasCollisionDamage(true);
