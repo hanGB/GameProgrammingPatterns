@@ -12,6 +12,7 @@
 #include "a_star_calculator.h"
 #include "per_component.h"
 #include "stuck_physics_component.h"
+#include "object_spawner.h"
 
 PERWorld::PERWorld(ObjectPool* objectPool, GameMode* mode)
 {
@@ -25,6 +26,8 @@ PERWorld::PERWorld(ObjectPool* objectPool, GameMode* mode)
 
 PERWorld::~PERWorld()
 {
+	delete[] m_monsterSpawners;
+
 	PERLog::Logger().Info("월드 삭제");
 }
 
@@ -33,6 +36,11 @@ void PERWorld::Update(PERAudio& audio, double dTime)
 	DoGarbegeCollection(dTime);
 
 	ProcessPendingMessage();
+
+	for (int i = 0; i < 4; ++i) {
+		PERObject* monster = m_monsterSpawners[i].SpawnWithLiving(*m_objectPool);
+		if (monster) AddObject(monster);
+	}
 
 	m_gameMode->Update();
 }
@@ -383,13 +391,13 @@ void PERWorld::AddFixedAndPhysicalObject()
 
 void PERWorld::AddOtherObject()
 {
-	PERObject* monster;
+	m_monsterSpawners = new ObjectSpawner[4];
+	int monster = 0;
 	for (double x = -3.0; x <= 3.0; x += 6.0) {
 		for (double y = -3.0; y <= 3.0; y += 6.0) {
-			monster = m_objectPool->PopObject(PERObjectType::MONSTER);
-			monster->SetPosition(PERVec3(x, y, (double)PER_NORAML_OBJECT_Z_VALUE));
-			monster->SetCurrentPositionToSpawnPosition();
-			AddObject(monster);
+			PERStat stat = {1, 50, 50, 5, 5, 5, 5};
+			m_monsterSpawners[monster].SetSpawner(PERObjectType::MONSTER, stat, PERVec3(x, y, (double)PER_NORAML_OBJECT_Z_VALUE));
+			monster++;
 		}
 	}
 	

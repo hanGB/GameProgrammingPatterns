@@ -154,6 +154,7 @@
     <ClInclude Include="monster_ai_component.h" />
     <ClInclude Include="monster_state.h" />
     <ClInclude Include="navigation_data.h" />
+    <ClInclude Include="object_spawner.h" />
     <ClInclude Include="per_log.h" />
     <ClInclude Include="null_audio.h" />
     <ClInclude Include="null_logger.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="monster_ai_component.cpp" />
     <ClCompile Include="monster_state.cpp" />
     <ClCompile Include="navigation_data.cpp" />
+    <ClCompile Include="object_spawner.cpp" />
     <ClCompile Include="per_log.cpp" />
     <ClCompile Include="object_pool.cpp" />
     <ClCompile Include="object_state.cpp" />
