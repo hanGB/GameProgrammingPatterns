@@ -9,25 +9,15 @@
 #include "per_hud.h"
 #include "event_dispatcher.h"
 #include "black_board.h"
-#include "a_star_calculator.h"
 #include "per_component.h"
 #include "stuck_physics_component.h"
-#include "object_spawner.h"
 
-PERWorld::PERWorld(ObjectPool* objectPool, GameMode* mode)
+PERWorld::PERWorld()
 {
-	PERLog::Logger().Info("월드 생성");
-
-	m_objectPool = objectPool;
-	m_gameMode = mode;
-
-	m_objects.reserve(PER_DEFAULT_MAX_OBJECTS);
 }
 
 PERWorld::~PERWorld()
 {
-	delete[] m_monsterSpawners;
-
 	PERLog::Logger().Info("월드 삭제");
 }
 
@@ -37,10 +27,8 @@ void PERWorld::Update(PERAudio& audio, double dTime)
 
 	ProcessPendingMessage();
 
-	for (int i = 0; i < 4; ++i) {
-		PERObject* monster = m_monsterSpawners[i].SpawnWithLiving(*m_objectPool);
-		if (monster) AddObject(monster);
-	}
+
+	WorldUpdate(audio, dTime);
 
 	m_gameMode->Update();
 }
@@ -96,8 +84,6 @@ void PERWorld::UIRender(PERRenderer& renderer)
 
 void PERWorld::Enter()
 {
-	m_gameMode->GetPlayer().SetPosition(PERVec3(0.0, 0.0, (double)PER_NORAML_OBJECT_Z_VALUE));
-	m_gameMode->GetPlayer().SetCurrentPositionToSpawnPosition();
 	AddObject(&m_gameMode->GetPlayer());
 
 	InitWorldObject();
@@ -308,122 +294,29 @@ PERObject* PERWorld::AddAndGetObject(PERObjectType type)
 void PERWorld::InitWorldObject()
 {
 	// 네비게이션 데이터에 영향을 주는 오브젝트 먼저 추가
-	AddFixedAndPhysicalObject();
+	AddFixedAndPhysicalObjects();
 
 	// 네비게이션 데이터 설정
 	BlackBoard::GetNavigationData().InitCells();
 	BlackBoard::GetNavigationData().SetCells(m_objects, m_numObject);
 
 	// 네비게이션 데이터와 상관없는 나머지 오브젝트 추가
-	AddOtherObject();
+	AddOtherObjects();
 
 	PERLog::Logger().InfoWithFormat("월드 내 오브젝트 수: %d", m_numObject);
 }
 
-void PERWorld::AddFixedAndPhysicalObject()
+void PERWorld::InitSettingForWorld(ObjectPool* objectPool, GameMode* mode)
 {
-	// 플랫폼
-	PERObject* platform;
-	platform = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-	platform->SetPosition(PERVec3(0.0, 0.0, (double)PER_PLATFORM_Z_VALUE));
-	platform->SetSize(PERVec3(15.0, 20.0, 1.0));
-	SetObjectShapeAndColor(platform, PERShapeType::ROUND_RECTANGLE, PERColor(250, 230, 210));
-	AddObject(platform);
+	PERLog::Logger().Info("월드 생성");
 
-	for (double x = 0.0; x <= 20.0; x += 20.0) {
-		platform = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-		platform->SetPosition(PERVec3(-10.0 + x, 0.0, (double)PER_PLATFORM_Z_VALUE));
-		platform->SetSize(PERVec3(5.0, 5.0, 1.0));
-		SetObjectShapeAndColor(platform, PERShapeType::ROUND_RECTANGLE, PERColor(250, 230, 210));
-		AddObject(platform);
-	}
+	m_objectPool = objectPool;
+	m_gameMode = mode;
 
-	// 벽
-	PERObject* wall;
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(1.0, 0.0, (double)PER_ROOF_Z_VALUE));
-	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(100, 125, 150));
-	AddObject(wall);
-
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(-1.0, 0.0, (double)PER_ROOF_Z_VALUE));
-	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(100, 125, 150));
-	AddObject(wall);
-
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(0.0, 1.0, (double)PER_ROOF_Z_VALUE + 0.1));
-	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(100, 125, 150));
-	AddObject(wall);
-
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(0.0, -1.0, (double)PER_ROOF_Z_VALUE + 0.1));
-	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(100, 125, 150));
-	AddObject(wall);
-
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(5.0, 0.0, (double)PER_NORAML_OBJECT_Z_VALUE));
-	wall->SetSize(PERVec3(0.5, 5.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
-	AddObject(wall);
-
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(-5.0, 0.0, (double)PER_NORAML_OBJECT_Z_VALUE + 0.1));
-	wall->SetSize(PERVec3(0.5, 5.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
-	AddObject(wall);
-
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(0.0, 5.0, (double)PER_NORAML_OBJECT_Z_VALUE + 0.2));
-	wall->SetSize(PERVec3(5.0, 0.5, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
-	AddObject(wall);
-
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(0.0, -5.0, (double)PER_NORAML_OBJECT_Z_VALUE + 0.3));
-	wall->SetSize(PERVec3(5.0, 0.5, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
-	AddObject(wall);
+	m_objects.reserve(PER_DEFAULT_MAX_OBJECTS);
 }
 
-void PERWorld::AddOtherObject()
-{
-	m_monsterSpawners = new ObjectSpawner[4];
-	int monster = 0;
-	for (double x = -3.0; x <= 3.0; x += 6.0) {
-		for (double y = -3.0; y <= 3.0; y += 6.0) {
-			PERStat stat = {1, 50, 50, 5, 5, 5, 5};
-			m_monsterSpawners[monster].SetSpawner(PERObjectType::MONSTER, stat, PERVec3(x, y, (double)PER_NORAML_OBJECT_Z_VALUE));
-			monster++;
-		}
-	}
-	
-	PERObject* block;
-	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
-	block->SetPosition(PERVec3(3.0, 1.0, (double)PER_NORAML_OBJECT_Z_VALUE));
-	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
-	AddObject(block);
-
-	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
-	block->SetPosition(PERVec3(-3.0, 1.0, (double)PER_NORAML_OBJECT_Z_VALUE));
-	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
-	AddObject(block);
-
-	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
-	block->SetPosition(PERVec3(1.0, 3.0, (double)PER_NORAML_OBJECT_Z_VALUE));
-	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
-	AddObject(block);
-
-	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
-	block->SetPosition(PERVec3(1.0, -3.0, (double)PER_NORAML_OBJECT_Z_VALUE));
-	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
-	AddObject(block);
-}
-
-void PERWorld::SetObjectShapeAndColor(PERObject* object, PERShapeType shape, PERColor color, 
+void PERWorld::SetObjectShapeAndColor(PERObject* object, PERShapeType shape, PERColor color,
 	bool border, int borderWidth, PERColor borderColor)
 {
 	PERComponent::GraphicsData graphicsData;

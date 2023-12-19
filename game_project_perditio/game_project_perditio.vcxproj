@@ -170,6 +170,7 @@
     <ClInclude Include="player_state.h" />
     <ClInclude Include="progress_bar.h" />
     <ClInclude Include="stuck_physics_component.h" />
+    <ClInclude Include="test_world.h" />
     <ClInclude Include="unintelligent_ai_component.h" />
     <ClInclude Include="fixed_physics_component.h" />
     <ClInclude Include="hidden_graphics_component.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="player_state.cpp" />
     <ClCompile Include="progress_bar.cpp" />
     <ClCompile Include="stuck_physics_component.cpp" />
+    <ClCompile Include="test_world.cpp" />
     <ClCompile Include="unintelligent_ai_component.cpp" />
     <ClCompile Include="fixed_physics_component.cpp" />
     <ClCompile Include="hidden_graphics_component.cpp" />

@@ -115,6 +115,9 @@
     <Filter Include="00. game\world\spawner">
       <UniqueIdentifier>{4c570d2f-0c5b-4825-bdcf-6f562745a5e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\world\test_world">
+      <UniqueIdentifier>{61884e6c-40f5-422b-96b7-e14f7be021b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -264,6 +267,9 @@
     <ClInclude Include="object_spawner.h">
       <Filter>00. game\world\spawner</Filter>
     </ClInclude>
+    <ClInclude Include="test_world.h">
+      <Filter>00. game\world\test_world</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -376,6 +382,9 @@
     </ClCompile>
     <ClCompile Include="object_spawner.cpp">
       <Filter>00. game\world\spawner</Filter>
+    </ClCompile>
+    <ClCompile Include="test_world.cpp">
+      <Filter>00. game\world\test_world</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
