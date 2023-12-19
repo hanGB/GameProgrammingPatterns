@@ -3,6 +3,8 @@
 #include "null_audio.h"
 #include "black_board.h"
 #include "test_world.h"
+#include "test_game_mode.h"
+#include "test_game_state.h"
 
 PERGame::PERGame(HWND hWnd)
 {
@@ -33,7 +35,7 @@ void PERGame::Recive(PEREvent event, PERVec3 data)
 {
 	switch (event) {
 	case PEREvent::RUN_DEFAULT_WORLD_AND_GAME_MODE: {
-		GameMode* gameMode = new GameMode();
+		GameMode* gameMode = new TestGameMode(new TestGameState());
 		PERWorld* world = new TestWorld(m_objectPool, gameMode);
 		Run(world, gameMode);
 		break; 

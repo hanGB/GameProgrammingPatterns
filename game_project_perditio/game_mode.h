@@ -12,21 +12,29 @@ public:
 	GameMode();
 	~GameMode();
 
-	void StartUse();
-	void EndUse();
-	void Update();
-	void UpdateCamera(PERRenderer& renderer, double frameGap);
+	virtual void StartUse();
+	virtual void EndUse();
+	virtual void Update() = 0;
+	virtual void UpdateCamera(PERRenderer& renderer, double frameGap) = 0;
 
 	PERHud& GetHud();
 	GameState& GetGameState();
 	PERObject& GetPlayer();
 
-private:
-	void CreatePlayerFactory();
+	void SetGameState(GameState* gameState);
+
+protected:
+	void InitGameMode();
 
 	ObjectFactory* m_playerFactory;
-
-	PERHud* m_hud;
-	GameState* m_gameState;
 	PERObject* m_player;
+
+private:
+	// 플레이어 팩토리 생성
+	virtual void CreatePlayerFactory() = 0;
+	// hud 생성
+	virtual PERHud* CreateHud() = 0;
+
+	GameState* m_gameState;
+	PERHud* m_hud;
 };

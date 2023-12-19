@@ -11,28 +11,15 @@
 
 GameMode::GameMode()
 {
-    CreatePlayerFactory();
 
-	m_hud = new PERHud();
-	m_gameState = new GameState();
-
-	m_player = m_playerFactory->CreateObject();
-
-    // hud ¼³Á¤
-    ObjectState playerState = m_player->GetObjectState();
-    m_hud->GetBodyBar()->SetMax(playerState.GetStat().body);
-    m_hud->GetBodyBar()->SetCurrent(playerState.GetCurrentBody());
-    m_hud->GetMindBar()->SetMax(playerState.GetStat().mind);
-    m_hud->GetMindBar()->SetCurrent(playerState.GetCurrentBody());
 }
 
 GameMode::~GameMode()
 {
 	delete m_hud;
-	delete m_gameState;
 	delete m_player;
-
     delete m_playerFactory;
+	delete m_gameState;
 }
 
 void GameMode::StartUse()
@@ -43,19 +30,6 @@ void GameMode::StartUse()
 void GameMode::EndUse()
 {
     EventDispatcher::RemoveReciver(m_hud);
-}
-
-void GameMode::Update()
-{
-    BlackBoard::SetPlayerPos(m_player->GetPosition());
-}
-
-void GameMode::UpdateCamera(PERRenderer& renderer, double frameGap)
-{
-    PERVec3 pos = m_player->GetPosition();
-    PERVec3 gap = m_player->GetVelocity() * frameGap * ((double)PER_MICROSEC_PER_UPDATE / 1'000'000.0);;
-
-    renderer.SetCameraPosition(PERVec2(pos.x + gap.x, pos.y + gap.y));
 }
 
 PERHud& GameMode::GetHud()
@@ -73,29 +47,14 @@ PERObject& GameMode::GetPlayer()
 	return *m_player;
 }
 
-void GameMode::CreatePlayerFactory()
+void GameMode::SetGameState(GameState* gameState)
 {
-    PERComponent::InputData input;
-    PERComponent::AiData ai;
-    PERComponent::PhysicsData physics;
-    PERComponent::GraphicsData graphics;
+	m_gameState = gameState;
+}
 
-    m_playerFactory = new ObjectFactory(
-            PERObjectType::PLAYER,
-            PERObjectStateType::PLAYER,
-            PERFloatingUiType::NON,
-            PERComponentType::PLAYER_INPUT,
-            PERComponentType::UNINTELLIGENT,
-            PERComponentType::MOVABLE,
-            PERComponentType::VISIBLE
-        );
-    input.isAttack = true, input.isMove = true, input.isCheck = false;
-    ai.isAttack = false, ai.isMove = false;
-    physics.friction = true; physics.isOccupySpace = true;
-    graphics.shape = PERShapeType::ELLIPSE; graphics.color = PERColor(0, 255, 255);
-    graphics.border = true; graphics.borderWidth = 3; graphics.borderColor = PERColor(0, 127, 127);
-    graphics.floatingUi = false; graphics.distanceVisiblefloatingUi = 0.0;
-    m_playerFactory->SetInputData(input);             m_playerFactory->SetAiData(ai);
-    m_playerFactory->SetPhysicsData(physics);         m_playerFactory->SetGraphicsData(graphics);
-    m_playerFactory->SetSize(PERVec3(0.5, 0.5, 0.5)); m_playerFactory->SetMass(70);
+void GameMode::InitGameMode()
+{
+	CreatePlayerFactory();
+	m_player = m_playerFactory->CreateObject();
+	m_hud = CreateHud();
 }
