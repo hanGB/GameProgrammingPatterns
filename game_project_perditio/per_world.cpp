@@ -154,8 +154,10 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		if (object.GetParent() == m_objects[i]) continue;
 		if (&object == (m_objects[i]->GetParent())) continue;
 
-		// 상대의 z값이 지붕을 뜻하면 건너뜀
-		if ((int)(m_objects[i]->GetPosition().z) == PER_ROOF_Z_VALUE) continue;
+		// 상대의 z값이 나보다 높으면 건너뜀
+		if ((int)(floor(m_objects[i]->GetPosition().z)) > (int)floor(position.z)) continue;
+		// 상대의 z값 + 1이 나보다 작으면 건너뜀
+		if ((int)(floor(m_objects[i]->GetPosition().z)) + 1 < (int)floor(position.z)) continue;
 
 		// 전에 충돌된 오브젝트가 같을 경우 충돌 오브젝트 제거
 		if (object.GetCollidedObject() == m_objects[i]) object.SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
@@ -185,8 +187,8 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 
 		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE) {
 			if (CheckAABBCollision(position, size, otherPos, otherSize)) {
-				// 상대가 플랫폼일 경우 플랫폼 위에 있다고 설정 후 건너뜀
-				if ((int)(m_objects[i]->GetPosition().z) == PER_PLATFORM_Z_VALUE) {
+				// 상대가 나보다 바로 아래 있고 고정 블럭일 경우 플랫폼 위에 있다고 설정 후 건너뜀(땅)
+				if ((int)(floor(m_objects[i]->GetPosition().z)) == (int)floor(position.z) -1 && otherType == PERObjectType::FIXED_BLOCK) {
 					isOnPlatform = true;  
 					continue;
 				}

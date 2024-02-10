@@ -14,7 +14,7 @@ NavigationData::~NavigationData()
 
 void NavigationData::InitCells()
 {
-	memset(m_cells, (int)NavigationCellType::NOTHING, PER_MAX_CELL * PER_MAX_CELL * sizeof(NavigationCellType));
+	memset(m_cells, PER_NON_CELL, PER_MAX_CELL * PER_MAX_CELL * sizeof(int));
 }
 
 void NavigationData::SetCells(std::vector<PERObject*>& objects, int numObject)
@@ -26,48 +26,20 @@ void NavigationData::SetCells(std::vector<PERObject*>& objects, int numObject)
 		PERVec3 size = objects[i]->GetSize();
 
 		int indexX, indexY;
+		int zValue = (int)(floor(pos.z) + PER_CELL_DATA_WEIGHT);
 
-		switch ((int)pos.z) {
-		case PER_PLATFORM_Z_VALUE:
-		{
-			// 땅 취급
-			for (double x = pos.x - size.x / 2; x < pos.x + size.x / 2 + PER_CELL_DISTANCE; x += PER_CELL_DISTANCE) {
-				for (double y = pos.y - size.y / 2; y < pos.y + size.y / 2 + PER_CELL_DISTANCE; y += PER_CELL_DISTANCE) {
-					if (x < 0.0) indexX = (PER_MAX_CELL / 2) + (int)(x / PER_CELL_DISTANCE);
-					else indexX = (int)(x / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
+		for (double x = pos.x - size.x / 2; x < pos.x + size.x / 2 + PER_CELL_DISTANCE; x += PER_CELL_DISTANCE) {
+			for (double y = pos.y - size.y / 2; y < pos.y + size.y / 2 + PER_CELL_DISTANCE; y += PER_CELL_DISTANCE) {
+				if (x < 0.0) indexX = (PER_MAX_CELL / 2) + (int)(x / PER_CELL_DISTANCE);
+				else indexX = (int)(x / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
 					
-					if (y < 0.0) indexY = (PER_MAX_CELL / 2) + (int)(y / PER_CELL_DISTANCE);
-					else indexY = (int)(y / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
+				if (y < 0.0) indexY = (PER_MAX_CELL / 2) + (int)(y / PER_CELL_DISTANCE);
+				else indexY = (int)(y / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
 
-					if (m_cells[indexX][indexY] != NavigationCellType::WALL)
-						m_cells[indexX][indexY] = NavigationCellType::GROUND;
+				if (m_cells[indexX][indexY] < zValue)
+					m_cells[indexX][indexY] = zValue;
 					
-				}
 			}
-
-		}
-		break;
-		case PER_NORAML_OBJECT_Z_VALUE:
-		{
-			// 벽 취급
-			for (double x = pos.x - size.x / 2; x < pos.x + size.x / 2 + PER_CELL_DISTANCE; x += PER_CELL_DISTANCE) {
-				for (double y = pos.y - size.y / 2; y < pos.y + size.y / 2 + PER_CELL_DISTANCE; y += PER_CELL_DISTANCE) {
-					if (x < 0.0) indexX = (PER_MAX_CELL / 2) + (int)(x / PER_CELL_DISTANCE);
-					else indexX = (int)(x / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
-
-					if (y < 0.0) indexY = (PER_MAX_CELL / 2) + (int)(y / PER_CELL_DISTANCE);
-					else indexY = (int)(y / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
-
-					m_cells[indexX][indexY] = NavigationCellType::WALL;
-				}
-			}
-		}
-		break;
-		case PER_ROOF_Z_VALUE:
-		{
-			// 위에 있는 물체로 아무것도 안함
-		}
-		break;
 		}
 	}
 }
@@ -93,19 +65,19 @@ void NavigationData::RenderOutData(PERRenderer& renderer)
 	PERColor color;
 	for (int x = 0; x < PER_MAX_CELL; ++x) {
 		for (int y = 0; y < PER_MAX_CELL; ++y) {
-			if (GetCellInfo(x, y) == NavigationCellType::GROUND) color = PERColor(255, 255, 0);
-			else if (GetCellInfo(x, y) == NavigationCellType::WALL) color = PERColor(255, 0, 255);
-			else continue;
+			if (GetCellInfo(x, y) == INT_MIN) continue; 
+		
+			color = PERColor(128 + GetCellInfo(x, y) * 10, 128 + GetCellInfo(x, y) * 10, 128);
 
-		PERVec3 position = ChangeCellToWorldPosition(x, y);
-		renderer.RenderShapeInWorldCoordinate(PERShapeType::ELLIPSE, 
-		PERVec3(position.x, position.y, 2.0),
-		PERVec3(0.1, 0.1, 1.0), color);
+			PERVec3 position = ChangeCellToWorldPosition(x, y);
+			renderer.RenderShapeInWorldCoordinate(PERShapeType::ELLIPSE, 
+			PERVec3(position.x, position.y, 2.0),
+			PERVec3(0.1, 0.1, 1.0), color);
 		}
 	}
 }
 
-NavigationCellType NavigationData::GetCellInfo(int x, int y) const
+int NavigationData::GetCellInfo(int x, int y) const
 {
 	return m_cells[x][y];
 }

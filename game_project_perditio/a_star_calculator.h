@@ -66,7 +66,10 @@ private:
 	int m_startXIndexed, m_startYIndexed;
 	// 도착 지점 좌표
 	int m_destXIndexed, m_destYIndexed;
-	
+
+	// 땅의 z값(밝고 있는 땅 높이)
+	int m_groundZValue;
+
 	// 도착지부터 시작해 처음 지점을 찾기 위한 부모 저장
 	AStar::Cell* m_parents[PER_MAX_CELL][PER_MAX_CELL];
 

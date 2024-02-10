@@ -124,6 +124,12 @@
     <Filter Include="00. game\game_state\test_game_state.h">
       <UniqueIdentifier>{e7a7c632-e664-4bc7-b711-8de505697910}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. data">
+      <UniqueIdentifier>{2474b35c-e0f4-4d1e-91ea-5bab73664527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. data\json">
+      <UniqueIdentifier>{7933ba99-dba7-432d-810f-5101c014c008}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -282,6 +288,9 @@
     <ClInclude Include="test_game_state.h">
       <Filter>00. game\game_state\test_game_state.h</Filter>
     </ClInclude>
+    <ClInclude Include="json_data_reader.h">
+      <Filter>07. data\json</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -403,6 +412,9 @@
     </ClCompile>
     <ClCompile Include="test_game_mode.cpp">
       <Filter>00. game\game_mode\test_game_mode</Filter>
+    </ClCompile>
+    <ClCompile Include="json_data_reader.cpp">
+      <Filter>07. data\json</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -74,7 +74,7 @@ void PlayerInputComponent::ShootBullet(PERObject& object, PERWorld& world, PERCo
 		if (object.GetObjectState().UseMind(object, 10)) {
 			PlayerState& state = dynamic_cast<PlayerState&>(object.GetObjectState());
 
-			PERVec3 position(object.GetPosition().x, object.GetPosition().y, PER_NORAML_OBJECT_Z_VALUE);
+			PERVec3 position(object.GetPosition());
 			PERVec3 speed((double)m_dirX * state.c_BULLET_XY_FORCE, (double)m_dirY * state.c_BULLET_XY_FORCE, 0.0);
 			PERStat stat = { 1, 0, 0, 20, 0, 0, 0 };
 			world.RequestAddObject(

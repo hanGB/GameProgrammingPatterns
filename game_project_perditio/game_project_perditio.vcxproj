@@ -117,7 +117,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,6 +151,7 @@
     <ClInclude Include="event_reciver.h" />
     <ClInclude Include="game_mode.h" />
     <ClInclude Include="game_state.h" />
+    <ClInclude Include="json_data_reader.h" />
     <ClInclude Include="monster_ai_component.h" />
     <ClInclude Include="monster_state.h" />
     <ClInclude Include="navigation_data.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="event_dispatcher.cpp" />
     <ClCompile Include="game_mode.cpp" />
     <ClCompile Include="game_state.cpp" />
+    <ClCompile Include="json_data_reader.cpp" />
     <ClCompile Include="monster_ai_component.cpp" />
     <ClCompile Include="monster_state.cpp" />
     <ClCompile Include="navigation_data.cpp" />

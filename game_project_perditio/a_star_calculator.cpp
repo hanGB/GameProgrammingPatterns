@@ -47,6 +47,9 @@ void AStarCalculator::SetStartAndDestination(PERVec3 start, PERVec3 dest)
 	m_destXIndexed = (int)(dest.x / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
 	m_destYIndexed = (int)(dest.y / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
 
+	// 시작점의 z값에 가중치를 더한 값의 바로 밑(1뺀 값)으로 땅의 z값 설정 
+	m_groundZValue = (int)(floor(start.z) + PER_CELL_DATA_WEIGHT) - 1;
+
 	// 추정 거리 저장
 	m_distanceWithCell[m_startXIndexed][m_startYIndexed] = CalulateDistanceFromDest(m_startXIndexed, m_startYIndexed);
 
@@ -102,15 +105,15 @@ bool AStarCalculator::CalculateParents()
 				// 맵 크기 밖
 				if (nextX < 0 || nextX >= PER_MAX_CELL || nextY < 0 || nextY >= PER_MAX_CELL) continue;
 				// 갈 수 없는 곳(땅이 아닌 곳)
-				if (BlackBoard::GetNavigationData().GetCellInfo(nextX, nextY) != NavigationCellType::GROUND) continue;
+				if (BlackBoard::GetNavigationData().GetCellInfo(nextX, nextY) != m_groundZValue) continue;
 				// 이미 방문한 셀
 				if (m_alreadyVisited[nextX][nextY]) continue;
 				// 대각선으로 갈 수 없는 경우(이동하면서 지나가는 지점이 땅이 아님)
 				if (m_costs[x + 1][y + 1] == 14)
 				{
 					// x, y 중 둘 중 하나가 0일 경우의 칸이 땅이 아닌 경우 스킵
-					if (BlackBoard::GetNavigationData().GetCellInfo(nextX, data->y) != NavigationCellType::GROUND) continue;
-					if (BlackBoard::GetNavigationData().GetCellInfo(data->x, nextY) != NavigationCellType::GROUND) continue;
+					if (BlackBoard::GetNavigationData().GetCellInfo(nextX, data->y) != m_groundZValue) continue;
+					if (BlackBoard::GetNavigationData().GetCellInfo(data->x, nextY) != m_groundZValue) continue;
 				}
 
 				// 가는 거리(비용) 계산

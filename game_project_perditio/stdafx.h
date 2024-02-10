@@ -1,46 +1,51 @@
 #pragma once
 #define PER_DEBUG
 
-// Åõ¸í °ü·Ã ¶óÀÌºê·¯¸®
+// íˆ¬ëª… ê´€ë ¨ ë¼ì´ë¸ŒëŸ¬ë¦¬
 #pragma comment(lib, "Msimg32.lib")
 
-// À©µµ¿ìÁî API 
+// ìœˆë„ìš°ì¦ˆ API 
 #define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <Windows.h>
 
 #include <tchar.h>
-// ¸ÖÆ¼ ½º·¹µå
+// ë©€í‹° ìŠ¤ë ˆë“œ
 #include <thread>
 #include <mutex>
 #include <atomic>
 #include <ppl.h>
 #include <concurrent_queue.h>
-// ÄÜ¼Ö ÀÔÃâ·Â
+// ì½˜ì†” ì…ì¶œë ¥
 #include <iostream>
 #include <string>
 #include <stdarg.h>
-// ÆÄÀÏ ÀÔÃâ·Â
+// íŒŒì¼ ì…ì¶œë ¥
 #include <fstream>
-// ÇÁ·¹ÀÓ Å¸ÀÓ ÃøÁ¤
+// í”„ë ˆì„ íƒ€ì„ ì¸¡ì •
 #include <chrono>
-// ÆíÀÇ¼º
+// í¸ì˜ì„±
 #include <cmath>
 #include <algorithm>
 #include <vector>
 #include <functional>
 
-// µğ¹ö±ë
+// ë””ë²„ê¹…
 #include <cassert>
 
-// ÇÊ¿ä ±¸Á¶Ã¼
+// í•„ìš” êµ¬ì¡°ì²´
 #include "per_vector.h"
 #include "per_stat.h"
 
-// ·Î±×
+// json
+#include "./rapidjson/document.h"
+#include "./rapidjson/filereadstream.h"
+
+// ë¡œê·¸
 #include "per_log.h"
 
-// ±âº» ¼³Á¤
-// À©µµ¿ì Ã¢ Å©±â ¹× À§Ä¡
+// ê¸°ë³¸ ì„¤ì •
+// ìœˆë„ìš° ì°½ í¬ê¸° ë° ìœ„ì¹˜
 #define PER_DEFAULT_WINDOW_LOCATION_X 200
 #define PER_DEFAULT_WINDOW_LOCATION_Y 100
 #define PER_DEFAULT_WINDOW_WIDTH 1280
@@ -50,59 +55,58 @@
 #define PER_MAXIMUM_WINDOW_WIDTH 1800
 #define PER_MAXIMUM_WINDOW_HEIGHT 1000
 
-// ½º·¹µå
+// ìŠ¤ë ˆë“œ
 #define PER_NUM_WORKER_THREAD 7
 
-// Åõ¸í ·¹ÀÌ¾î
+// íˆ¬ëª… ë ˆì´ì–´
 #define PER_TRANSPARENT_COLOR RGB(1, 12, 123)
 
-// ¾÷µ¥ÀÌÆ® Å¸ÀÓ ¼³Á¤
+// ì—…ë°ì´íŠ¸ íƒ€ì„ ì„¤ì •
 #define PER_MICROSEC_PER_UPDATE 8000
 #define PER_MAXIMUM_UPDATE_LOOP_COUNT 4
-// ÃÖ¼Ò ÇÁ·¹ÀÓ Å¸ÀÓ(ÃÖ´ë 240FPS)
+// ìµœì†Œ í”„ë ˆì„ íƒ€ì„(ìµœëŒ€ 240FPS)
 #define PER_MINIMUM_FRAME_TIME 4000
 
-// È­¸é ¼³Á¤
+// í™”ë©´ ì„¤ì •
 #define PER_PIXEL_PER_METER 100
-// ÄÁÆ®·Ñ·¯ ¼³Á¤
+// ì»¨íŠ¸ë¡¤ëŸ¬ ì„¤ì •
 #define PER_KEYBOARD_LONG_PRESS_TIME 0.5
 
-// ¹°¸® °ª
+// ë¬¼ë¦¬ ê°’
 #define PER_GRAVITY 9.8
 #define PER_FRICTION 0.7
 #define PER_KNOCK_BACK_POWER 50000.0
 
-// °´Ã¼
+// ê°ì²´
 #define PER_DEFAULT_OBJECT_POOL_SIZE  1024
 #define PER_DEFAULT_MAX_OBJECTS		  1024
-#define PER_PLATFORM_Z_VALUE		 -1
-#define PER_NORAML_OBJECT_Z_VALUE	  0
-#define PER_ROOF_Z_VALUE			  1
 
-// ÀÌº¥Æ®
+// ì´ë²¤íŠ¸
 #define PER_DEFAULT_MAX_EVENT_PENDING  512
 
-// ³×ºñ°ÔÀÌ¼Ç µ¥ÀÌÅÍ
-#define PER_CELL_DISTANCE	0.25
-#define PER_MAX_CELL		100
+// ë„¤ë¹„ê²Œì´ì…˜ ë°ì´í„°
+#define PER_NON_CELL			0
+#define PER_CELL_DATA_WEIGHT	5
+#define PER_CELL_DISTANCE		0.25
+#define PER_MAX_CELL			100
 
-// ½Ã°£
-// ÃÖ´ë ¶óÀÌÇÁ Å¸ÀÓ(100³â)
+// ì‹œê°„
+// ìµœëŒ€ ë¼ì´í”„ íƒ€ì„(100ë…„)
 #define PER_MAXIMUM_LIFE_TIME 3'153'600'000.0
 
 
 enum class PERShapeType {
-	// Áß¾Ó ¾ŞÄ¿
+	// ì¤‘ì•™ ì•µì»¤
 	ELLIPSE,
 	RECTANGLE,
 	ROUND_RECTANGLE,
 	TRIANGLE,
-	// left, top ¾ŞÄ¿
+	// left, top ì•µì»¤
 	ELLIPSE_WITH_LEFT_TOP_ANCHOR,
 	RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 	ROUND_RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 	TRIANGLE_WITH_LEFT_TOP_ANCHOR,
-	// ¼ö
+	// ìˆ˜
 	NUM_SHAPE_TYPE
 };
 
@@ -178,3 +182,7 @@ enum class PERFloatingUiType {
 	PROGRESS_BAR,
 	NUM_FLOATING_UI_TYPE
 };
+
+namespace std {
+	int clamp(int value, int min, int max);
+}

@@ -1,0 +1,13 @@
+{
+  "MONSTER_KOPPER": {
+    "NAME_ENG": "kopper",
+    "NAME_KOR": "Ä«ÆÛ",
+    "LEVEL": 5,
+    "BODY": 100,
+    "MIND": 100,
+    "PHYSICAL_ATTACK": 5,
+    "MIND_ATTACK": 5,
+    "PHYSICAL_DEFENSE": 5,
+    "MIND_DEFENSE": 5
+  }
+}
