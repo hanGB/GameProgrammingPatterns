@@ -156,6 +156,7 @@
     <ClInclude Include="monster_state.h" />
     <ClInclude Include="navigation_data.h" />
     <ClInclude Include="object_spawner.h" />
+    <ClInclude Include="per_database.h" />
     <ClInclude Include="per_log.h" />
     <ClInclude Include="null_audio.h" />
     <ClInclude Include="null_logger.h" />
@@ -166,7 +167,7 @@
     <ClInclude Include="per_logger.h" />
     <ClInclude Include="per_component.h" />
     <ClInclude Include="object_pool.h" />
-    <ClInclude Include="per_stat.h" />
+    <ClInclude Include="per_data.h" />
     <ClInclude Include="player_input_component.h" />
     <ClInclude Include="player_state.h" />
     <ClInclude Include="progress_bar.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="monster_state.cpp" />
     <ClCompile Include="navigation_data.cpp" />
     <ClCompile Include="object_spawner.cpp" />
+    <ClCompile Include="per_database.cpp" />
     <ClCompile Include="per_log.cpp" />
     <ClCompile Include="object_pool.cpp" />
     <ClCompile Include="object_state.cpp" />

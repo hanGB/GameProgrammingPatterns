@@ -1,5 +1,5 @@
 #pragma once
-#include "per_stat.h"
+#include "per_data.h"
 
 class PERObject;
 class ObjectPool;

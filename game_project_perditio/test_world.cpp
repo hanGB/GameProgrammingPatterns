@@ -4,7 +4,6 @@
 #include "per_object.h"
 #include "object_pool.h"
 #include "game_mode.h"
-#include "json_data_reader.h"
 
 TestWorld::TestWorld(ObjectPool* objectPool, GameMode* mode)
 {
@@ -18,9 +17,6 @@ TestWorld::~TestWorld()
 
 void TestWorld::Enter()
 {
-	JSONDataReader jsonDataRender;
-	jsonDataRender.ReadJson("./data/monster.json");
-
 	m_gameMode->GetPlayer().SetPosition(PERVec3(0.0, 0.0, 0.0));
 	m_gameMode->GetPlayer().SetCurrentPositionToSpawnPosition();
 

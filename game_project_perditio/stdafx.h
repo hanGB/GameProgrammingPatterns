@@ -28,6 +28,7 @@
 #include <cmath>
 #include <algorithm>
 #include <vector>
+#include <map>
 #include <functional>
 
 // 디버깅
@@ -35,7 +36,7 @@
 
 // 필요 구조체
 #include "per_vector.h"
-#include "per_stat.h"
+#include "per_data.h"
 
 // json
 #include "./rapidjson/document.h"

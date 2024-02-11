@@ -130,6 +130,9 @@
     <Filter Include="07. data\json">
       <UniqueIdentifier>{7933ba99-dba7-432d-810f-5101c014c008}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. data\database">
+      <UniqueIdentifier>{3648f518-a88a-406b-a7bc-ec7f0eaa1795}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -240,9 +243,6 @@
     <ClInclude Include="per_log.h">
       <Filter>05. log</Filter>
     </ClInclude>
-    <ClInclude Include="per_stat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="per_hud.h">
       <Filter>00. game\user_interface\hud</Filter>
     </ClInclude>
@@ -290,6 +290,12 @@
     </ClInclude>
     <ClInclude Include="json_data_reader.h">
       <Filter>07. data\json</Filter>
+    </ClInclude>
+    <ClInclude Include="per_database.h">
+      <Filter>07. data\database</Filter>
+    </ClInclude>
+    <ClInclude Include="per_data.h">
+      <Filter>07. data\database</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -415,6 +421,9 @@
     </ClCompile>
     <ClCompile Include="json_data_reader.cpp">
       <Filter>07. data\json</Filter>
+    </ClCompile>
+    <ClCompile Include="per_database.cpp">
+      <Filter>07. data\database</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -14,6 +14,14 @@ PERGame::PERGame(HWND hWnd)
 	m_controller = new PERController();
 	m_audio = new NullAudio();
 	m_objectPool = new ObjectPool();
+	m_database = new PERDatabase();
+
+	// 테스트
+	MonsterData* data = m_database->GetMonsterData("MONSTER_KOPPER");
+	PERLog::Logger().InfoWithFormat("MONSTER_KOPPER - \n nameEng: %s, nameKor: %s \n level: %d body: %d mind %d \n a: %d %d d: %d %d",
+		data->nameEng, data->nameKor, data->stat.level, data->stat.body, data->stat.mind,
+		data->stat.physicalAttack, data->stat.mindAttack, data->stat.physicalDefense, data->stat.mindDefense);
+
 
 	PERLog::Logger().Info("게임 클래스 생성 완료");
 }

@@ -7,6 +7,7 @@
 #include "object_pool.h"
 #include "per_object.h"
 #include "event_reciver.h"
+#include "per_database.h"
 
 class PERGame : public EventReciver {
 public:
@@ -49,6 +50,7 @@ private:
 	PERRenderer*	m_renderer;
 	PERAudio*		m_audio;
 	ObjectPool*		m_objectPool;
+	PERDatabase*	m_database;
 
 	PERObject*	m_player;
 	PERWorld*	m_currentWorld;
