@@ -1,23 +1,36 @@
 #include "stdafx.h"
 #include "json_data_reader.h"
 
-JSONDataReader::JSONDataReader( )
+JSONDataReader::JSONDataReader()
 {
 
 }
 
-JSONDataReader::~JSONDataReader( )
+JSONDataReader::~JSONDataReader()
 {
-	
+
 }
 
 void JSONDataReader::ReadMonsterData(const char* fileName, std::map<std::string, MonsterData*>& dataMap)
 {
 	ReadJson(fileName);
 
-	dataMap.emplace("MONSTER_KOPPER", MakeMonsterData("MONSTER_KOPPER"));
-	dataMap.emplace("MONSTER_NIKKEL", MakeMonsterData("MONSTER_NIKKEL"));
-	dataMap.emplace("MONSTER_ANTIMONY", MakeMonsterData("MONSTER_ANTIMONY"));
+	for (auto it = m_document.MemberBegin(); it != m_document.MemberEnd(); ++it) {
+		const char* id = it->name.GetString();
+		dataMap.emplace(id, MakeMonsterData(id));
+	}
+
+	m_document.RemoveAllMembers();
+}
+
+void JSONDataReader::ReadTranslateData(const char* fileName, std::map<std::string, TranslateData*>& dataMap)
+{
+	ReadJson(fileName);
+
+	for (auto it = m_document.MemberBegin(); it != m_document.MemberEnd(); ++it) {
+		const char* id = it->name.GetString();
+		dataMap.emplace(id, MakeTranslateData(id));
+	}
 
 	m_document.RemoveAllMembers();
 }
@@ -26,37 +39,52 @@ void JSONDataReader::ReadJson(const char* fileName)
 {
 	char* buffer = new char[c_BUFFER_SIZE];
 
-	// íŒŒì¼ ì½ê¸°
+	// ÆÄÀÏ ÀÐ±â
 	FILE* file;
 	fopen_s(&file, fileName, "rb");
 	rapidjson::FileReadStream is(file, buffer, c_BUFFER_SIZE);
 	fclose(file);
 
-	// json íŒŒì‹±
+	// json ÆÄ½Ì
 	m_document.ParseStream(is);
 
 	delete[] buffer;
 }
 
-MonsterData* JSONDataReader::MakeMonsterData(const char* monsterId)
+MonsterData* JSONDataReader::MakeMonsterData(const char* id)
 {
 	MonsterData* data = new MonsterData;
 
-	// ìž˜ëª»ëœ ì•„ì´ë””ì¸ ê²½ìš°ì˜ ì˜¤ë¥˜ ê²€ì¶œ í•„ìš”
+	// Àß¸øµÈ ¾ÆÀÌµðÀÎ °æ¿ì ¿À·ù Ãâ·Â
+	if (!m_document.HasMember(id)) {
+		PERLog::Logger().ErrorWithFormat("Not correct monster ID: %s", id);
+		return nullptr;
+	}
 
-	strcpy_s(data->nameEng, m_document[monsterId]["NAME_ENG"].GetString());
-	strcpy_s(data->nameKor, m_document[monsterId]["NAME_KOR"].GetString());
-	data->stat.level = m_document[monsterId]["LEVEL"].GetInt();
-	data->stat.body = m_document[monsterId]["BODY"].GetInt();
-	data->stat.mind = m_document[monsterId]["MIND"].GetInt();
-	data->stat.physicalAttack = m_document[monsterId]["PHYSICAL_ATTACK"].GetInt();
-	data->stat.mindAttack = m_document[monsterId]["MIND_ATTACK"].GetInt();
-	data->stat.physicalDefense = m_document[monsterId]["PHYSICAL_DEFENSE"].GetInt();
-	data->stat.mindDefense = m_document[monsterId]["MIND_DEFENSE"].GetInt();
+	data->nameId = m_document[id]["NAME_ID"].GetString();
+	data->stat.level = m_document[id]["LEVEL"].GetInt();
+	data->stat.body = m_document[id]["BODY"].GetInt();
+	data->stat.mind = m_document[id]["MIND"].GetInt();
+	data->stat.physicalAttack = m_document[id]["PHYSICAL_ATTACK"].GetInt();
+	data->stat.mindAttack = m_document[id]["MIND_ATTACK"].GetInt();
+	data->stat.physicalDefense = m_document[id]["PHYSICAL_DEFENSE"].GetInt();
+	data->stat.mindDefense = m_document[id]["MIND_DEFENSE"].GetInt();
 
-	/*PERLog::Logger().InfoWithFormat("%s - \n nameEng: %s, nameKor: %s \n level: %d body: %d mind %d \n a: %d %d d: %d %d",
-		monsterId, data->nameEng, data->nameKor, data->stat.level, data->stat.body, data->stat.mind,
-		data->stat.physicalAttack, data->stat.mindAttack, data->stat.physicalDefense, data->stat.mindDefense);*/
+	return data;
+}
+
+TranslateData* JSONDataReader::MakeTranslateData(const char* id)
+{
+	TranslateData* data = new TranslateData;
+
+	// Àß¸øµÈ ¾ÆÀÌµðÀÎ °æ¿ì ¿À·ù Ãâ·Â
+	if (!m_document.HasMember(id)) {
+		PERLog::Logger().ErrorWithFormat("Not correct translate ID: %s", id);
+		return nullptr;
+	}
+
+	data->engUS = m_document[id]["ENG_US"].GetString();
+	data->korKR = m_document[id]["KOR_KR"].GetString();
 
 	return data;
 }

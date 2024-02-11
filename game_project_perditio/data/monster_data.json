@@ -1,7 +1,6 @@
 {
   "MONSTER_KOPPER": {
-    "NAME_ENG": "Kopper",
-    "NAME_KOR": "카퍼",
+    "NAME_ID": "MONSTER_KOPPER_NAME",
     "LEVEL": 5,
     "BODY": 100,
     "MIND": 100,
@@ -11,8 +10,7 @@
     "MIND_DEFENSE": 5
   },
   "MONSTER_NIKKEL": {
-    "NAME_ENG": "Nikkel",
-    "NAME_KOR": "니켈",
+    "NAME_ID": "MONSTER_NIKKEL_NAME",
     "LEVEL": 10,
     "BODY": 150,
     "MIND": 100,
@@ -22,8 +20,7 @@
     "MIND_DEFENSE": 10
   },
   "MONSTER_ANTIMONY": {
-    "NAME_ENG": "Antimony",
-    "NAME_KOR": "안티모니",
+    "NAME_ID": "MONSTER_ANTIMONY_NAME",
     "LEVEL": 15,
     "BODY": 200,
     "MIND": 150,

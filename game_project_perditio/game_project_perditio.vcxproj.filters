@@ -419,11 +419,11 @@
     <ClCompile Include="test_game_mode.cpp">
       <Filter>00. game\game_mode\test_game_mode</Filter>
     </ClCompile>
-    <ClCompile Include="json_data_reader.cpp">
-      <Filter>07. data\json</Filter>
-    </ClCompile>
     <ClCompile Include="per_database.cpp">
       <Filter>07. data\database</Filter>
+    </ClCompile>
+    <ClCompile Include="json_data_reader.cpp">
+      <Filter>07. data\json</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

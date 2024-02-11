@@ -15,6 +15,11 @@ void ObjectState::UseIgnoreDamageTime(double dTime)
 	m_damageDelay -= dTime;
 }
 
+std::string ObjectState::GetNameId() const
+{
+	return m_nameId;
+}
+
 PERStat ObjectState::GetStat() const
 {
 	return m_stat;
@@ -40,6 +45,11 @@ int ObjectState::GetCurrentMind() const
 PERVec3 ObjectState::GetSpawnPosition() const
 {
 	return m_spawnPosition;
+}
+
+void ObjectState::SetNameId(std::string& nameId)
+{
+	m_nameId = nameId;
 }
 
 void ObjectState::SetStat(PERStat stat)

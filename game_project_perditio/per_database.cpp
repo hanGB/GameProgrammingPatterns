@@ -5,24 +5,28 @@
 PERDatabase::PERDatabase()
 {
 	JSONDataReader reader;
-	reader.ReadMonsterData("./data/monster_data.json", m_MonsterDatas);
+	reader.ReadMonsterData("./data/monster_data.json", m_monsterDatas);
+	reader.ReadTranslateData("./data/translate_data.json", m_translateDatas);
 }
 
 PERDatabase::~PERDatabase()
 {
-	for (auto& MonsterData : m_MonsterDatas) {
-		delete MonsterData.second;
+	for (auto& data : m_monsterDatas) {
+		delete data.second;
+	}
+	for (auto& data : m_translateDatas) {
+		delete data.second;
 	}
 }
 
 MonsterData* PERDatabase::GetMonsterData(const char* id) const
 {
-	auto it = m_MonsterDatas.find(id);
+	auto it = m_monsterDatas.find(id);
 	
-	if (it == m_MonsterDatas.end()) {
+	if (it == m_monsterDatas.end()) {
 		PERLog::Logger().ErrorWithFormat("잘못된 몬스터 아이디로 데이터를 불러왔습니다: %s", id);
 		// 처음에 있는 몬스터 데이터를 임시로 넘김
-		return m_MonsterDatas.begin()->second;
+		return m_monsterDatas.begin()->second;
 	}
 
 	return it->second;

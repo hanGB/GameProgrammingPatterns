@@ -21,12 +21,14 @@ public:
 	virtual void RecoverPerTime(PERObject& object, double dTime);
 	virtual void GiveExp(PERObject& object, int exp);
 
+	std::string GetNameId() const;
 	PERStat GetStat() const;
 	int GetCollisionDamage() const;
 	int GetCurrentBody() const;
 	int GetCurrentMind() const;
 	PERVec3 GetSpawnPosition() const;
 
+	void SetNameId(std::string& nameId);
 	void SetStat(PERStat stat);
 	void SetIsHasCollisionDamage(bool damage);
 	void SetIsImmortal(bool immortal);
@@ -40,6 +42,7 @@ protected:
 	const int	 c_DEFAULT_LEVEL_EXP_GAP = 2;
 
 	// Ω∫≈»
+	std::string m_nameId;
 	PERStat m_stat;
 	int m_currentBody;
 	int m_currentMind;

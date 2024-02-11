@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
 
-#define PER_NAME_LENGTH 20
-
 struct PERStat {
 	short level = 1;
 	short body = 0;
@@ -14,7 +12,11 @@ struct PERStat {
 };
 
 struct MonsterData {
-	char nameEng[PER_NAME_LENGTH];
-	char nameKor[PER_NAME_LENGTH];
+	std::string nameId;
 	PERStat stat;
+};
+
+struct TranslateData {
+	std::string engUS;
+	std::string korKR;
 };
