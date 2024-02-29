@@ -425,5 +425,8 @@
     <ClCompile Include="json_data_reader.cpp">
       <Filter>07. data\json</Filter>
     </ClCompile>
+    <ClCompile Include="per_data.cpp">
+      <Filter>07. data\database</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -37,7 +37,7 @@ void PERGame::Recive(PEREvent event, PERVec3 data)
 	switch (event) {
 	case PEREvent::RUN_DEFAULT_WORLD_AND_GAME_MODE: {
 		GameMode* gameMode = new TestGameMode(new TestGameState());
-		PERWorld* world = new TestWorld(m_objectPool, gameMode);
+		PERWorld* world = new TestWorld(m_objectPool, m_database, gameMode);
 		Run(world, gameMode);
 		break; 
 	}

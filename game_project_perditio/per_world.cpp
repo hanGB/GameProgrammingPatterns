@@ -308,11 +308,12 @@ void PERWorld::InitWorldObject()
 	PERLog::Logger().InfoWithFormat("월드 내 오브젝트 수: %d", m_numObject);
 }
 
-void PERWorld::InitSettingForWorld(ObjectPool* objectPool, GameMode* mode)
+void PERWorld::InitSettingForWorld(ObjectPool* objectPool, PERDatabase* database, GameMode* mode)
 {
 	PERLog::Logger().Info("월드 생성");
 
 	m_objectPool = objectPool;
+	m_database = database;
 	m_gameMode = mode;
 
 	m_objects.reserve(PER_DEFAULT_MAX_OBJECTS);

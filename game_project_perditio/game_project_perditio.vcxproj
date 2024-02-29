@@ -210,6 +210,7 @@
     <ClCompile Include="monster_state.cpp" />
     <ClCompile Include="navigation_data.cpp" />
     <ClCompile Include="object_spawner.cpp" />
+    <ClCompile Include="per_data.cpp" />
     <ClCompile Include="per_database.cpp" />
     <ClCompile Include="per_log.cpp" />
     <ClCompile Include="object_pool.cpp" />

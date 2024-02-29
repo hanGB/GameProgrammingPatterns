@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 
+enum class PERShapeType;
+enum class PERBoundingType;
+
 struct PERStat {
 	short level = 1;
 	short body = 0;
@@ -13,10 +16,22 @@ struct PERStat {
 
 struct MonsterData {
 	std::string nameId;
+	std::string visualId;
 	PERStat stat;
 };
 
 struct TranslateData {
 	std::string engUS;
 	std::string korKR;
+};
+
+struct VisualData {
+	PERShapeType shape;
+	PERVec3 size;
+	int mass;
+	PERColor color;
+	bool borderOn;
+	int borderWidth;
+	PERColor borderColor;
+	PERBoundingType boundingType;
 };

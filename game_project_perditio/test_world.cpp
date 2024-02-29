@@ -5,9 +5,9 @@
 #include "object_pool.h"
 #include "game_mode.h"
 
-TestWorld::TestWorld(ObjectPool* objectPool, GameMode* mode)
+TestWorld::TestWorld(ObjectPool* objectPool, PERDatabase* database, GameMode* mode)
 {
-	InitSettingForWorld(objectPool, mode);
+	InitSettingForWorld(objectPool, database, mode);
 }
 
 TestWorld::~TestWorld()
@@ -113,8 +113,9 @@ void TestWorld::AddOtherObjects()
 	int monster = 0;
 	for (double x = -3.0; x <= 3.0; x += 6.0) {
 		for (double y = -3.0; y <= 3.0; y += 6.0) {
-			PERStat stat = { 1, 50, 50, 5, 5, 5, 5 };
-			m_monsterSpawners[monster].SetSpawner(PERObjectType::MONSTER, stat, PERVec3(x, y, 0.0));
+
+			MonsterData* data = m_database->GetMonsterData("MONSTER_KOPPER");
+			m_monsterSpawners[monster].SetSpawner(PERObjectType::MONSTER, data->stat, PERVec3(x, y, 0.0));
 			monster++;
 		}
 	}

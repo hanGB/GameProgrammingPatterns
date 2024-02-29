@@ -11,4 +11,5 @@ public:
 private:
 	std::map<std::string, MonsterData*> m_monsterDatas;
 	std::map<std::string, TranslateData*> m_translateDatas;
+	std::map<std::string, VisualData*> m_visualDatas;
 };

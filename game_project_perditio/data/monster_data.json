@@ -1,6 +1,7 @@
 {
   "MONSTER_KOPPER": {
     "NAME_ID": "MONSTER_KOPPER_NAME",
+    "VISUAL_ID": "MONSTER_COPPER_VISUAL",
     "LEVEL": 5,
     "BODY": 100,
     "MIND": 100,
@@ -11,6 +12,7 @@
   },
   "MONSTER_NIKKEL": {
     "NAME_ID": "MONSTER_NIKKEL_NAME",
+    "VISUAL_ID": "BASIC_MONSTER_VISUAL",
     "LEVEL": 10,
     "BODY": 150,
     "MIND": 100,
@@ -21,6 +23,7 @@
   },
   "MONSTER_ANTIMONY": {
     "NAME_ID": "MONSTER_ANTIMONY_NAME",
+    "VISUAL_ID": "BASIC_MONSTER_VISUAL",
     "LEVEL": 15,
     "BODY": 200,
     "MIND": 150,

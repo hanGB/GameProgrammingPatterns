@@ -1,11 +1,12 @@
 #pragma once
 #include "per_world.h"
+#include "per_database.h"
 
 class ObjectSpawner;
 
 class TestWorld : public PERWorld {
 public:
-	TestWorld(ObjectPool* objectPool, GameMode* mode);
+	TestWorld(ObjectPool* objectPool, PERDatabase* database, GameMode* mode);
 	~TestWorld();
 
 	// 해당 월드에 들어오고 나갈 때 처리

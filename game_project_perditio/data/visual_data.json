@@ -1,0 +1,34 @@
+{
+  "BASIC_MONSTER_VISUAL": {
+    "SHAPE": "triangle",
+    "SIZE_X": 0.25,
+    "SIZE_Y": 0.25,
+    "SIZE_Z": 0.25,
+    "MASS": 30,
+    "COLOR_R": 255,
+    "COLOR_G": 0,
+    "COLOR_B": 0,
+    "BORDER_ON": 1,
+    "BORDER_WIDTH": 1,
+    "BORDER_COLOR_R": 127,
+    "BORDER_COLOR_G": 0,
+    "BORDER_COLOR_B": 0,
+    "BOUNDING_TYPE": "rectangle"
+  },
+  "MONSTER_COPPER_VISUAL": {
+    "SHAPE": "triangle",
+    "SIZE_X": 0.35,
+    "SIZE_Y": 0.35,
+    "SIZE_Z": 0.35,
+    "MASS": 50,
+    "COLOR_R": 255,
+    "COLOR_G": 0,
+    "COLOR_B": 255,
+    "BORDER_ON": 1,
+    "BORDER_WIDTH": 1,
+    "BORDER_COLOR_R": 127,
+    "BORDER_COLOR_G": 0,
+    "BORDER_COLOR_B": 127,
+    "BOUNDING_TYPE": "rectangle"
+  }
+}

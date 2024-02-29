@@ -7,6 +7,7 @@ PERDatabase::PERDatabase()
 	JSONDataReader reader;
 	reader.ReadMonsterData("./data/monster_data.json", m_monsterDatas);
 	reader.ReadTranslateData("./data/translate_data.json", m_translateDatas);
+	reader.ReadVisualData("./data/visual_data.json", m_visualDatas);
 }
 
 PERDatabase::~PERDatabase()
@@ -15,6 +16,9 @@ PERDatabase::~PERDatabase()
 		delete data.second;
 	}
 	for (auto& data : m_translateDatas) {
+		delete data.second;
+	}
+	for (auto& data : m_visualDatas) {
 		delete data.second;
 	}
 }

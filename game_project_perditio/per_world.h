@@ -6,6 +6,7 @@ class PERController;
 class PERRenderer;
 class PERObject;
 class GameMode;
+class PERDatabase;
 
 enum class PERWorldMessageId {
 	ADD_OBJECT,
@@ -60,7 +61,7 @@ public:
 protected:
 	// 자식이 접근해서 사용할 함수
 	// 월드 설정
-	void InitSettingForWorld(ObjectPool* objectPool, GameMode* mode);
+	void InitSettingForWorld(ObjectPool* objectPool, PERDatabase* database, GameMode* mode);
 
 	// 오브젝트 색상 모양 설정
 	void SetObjectShapeAndColor(PERObject* object, PERShapeType shape, PERColor color,
@@ -72,6 +73,7 @@ protected:
 	void DeleteObject(PERObject* object);
 
 	ObjectPool* m_objectPool;
+	PERDatabase* m_database;
 	GameMode* m_gameMode;
 
 private:
