@@ -7,8 +7,8 @@ ObjectSpawner::ObjectSpawner()
 {
 }
 
-ObjectSpawner::ObjectSpawner(PERObjectType type, PERStat stat, PERVec3 pos)
-    : m_type(type), m_stat(stat), m_position(pos)
+ObjectSpawner::ObjectSpawner(std::string objectId, PERObjectType type, PERStat stat, VisualData* visualData, PERVec3 pos)
+    : m_objectId(objectId), m_type(type), m_stat(stat), m_visualData(*visualData), m_position(pos)
 {
 }
 
@@ -16,10 +16,12 @@ ObjectSpawner::~ObjectSpawner()
 {
 }
 
-void ObjectSpawner::SetSpawner(PERObjectType type, PERStat stat, PERVec3 pos)
+void ObjectSpawner::SetSpawner(std::string objectId, PERObjectType type, PERStat stat, VisualData* visualData, PERVec3 pos)
 {
+    m_objectId = objectId;
     m_type = type;
     m_stat = stat;
+    m_visualData = *visualData;
     m_position = pos;
 }
 
@@ -55,10 +57,21 @@ PERObject* ObjectSpawner::SpawnWithLiving(ObjectPool& pool)
 PERObject* ObjectSpawner::GetObjectWithSetting(ObjectPool& pool)
 {
     PERObject* object = pool.PopObject(m_type);
-    object->GetObjectState().SetStat(m_stat);
 
+    // 스탯
+    object->GetObjectState().SetStat(m_stat);
+    // 위치
     object->SetPosition(m_position);
     object->SetCurrentPositionToSpawnPosition();
+    // 크기
+    object->SetSize(m_visualData.size);
+    object->SetMass(m_visualData.mass);
+    object->SetBoundingType(m_visualData.boundingType);
+    // 그래픽
+    PERComponent::GraphicsData graphicsData;
+    graphicsData.shape = m_visualData.shape; graphicsData.color = m_visualData.color;
+    graphicsData.border = m_visualData.borderOn; graphicsData.borderWidth = m_visualData.borderWidth; graphicsData.borderColor = m_visualData.borderColor;
+    object->GetGraphics().SetData(graphicsData);
 
     m_spawnedObject = object;
     return object;

@@ -319,6 +319,16 @@ void PERWorld::InitSettingForWorld(ObjectPool* objectPool, PERDatabase* database
 	m_objects.reserve(PER_DEFAULT_MAX_OBJECTS);
 }
 
+void PERWorld::SetObjectVisual(PERObject* object, const char* visualId)
+{
+	VisualData* data = m_database->GetVisualData(visualId);
+
+	object->SetSize(data->size);
+	object->SetMass(data->mass);
+	object->SetBoundingType(data->boundingType);
+	SetObjectShapeAndColor(object, data->shape, data->color, data->borderOn, data->borderWidth, data->borderColor);
+}
+
 void PERWorld::SetObjectShapeAndColor(PERObject* object, PERShapeType shape, PERColor color,
 	bool border, int borderWidth, PERColor borderColor)
 {

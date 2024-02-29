@@ -113,9 +113,9 @@ void TestWorld::AddOtherObjects()
 	int monster = 0;
 	for (double x = -3.0; x <= 3.0; x += 6.0) {
 		for (double y = -3.0; y <= 3.0; y += 6.0) {
-
 			MonsterData* data = m_database->GetMonsterData("MONSTER_KOPPER");
-			m_monsterSpawners[monster].SetSpawner(PERObjectType::MONSTER, data->stat, PERVec3(x, y, 0.0));
+			m_monsterSpawners[monster].SetSpawner("MONSTER_KOPPER", PERObjectType::MONSTER, data->stat, 
+				m_database->GetVisualData(data->visualId.c_str()), PERVec3(x, y, 0.0));
 			monster++;
 		}
 	}

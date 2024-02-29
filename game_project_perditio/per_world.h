@@ -63,6 +63,9 @@ protected:
 	// 월드 설정
 	void InitSettingForWorld(ObjectPool* objectPool, PERDatabase* database, GameMode* mode);
 
+	// 오브젝트 비주얼 설정
+	void SetObjectVisual(PERObject* object, const char* visualId);
+
 	// 오브젝트 색상 모양 설정
 	void SetObjectShapeAndColor(PERObject* object, PERShapeType shape, PERColor color,
 		bool border = true, int borderWidth = 1, PERColor borderColor = PERColor(0, 0, 0));

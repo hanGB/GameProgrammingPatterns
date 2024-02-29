@@ -3,14 +3,15 @@
 
 class PERObject;
 class ObjectPool;
+class VisualData;
 
 class ObjectSpawner {
 public:
 	ObjectSpawner();
-	ObjectSpawner(PERObjectType type, PERStat stat, PERVec3 pos);
+	ObjectSpawner(std::string objectId, PERObjectType type, PERStat stat, VisualData* visualData, PERVec3 pos);
 	~ObjectSpawner();
 
-	void SetSpawner(PERObjectType type, PERStat stat, PERVec3 pos);
+	void SetSpawner(std::string objectId, PERObjectType type, PERStat stat, VisualData* visualData, PERVec3 pos);
 
 	PERObject* Spawn(ObjectPool& pool);
 	PERObject* SpawnWithTimer(ObjectPool& pool, double timeGap, double dTime);
@@ -20,8 +21,12 @@ private:
 	PERObject* GetObjectWithSetting(ObjectPool& pool);
 
 	// 오브젝트 설정
+	std::string m_objectId;
 	PERObjectType m_type;
 	PERStat m_stat;
+	
+	// 비주얼
+	VisualData m_visualData;
 
 	// 스폰 위치
 	PERVec3 m_position;

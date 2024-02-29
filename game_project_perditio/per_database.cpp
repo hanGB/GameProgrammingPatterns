@@ -35,3 +35,16 @@ MonsterData* PERDatabase::GetMonsterData(const char* id) const
 
 	return it->second;
 }
+
+VisualData* PERDatabase::GetVisualData(const char* id) const
+{
+	auto it = m_visualDatas.find(id);
+
+	if (it == m_visualDatas.end()) {
+		PERLog::Logger().ErrorWithFormat("잘못된 비주얼 아이디로 데이터를 불러왔습니다: %s", id);
+		// 처음에 있는 비주얼 데이터를 임시로 넘김
+		return m_visualDatas.begin()->second;
+	}
+
+	return it->second;
+}
