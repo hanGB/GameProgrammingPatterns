@@ -146,28 +146,40 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);    
 }
 
+inline int CalculateDeltaTime(std::chrono::system_clock::time_point* lastTime, std::chrono::system_clock::time_point* currentTime)
+{
+	// 현재 시간 측정
+	*currentTime = std::chrono::system_clock::now();
+	auto deltaTime = *currentTime - *lastTime;
+
+	// 경과된 시간(마이크로초 단위)
+	int dTime = (int)std::chrono::duration_cast<std::chrono::microseconds>(deltaTime).count();
+
+	// 현재 시간을 마지막 시간으로 저장
+	*lastTime = *currentTime;
+
+	return dTime;
+}
+
+inline void SleepForRestDevice(int dTime)
+{
+	// 너무 빠를 경우 휴식
+	int restTime = PER_MINIMUM_FRAME_TIME - dTime;
+	if (restTime > 0) {
+		Sleep(int(restTime / 1'000.0));
+	}
+}
+
 DWORD WINAPI GameTheadFunc(LPVOID temp)
 {
 	PERLog::Logger().Info("게임 스레드 시작");
 
-	auto lastTime = std::chrono::system_clock::now();
+	int dTime;
+	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
 	while (!g_isGameEnd) {
-		auto currentTime = std::chrono::system_clock::now();
-		auto deltaTime = currentTime - lastTime;
-
-		// 경과된 시간(마이크로초 단위)
-		int dTime = (int)std::chrono::duration_cast<std::chrono::microseconds>(deltaTime).count();
-
-		// 현재 시간을 마지막 시간으로 저장
-		lastTime = currentTime;
-
+		dTime = CalculateDeltaTime(&lastTime, &currentTime);
 		g_game->Update(dTime);
-
-		// 너무 빠를 경우 휴식
-		int restTime = PER_MINIMUM_FRAME_TIME - dTime;
-		if (restTime > 0) {
-			Sleep(int(restTime / 1'000.0));
-		}
+		SleepForRestDevice(dTime);
 	}
 
 	PERLog::Logger().Info("게임 스레드 종료");
@@ -178,8 +190,12 @@ DWORD WINAPI RenderTheadFunc(LPVOID temp)
 {
 	PERLog::Logger().Info("렌더 스레드 시작");
 
+	int dTime;
+	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
 	while (!g_isGameEnd) {
+		dTime = CalculateDeltaTime(&lastTime, &currentTime);
 		g_game->Render(g_hWnd);
+		SleepForRestDevice(dTime);
 	}
 
 	PERLog::Logger().Info("렌더 스레드 종료");
@@ -190,24 +206,12 @@ DWORD WINAPI UIUpdateTheadFunc(LPVOID temp)
 {
 	PERLog::Logger().Info("UI 업데이트 스레드 시작");
 
-	auto lastTime = std::chrono::system_clock::now();
+	int dTime;
+	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
 	while (!g_isGameEnd) {
-		auto currentTime = std::chrono::system_clock::now();
-		auto deltaTime = currentTime - lastTime;
-
-		// 경과된 시간(마이크로초 단위)
-		int dTime = (int)std::chrono::duration_cast<std::chrono::microseconds>(deltaTime).count();
-
-		// 현재 시간을 마지막 시간으로 저장
-		lastTime = currentTime;
-
+		dTime = CalculateDeltaTime(&lastTime, &currentTime);
 		g_game->UIUpdate(dTime);
-
-		// 너무 빠를 경우 휴식
-		int restTime = PER_MINIMUM_FRAME_TIME - dTime;
-		if (restTime > 0) {
-			Sleep(int(restTime / 1'000.0));
-		}
+		SleepForRestDevice(dTime);
 	}
 
 	PERLog::Logger().Info("UI 업데이트 스레드 종료");
@@ -217,8 +221,12 @@ DWORD WINAPI UIRenderTheadFunc(LPVOID temp)
 {
 	PERLog::Logger().Info("UI 렌더 스레드 시작");
 
+	int dTime;
+	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
 	while (!g_isGameEnd) {
+		dTime = CalculateDeltaTime(&lastTime, &currentTime);
 		g_game->UIRender(g_hWnd);
+		SleepForRestDevice(dTime);
 	}
 
 	PERLog::Logger().Info("UI 렌더 스레드 종료");
@@ -229,8 +237,12 @@ DWORD WINAPI AudioTheadFunc(LPVOID temp)
 {
 	PERLog::Logger().Info("오디오 스레드 시작");
 
+	int dTime;
+	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
 	while (!g_isGameEnd) {
+		dTime = CalculateDeltaTime(&lastTime, &currentTime);
 		g_game->AudioUpdate();
+		SleepForRestDevice(dTime);
 	}
 
 	PERLog::Logger().Info("오디오 스레드 종료");
@@ -241,8 +253,12 @@ DWORD WINAPI EventDispatchterTheadFunc(LPVOID temp)
 {
 	PERLog::Logger().Info("이벤트 디스패쳐 스레드 시작");
 
+	int dTime;
+	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
 	while (!g_isGameEnd) {
+		dTime = CalculateDeltaTime(&lastTime, &currentTime);
 		EventDispatcher::Update();
+		SleepForRestDevice(dTime);
 	}
 
 	PERLog::Logger().Info("이벤트 디스패쳐 스레드 종료");
@@ -253,8 +269,12 @@ DWORD WINAPI LogTheadFunc(LPVOID temp)
 {
 	PERLog::Logger().Info("로그 스레드 시작");
 
+	int dTime;
+	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
 	while (!g_isGameEnd) {
+		dTime = CalculateDeltaTime(&lastTime, &currentTime);
 		PERLog::Logger().Update();
+		SleepForRestDevice(dTime);
 	}
 
 	PERLog::Logger().Info("로그 스레드 종료");
