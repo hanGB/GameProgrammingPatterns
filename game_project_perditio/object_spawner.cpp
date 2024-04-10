@@ -71,7 +71,11 @@ PERObject* ObjectSpawner::GetObjectWithSetting(ObjectPool& pool)
     PERComponent::GraphicsData graphicsData;
     graphicsData.shape = m_visualData.shape; graphicsData.color = m_visualData.color;
     graphicsData.border = m_visualData.borderOn; graphicsData.borderWidth = m_visualData.borderWidth; graphicsData.borderColor = m_visualData.borderColor;
+    graphicsData.floatingUi = m_visualData.floatingUiOn; graphicsData.distanceVisiblefloatingUi = m_visualData.floatingUiVisibleDistance;
     object->GetGraphics().SetData(graphicsData);
+
+    // 플로팅 UI 스테이트간의 데이터를 맞춤
+    object->GetObjectState().MatchFloatingUI(object->GetFloatingUi());
 
     m_spawnedObject = object;
     return object;

@@ -3,6 +3,12 @@
 #include "per_object.h"
 #include "progress_bar.h"
 
+void MonsterState::MatchFloatingUI(UiElement* m_flotingUi)
+{
+    m_flotingUi->MatchWithData(m_nameId, m_stat.body);
+    m_flotingUi->InitializeData();
+}
+
 bool MonsterState::GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind)
 {
     if (!ObjectState::GiveDamage(object, opponent, physical, mind)) return false;

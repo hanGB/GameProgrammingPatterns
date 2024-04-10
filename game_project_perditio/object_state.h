@@ -6,6 +6,7 @@
 */
 
 class PERObject;
+class UiElement;
 
 class ObjectState {
 public:
@@ -14,6 +15,9 @@ public:
 
 	// 대미지 무시
 	void UseIgnoreDamageTime(double dTime);
+
+	// 플로팅 UI와 관련 데이터 맞춤
+	virtual void MatchFloatingUI(UiElement* m_flotingUi);
 
 	// 상태 변화
 	virtual bool GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind);

@@ -15,6 +15,10 @@ void ObjectState::UseIgnoreDamageTime(double dTime)
 	m_damageDelay -= dTime;
 }
 
+void ObjectState::MatchFloatingUI(UiElement* m_flotingUi)
+{
+}
+
 std::string ObjectState::GetNameId() const
 {
 	return m_nameId;

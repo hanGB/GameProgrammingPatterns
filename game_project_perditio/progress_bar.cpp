@@ -22,6 +22,17 @@ ProgressBar::~ProgressBar()
 {
 }
 
+void ProgressBar::MatchWithData(std::string name, int max)
+{
+	SetMax(max);
+}
+
+void ProgressBar::InitializeData()
+{
+	m_showing = m_max;
+	m_updateSpeed = 0.0;
+}
+
 void ProgressBar::Update(PERAudio& audio, double dTime)
 {
 	if (m_showing != m_current) UpdateShowingValue(audio, dTime);
