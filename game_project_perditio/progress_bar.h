@@ -9,8 +9,7 @@ public:
 	ProgressBar(PERVec2 pos, int max, int current);
 	~ProgressBar();
 	
-	virtual void MatchWithData(std::string name, int max);
-	virtual void InitializeData();
+	virtual void MatchWithData(std::string name, int max, int current);
 
 	virtual void Update(PERAudio& audio, double dTime);
 	virtual void RenderInScreen(PERRenderer& renderer);

@@ -22,15 +22,11 @@ ProgressBar::~ProgressBar()
 {
 }
 
-void ProgressBar::MatchWithData(std::string name, int max)
+void ProgressBar::MatchWithData(std::string name, int max, int current)
 {
 	SetMax(max);
-}
-
-void ProgressBar::InitializeData()
-{
-	m_showing = m_max;
-	m_updateSpeed = 0.0;
+	SetCurrent(current);
+	UpateShowingValueImmediately();
 }
 
 void ProgressBar::Update(PERAudio& audio, double dTime)
@@ -90,6 +86,7 @@ void ProgressBar::SetBorder(bool border, int width, PERColor color)
 void ProgressBar::UpateShowingValueImmediately()
 {
 	m_showing = m_current;
+	m_updateSpeed = 0.0;
 }
 
 void ProgressBar::UpdateShowingValue(PERAudio& audio, double dTime)

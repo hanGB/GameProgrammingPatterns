@@ -8,8 +8,7 @@ public:
 	UiElement();
 	~UiElement();
 
-	virtual void MatchWithData(std::string name, int max) = 0;
-	virtual void InitializeData() = 0;
+	virtual void MatchWithData(std::string name, int max, int current) = 0;
 
 	virtual void Update(PERAudio& audio, double dTime) = 0;
 	virtual void RenderInScreen(PERRenderer& renderer) = 0;
