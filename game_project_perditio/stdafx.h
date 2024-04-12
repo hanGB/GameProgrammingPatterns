@@ -82,6 +82,9 @@
 #define PER_DEFAULT_OBJECT_POOL_SIZE  1024
 #define PER_DEFAULT_MAX_OBJECTS		  1024
 
+// UI
+#define PER_DEFAULT_UI_ELEMENT_POOL_SIZE 256
+
 // 이벤트
 #define PER_DEFAULT_MAX_EVENT_PENDING  512
 
@@ -177,12 +180,23 @@ enum class PERObjectStateType {
 	NUM_OBJECT_STATE_TYPE
 };
 
+// 이름이 변경되어 삭제 필요(구조 변경전 오류 해결용)
 enum class PERFloatingUiType {
 	NON,
-	TEXT,
 	PROGRESS_BAR,
+	NAME_TAG,
+	INPUT_KEY_ALARM,
 	NUM_FLOATING_UI_TYPE
 };
+
+enum class PERUiElementType {
+	NON,
+	PROGRESS_BAR,
+	NAME_TAG,
+	INPUT_KEY_ALARM,
+	NUM_UI_ELEMENT_TYPE
+};
+
 
 namespace std {
 	int clamp(int value, int min, int max);

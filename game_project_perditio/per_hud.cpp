@@ -5,77 +5,55 @@
 
 PERHud::PERHud()
 {
-	PERLog::Logger().Info("HUD 持失");
-
-	m_uiElements.reserve(m_maxElements);
-	m_uiElements.resize(m_maxElements);
-
-	ProgressBar* bodyBar = new ProgressBar(PERVec2(-0.95, 0.9), 100, 100);
-	bodyBar->SetColor(PERColor(200, 200, 200), PERColor(255, 0, 0));
-	m_bodyBarIndex = PushElement(bodyBar);
-
-	ProgressBar* mindBar = new ProgressBar(PERVec2(-0.95, 0.8), 100, 100);
-	mindBar->SetColor(PERColor(200, 200, 200), PERColor(0, 0, 255));
-	m_mindBarIndex = PushElement(mindBar);
+	
 }
 
 PERHud::~PERHud()
 {
-	int i = 0;
-	for (auto& element : m_uiElements) {
-		if (i == m_numElement) break;
-		delete element;
+	for (int i = 0; i < m_numElementOnScreen; ++i) {
+		m_uiElementPool->PushElement(m_uiElementsOnScreen[i]->GetType(), m_uiElementsOnScreen[i]);
 	}
+
+	m_uiElementsOnScreen.resize(0);
 }
 
 void PERHud::Update(PERAudio& audio, double dTime)
 {
-	int i = 0;
-	for (auto& element : m_uiElements) {
-		if (i == m_numElement) break;
-		element->Update(audio, dTime);
+	for (int i = 0; i < m_numElementOnScreen; ++i) {
+		m_uiElementsOnScreen[i]->Update(audio, dTime);
 	}
 }
 
 void PERHud::Renderer(PERRenderer& renderer)
 {
-	int i = 0;
-	for (auto& element : m_uiElements) {
-		if (i == m_numElement) break;
-		element->RenderInScreen(renderer);
+	for (int i = 0; i < m_numElementOnScreen; ++i) {
+		m_uiElementsOnScreen[i]->RenderInScreen(renderer);
 	}
 }
 
 void PERHud::Recive(PEREvent event, PERVec3 data)
 {
-	switch (event) {
-	case PEREvent::UPDATE_BD:
-		dynamic_cast<ProgressBar*>(m_uiElements[m_bodyBarIndex])->SetCurrent((int)data.x);
-		break;
-	case PEREvent::UPDATE_MD: 
-		dynamic_cast<ProgressBar*>(m_uiElements[m_mindBarIndex])->SetCurrent((int)data.x);
-		break;
+	
+}
+
+void PERHud::InitSettingForHud(UiElementPool* uiElementPool)
+{
+	PERLog::Logger().Info("HUD 持失");
+
+	m_uiElementPool = uiElementPool;
+
+	m_uiElementsOnScreen.reserve(c_MAX_ELEMENTS);
+	m_uiElementsOnScreen.resize(c_MAX_ELEMENTS);
+}
+
+int PERHud::PushElementOnScreen(UiElement* element)
+{
+	if (m_uiElementsOnScreen.size() == m_numElementOnScreen) {
+		m_uiElementsOnScreen.push_back(element);
 	}
-}
-
-ProgressBar* PERHud::GetBodyBar()
-{
-	return dynamic_cast<ProgressBar*>(m_uiElements[m_bodyBarIndex]);
-}
-
-ProgressBar* PERHud::GetMindBar()
-{
-	return dynamic_cast<ProgressBar*>(m_uiElements[m_mindBarIndex]);
-}
-
-int PERHud::PushElement(UiElement* element)
-{
-	if (m_numElement == m_maxElements) {
-		m_maxElements *= 2;
-		m_uiElements.reserve(m_maxElements);
-		m_uiElements.resize(m_maxElements);
+	else {
+		m_uiElementsOnScreen[m_numElementOnScreen] = element;
 	}
-	m_uiElements.push_back(element);
-	m_numElement++;
-	return m_numElement - 1;
+	m_numElementOnScreen++;
+	return m_numElementOnScreen - 1;
 }

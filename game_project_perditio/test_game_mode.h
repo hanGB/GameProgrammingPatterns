@@ -4,7 +4,7 @@
 
 class TestGameMode : public GameMode {
 public:
-	TestGameMode(GameState* gameState);
+	TestGameMode(GameState* gameState, UiElementPool* uiElementPool);
 	~TestGameMode();
 
 	virtual void StartUse();
@@ -16,5 +16,5 @@ private:
 	// 플레이어 팩토리 생성
 	virtual void CreatePlayerFactory();
 	// hud 생성
-	virtual PERHud* CreateHud();
+	virtual PERHud* CreateHud(UiElementPool* uiElementPool);
 };

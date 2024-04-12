@@ -3,7 +3,7 @@
 
 class PERObject;
 class ObjectPool;
-class VisualData;
+struct VisualData;
 
 class ObjectSpawner {
 public:

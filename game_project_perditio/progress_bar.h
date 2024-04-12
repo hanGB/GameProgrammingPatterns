@@ -6,6 +6,7 @@ class PERAudio;
 
 class ProgressBar : public UiElement {
 public:
+	ProgressBar();
 	ProgressBar(PERVec2 pos, int max, int current);
 	~ProgressBar();
 	
@@ -33,9 +34,9 @@ private:
 	PERColor	m_progressColor;
 
 	// 테두리 정보
-	bool		m_border;
-	int			m_borderWidth;
-	PERColor	m_borderColor;
+	bool		m_border = true;
+	int			m_borderWidth = 1;
+	PERColor	m_borderColor = PERColor(0, 0, 0);
 
 	// 데이터 정보
 	int		m_max;

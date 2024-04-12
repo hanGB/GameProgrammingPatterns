@@ -172,6 +172,7 @@
     <ClInclude Include="player_state.h" />
     <ClInclude Include="progress_bar.h" />
     <ClInclude Include="stuck_physics_component.h" />
+    <ClInclude Include="test_field_hud.h" />
     <ClInclude Include="test_game_mode.h" />
     <ClInclude Include="test_game_state.h" />
     <ClInclude Include="test_world.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="per_world.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="ui_element.h" />
+    <ClInclude Include="ui_element_pool.h" />
     <ClInclude Include="visible_graphics_component.h" />
     <ClInclude Include="console_logger.h" />
   </ItemGroup>
@@ -221,9 +223,11 @@
     <ClCompile Include="player_state.cpp" />
     <ClCompile Include="progress_bar.cpp" />
     <ClCompile Include="stuck_physics_component.cpp" />
+    <ClCompile Include="test_field_hud.cpp" />
     <ClCompile Include="test_game_mode.cpp" />
     <ClCompile Include="test_game_state.cpp" />
     <ClCompile Include="test_world.cpp" />
+    <ClCompile Include="ui_element_pool.cpp" />
     <ClCompile Include="unintelligent_ai_component.cpp" />
     <ClCompile Include="fixed_physics_component.cpp" />
     <ClCompile Include="hidden_graphics_component.cpp" />

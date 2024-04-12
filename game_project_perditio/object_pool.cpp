@@ -208,5 +208,4 @@ void ObjectPool::ClearObjectPools()
             delete object;
         }
     }
-
 }

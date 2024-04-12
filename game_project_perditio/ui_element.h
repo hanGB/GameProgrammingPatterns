@@ -16,8 +16,14 @@ public:
 
 	void SetPosition(PERVec2 position);
 	void SetSize(PERVec2 size);
+	void SetType(PERUiElementType type);
+
+	PERUiElementType GetType() const;
 
 protected:
 	PERVec2	m_position;
 	PERVec2	m_size;
+
+private:
+	PERUiElementType m_type;
 };

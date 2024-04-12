@@ -15,6 +15,7 @@ PERGame::PERGame(HWND hWnd)
 	m_audio = new NullAudio();
 	m_objectPool = new ObjectPool();
 	m_database = new PERDatabase();
+	m_uiElementPool = new UiElementPool();
 
 	PERLog::Logger().Info("게임 클래스 생성 완료");
 }
@@ -28,6 +29,7 @@ PERGame::~PERGame()
 	delete m_currentWorld;
 	delete m_objectPool;
 	delete m_player;
+	delete m_uiElementPool;
 
 	PERLog::Logger().Info("게임 클래스 삭제 완료");
 }
@@ -36,7 +38,7 @@ void PERGame::Recive(PEREvent event, PERVec3 data)
 {
 	switch (event) {
 	case PEREvent::RUN_DEFAULT_WORLD_AND_GAME_MODE: {
-		GameMode* gameMode = new TestGameMode(new TestGameState());
+		GameMode* gameMode = new TestGameMode(new TestGameState(), m_uiElementPool);
 		PERWorld* world = new TestWorld(m_objectPool, m_database, gameMode);
 		Run(world, gameMode);
 		break; 

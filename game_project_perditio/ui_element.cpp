@@ -20,3 +20,13 @@ void UiElement::SetSize(PERVec2 size)
 {
 	m_size = size;
 }
+
+void UiElement::SetType(PERUiElementType type)
+{
+	m_type = type;
+}
+
+PERUiElementType UiElement::GetType() const
+{
+	return m_type;
+}

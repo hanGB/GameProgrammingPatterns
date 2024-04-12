@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "test_game_mode.h"
-#include "per_hud.h"
+#include "test_field_hud.h"
 #include "event_dispatcher.h"
 #include "per_game.h"
 #include "game_state.h"
@@ -8,11 +8,12 @@
 #include "per_object.h"
 #include "object_state.h"
 #include "black_board.h"
+#include "ui_element_pool.h"
 
-TestGameMode::TestGameMode(GameState* gameState)
+TestGameMode::TestGameMode(GameState* gameState, UiElementPool* uiElementPool)
 {
     SetGameState(gameState);
-    InitGameMode();
+    InitGameMode(uiElementPool);
 }
 
 TestGameMode::~TestGameMode()
@@ -69,16 +70,13 @@ void TestGameMode::CreatePlayerFactory()
     m_playerFactory->SetSize(PERVec3(0.5, 0.5, 0.5)); m_playerFactory->SetMass(70);
 }
 
-PERHud* TestGameMode::CreateHud()
+PERHud* TestGameMode::CreateHud(UiElementPool* uiElementPool)
 {
-    PERHud* hud = new PERHud();
+    TestFieldHud* hud = new TestFieldHud(uiElementPool);
 
     ObjectState playerState = m_player->GetObjectState();
-    hud->GetBodyBar()->SetMax(playerState.GetStat().body);
-    hud->GetBodyBar()->SetCurrent(playerState.GetCurrentBody());
-    hud->GetMindBar()->SetMax(playerState.GetStat().mind);
-    hud->GetMindBar()->SetCurrent(playerState.GetCurrentBody());
+    hud->GetBodyBar()->MatchWithData("", playerState.GetStat().body, playerState.GetCurrentBody());
+    hud->GetMindBar()->MatchWithData("", playerState.GetStat().mind, playerState.GetCurrentMind());
 
     return hud;
 }
-

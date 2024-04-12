@@ -2,17 +2,20 @@
 #include "progress_bar.h"
 #include "per_renderer.h"
 
+ProgressBar::ProgressBar()
+{
+	SetType(PERUiElementType::PROGRESS_BAR);
+}
+
 ProgressBar::ProgressBar(PERVec2 pos, int max, int current)
 	: m_max(max), m_current(current)
 {
+	SetType(PERUiElementType::PROGRESS_BAR);
+
 	m_position = pos;
 	m_size = PERVec2(0.4, 0.1);
 	m_barColor = PERColor(255, 255, 255);
 	m_progressColor = PERColor(127, 127, 127);
-
-	m_border = true;
-	m_borderWidth = 1;
-	m_borderColor = PERColor(0, 0, 0);
 
 	m_showing = current;
 	m_updateSpeed = 0.0;

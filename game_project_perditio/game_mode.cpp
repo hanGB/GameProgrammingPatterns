@@ -52,9 +52,9 @@ void GameMode::SetGameState(GameState* gameState)
 	m_gameState = gameState;
 }
 
-void GameMode::InitGameMode()
+void GameMode::InitGameMode(UiElementPool* uiElementPool)
 {
 	CreatePlayerFactory();
 	m_player = m_playerFactory->CreateObject();
-	m_hud = CreateHud();
+	m_hud = CreateHud(uiElementPool);
 }

@@ -242,8 +242,6 @@ UiElement* ObjectFactory::CreateFloatingUI(ObjectState* objectState)
 
     switch (m_floatingUiType)
     {
-    case PERFloatingUiType::TEXT:
-        break;
     case PERFloatingUiType::PROGRESS_BAR: {
         floatingUi = new ProgressBar(PERVec2(0.0, 0.0), objectState->GetStat().body, objectState->GetStat().body);
         floatingUi->SetSize(PERVec2(1.0, 0.2));
