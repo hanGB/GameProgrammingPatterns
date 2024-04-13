@@ -264,11 +264,11 @@ void PERWorld::ProcessPendingMessage()
 void PERWorld::AddObject(PERObject* object)
 {
 	if (m_objects.size() == m_numObject) {
-		m_objects.push_back(object);
+		m_maxObject *= 2;
+		m_objects.reserve(m_maxObject);
+		m_objects.resize(m_maxObject);
 	}
-	else {
-		m_objects[m_numObject] = object;
-	}
+	m_objects[m_numObject] = object;
 	object->SetIDInWorld(m_numObject);
 	m_numObject++;
 
@@ -316,7 +316,8 @@ void PERWorld::InitSettingForWorld(ObjectPool* objectPool, PERDatabase* database
 	m_database = database;
 	m_gameMode = mode;
 
-	m_objects.reserve(PER_DEFAULT_MAX_OBJECTS);
+	m_objects.reserve(m_maxObject);
+	m_objects.resize(m_maxObject);
 }
 
 void PERWorld::SetObjectVisual(PERObject* object, const char* visualId)

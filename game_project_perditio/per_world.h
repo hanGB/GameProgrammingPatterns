@@ -112,6 +112,7 @@ private:
 	void ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType aType, PERObject& bObject, PERObjectType bType, double dTime);
 
 	std::vector<PERObject*> m_objects;
+	int m_maxObject = PER_DEFAULT_MAX_OBJECTS;
 	int m_numObject = 0;
 
 	// 렌더링용 z좌표로 정렬된 오브젝트 벡터

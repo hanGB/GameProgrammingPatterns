@@ -42,18 +42,18 @@ void PERHud::InitSettingForHud(UiElementPool* uiElementPool)
 
 	m_uiElementPool = uiElementPool;
 
-	m_uiElementsOnScreen.reserve(c_MAX_ELEMENTS);
-	m_uiElementsOnScreen.resize(c_MAX_ELEMENTS);
+	m_uiElementsOnScreen.reserve(m_maxElementOnScreen);
+	m_uiElementsOnScreen.resize(m_maxElementOnScreen);
 }
 
 int PERHud::PushElementOnScreen(UiElement* element)
 {
 	if (m_uiElementsOnScreen.size() == m_numElementOnScreen) {
-		m_uiElementsOnScreen.push_back(element);
+		m_maxElementOnScreen *= 2;
+		m_uiElementsOnScreen.reserve(m_maxElementOnScreen);
+		m_uiElementsOnScreen.resize(m_maxElementOnScreen);
 	}
-	else {
-		m_uiElementsOnScreen[m_numElementOnScreen] = element;
-	}
+	m_uiElementsOnScreen[m_numElementOnScreen] = element;
 	m_numElementOnScreen++;
 	return m_numElementOnScreen - 1;
 }

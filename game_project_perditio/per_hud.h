@@ -29,5 +29,6 @@ protected:
 private:
 	static const int c_MAX_ELEMENTS = 128;
 
+	int m_maxElementOnScreen = c_MAX_ELEMENTS;
 	int m_numElementOnScreen = 0;
 };
