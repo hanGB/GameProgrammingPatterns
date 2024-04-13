@@ -12,8 +12,8 @@ bool MonsterState::GiveDamage(PERObject& object, PERObject& opponent, short phys
 {
     if (!ObjectState::GiveDamage(object, opponent, physical, mind)) return false;
 
-    dynamic_cast<ProgressBar*>(object.GetFloatingUi())->SetCurrent(m_currentBody);
-    dynamic_cast<ProgressBar*>(object.GetFloatingUi())->UpateShowingValueImmediately();
+    //dynamic_cast<ProgressBar*>(object.GetFloatingUi())->SetCurrent(m_currentBody);
+    //dynamic_cast<ProgressBar*>(object.GetFloatingUi())->UpateShowingValueImmediately();
     return true;
 }
 

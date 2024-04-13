@@ -5,7 +5,7 @@
 class ObjectFactory {
 public:
 	ObjectFactory();
-	ObjectFactory(PERObjectType objectType, PERObjectStateType stateType, PERFloatingUiType floatingUiType,
+	ObjectFactory(PERObjectType objectType, PERObjectStateType stateType,
 		PERComponentType input, PERComponentType ai, 
 		PERComponentType physics, PERComponentType graphics);
 	~ObjectFactory();
@@ -37,12 +37,9 @@ private:
 	void InitData();
 	// 오브젝트 스테이트 생성
 	ObjectState* CreateObjectState();
-	// 떠있는 ui 생성
-	UiElement* CreateFloatingUI(ObjectState* objectState);
-
+	
 	PERObjectType m_objectType;
 	PERObjectStateType m_objectStateType;
-	PERFloatingUiType m_floatingUiType;
 
 	PERComponent::ComponentTypes m_componentTypes;
 

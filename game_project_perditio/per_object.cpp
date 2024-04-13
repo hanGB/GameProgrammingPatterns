@@ -2,10 +2,10 @@
 #include "per_object.h"
 #include "object_factory.h"
 
-PERObject::PERObject(ObjectFactory& factory, ObjectState* objectState, UiElement* floatingUi,
+PERObject::PERObject(ObjectFactory& factory, ObjectState* objectState,
 	InputComponent* input, AiComponent* ai, 
 	PhysicsComponent* physics, GraphicsComponent* graphics)
-	: m_factory(factory), m_objectState(objectState), m_flotingUi(floatingUi),
+	: m_factory(factory), m_objectState(objectState),
 	m_input(input), m_ai(ai), m_physics(physics), m_graphics(graphics)
 {
 	m_size = m_factory.GetSize();
@@ -57,12 +57,6 @@ PhysicsComponent& PERObject::GetPhysics()
 GraphicsComponent& PERObject::GetGraphics()
 {
 	return *m_graphics;
-}
-
-
-UiElement* PERObject::GetFloatingUi()
-{
-	return m_flotingUi;
 }
 
 PERObjectType PERObject::GetObjectType() const
@@ -139,11 +133,6 @@ double PERObject::GetLifeTime() const
 	return m_lifeTime;
 }
 
-void PERObject::SetFlotingUi(UiElement* element)
-{
-	m_flotingUi = element;
-}
-
 void PERObject::SetParent(PERObject* object)
 {
 	m_parent = object;
@@ -152,10 +141,6 @@ void PERObject::SetParent(PERObject* object)
 void PERObject::SetPosition(PERVec3 pos)
 {
 	m_position = pos;
-
-	if (m_flotingUi) {
-		m_flotingUi->SetPosition(PERVec2(pos.x, pos.y + m_size.y * 1.6));
-	}
 }
 
 void PERObject::SetSize(PERVec3 size)

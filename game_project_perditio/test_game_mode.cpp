@@ -53,7 +53,6 @@ void TestGameMode::CreatePlayerFactory()
     m_playerFactory = new ObjectFactory(
         PERObjectType::PLAYER,
         PERObjectStateType::PLAYER,
-        PERFloatingUiType::NON,
         PERComponentType::PLAYER_INPUT,
         PERComponentType::UNINTELLIGENT,
         PERComponentType::MOVABLE,

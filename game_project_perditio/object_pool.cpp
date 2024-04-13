@@ -49,7 +49,6 @@ void ObjectPool::CreateObjectFactories()
         = new ObjectFactory(
             PERObjectType::FIXED_BLOCK,
             PERObjectStateType::NON,
-            PERFloatingUiType::NON,
             PERComponentType::NO_INTERACT,
             PERComponentType::UNINTELLIGENT,
             PERComponentType::FIXED,
@@ -71,7 +70,6 @@ void ObjectPool::CreateObjectFactories()
         = new ObjectFactory(
             PERObjectType::MOVABLE_BLOCK,
             PERObjectStateType::NON,
-            PERFloatingUiType::NON,
             PERComponentType::NO_INTERACT,
             PERComponentType::UNINTELLIGENT,
             PERComponentType::MOVABLE,
@@ -93,7 +91,6 @@ void ObjectPool::CreateObjectFactories()
         = new ObjectFactory(
             PERObjectType::MONSTER,
             PERObjectStateType::MONSTER,
-            PERFloatingUiType::PROGRESS_BAR,
             PERComponentType::NO_INTERACT,
             PERComponentType::MONSTER_AI,
             PERComponentType::MOVABLE,
@@ -115,7 +112,6 @@ void ObjectPool::CreateObjectFactories()
         = new ObjectFactory(
             PERObjectType::BULLET,
             PERObjectStateType::NON,
-            PERFloatingUiType::NON,
             PERComponentType::NO_INTERACT,
             PERComponentType::UNINTELLIGENT,
             PERComponentType::MOVABLE,
@@ -129,7 +125,7 @@ void ObjectPool::CreateObjectFactories()
     graphics.floatingUi = false; graphics.distanceVisiblefloatingUi = 0.0;
     bulletFactory->SetInputData(input);                 bulletFactory->SetAiData(ai);
     bulletFactory->SetPhysicsData(physics);             bulletFactory->SetGraphicsData(graphics);
-    bulletFactory->SetSize(PERVec3(0.2, 0.2, 0.2));  bulletFactory->SetMass(5);
+    bulletFactory->SetSize(PERVec3(0.2, 0.2, 0.2));     bulletFactory->SetMass(5);
     m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::BULLET, bulletFactory));
 
     // blade
@@ -137,7 +133,6 @@ void ObjectPool::CreateObjectFactories()
         = new ObjectFactory(
             PERObjectType::BLADE,
             PERObjectStateType::NON,
-            PERFloatingUiType::NON,
             PERComponentType::NO_INTERACT,
             PERComponentType::UNINTELLIGENT,
             PERComponentType::STUCK,
