@@ -4,8 +4,6 @@
 
 class PlayerState : public ObjectState {
 public:
-	virtual void MatchFloatingUI(UiElement* m_flotingUi);
-
 	virtual bool GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind);
 	virtual bool UseMind(PERObject& object, int mind);
 	virtual void RecoverPerTime(PERObject& object, double dTime);

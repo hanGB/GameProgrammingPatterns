@@ -13,7 +13,7 @@ public:
 	virtual void MatchWithData(std::string name, int max, int current);
 
 	virtual void Update(PERAudio& audio, double dTime);
-	virtual void RenderInScreen(PERRenderer& renderer);
+	virtual void RenderOnScreen(PERRenderer& renderer);
 	virtual void RenderInWorld(PERRenderer& renderer);
 
 	void SetCurrent(int current);

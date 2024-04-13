@@ -7,6 +7,7 @@ class PERRenderer;
 class PERObject;
 class GameMode;
 class PERDatabase;
+class PERHud;
 
 enum class PERWorldMessageId {
 	ADD_OBJECT,
@@ -57,6 +58,8 @@ public:
 
 	// 충돌 확인
 	bool CheckCollision(PERObject& object, double dTime);
+
+	PERHud& GetHud();
 	
 protected:
 	// 자식이 접근해서 사용할 함수

@@ -75,11 +75,12 @@ void PERWorld::Render(PERRenderer& renderer, double frameGap)
 	for (int i = 0; i < m_sortedObjects.size(); ++i) {
 		m_sortedObjects[i]->GetGraphics().Render(*m_sortedObjects[i], renderer, frameGap);
 	}
+	GetHud().RendererInWorld(renderer);
 }
 
 void PERWorld::UIRender(PERRenderer& renderer)
 {
-	m_gameMode->GetHud().Renderer(renderer);
+	GetHud().Renderer(renderer);
 }
 
 void PERWorld::Enter()
@@ -219,6 +220,11 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 	}
 
 	return collided;
+}
+
+PERHud& PERWorld::GetHud()
+{
+	return m_gameMode->GetHud();
 }
 
 void PERWorld::DoGarbegeCollection(double dTime)

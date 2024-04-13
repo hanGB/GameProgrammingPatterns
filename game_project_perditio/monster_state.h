@@ -4,10 +4,11 @@
 
 class MonsterState : public ObjectState {
 public:
-	virtual void MatchFloatingUI(UiElement* m_flotingUi);
-
 	virtual bool GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind);
 	virtual bool UseMind(PERObject& object, int mind);
+	virtual void MatchFloatingUI(PERObject& object);
+
+	virtual void ShowFloatingUi(PERObject& object, PERHud* hud);
 
 	// setter
 	void SetSight(double sight);

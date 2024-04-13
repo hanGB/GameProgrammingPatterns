@@ -2,11 +2,7 @@
 #include "monster_state.h"
 #include "per_object.h"
 #include "progress_bar.h"
-
-void MonsterState::MatchFloatingUI(UiElement* m_flotingUi)
-{
-    m_flotingUi->MatchWithData(m_nameId, m_stat.body, m_currentBody);
-}
+#include "per_hud.h"
 
 bool MonsterState::GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind)
 {
@@ -21,6 +17,29 @@ bool MonsterState::UseMind(PERObject& object, int mind)
 {
     if (!ObjectState::UseMind(object, mind)) return false;
     return true;
+}
+
+void MonsterState::MatchFloatingUI(PERObject& object)
+{
+    if (!m_floatingUi) return;
+
+    PERVec2 pos = PERVec2(object.GetPosition().x, object.GetPosition().y + object.GetSize().y * 1.5);
+
+    m_floatingUi->SetPosition(pos);
+    m_floatingUi->MatchWithData(m_nameId, m_stat.body, m_currentBody);
+}
+
+void MonsterState::ShowFloatingUi(PERObject& object, PERHud* hud)
+{
+    UiElement* element = hud->GetNewUiElementInPool(PERUiElementType::PROGRESS_BAR);
+    m_floatingUi = element;
+
+    element->SetSize(PERVec2(1.0, 0.2));
+    dynamic_cast<ProgressBar*>(element)->SetColor(PERColor(200, 200, 200), PERColor(255, 0, 0));
+
+    MatchFloatingUI(object);
+    
+    hud->PushElementInWorld(element);
 }
 
 void MonsterState::SetSight(double sight)

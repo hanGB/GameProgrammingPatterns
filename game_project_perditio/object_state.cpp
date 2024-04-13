@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "object_state.h"
 #include "per_object.h"
+#include "ui_element.h"
 
 ObjectState::ObjectState()
 {
@@ -13,10 +14,6 @@ ObjectState::~ObjectState()
 void ObjectState::UseIgnoreDamageTime(double dTime)
 {
 	m_damageDelay -= dTime;
-}
-
-void ObjectState::MatchFloatingUI(UiElement* m_flotingUi)
-{
 }
 
 std::string ObjectState::GetNameId() const
@@ -99,6 +96,7 @@ bool ObjectState::GiveDamage(PERObject& object, PERObject& opponent, short physi
 
 	if (m_currentBody <= 0) {
 		object.SetLifeTime(-1.0);
+		HideFloatingUi();
 
 		// 부모가 있을 경우 총알이나 칼날이므로 부모에게 경험치를 줌
 		if (opponent.GetParent()) {
@@ -131,4 +129,18 @@ void ObjectState::GiveExp(PERObject& object, int exp)
 		m_exp -= m_stat.level * c_DEFAULT_LEVEL_EXP_GAP;
 		m_stat.level++;
 	}
+}
+
+void ObjectState::MatchFloatingUI(PERObject& object)
+{
+}
+
+void ObjectState::ShowFloatingUi(PERObject& object, PERHud* hud)
+{
+}
+
+void ObjectState::HideFloatingUi()
+{
+	if (m_floatingUi) m_floatingUi->SetIsLiving(false);
+	m_floatingUi = nullptr;
 }

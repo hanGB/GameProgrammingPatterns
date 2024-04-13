@@ -37,7 +37,7 @@ void ProgressBar::Update(PERAudio& audio, double dTime)
 	if (m_showing != m_current) UpdateShowingValue(audio, dTime);
 }
 
-void ProgressBar::RenderInScreen(PERRenderer& renderer)
+void ProgressBar::RenderOnScreen(PERRenderer& renderer)
 {
 	// ¹Ù
 	renderer.RenderShapeInScreenCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,

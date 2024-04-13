@@ -151,6 +151,10 @@ void TestWorld::WorldUpdate(PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < 4; ++i) {
 		PERObject* monster = m_monsterSpawners[i].SpawnWithLiving(*m_objectPool);
-		if (monster) AddObject(monster);
+		if (monster) {
+			monster->GetObjectState().ShowFloatingUi(*monster, &GetHud());
+			AddObject(monster);
+
+		}
 	}
 }

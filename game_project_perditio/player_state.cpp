@@ -2,10 +2,6 @@
 #include "player_state.h"
 #include "event_dispatcher.h"
 
-void PlayerState::MatchFloatingUI(UiElement* m_flotingUi)
-{
-}
-
 bool PlayerState::GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind)
 {
     if (!ObjectState::GiveDamage(object, opponent, physical, mind)) return false;

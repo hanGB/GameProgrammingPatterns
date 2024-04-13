@@ -6,6 +6,7 @@
 */
 
 class PERObject;
+class PERHud;
 class UiElement;
 
 class ObjectState {
@@ -16,14 +17,19 @@ public:
 	// 대미지 무시
 	void UseIgnoreDamageTime(double dTime);
 
-	// 플로팅 UI와 관련 데이터 맞춤
-	virtual void MatchFloatingUI(UiElement* m_flotingUi);
-
 	// 상태 변화
 	virtual bool GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind);
 	virtual bool UseMind(PERObject& object, int mind);
 	virtual void RecoverPerTime(PERObject& object, double dTime);
 	virtual void GiveExp(PERObject& object, int exp);
+	virtual void MatchFloatingUI(PERObject& object);
+
+
+	// 플로팅 UI를 가져와 보이게 설정
+	virtual void ShowFloatingUi(PERObject& object, PERHud* hud);
+	// 플로팅 UI와 관련 데이터 맞춤
+	// 플로팅 UI 죽은 걸로 설정해 숨김
+	virtual void HideFloatingUi();
 
 	std::string GetNameId() const;
 	PERStat GetStat() const;
@@ -39,6 +45,8 @@ public:
 	void SetSpawnPosition(PERVec3 position);
 
 protected:
+	static const int	c_DEFAULT_MAXIMUM_FLOATING_UI = 5;
+
 	const double c_DEFAULT_TIME_FOR_RECOVER = 3.0;
 	const double c_DEFAULT_BODY_RECOVER_PERCENT = 0.025;
 	const double c_DEFAULT_MIND_RECOVER_PERCENT = 0.1;
@@ -66,4 +74,7 @@ protected:
 
 	// 스폰 위치
 	PERVec3 m_spawnPosition = PERVec3(0.0, 0.0, 0.0);
+
+	// 플로팅 ui
+	UiElement* m_floatingUi = nullptr;
 };

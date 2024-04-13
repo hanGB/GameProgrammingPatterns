@@ -180,15 +180,6 @@ enum class PERObjectStateType {
 	NUM_OBJECT_STATE_TYPE
 };
 
-// 이름이 변경되어 삭제 필요(구조 변경전 오류 해결용)
-enum class PERFloatingUiType {
-	NON,
-	PROGRESS_BAR,
-	NAME_TAG,
-	INPUT_KEY_ALARM,
-	NUM_FLOATING_UI_TYPE
-};
-
 enum class PERUiElementType {
 	NON,
 	PROGRESS_BAR,

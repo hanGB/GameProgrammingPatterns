@@ -24,6 +24,8 @@ void MonsterAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& au
 	object.GetObjectState().RecoverPerTime(object, dTime);
 	// 행동 트리 실행
 	m_behaviorTree->Run(object, dTime);
+
+	object.GetObjectState().MatchFloatingUI(object);
 }
 
 void MonsterAiComponent::SetData(PERComponent::AiData data)
