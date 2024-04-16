@@ -28,7 +28,6 @@ PERGame::~PERGame()
 	delete m_renderer;
 	delete m_currentWorld;
 	delete m_objectPool;
-	delete m_player;
 	delete m_uiElementPool;
 
 	PERLog::Logger().Info("게임 클래스 삭제 완료");

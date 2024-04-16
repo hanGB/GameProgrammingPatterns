@@ -54,7 +54,6 @@ private:
 	PERDatabase*	m_database;
 	UiElementPool*	m_uiElementPool;
 
-	PERObject*	m_player;
 	PERWorld*	m_currentWorld;
 	GameMode*   m_currentGameMode;
 
