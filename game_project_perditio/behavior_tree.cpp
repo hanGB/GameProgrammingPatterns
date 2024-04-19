@@ -34,7 +34,7 @@ SequencerNode::~SequencerNode()
 
 PERBehaviorResult SequencerNode::Run(PERObject& object, double dTime)
 {
-	for (int i = m_current; i < m_children.size(); ++i) {
+	for (size_t i = m_current; i < m_children.size(); ++i) {
 		PERBehaviorResult result = m_children[i]->Run(object, dTime);
 
 		if (result == PERBehaviorResult::FAIL) {
@@ -67,7 +67,7 @@ SelectorNode::~SelectorNode()
 
 PERBehaviorResult SelectorNode::Run(PERObject& object, double dTime)
 {
-	for (int i = m_current; i < m_children.size(); ++i) {
+	for (size_t i = m_current; i < m_children.size(); ++i) {
 		PERBehaviorResult result = m_children[i]->Run(object, dTime);
 
 		if (result == PERBehaviorResult::SUCCESS) {

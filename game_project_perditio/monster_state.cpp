@@ -8,8 +8,6 @@ bool MonsterState::GiveDamage(PERObject& object, PERObject& opponent, short phys
 {
     if (!ObjectState::GiveDamage(object, opponent, physical, mind)) return false;
 
-    //dynamic_cast<ProgressBar*>(object.GetFloatingUi())->SetCurrent(m_currentBody);
-    //dynamic_cast<ProgressBar*>(object.GetFloatingUi())->UpateShowingValueImmediately();
     return true;
 }
 
@@ -23,7 +21,9 @@ void MonsterState::MatchFloatingUI(PERObject& object)
 {
     if (!m_floatingUi) return;
 
-    PERVec2 pos = PERVec2(object.GetPosition().x, object.GetPosition().y + object.GetSize().y * 1.5);
+    PERVec3 objectPos = object.GetPosition();
+    PERVec3 objectSize = object.GetSize();
+    PERVec2 pos = PERVec2(objectPos.x, objectPos.y + objectSize.y * 1.5);
 
     m_floatingUi->SetPosition(pos);
     m_floatingUi->MatchWithData(m_nameId, m_stat.body, m_currentBody);
@@ -31,15 +31,12 @@ void MonsterState::MatchFloatingUI(PERObject& object)
 
 void MonsterState::ShowFloatingUi(PERObject& object, PERHud* hud)
 {
-    UiElement* element = hud->GetNewUiElementInPool(PERUiElementType::PROGRESS_BAR);
-    m_floatingUi = element;
+    m_floatingUi = hud->GetNewUiElementInWorld(PERUiElementType::PROGRESS_BAR);
 
-    element->SetSize(PERVec2(1.0, 0.2));
-    dynamic_cast<ProgressBar*>(element)->SetColor(PERColor(200, 200, 200), PERColor(255, 0, 0));
+    m_floatingUi->SetSize(PERVec2(1.0, 0.2));
+    dynamic_cast<ProgressBar*>(m_floatingUi)->Init(PERVec2(0.0, 0.0), PERVec2(1.0, 0.2), PERColor(200, 200, 200), PERColor(255, 0, 0), 100, 100);
 
     MatchFloatingUI(object);
-    
-    hud->PushElementInWorld(element);
 }
 
 void MonsterState::SetSight(double sight)

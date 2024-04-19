@@ -84,5 +84,9 @@ struct PERColor {
 };
 
 // 벡터 계산에 필요한 함수
+// A와 B 사이의 거리의 제곱값
 double DistanceSquareAandB(PERVec3 a, PERVec3 b);
+// A와 B 사이의 거리의 제곱값(z값 무시)
+double DistanceSquareAandBIgnoringZValue(PERVec3 a, PERVec3 b);
+double DistanceSquareAandBIgnoringZValue(PERVec2 a, PERVec2 b);
 PERVec3 NormalizeVector(PERVec3 vec);

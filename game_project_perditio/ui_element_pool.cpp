@@ -1,72 +1,111 @@
 #include "stdafx.h"
 #include "ui_element_pool.h"
 
-#include "progress_bar.h"
-
 UiElementPool::UiElementPool()
 {
-	PERLog::Logger().Info("UI 夸家 钱 积己");
+	m_progressBarInWorldHead = &m_progressBarsInWorld[0];
+	for (int i = 0; i < PER_DEFAULT_UI_ELEMENT_POOL_SIZE - 1; ++i) {
+		m_progressBarsInWorld[i].SetNext(&m_progressBarsInWorld[i + 1]);
+	}
+	m_progressBarsInWorld[PER_DEFAULT_UI_ELEMENT_POOL_SIZE - 1].SetNext(nullptr);
 
-	FillElementPools();
+	m_progressBarOnScreenHead = &m_progressBarsOnScreen[0];
+	for (int i = 0; i < PER_DEFAULT_UI_ELEMENT_POOL_SIZE - 1; ++i) {
+		m_progressBarsOnScreen[i].SetNext(&m_progressBarsOnScreen[i + 1]);
+	}
+	m_progressBarsOnScreen[PER_DEFAULT_UI_ELEMENT_POOL_SIZE - 1].SetNext(nullptr);
 }
 
 UiElementPool::~UiElementPool()
 {
-	PERLog::Logger().Info("UI 夸家 钱 昏力");
-
-	ClearElemenPools();
 }
 
-UiElement* UiElementPool::PopElement(PERUiElementType type)
+ProgressBar* UiElementPool::CreateProgressBarInWorld()
 {
-    auto& pool = m_elementPools.find(type)->second;
+	if (m_progressBarInWorldHead == nullptr) return nullptr;
 
-    if (pool.empty()) RefillElementPool(pool, type);
+	ProgressBar* newProgressBar = m_progressBarInWorldHead;
+	m_progressBarInWorldHead = dynamic_cast<ProgressBar*>(newProgressBar->GetNext());
 
-    UiElement* element = pool.front();
-    pool.pop();
-
-	return element;
+	return newProgressBar;
 }
 
-void UiElementPool::PushElement(PERUiElementType type, UiElement* element)
+ProgressBar* UiElementPool::CreateProgressBarOnScreen()
 {
-    auto& pool = m_elementPools.find(type)->second;
-    pool.push(element);
+	if(m_progressBarOnScreenHead == nullptr) return nullptr;
+
+	ProgressBar* newProgressBar = m_progressBarOnScreenHead;
+	m_progressBarOnScreenHead = dynamic_cast<ProgressBar*>(newProgressBar->GetNext());
+
+	return newProgressBar;
 }
 
-void UiElementPool::FillElementPools()
+void UiElementPool::Update(PERAudio& audio, double dTime)
 {
-    // progress bar
-    std::queue<UiElement*> progressBarPool;
-    RefillElementPool(progressBarPool, PERUiElementType::PROGRESS_BAR);
-    m_elementPools.insert(std::pair<PERUiElementType, std::queue<UiElement*>>(PERUiElementType::PROGRESS_BAR, progressBarPool));
+	DoGarbegeCollection(dTime);
+
+	for (auto& progressBar : m_progressBarsInWorld) {
+		progressBar.Update(audio, dTime);
+	}
+	for (auto& progressBar : m_progressBarsOnScreen) {
+		progressBar.Update(audio, dTime);
+	}
 }
 
-void UiElementPool::RefillElementPool(std::queue<UiElement*>& pool, PERUiElementType type)
+void UiElementPool::Renderer(PERRenderer& renderer)
 {
-    switch (type) 
-    {
-    case PERUiElementType::PROGRESS_BAR: 
-    {
-        RefillElementPool<ProgressBar>(pool);
-        break;
-    }
-    }
+	for (auto& progressBar : m_progressBarsOnScreen) {
+		progressBar.RenderOnScreen(renderer);
+	}
 }
 
-void UiElementPool::ClearElemenPools()
+void UiElementPool::RendererInWorld(PERRenderer& renderer)
 {
-    for (int type = (int)PERUiElementType::NON + 1; type < (int)PERUiElementType::NUM_UI_ELEMENT_TYPE; ++type) {
+	for (auto& progressBar : m_progressBarsInWorld) {
+		progressBar.RenderInWorld(renderer);
+	}
+}
 
-        auto it = m_elementPools.find((PERUiElementType)type);
-        if (it == m_elementPools.end()) continue;
+UiElement* UiElementPool::Create(PERUiElementType type, bool inWorld)
+{
+	if (inWorld)
+	{
+		switch (type) {
+		case PERUiElementType::PROGRESS_BAR: return CreateProgressBarInWorld();
+		}
+	}
+	else
+	{
+		switch (type) {
+		case PERUiElementType::PROGRESS_BAR: return CreateProgressBarOnScreen();
+		}
+	}
 
-        std::queue<UiElement*> pool = it->second;
-        while (!pool.empty()) {
-            UiElement* element = pool.front();
-            pool.pop();
-            delete element;
-        }
-    }
+	return nullptr;
+}
+
+void UiElementPool::DoGarbegeCollection(double dTime)
+{
+	for (auto& progressBar : m_progressBarsOnScreen) {
+		if (progressBar.GetIsInUse()) 
+		{
+			if (progressBar.IsLifeTimeIsEnd(dTime)) 
+			{
+				progressBar.SetNext(m_progressBarOnScreenHead);
+				m_progressBarOnScreenHead = &progressBar;
+				progressBar.SetIsInUse(false);
+			}
+		}
+	}
+	for (auto& progressBar : m_progressBarsInWorld) {
+		if (progressBar.GetIsInUse())
+		{
+			if (progressBar.IsLifeTimeIsEnd(dTime))
+			{
+				progressBar.SetNext(m_progressBarInWorldHead);
+				m_progressBarOnScreenHead = &progressBar;
+				progressBar.SetIsInUse(false);
+			}
+		}
+	}
 }

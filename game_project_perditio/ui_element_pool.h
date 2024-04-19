@@ -1,28 +1,27 @@
 #pragma once
 #include "ui_element.h"
-#include <unordered_map>
-#include <queue>
+#include "progress_bar.h"
 
 class UiElementPool {
 public:
 	UiElementPool();
 	~UiElementPool();
 
-	UiElement* PopElement(PERUiElementType type);
-	void PushElement(PERUiElementType type, UiElement* element);
+	void Update(PERAudio& audio, double dTime);
+	void Renderer(PERRenderer& renderer);
+	void RendererInWorld(PERRenderer& renderer);
+
+	UiElement* Create(PERUiElementType type, bool inWorld = false);
 
 private:
-	void FillElementPools();
-	void RefillElementPool(std::queue<UiElement*>& pool, PERUiElementType type);
-	template<class T>
-	void RefillElementPool(std::queue<UiElement*>& pool)
-	{
-		for (size_t i = 0; i < PER_DEFAULT_UI_ELEMENT_POOL_SIZE; i++) {
-			pool.push(new T());
-		}
-	}
-	void ClearElemenPools();
+	void DoGarbegeCollection(double dTime);
 
-	// 오브젝트 풀
-	std::unordered_map<PERUiElementType, std::queue<UiElement*>> m_elementPools;
+	ProgressBar* CreateProgressBarInWorld();
+	ProgressBar* CreateProgressBarOnScreen();
+
+	ProgressBar m_progressBarsInWorld[PER_DEFAULT_UI_ELEMENT_POOL_SIZE];
+	ProgressBar* m_progressBarInWorldHead;
+
+	ProgressBar m_progressBarsOnScreen[PER_DEFAULT_UI_ELEMENT_POOL_SIZE];
+	ProgressBar* m_progressBarOnScreenHead;
 };

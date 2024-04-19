@@ -141,6 +141,8 @@ void ObjectState::ShowFloatingUi(PERObject& object, PERHud* hud)
 
 void ObjectState::HideFloatingUi()
 {
-	if (m_floatingUi) m_floatingUi->SetIsLiving(false);
-	m_floatingUi = nullptr;
+	if (m_floatingUi) {
+		m_floatingUi->SetLifeTime(-1.0);
+		m_floatingUi = nullptr;
+	}
 }

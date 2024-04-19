@@ -31,6 +31,8 @@ private:
 	PERBehaviorResult MoveToWanderPosition(PERObject& object, double dTime);
 	PERBehaviorResult SetWanderPosition(PERObject& object, double dTime);
 
+	const double c_SHOWING_FAOLTING_UI_DISTANCE_2 = 3.0 * 3.0;
+
 	// 행동 트리
 	BehaviorTree* m_behaviorTree;
 
@@ -48,4 +50,6 @@ private:
 	PERVec3 m_paths[PER_MAX_CELL * PER_MAX_CELL / 10];
 	int m_numPath = 0;
 	int m_currentPathIndex = 0;
+
+	bool m_isOnFlotingUI = false;
 };

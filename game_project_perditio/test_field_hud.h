@@ -14,6 +14,5 @@ public:
 	ProgressBar* GetMindBar();
 
 private:
-	int m_bodyBarIndex;
-	int m_mindBarIndex;
+	ProgressBar* m_bodyBar, * m_mindBar;
 };

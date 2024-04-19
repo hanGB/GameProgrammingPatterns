@@ -4,25 +4,23 @@
 
 ProgressBar::ProgressBar()
 {
-	SetType(PERUiElementType::PROGRESS_BAR);
-}
-
-ProgressBar::ProgressBar(PERVec2 pos, int max, int current)
-	: m_max(max), m_current(current)
-{
-	SetType(PERUiElementType::PROGRESS_BAR);
-
-	m_position = pos;
-	m_size = PERVec2(0.4, 0.1);
-	m_barColor = PERColor(255, 255, 255);
-	m_progressColor = PERColor(127, 127, 127);
-
-	m_showing = current;
-	m_updateSpeed = 0.0;
+	
 }
 
 ProgressBar::~ProgressBar()
 {
+}
+
+void ProgressBar::Init(PERVec2 pos, PERVec2 size, PERColor backgorund, PERColor value, int max, int current)
+{
+	UiElement::Init(pos, size, backgorund);
+
+	m_valueColor = value;
+	m_max = max;
+	m_current = current;
+
+	m_showing = (double)current;
+	m_updateSpeed = 0.0;
 }
 
 void ProgressBar::MatchWithData(std::string name, int max, int current)
@@ -34,31 +32,39 @@ void ProgressBar::MatchWithData(std::string name, int max, int current)
 
 void ProgressBar::Update(PERAudio& audio, double dTime)
 {
+	if (!GetIsInUse()) return;
+
 	if (m_showing != m_current) UpdateShowingValue(audio, dTime);
 }
 
 void ProgressBar::RenderOnScreen(PERRenderer& renderer)
 {
+	if (!GetIsInUse()) return;
+
+	PERVec2 pos = GetPosition();
+	PERVec2 size = GetSize();
 	// 바
 	renderer.RenderShapeInScreenCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
-		m_position, m_size, 
-		m_barColor, m_border, m_borderWidth, m_borderColor);
+		pos, size, GetBackgroundColor(), GetBorder(), GetBorderWidth(), GetBorderColor());
 	// 진행 상태
 	renderer.RenderShapeInScreenCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
-		m_position, PERVec2(m_size.x * m_showing / (double)m_max, m_size.y),
-		m_progressColor, false);
+		pos, PERVec2(size.x * m_showing / (double)m_max, size.y), m_valueColor, false);
 }
 
 void ProgressBar::RenderInWorld(PERRenderer& renderer)
 {
+	if (!GetIsInUse()) return;
+
+	PERVec2 pos = GetPosition();
+	PERVec2 size = GetSize();
 	// 바
 	renderer.RenderShapeInWorldCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
-		PERVec3(m_position.x - m_size.x / 2.0, m_position.y, 0.0), PERVec3(m_size.x, m_size.y, 0.0),
-		m_barColor, m_border, m_borderWidth, m_borderColor);
+		PERVec3(pos.x - size.x / 2.0, pos.y, 0.0), PERVec3(size.x, size.y, 0.0),
+		GetBackgroundColor(), GetBorder(), GetBorderWidth(), GetBorderColor());
 	// 진행 상태
 	renderer.RenderShapeInWorldCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
-		PERVec3(m_position.x - m_size.x / 2.0, m_position.y, 0.0), PERVec3(m_size.x * m_showing / (double)m_max, m_size.y, 0.0),
-		m_progressColor, false);
+		PERVec3(pos.x - size.x / 2.0, pos.y, 0.0), PERVec3(size.x * m_showing / (double)m_max, size.y, 0.0),
+		m_valueColor, false);
 }
 
 void ProgressBar::SetCurrent(int current)
@@ -73,17 +79,9 @@ void ProgressBar::SetMax(int max)
 	m_max = max;
 }
 
-void ProgressBar::SetColor(PERColor bar, PERColor progress)
+void ProgressBar::SetValueColor(PERColor color)
 {
-	m_barColor = bar;
-	m_progressColor = progress;
-}
-
-void ProgressBar::SetBorder(bool border, int width, PERColor color)
-{
-	m_border = border;
-	m_borderWidth = width;
-	m_borderColor = color;
+	m_valueColor = color;
 }
 
 void ProgressBar::UpateShowingValueImmediately()

@@ -7,9 +7,10 @@ class PERAudio;
 class ProgressBar : public UiElement {
 public:
 	ProgressBar();
-	ProgressBar(PERVec2 pos, int max, int current);
 	~ProgressBar();
 	
+	void Init(PERVec2 pos, PERVec2 size, PERColor backgorund, PERColor value, int max, int current);
+
 	virtual void MatchWithData(std::string name, int max, int current);
 
 	virtual void Update(PERAudio& audio, double dTime);
@@ -19,8 +20,7 @@ public:
 	void SetCurrent(int current);
 	void SetMax(int max);
 
-	void SetColor(PERColor bar, PERColor progress);
-	void SetBorder(bool border, int width, PERColor color);
+	void SetValueColor(PERColor color);
 
 	void UpateShowingValueImmediately();
 
@@ -30,13 +30,7 @@ private:
 	const double c_UPDATE_TIME = 0.2;
 
 	// 모양 정보
-	PERColor	m_barColor;
-	PERColor	m_progressColor;
-
-	// 테두리 정보
-	bool		m_border = true;
-	int			m_borderWidth = 1;
-	PERColor	m_borderColor = PERColor(0, 0, 0);
+	PERColor	m_valueColor;
 
 	// 데이터 정보
 	int		m_max;

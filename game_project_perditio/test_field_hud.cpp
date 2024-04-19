@@ -5,40 +5,51 @@ TestFieldHud::TestFieldHud(UiElementPool* uiElementPool)
 {
 	InitSettingForHud(uiElementPool);
 
-	ProgressBar* bodyBar = dynamic_cast<ProgressBar*>(GetNewUiElementInPool(PERUiElementType::PROGRESS_BAR));
-	bodyBar->SetPosition(PERVec2(-0.95, 0.9)); bodyBar->SetSize(PERVec2(0.4, 0.1));
-	bodyBar->SetColor(PERColor(200, 200, 200), PERColor(255, 0, 0));
-	m_bodyBarIndex = PushElementOnScreen(bodyBar);
+	m_bodyBar = dynamic_cast<ProgressBar*>(m_uiElementPool->Create(PERUiElementType::PROGRESS_BAR));
+	if (m_bodyBar)
+	{
+		m_bodyBar->Init(PERVec2(-0.95, 0.9), PERVec2(0.4, 0.1), PERColor(200, 200, 200), PERColor(255, 0, 0), 100, 100);
+	}
+	else
+	{
+		PERLog::Logger().ErrorWithFormat("Test field hud의 체력 바가 생성되지 않았습니다.");
+	}
 
-	ProgressBar* mindBar = dynamic_cast<ProgressBar*>(GetNewUiElementInPool(PERUiElementType::PROGRESS_BAR));
-	mindBar->SetPosition(PERVec2(-0.95, 0.8)); mindBar->SetSize(PERVec2(0.4, 0.1));
-	mindBar->SetColor(PERColor(200, 200, 200), PERColor(0, 0, 255));
-	m_mindBarIndex = PushElementOnScreen(mindBar);
+	m_mindBar = dynamic_cast<ProgressBar*>(m_uiElementPool->Create(PERUiElementType::PROGRESS_BAR));
+	if (m_mindBar)
+	{
+		m_mindBar->Init(PERVec2(-0.95, 0.8), PERVec2(0.4, 0.1), PERColor(200, 200, 200), PERColor(0, 0, 255), 100, 100);
+	}
+	else
+	{
+		PERLog::Logger().ErrorWithFormat("Test field hud의 정신 바가 생성되지 않았습니다.");
+	}
 }
 
 TestFieldHud::~TestFieldHud()
 {
-
+	if (m_bodyBar) m_bodyBar->SetLifeTime(-1.0);
+	if (m_mindBar) m_mindBar->SetLifeTime(-1.0);
 }
 
 void TestFieldHud::Recive(PEREvent event, PERVec3 data)
 {
 	switch (event) {
 	case PEREvent::UPDATE_BD:
-		GetBodyBar()->SetCurrent((int)data.x);
+		m_bodyBar->SetCurrent((int)data.x);
 		break;
 	case PEREvent::UPDATE_MD:
-		GetMindBar()->SetCurrent((int)data.x);
+		m_mindBar->SetCurrent((int)data.x);
 		break;
 	}
 }
 
 ProgressBar* TestFieldHud::GetBodyBar()
 {
-	return dynamic_cast<ProgressBar*>(m_uiElementsOnScreen[m_bodyBarIndex]);
+	return m_bodyBar;
 }
 
 ProgressBar* TestFieldHud::GetMindBar()
 {
-	return dynamic_cast<ProgressBar*>(m_uiElementsOnScreen[m_mindBarIndex]);
+	return m_mindBar;
 }
