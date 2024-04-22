@@ -38,6 +38,9 @@ public:
 	bool FindPath(PERVec3 start, PERVec3 dest, PERVec3* paths, int* numPath);
 
 private: 
+	static const int c_PREPARED_CELL_DATA_QUEUE_SIZE = 1000;
+	static const int c_PREPARED_CELL_QUEUE_SIZE = 10000;
+
 	// 패스 계산
 	void SetStartAndDestination(PERVec3 start, PERVec3 dest);
 	bool CalculateParents();

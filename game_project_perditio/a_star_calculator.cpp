@@ -6,6 +6,13 @@ using namespace AStar;
 
 AStarCalculator::AStarCalculator()
 {
+	for (int i = 0; i < c_PREPARED_CELL_DATA_QUEUE_SIZE; ++i) {
+		m_cellDataQueue.push(new CellData());
+	}
+	for (int i = 0; i < c_PREPARED_CELL_QUEUE_SIZE; ++i) {
+		m_cellQueue.push(new Cell());
+	}
+
 	Clear();
 }
 
@@ -35,6 +42,8 @@ bool AStarCalculator::FindPath(PERVec3 start, PERVec3 dest, PERVec3* paths, int*
 	if (result) ChangeParentsToPaths(paths, numPath);
 	// 초기화
 	Clear();
+
+	//PERLog::Logger().InfoWithFormat("CD queue: %d, C queue: %d", m_cellDataQueue.size(), m_cellQueue.size());
 
 	return result;
 }
@@ -89,8 +98,10 @@ bool AStarCalculator::CalculateParents()
 		m_alreadyVisited[data->x][data->y] = true;
 
 		// 도착했으니 성공 리턴
-		if (data->x == m_destXIndexed && data->y == m_destYIndexed) return true; 
-
+		if (data->x == m_destXIndexed && data->y == m_destYIndexed) {
+			m_cellDataQueue.push(data);
+			return true;
+		}
 		// 주변 검색
 		for (int x = -1; x < 2; ++x) {
 			for (int y = -1; y < 2; ++y) {
@@ -138,12 +149,15 @@ bool AStarCalculator::CalculateParents()
 
 				m_priorityQueue.push(nextCell);
 
-				if (m_cellQueue.empty()) m_cellQueue.push(new Cell());
-				m_parents[nextX][nextY] = m_cellQueue.front();
+				if (!m_parents[nextX][nextY]) {
+					if (m_cellQueue.empty()) m_cellQueue.push(new Cell());
+					m_parents[nextX][nextY] = m_cellQueue.front();
+					m_cellQueue.pop();
+				}
 				m_parents[nextX][nextY]->SetData(data->x, data->y);
-				m_cellQueue.pop();
 			}
 		}
+		m_cellDataQueue.push(data);
 	}
 
 	// 도착을 못 했으니 실패 리턴
