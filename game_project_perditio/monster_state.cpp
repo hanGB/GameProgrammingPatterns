@@ -29,14 +29,18 @@ void MonsterState::MatchFloatingUI(PERObject& object)
     m_floatingUi->MatchWithData(m_nameId, m_stat.body, m_currentBody);
 }
 
-void MonsterState::ShowFloatingUi(PERObject& object, PERHud* hud)
+bool MonsterState::ShowFloatingUi(PERObject& object, PERHud* hud)
 {
     m_floatingUi = hud->GetNewUiElementInWorld(PERUiElementType::PROGRESS_BAR);
+
+    if (!m_floatingUi) return false;
 
     m_floatingUi->SetSize(PERVec2(1.0, 0.2));
     dynamic_cast<ProgressBar*>(m_floatingUi)->Init(PERVec2(0.0, 0.0), PERVec2(1.0, 0.2), PERColor(200, 200, 200), PERColor(255, 0, 0), 100, 100);
 
     MatchFloatingUI(object);
+
+    return true;
 }
 
 void MonsterState::SetSight(double sight)

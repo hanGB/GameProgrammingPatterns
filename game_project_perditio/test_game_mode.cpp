@@ -10,10 +10,10 @@
 #include "black_board.h"
 #include "ui_element_pool.h"
 
-TestGameMode::TestGameMode(GameState* gameState, UiElementPool* uiElementPool)
+TestGameMode::TestGameMode(GameState* gameState)
 {
     SetGameState(gameState);
-    InitGameMode(uiElementPool);
+    InitGameMode();
 }
 
 TestGameMode::~TestGameMode()
@@ -69,9 +69,9 @@ void TestGameMode::CreatePlayerFactory()
     m_playerFactory->SetSize(PERVec3(0.5, 0.5, 0.5)); m_playerFactory->SetMass(70);
 }
 
-PERHud* TestGameMode::CreateHud(UiElementPool* uiElementPool)
+PERHud* TestGameMode::CreateHud()
 {
-    TestFieldHud* hud = new TestFieldHud(uiElementPool);
+    TestFieldHud* hud = new TestFieldHud();
 
     ObjectState playerState = m_player->GetObjectState();
     hud->GetBodyBar()->MatchWithData("", playerState.GetStat().body, playerState.GetCurrentBody());

@@ -26,7 +26,7 @@ public:
 
 
 	// 플로팅 UI를 가져와 보이게 설정
-	virtual void ShowFloatingUi(PERObject& object, PERHud* hud);
+	virtual bool ShowFloatingUi(PERObject& object, PERHud* hud);
 	// 플로팅 UI와 관련 데이터 맞춤
 	// 플로팅 UI 죽은 걸로 설정해 숨김
 	virtual void HideFloatingUi();

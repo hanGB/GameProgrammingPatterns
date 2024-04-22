@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "test_field_hud.h"
 
-TestFieldHud::TestFieldHud(UiElementPool* uiElementPool)
+TestFieldHud::TestFieldHud()
 {
-	InitSettingForHud(uiElementPool);
-
 	m_bodyBar = dynamic_cast<ProgressBar*>(m_uiElementPool->Create(PERUiElementType::PROGRESS_BAR));
 	if (m_bodyBar)
 	{
@@ -28,8 +26,10 @@ TestFieldHud::TestFieldHud(UiElementPool* uiElementPool)
 
 TestFieldHud::~TestFieldHud()
 {
-	if (m_bodyBar) m_bodyBar->SetLifeTime(-1.0);
-	if (m_mindBar) m_mindBar->SetLifeTime(-1.0);
+	//if (m_bodyBar) m_bodyBar->SetLifeTime(-1.0);
+	//if (m_mindBar) m_mindBar->SetLifeTime(-1.0);
+
+	//PERHud::~PERHud();
 }
 
 void TestFieldHud::Recive(PEREvent event, PERVec3 data)

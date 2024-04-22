@@ -22,12 +22,6 @@
     <Filter Include="00. game\world">
       <UniqueIdentifier>{56ff81bd-bcf5-41e3-b08e-5e45de332309}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\object\object_pool">
-      <UniqueIdentifier>{bd326c91-2bc6-4bef-b02f-a25b330a1761}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. game\object\object_factory">
-      <UniqueIdentifier>{e785b4e6-9378-4c36-90df-97cf236b9fce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. controller">
       <UniqueIdentifier>{d8cf54fb-ca27-4d13-9a18-054c0fa02162}</UniqueIdentifier>
     </Filter>
@@ -139,6 +133,12 @@
     <Filter Include="00. game\user_interface\hud\test_field_hud">
       <UniqueIdentifier>{100e39ed-e0ed-4550-a28e-4b8befc8e0b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\object\object_creater">
+      <UniqueIdentifier>{bd326c91-2bc6-4bef-b02f-a25b330a1761}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\object_creater\object_factory">
+      <UniqueIdentifier>{e785b4e6-9378-4c36-90df-97cf236b9fce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -193,10 +193,10 @@
       <Filter>00. game\object\component\implements\ai</Filter>
     </ClInclude>
     <ClInclude Include="object_factory.h">
-      <Filter>00. game\object\object_factory</Filter>
+      <Filter>00. game\object\object_creater\object_factory</Filter>
     </ClInclude>
-    <ClInclude Include="object_pool.h">
-      <Filter>00. game\object\object_pool</Filter>
+    <ClInclude Include="object_storage.h">
+      <Filter>00. game\object\object_creater</Filter>
     </ClInclude>
     <ClInclude Include="per_component.h">
       <Filter>00. game\object\component</Filter>
@@ -351,10 +351,10 @@
       <Filter>00. game\object\component\implements\graphics</Filter>
     </ClCompile>
     <ClCompile Include="object_factory.cpp">
-      <Filter>00. game\object\object_factory</Filter>
+      <Filter>00. game\object\object_creater\object_factory</Filter>
     </ClCompile>
-    <ClCompile Include="object_pool.cpp">
-      <Filter>00. game\object\object_pool</Filter>
+    <ClCompile Include="object_storage.cpp">
+      <Filter>00. game\object\object_creater</Filter>
     </ClCompile>
     <ClCompile Include="player_input_component.cpp">
       <Filter>00. game\object\component\implements\input</Filter>

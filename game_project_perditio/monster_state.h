@@ -8,7 +8,7 @@ public:
 	virtual bool UseMind(PERObject& object, int mind);
 	virtual void MatchFloatingUI(PERObject& object);
 
-	virtual void ShowFloatingUi(PERObject& object, PERHud* hud);
+	virtual bool ShowFloatingUi(PERObject& object, PERHud* hud);
 
 	// setter
 	void SetSight(double sight);

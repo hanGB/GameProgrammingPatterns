@@ -4,7 +4,7 @@
 #include "per_renderer.h"
 #include "per_game.h"
 #include "per_object.h"
-#include "object_pool.h"
+#include "object_storage.h"
 #include "game_mode.h"
 #include "per_hud.h"
 #include "event_dispatcher.h"
@@ -287,14 +287,14 @@ void PERWorld::DeleteObject(PERObject* object)
 	int id = object->GetIDInWorld();
 	m_objects[id] = m_objects[m_numObject];
 	m_objects[id]->SetIDInWorld(id);
-	m_objectPool->PushObject(object->GetObjectType(), object);
+	m_objectStorage->PushObject(object->GetObjectType(), object);
 
 	m_isUpdateSortedObject = false;
 }
 
 PERObject* PERWorld::AddAndGetObject(PERObjectType type)
 {
-	PERObject* object = m_objectPool->PopObject(type);
+	PERObject* object = m_objectStorage->PopObject(type);
 	AddObject(object);
 	return object;
 }
@@ -314,11 +314,11 @@ void PERWorld::InitWorldObject()
 	PERLog::Logger().InfoWithFormat("월드 내 오브젝트 수: %d", m_numObject);
 }
 
-void PERWorld::InitSettingForWorld(ObjectPool* objectPool, PERDatabase* database, GameMode* mode)
+void PERWorld::InitSettingForWorld(ObjectStorage* objectStorage, PERDatabase* database, GameMode* mode)
 {
 	PERLog::Logger().Info("월드 생성");
 
-	m_objectPool = objectPool;
+	m_objectStorage = objectStorage;
 	m_database = database;
 	m_gameMode = mode;
 

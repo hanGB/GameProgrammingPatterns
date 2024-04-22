@@ -34,8 +34,7 @@ void MonsterAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& au
 	{
 		if (c_SHOWING_FAOLTING_UI_DISTANCE_2 > DistanceSquareAandBIgnoringZValue(playerPos, object.GetPosition()))
 		{
-			object.GetObjectState().ShowFloatingUi(object, &world.GetHud());
-			m_isOnFlotingUI = true;
+			if (object.GetObjectState().ShowFloatingUi(object, &world.GetHud())) m_isOnFlotingUI = true;
 		}
 	}
 	else 

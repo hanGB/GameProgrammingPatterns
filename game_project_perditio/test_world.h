@@ -6,7 +6,7 @@ class ObjectSpawner;
 
 class TestWorld : public PERWorld {
 public:
-	TestWorld(ObjectPool* objectPool, PERDatabase* database, GameMode* mode);
+	TestWorld(ObjectStorage* objectStorage, PERDatabase* database, GameMode* mode);
 	~TestWorld();
 
 	// 해당 월드에 들어오고 나갈 때 처리

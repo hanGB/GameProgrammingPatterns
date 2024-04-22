@@ -6,7 +6,6 @@ class GameState;
 class PERObject;
 class ObjectState;
 class PERRenderer;
-class UiElementPool;
 
 class GameMode {
 public:
@@ -25,7 +24,7 @@ public:
 	void SetGameState(GameState* gameState);
 
 protected:
-	void InitGameMode(UiElementPool* uiElementPool);
+	void InitGameMode();
 
 	ObjectFactory* m_playerFactory;
 	PERObject* m_player;
@@ -34,7 +33,7 @@ private:
 	// 플레이어 팩토리 생성
 	virtual void CreatePlayerFactory() = 0;
 	// hud 생성
-	virtual PERHud* CreateHud(UiElementPool* uiElementPool) = 0;
+	virtual PERHud* CreateHud() = 0;
 
 	GameState* m_gameState;
 	PERHud* m_hud;

@@ -4,11 +4,10 @@
 #include "per_audio.h"
 #include "per_world.h"
 #include "game_mode.h"
-#include "object_pool.h"
+#include "object_storage.h"
 #include "per_object.h"
 #include "event_reciver.h"
 #include "per_database.h"
-#include "ui_element_pool.h"
 
 class PERGame : public EventReciver {
 public:
@@ -50,9 +49,8 @@ private:
 	PERController*	m_controller;
 	PERRenderer*	m_renderer;
 	PERAudio*		m_audio;
-	ObjectPool*		m_objectPool;
+	ObjectStorage*	m_objectStorage;
 	PERDatabase*	m_database;
-	UiElementPool*	m_uiElementPool;
 
 	PERWorld*	m_currentWorld;
 	GameMode*   m_currentGameMode;

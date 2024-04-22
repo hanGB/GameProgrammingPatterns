@@ -102,8 +102,10 @@ void UiElementPool::DoGarbegeCollection(double dTime)
 		{
 			if (progressBar.IsLifeTimeIsEnd(dTime))
 			{
+				PERLog::Logger().Info("Ui element 중 하나를 사용을 중지한다");
+
 				progressBar.SetNext(m_progressBarInWorldHead);
-				m_progressBarOnScreenHead = &progressBar;
+				m_progressBarInWorldHead = &progressBar;
 				progressBar.SetIsInUse(false);
 			}
 		}

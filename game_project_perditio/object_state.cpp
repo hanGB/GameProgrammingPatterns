@@ -135,8 +135,9 @@ void ObjectState::MatchFloatingUI(PERObject& object)
 {
 }
 
-void ObjectState::ShowFloatingUi(PERObject& object, PERHud* hud)
+bool ObjectState::ShowFloatingUi(PERObject& object, PERHud* hud)
 {
+	return false;
 }
 
 void ObjectState::HideFloatingUi()

@@ -5,7 +5,7 @@
 
 class TestFieldHud : public PERHud {
 public:
-	TestFieldHud(UiElementPool* uiElementPool);
+	TestFieldHud();
 	~TestFieldHud();
 
 	virtual void Recive(PEREvent event, PERVec3 data);

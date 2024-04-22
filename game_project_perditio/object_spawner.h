@@ -2,7 +2,7 @@
 #include "per_data.h"
 
 class PERObject;
-class ObjectPool;
+class ObjectStorage;
 struct VisualData;
 
 class ObjectSpawner {
@@ -13,12 +13,12 @@ public:
 
 	void SetSpawner(std::string objectId, PERObjectType type, PERStat stat, VisualData* visualData, PERVec3 pos);
 
-	PERObject* Spawn(ObjectPool& pool);
-	PERObject* SpawnWithTimer(ObjectPool& pool, double timeGap, double dTime);
-	PERObject* SpawnWithLiving(ObjectPool& pool);
+	PERObject* Spawn(ObjectStorage& stroage);
+	PERObject* SpawnWithTimer(ObjectStorage& stroage, double timeGap, double dTime);
+	PERObject* SpawnWithLiving(ObjectStorage& stroage);
 
 private:
-	PERObject* GetObjectWithSetting(ObjectPool& pool);
+	PERObject* GetObjectWithSetting(ObjectStorage& stroage);
 
 	// 오브젝트 설정
 	std::string m_objectId;

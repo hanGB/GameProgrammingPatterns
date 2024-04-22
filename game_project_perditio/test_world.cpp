@@ -2,12 +2,12 @@
 #include "test_world.h"
 #include "object_spawner.h"
 #include "per_object.h"
-#include "object_pool.h"
+#include "object_storage.h"
 #include "game_mode.h"
 
-TestWorld::TestWorld(ObjectPool* objectPool, PERDatabase* database, GameMode* mode)
+TestWorld::TestWorld(ObjectStorage* objectStorage, PERDatabase* database, GameMode* mode)
 {
-	InitSettingForWorld(objectPool, database, mode);
+	InitSettingForWorld(objectStorage, database, mode);
 }
 
 TestWorld::~TestWorld()
@@ -42,14 +42,14 @@ void TestWorld::AddFixedAndPhysicalObjects()
 {
 	// ÇÃ·§Æû
 	PERObject* platform;
-	platform = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+	platform = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
 	platform->SetPosition(PERVec3(0.0, 0.0, -1.0));
 	platform->SetSize(PERVec3(15.0, 20.0, 1.0));
 	SetObjectShapeAndColor(platform, PERShapeType::ROUND_RECTANGLE, PERColor(250, 230, 210));
 	AddObject(platform);
 
 	for (double x = 0.0; x <= 20.0; x += 20.0) {
-		platform = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+		platform = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
 		platform->SetPosition(PERVec3(-10.0 + x, 0.0, -1.0));
 		platform->SetSize(PERVec3(5.0, 5.0, 1.0));
 		SetObjectShapeAndColor(platform, PERShapeType::ROUND_RECTANGLE, PERColor(250, 230, 210));
@@ -58,49 +58,49 @@ void TestWorld::AddFixedAndPhysicalObjects()
 
 	// º®
 	PERObject* wall;
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(1.0, 0.0, 1.0));
 	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
 	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(100, 125, 150));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(-1.0, 0.0, 1.0));
 	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
 	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(100, 125, 150));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(0.0, 1.0, 1.1));
 	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
 	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(100, 125, 150));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(0.0, -1.0, 1.1));
 	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
 	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(100, 125, 150));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(5.0, 0.0, 0.0));
 	wall->SetSize(PERVec3(0.5, 5.0, 1.0));
 	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(-5.0, 0.0, 0.1));
 	wall->SetSize(PERVec3(0.5, 5.0, 1.0));
 	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(0.0, 5.0, 0.2));
 	wall->SetSize(PERVec3(5.0, 0.5, 1.0));
 	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
 	AddObject(wall);
 
-	wall = m_objectPool->PopObject(PERObjectType::FIXED_BLOCK);
+	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(0.0, -5.0, 0.3));
 	wall->SetSize(PERVec3(5.0, 0.5, 1.0));
 	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
@@ -121,22 +121,22 @@ void TestWorld::AddOtherObjects()
 	}
 
 	PERObject* block;
-	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(3.0, 1.0, 0.0));
 	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
 	AddObject(block);
 
-	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(-3.0, 1.0, 0.0));
 	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
 	AddObject(block);
 
-	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(1.0, 3.0, 0.0));
 	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
 	AddObject(block);
 
-	block = m_objectPool->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(1.0, -3.0, 0.0));
 	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
 	AddObject(block);
@@ -150,7 +150,7 @@ void TestWorld::DeleteWorldObjects()
 void TestWorld::WorldUpdate(PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < 4; ++i) {
-		PERObject* monster = m_monsterSpawners[i].SpawnWithLiving(*m_objectPool);
+		PERObject* monster = m_monsterSpawners[i].SpawnWithLiving(*m_objectStorage);
 		if (monster) {
 			//monster->GetObjectState().ShowFloatingUi(*monster, &GetHud());
 			AddObject(monster);

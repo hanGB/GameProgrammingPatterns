@@ -167,7 +167,7 @@
     <ClInclude Include="per_audio.h" />
     <ClInclude Include="per_logger.h" />
     <ClInclude Include="per_component.h" />
-    <ClInclude Include="object_pool.h" />
+    <ClInclude Include="object_storage.h" />
     <ClInclude Include="per_data.h" />
     <ClInclude Include="player_input_component.h" />
     <ClInclude Include="player_state.h" />
@@ -216,7 +216,7 @@
     <ClCompile Include="per_data.cpp" />
     <ClCompile Include="per_database.cpp" />
     <ClCompile Include="per_log.cpp" />
-    <ClCompile Include="object_pool.cpp" />
+    <ClCompile Include="object_storage.cpp" />
     <ClCompile Include="object_state.cpp" />
     <ClCompile Include="per_hud.cpp" />
     <ClCompile Include="per_vector.cpp" />

@@ -4,7 +4,6 @@
 #include "ui_element_pool.h"
 
 class PERRenderer;
-class ProgressBar;
 
 class PERHud : public EventReciver {
 public:
@@ -20,10 +19,6 @@ public:
 	UiElement* GetNewUiElementInWorld(PERUiElementType type);
 
 protected:
-	void InitSettingForHud(UiElementPool* uiElementPool);
-	
 	UiElementPool* m_uiElementPool;
-
-private:
 
 };

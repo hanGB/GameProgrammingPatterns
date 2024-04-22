@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "object_spawner.h"
-#include "object_pool.h"
+#include "object_storage.h"
 #include "per_object.h"
 
 ObjectSpawner::ObjectSpawner()
@@ -25,12 +25,12 @@ void ObjectSpawner::SetSpawner(std::string objectId, PERObjectType type, PERStat
     m_position = pos;
 }
 
-PERObject* ObjectSpawner::Spawn(ObjectPool& pool)
+PERObject* ObjectSpawner::Spawn(ObjectStorage& stroage)
 {
-    return GetObjectWithSetting(pool);
+    return GetObjectWithSetting(stroage);
 }
 
-PERObject* ObjectSpawner::SpawnWithTimer(ObjectPool& pool, double timeGap, double dTime)
+PERObject* ObjectSpawner::SpawnWithTimer(ObjectStorage& stroage, double timeGap, double dTime)
 {
     m_time += dTime;
 
@@ -38,25 +38,25 @@ PERObject* ObjectSpawner::SpawnWithTimer(ObjectPool& pool, double timeGap, doubl
 
     m_time = 0.0;
 
-    return GetObjectWithSetting(pool);
+    return GetObjectWithSetting(stroage);
 }
 
-PERObject* ObjectSpawner::SpawnWithLiving(ObjectPool& pool)
+PERObject* ObjectSpawner::SpawnWithLiving(ObjectStorage& stroage)
 {
     if (!m_spawnedObject) {
-        return GetObjectWithSetting(pool);
+        return GetObjectWithSetting(stroage);
     }
 
     if (m_spawnedObject && m_spawnedObject->GetLifeTime() <= 0.0) {
-        return GetObjectWithSetting(pool);
+        return GetObjectWithSetting(stroage);
     }
 
     return nullptr;
 }
 
-PERObject* ObjectSpawner::GetObjectWithSetting(ObjectPool& pool)
+PERObject* ObjectSpawner::GetObjectWithSetting(ObjectStorage& stroage)
 {
-    PERObject* object = pool.PopObject(m_type);
+    PERObject* object = stroage.PopObject(m_type);
 
     // ½ºÅÈ
     object->GetObjectState().SetStat(m_stat);

@@ -1,42 +1,42 @@
 #include "stdafx.h"
-#include "object_pool.h"
+#include "object_storage.h"
 
-ObjectPool::ObjectPool()
+ObjectStorage::ObjectStorage()
 {
     PERLog::Logger().Info("오브젝트 풀 생성");
 
     CreateObjectFactories();
-    FillObjectPools();
+    FillObjectQueues();
 }
 
-ObjectPool::~ObjectPool()
+ObjectStorage::~ObjectStorage()
 {
     PERLog::Logger().Info("오브젝트 풀 삭제");
 
-    ClearObjectPools();
+    ClearObjectQueues();
     DeleteObjectFactories();
 }
 
-PERObject* ObjectPool::PopObject(PERObjectType type)
+PERObject* ObjectStorage::PopObject(PERObjectType type)
 {
-    auto& pool = m_objectPools.find(type)->second;
+    auto& queue = m_objectQueues.find(type)->second;
 
-    if (pool.empty()) RefillObjectPool(pool, type);
+    if (queue.empty()) RefillObjectQueue(queue, type);
 
-    PERObject* object = pool.front();
-    pool.pop();
+    PERObject* object = queue.front();
+    queue.pop();
     return object;
 }
 
-void ObjectPool::PushObject(PERObjectType type, PERObject* object)
+void ObjectStorage::PushObject(PERObjectType type, PERObject* object)
 {
     // 플레이어는 게임 모드에서 생성하기 때문에 제외
     if (type == PERObjectType::PLAYER) return;
 
-    m_objectPools.find(type)->second.push(object);
+    m_objectQueues.find(type)->second.push(object);
 }
 
-void ObjectPool::CreateObjectFactories()
+void ObjectStorage::CreateObjectFactories()
 {
     using namespace PERComponent;
     InputData input;
@@ -150,7 +150,7 @@ void ObjectPool::CreateObjectFactories()
     m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::BLADE, bladeFactory));
 }
 
-void ObjectPool::DeleteObjectFactories()
+void ObjectStorage::DeleteObjectFactories()
 {
     for (int type = (int)PERObjectType::PLAYER + 1; type < (int)PERObjectType::NUM_OBJECT_TYPE; ++type) {
         auto it = m_objectFactories.find((PERObjectType)type);
@@ -161,45 +161,45 @@ void ObjectPool::DeleteObjectFactories()
     }
 }
 
-void ObjectPool::FillObjectPools()
+void ObjectStorage::FillObjectQueues()
 {
     
     for (int type = (int)PERObjectType::PLAYER + 1; type < (int)PERObjectType::NUM_OBJECT_TYPE; ++type) {
-        std::queue<PERObject*> pool;
+        std::queue<PERObject*> queue;
         
         auto it = m_objectFactories.find((PERObjectType)type);
         if (it == m_objectFactories.end()) continue;
 
         ObjectFactory* objectFactory = it->second;
         for (int i = 0; i < PER_DEFAULT_OBJECT_POOL_SIZE; ++i) {    
-            pool.push(objectFactory->CreateObject());
+            queue.push(objectFactory->CreateObject());
         }
-        m_objectPools.insert(std::pair<PERObjectType, std::queue<PERObject*>>((PERObjectType)type, pool));
+        m_objectQueues.insert(std::pair<PERObjectType, std::queue<PERObject*>>((PERObjectType)type, queue));
     }
 }
 
-void ObjectPool::RefillObjectPool(std::queue<PERObject*>& pool, PERObjectType type)
+void ObjectStorage::RefillObjectQueue(std::queue<PERObject*>& queue, PERObjectType type)
 {
     auto it = m_objectFactories.find(type);
     if (it == m_objectFactories.end()) return;
 
     ObjectFactory* objectFactory = it->second;
     for (int i = 0; i < PER_DEFAULT_OBJECT_POOL_SIZE; ++i) {
-        pool.push(objectFactory->CreateObject());
+        queue.push(objectFactory->CreateObject());
     }
 }
 
-void ObjectPool::ClearObjectPools()
+void ObjectStorage::ClearObjectQueues()
 {
     for (int type = (int)PERObjectType::PLAYER + 1; type < (int)PERObjectType::NUM_OBJECT_TYPE; ++type) {
 
-        auto it = m_objectPools.find((PERObjectType)type);
-        if (it == m_objectPools.end()) continue;
+        auto it = m_objectQueues.find((PERObjectType)type);
+        if (it == m_objectQueues.end()) continue;
 
-        std::queue<PERObject*> pool = it->second;
-        while (!pool.empty()) {
-            PERObject* object = pool.front();
-            pool.pop();
+        std::queue<PERObject*> queue = it->second;
+        while (!queue.empty()) {
+            PERObject* object = queue.front();
+            queue.pop();
             delete object;
         }
     }
