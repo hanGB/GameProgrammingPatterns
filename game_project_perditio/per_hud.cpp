@@ -5,7 +5,7 @@
 
 PERHud::PERHud()
 {
-	m_uiElementPool = new UiElementPool();
+	m_uiElementPool = new UiElementPoolGroup();
 }
 
 PERHud::~PERHud()

@@ -135,6 +135,7 @@ enum class PERKeyboardValue {
 	S,
 	D,
 	F,
+	Q,
 
 	NUM_KEYBOARD_VALUE
 };

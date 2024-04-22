@@ -9,6 +9,7 @@ public:
 	virtual void MatchFloatingUI(PERObject& object);
 
 	virtual bool ShowFloatingUi(PERObject& object, PERHud* hud);
+	virtual void HideFloatingUi();
 
 	// setter
 	void SetSight(double sight);
@@ -30,4 +31,9 @@ private:
 	double m_sight = c_DEFAULT_SIGHT;
 	// 배회 거리의 제곱
 	double m_wanderDistance = c_DEFAULT_WANDER_DISTANCE;
+
+	// 플로팅 ui
+	UiElement* m_bodyBar = nullptr;
+	UiElement* m_nameTag = nullptr;
+
 };

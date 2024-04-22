@@ -74,7 +74,4 @@ protected:
 
 	// 스폰 위치
 	PERVec3 m_spawnPosition = PERVec3(0.0, 0.0, 0.0);
-
-	// 플로팅 ui
-	UiElement* m_floatingUi = nullptr;
 };

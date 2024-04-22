@@ -11,7 +11,7 @@ public:
 	
 	void Init(PERVec2 pos, PERVec2 size, PERColor backgorund, PERColor value, int max, int current);
 
-	virtual void MatchWithData(std::string name, int max, int current);
+	void MatchWithData(std::string name, int max, int current);
 
 	virtual void Update(PERAudio& audio, double dTime);
 	virtual void RenderOnScreen(PERRenderer& renderer);

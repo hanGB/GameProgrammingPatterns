@@ -133,11 +133,14 @@
     <Filter Include="00. game\user_interface\hud\test_field_hud">
       <UniqueIdentifier>{100e39ed-e0ed-4550-a28e-4b8befc8e0b8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\object\object_creater">
+    <Filter Include="00. game\object\object_storage">
       <UniqueIdentifier>{bd326c91-2bc6-4bef-b02f-a25b330a1761}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\object\object_creater\object_factory">
+    <Filter Include="00. game\object\object_storage\object_factory">
       <UniqueIdentifier>{e785b4e6-9378-4c36-90df-97cf236b9fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\user_interface\ui_element\name_tag">
+      <UniqueIdentifier>{5aa20319-825b-40cc-b0ae-6b225f883419}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -193,10 +196,10 @@
       <Filter>00. game\object\component\implements\ai</Filter>
     </ClInclude>
     <ClInclude Include="object_factory.h">
-      <Filter>00. game\object\object_creater\object_factory</Filter>
+      <Filter>00. game\object\object_storage\object_factory</Filter>
     </ClInclude>
     <ClInclude Include="object_storage.h">
-      <Filter>00. game\object\object_creater</Filter>
+      <Filter>00. game\object\object_storage</Filter>
     </ClInclude>
     <ClInclude Include="per_component.h">
       <Filter>00. game\object\component</Filter>
@@ -309,6 +312,12 @@
     <ClInclude Include="test_field_hud.h">
       <Filter>00. game\user_interface\hud\test_field_hud</Filter>
     </ClInclude>
+    <ClInclude Include="name_tag.h">
+      <Filter>00. game\user_interface\ui_element\name_tag</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_element_pool_group.h">
+      <Filter>00. game\user_interface\ui_element\ui_element_pool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -351,10 +360,10 @@
       <Filter>00. game\object\component\implements\graphics</Filter>
     </ClCompile>
     <ClCompile Include="object_factory.cpp">
-      <Filter>00. game\object\object_creater\object_factory</Filter>
+      <Filter>00. game\object\object_storage\object_factory</Filter>
     </ClCompile>
     <ClCompile Include="object_storage.cpp">
-      <Filter>00. game\object\object_creater</Filter>
+      <Filter>00. game\object\object_storage</Filter>
     </ClCompile>
     <ClCompile Include="player_input_component.cpp">
       <Filter>00. game\object\component\implements\input</Filter>
@@ -440,11 +449,14 @@
     <ClCompile Include="per_data.cpp">
       <Filter>07. data\database</Filter>
     </ClCompile>
-    <ClCompile Include="ui_element_pool.cpp">
-      <Filter>00. game\user_interface\ui_element\ui_element_pool</Filter>
-    </ClCompile>
     <ClCompile Include="test_field_hud.cpp">
       <Filter>00. game\user_interface\hud\test_field_hud</Filter>
+    </ClCompile>
+    <ClCompile Include="name_tag.cpp">
+      <Filter>00. game\user_interface\ui_element\name_tag</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_element_pool_group.cpp">
+      <Filter>00. game\user_interface\ui_element\ui_element_pool</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

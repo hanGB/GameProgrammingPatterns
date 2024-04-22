@@ -5,6 +5,7 @@
 #include "per_controller.h"
 #include "event_dispatcher.h"
 #include "player_state.h"
+#include "black_board.h"
 
 void PlayerInputComponent::Update(PERObject& object, PERWorld& world, PERController& controller, PERAudio& audio, double dTime)
 {
@@ -103,5 +104,16 @@ void PlayerInputComponent::SwingBlade(PERObject& object, PERWorld& world, PERCon
 			stuckPosition, state.GetBladeSize(), PERVec3(0.0, 0.0, 0.0), stat, 0.1);
 
 		m_swingCoolTime = state.GetSwingCoolTime();
+	}
+}
+
+void PlayerInputComponent::ShowObjectName(PERObject& object, PERController& controller, PERAudio& audio, double dTime)
+{
+	if (controller.IsKeyboardPressedRightNow(PERKeyboardValue::Q)) {
+		bool showingName = BlackBoard::GetShowingName();
+
+		showingName = (showingName + 1) % 2;
+
+		BlackBoard::SetShowingName(showingName);
 	}
 }

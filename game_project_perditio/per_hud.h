@@ -1,7 +1,7 @@
 #pragma once
 #include "event_reciver.h"
 #include "per_audio.h"
-#include "ui_element_pool.h"
+#include "ui_element_pool_group.h"
 
 class PERRenderer;
 
@@ -19,6 +19,6 @@ public:
 	UiElement* GetNewUiElementInWorld(PERUiElementType type);
 
 protected:
-	UiElementPool* m_uiElementPool;
+	UiElementPoolGroup* m_uiElementPool;
 
 };

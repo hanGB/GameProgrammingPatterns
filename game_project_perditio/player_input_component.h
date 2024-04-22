@@ -11,6 +11,7 @@ private:
 	void UpdateDirection(PERVec3 currentAccel);
 	void ShootBullet(PERObject& object, PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
 	void SwingBlade(PERObject& object, PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
+	void ShowObjectName(PERObject& object, PERController& controller, PERAudio& audio, double dTime);
 
 	const int c_DEFAULT_XY_FORCE = 150000;
 
