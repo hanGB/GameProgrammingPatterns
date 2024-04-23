@@ -75,12 +75,12 @@ void PERWorld::Render(PERRenderer& renderer, double frameGap)
 	for (size_t i = 0; i < m_sortedObjects.size(); ++i) {
 		m_sortedObjects[i]->GetGraphics().Render(*m_sortedObjects[i], renderer, frameGap);
 	}
-	GetHud().RendererInWorld(renderer);
+	GetHud().RendererInWorld(renderer, *m_database);
 }
 
 void PERWorld::UIRender(PERRenderer& renderer)
 {
-	GetHud().Renderer(renderer);
+	GetHud().Renderer(renderer, *m_database);
 }
 
 void PERWorld::Enter()

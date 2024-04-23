@@ -8,10 +8,10 @@ struct VisualData;
 class ObjectSpawner {
 public:
 	ObjectSpawner();
-	ObjectSpawner(std::string objectId, PERObjectType type, PERStat stat, VisualData* visualData, PERVec3 pos);
+	ObjectSpawner(std::string objectId, PERObjectType type, std::string nameId, PERStat stat, VisualData* visualData, PERVec3 pos);
 	~ObjectSpawner();
 
-	void SetSpawner(std::string objectId, PERObjectType type, PERStat stat, VisualData* visualData, PERVec3 pos);
+	void SetSpawner(std::string objectId, PERObjectType type, std::string nameId, PERStat stat, VisualData* visualData, PERVec3 pos);
 
 	PERObject* Spawn(ObjectStorage& stroage);
 	PERObject* SpawnWithTimer(ObjectStorage& stroage, double timeGap, double dTime);
@@ -23,6 +23,8 @@ private:
 	// 오브젝트 설정
 	std::string m_objectId;
 	PERObjectType m_type;
+
+	std::string m_nameId;
 	PERStat m_stat;
 	
 	// 비주얼

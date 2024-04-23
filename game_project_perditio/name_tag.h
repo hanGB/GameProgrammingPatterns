@@ -14,8 +14,8 @@ public:
 	void MatchWithData(std::string nameId, PERVec2 textPos);
 
 	virtual void Update(PERAudio& audio, double dTime);
-	virtual void RenderOnScreen(PERRenderer& renderer);
-	virtual void RenderInWorld(PERRenderer& renderer);
+	virtual void RenderOnScreen(PERRenderer& renderer, PERDatabase& database);
+	virtual void RenderInWorld(PERRenderer& renderer, PERDatabase& database);
 
 
 private:

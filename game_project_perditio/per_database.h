@@ -8,6 +8,7 @@ public:
 
 	MonsterData* GetMonsterData(const char* id) const;
 	VisualData* GetVisualData(const char* id) const;
+	TranslateData* GetTranslateData(const char* id) const;
 
 private:
 	std::map<std::string, MonsterData*> m_monsterDatas;

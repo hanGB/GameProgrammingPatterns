@@ -4,6 +4,7 @@
 #include "ui_element_pool_group.h"
 
 class PERRenderer;
+class PERDatabase;
 
 class PERHud : public EventReciver {
 public:
@@ -11,8 +12,8 @@ public:
 	~PERHud();
 
 	void Update(PERAudio& audio, double dTime);
-	void Renderer(PERRenderer& renderer);
-	void RendererInWorld(PERRenderer& renderer);
+	void Renderer(PERRenderer& renderer, PERDatabase& database);
+	void RendererInWorld(PERRenderer& renderer, PERDatabase& database);
 
 	virtual void Recive(PEREvent event, PERVec3 data);
 

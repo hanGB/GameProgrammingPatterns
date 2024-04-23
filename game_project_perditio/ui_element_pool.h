@@ -3,6 +3,7 @@
 
 class PERAudio;
 class PERRenderer;
+class PERDatabase;
 
 template <class T>
 class UiElementPool {
@@ -10,8 +11,8 @@ public:
 	UiElementPool();
 
 	void Update(PERAudio& audio, double dTime);
-	void Renderer(PERRenderer& renderer);
-	void RendererInWorld(PERRenderer& renderer);
+	void Renderer(PERRenderer& renderer, PERDatabase& database);
+	void RendererInWorld(PERRenderer& renderer, PERDatabase& database);
 
 	T* CreateElementInWorld();
 	T* CreateElementOnScreen();
@@ -55,18 +56,18 @@ void UiElementPool<T>::Update(PERAudio& audio, double dTime)
 }
 
 template<class T>
-void UiElementPool<T>::Renderer(PERRenderer& renderer)
+void UiElementPool<T>::Renderer(PERRenderer& renderer, PERDatabase& database)
 {
 	for (auto& element : m_elementsOnScreen) {
-		element.RenderOnScreen(renderer);
+		element.RenderOnScreen(renderer, database);
 	}
 }
 
 template<class T>
-void UiElementPool<T>::RendererInWorld(PERRenderer& renderer)
+void UiElementPool<T>::RendererInWorld(PERRenderer& renderer, PERDatabase& database)
 {
 	for (auto& element : m_elementsInWorld) {
-		element.RenderInWorld(renderer);
+		element.RenderInWorld(renderer, database);
 	}
 }
 

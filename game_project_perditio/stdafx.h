@@ -9,6 +9,11 @@
 #define NOMINMAX
 #include <Windows.h>
 
+// USES_CONVERSION를 사용하기 위한 헤더 파일(한글 A2W 변환용)
+#include <comdef.h>
+#include <CRTDBG.H>
+#include <atlconv.h>
+
 #include <tchar.h>
 // 멀티 스레드
 #include <thread>

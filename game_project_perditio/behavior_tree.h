@@ -41,7 +41,7 @@ public:
 
 private:
 	std::vector<BTNode*> m_children;
-	int m_current = 0;
+	size_t m_current = 0;
 };
 
 class SelectorNode : public BTNode {
@@ -55,7 +55,7 @@ public:
 
 private:
 	std::vector<BTNode*> m_children;
-	int m_current = 0;
+	size_t m_current = 0;
 };
 
 // 각 컨포넌트 클래스 별로 생성되어 사용됨

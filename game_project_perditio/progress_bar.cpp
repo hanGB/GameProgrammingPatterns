@@ -37,7 +37,7 @@ void ProgressBar::Update(PERAudio& audio, double dTime)
 	if (m_showing != m_current) UpdateShowingValue(audio, dTime);
 }
 
-void ProgressBar::RenderOnScreen(PERRenderer& renderer)
+void ProgressBar::RenderOnScreen(PERRenderer& renderer, PERDatabase& database)
 {
 	if (!GetIsInUse()) return;
 
@@ -51,7 +51,7 @@ void ProgressBar::RenderOnScreen(PERRenderer& renderer)
 		pos, PERVec2(size.x * m_showing / (double)m_max, size.y), m_valueColor, false);
 }
 
-void ProgressBar::RenderInWorld(PERRenderer& renderer)
+void ProgressBar::RenderInWorld(PERRenderer& renderer, PERDatabase& database)
 {
 	if (!GetIsInUse()) return;
 

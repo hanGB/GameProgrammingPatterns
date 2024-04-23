@@ -17,16 +17,16 @@ void UiElementPoolGroup::Update(PERAudio& audio, double dTime)
 	m_nameTagPool.Update(audio, dTime);
 }
 
-void UiElementPoolGroup::Renderer(PERRenderer& renderer)
+void UiElementPoolGroup::Renderer(PERRenderer& renderer, PERDatabase& database)
 {
-	m_progressBarPool.Renderer(renderer);
-	m_nameTagPool.Renderer(renderer);
+	m_progressBarPool.Renderer(renderer, database);
+	m_nameTagPool.Renderer(renderer, database);
 }
 
-void UiElementPoolGroup::RendererInWorld(PERRenderer& renderer)
+void UiElementPoolGroup::RendererInWorld(PERRenderer& renderer, PERDatabase& database)
 {
-	m_progressBarPool.RendererInWorld(renderer);
-	m_nameTagPool.RendererInWorld(renderer);
+	m_progressBarPool.RendererInWorld(renderer, database);
+	m_nameTagPool.RendererInWorld(renderer, database);
 }
 
 UiElement* UiElementPoolGroup::Create(PERUiElementType type, bool inWorld)

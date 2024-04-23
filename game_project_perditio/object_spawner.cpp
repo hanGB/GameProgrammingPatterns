@@ -7,8 +7,8 @@ ObjectSpawner::ObjectSpawner()
 {
 }
 
-ObjectSpawner::ObjectSpawner(std::string objectId, PERObjectType type, PERStat stat, VisualData* visualData, PERVec3 pos)
-    : m_objectId(objectId), m_type(type), m_stat(stat), m_visualData(*visualData), m_position(pos)
+ObjectSpawner::ObjectSpawner(std::string objectId, PERObjectType type, std::string nameId, PERStat stat, VisualData* visualData, PERVec3 pos)
+    : m_objectId(objectId), m_type(type), m_nameId(nameId), m_stat(stat), m_visualData(*visualData), m_position(pos)
 {
 }
 
@@ -16,10 +16,11 @@ ObjectSpawner::~ObjectSpawner()
 {
 }
 
-void ObjectSpawner::SetSpawner(std::string objectId, PERObjectType type, PERStat stat, VisualData* visualData, PERVec3 pos)
+void ObjectSpawner::SetSpawner(std::string objectId, PERObjectType type, std::string nameId, PERStat stat, VisualData* visualData, PERVec3 pos)
 {
     m_objectId = objectId;
     m_type = type;
+    m_nameId = nameId;
     m_stat = stat;
     m_visualData = *visualData;
     m_position = pos;
@@ -58,6 +59,8 @@ PERObject* ObjectSpawner::GetObjectWithSetting(ObjectStorage& stroage)
 {
     PERObject* object = stroage.PopObject(m_type);
 
+    // 이름
+    object->GetObjectState().SetNameId(m_nameId);
     // 스탯
     object->GetObjectState().SetStat(m_stat);
     // 위치

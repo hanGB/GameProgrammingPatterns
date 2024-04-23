@@ -32,7 +32,7 @@ void MonsterState::MatchFloatingUI(PERObject& object)
 
     pos = PERVec2(objectPos.x, objectPos.y - objectSize.y * 1.5);
     m_nameTag->SetPosition(pos);
-    pos = PERVec2(objectPos.x - objectSize.x, objectPos.y - objectSize.y * 1.25);
+    pos = PERVec2(objectPos.x, objectPos.y - objectSize.y * 1.3);
     dynamic_cast<NameTag*>(m_nameTag)->MatchWithData(m_nameId, pos);
 }
 
@@ -51,7 +51,7 @@ bool MonsterState::ShowFloatingUi(PERObject& object, PERHud* hud)
 
     m_nameTag->SetSize(PERVec2(1.0, 0.25));
     dynamic_cast<NameTag*>(m_nameTag)->
-        Init(PERVec2(0.0, 0.0), PERVec2(1.0, 0.25), PERColor(200, 200, 200), m_nameId, 0.35, PERVec2(0.0, 0.0), PERColor(50, 50, 50));
+        Init(PERVec2(0.0, 0.0), PERVec2(1.2, 0.25), PERColor(200, 200, 200), m_nameId, 0.35, PERVec2(0.0, 0.0), PERColor(50, 50, 50));
 
     MatchFloatingUI(object);
 
