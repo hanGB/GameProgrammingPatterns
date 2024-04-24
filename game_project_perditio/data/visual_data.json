@@ -13,9 +13,7 @@
     "BORDER_COLOR_R": 127,
     "BORDER_COLOR_G": 0,
     "BORDER_COLOR_B": 0,
-    "BOUNDING_TYPE": "rectangle",
-    "FLOATING_UI_ON": 1,
-    "FLOATING_UI_VISIBLE_DISTANCE": 100
+    "BOUNDING_TYPE": "rectangle"
   },
   "MONSTER_COPPER_VISUAL": {
     "SHAPE": "triangle",
@@ -31,8 +29,6 @@
     "BORDER_COLOR_R": 127,
     "BORDER_COLOR_G": 0,
     "BORDER_COLOR_B": 127,
-    "BOUNDING_TYPE": "rectangle",
-    "FLOATING_UI_ON": 1,
-    "FLOATING_UI_VISIBLE_DISTANCE": 100
+    "BOUNDING_TYPE": "rectangle"
   }
 }

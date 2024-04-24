@@ -56,6 +56,7 @@ void PERGame::HandleInput(WPARAM wParam, bool isDown)
 	if (wParam == 'S' || wParam == 's') m_controller->SetKeyboardPressed(PERKeyboardValue::S, isDown);
 	if (wParam == 'D' || wParam == 'd') m_controller->SetKeyboardPressed(PERKeyboardValue::D, isDown);
 	if (wParam == 'F' || wParam == 'f') m_controller->SetKeyboardPressed(PERKeyboardValue::F, isDown);
+	if (wParam == 'Q' || wParam == 'q') m_controller->SetKeyboardPressed(PERKeyboardValue::Q, isDown);
 }
 
 void PERGame::Update(int time)

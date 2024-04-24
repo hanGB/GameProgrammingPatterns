@@ -23,8 +23,9 @@ void ProgressBar::Init(PERVec2 pos, PERVec2 size, PERColor backgorund, PERColor 
 	m_updateSpeed = 0.0;
 }
 
-void ProgressBar::MatchWithData(std::string name, int max, int current)
+void ProgressBar::MatchWithData(PERVec2 pos, int max, int current)
 {
+	SetPosition(pos);
 	SetMax(max);
 	SetCurrent(current);
 	UpateShowingValueImmediately();

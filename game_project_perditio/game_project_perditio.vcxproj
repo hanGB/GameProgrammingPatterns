@@ -154,6 +154,7 @@
     <ClInclude Include="game_state.h" />
     <ClInclude Include="json_data_reader.h" />
     <ClInclude Include="monster_ai_component.h" />
+    <ClInclude Include="monster_graphics_componenet.h" />
     <ClInclude Include="monster_state.h" />
     <ClInclude Include="name_tag.h" />
     <ClInclude Include="navigation_data.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="ui_element_pool.h" />
     <ClInclude Include="visible_graphics_component.h" />
     <ClInclude Include="console_logger.h" />
+    <ClInclude Include="visible_with_information_graphics_componenet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="a_star_calculator.cpp" />
@@ -212,6 +214,7 @@
     <ClCompile Include="game_state.cpp" />
     <ClCompile Include="json_data_reader.cpp" />
     <ClCompile Include="monster_ai_component.cpp" />
+    <ClCompile Include="monster_graphics_componenet.cpp" />
     <ClCompile Include="monster_state.cpp" />
     <ClCompile Include="name_tag.cpp" />
     <ClCompile Include="navigation_data.cpp" />
@@ -253,6 +256,7 @@
     <ClCompile Include="ui_element.cpp" />
     <ClCompile Include="visible_graphics_component.cpp" />
     <ClCompile Include="console_logger.cpp" />
+    <ClCompile Include="visible_with_information_graphics_componenet.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

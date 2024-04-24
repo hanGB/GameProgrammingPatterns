@@ -63,7 +63,6 @@ void TestGameMode::CreatePlayerFactory()
     physics.friction = true; physics.isOccupySpace = true;
     graphics.shape = PERShapeType::ELLIPSE; graphics.color = PERColor(0, 255, 255);
     graphics.border = true; graphics.borderWidth = 3; graphics.borderColor = PERColor(0, 127, 127);
-    graphics.floatingUi = false; graphics.distanceVisiblefloatingUi = 0.0;
     m_playerFactory->SetInputData(input);             m_playerFactory->SetAiData(ai);
     m_playerFactory->SetPhysicsData(physics);         m_playerFactory->SetGraphicsData(graphics);
     m_playerFactory->SetSize(PERVec3(0.5, 0.5, 0.5)); m_playerFactory->SetMass(70);
@@ -74,8 +73,8 @@ PERHud* TestGameMode::CreateHud()
     TestFieldHud* hud = new TestFieldHud();
 
     ObjectState playerState = m_player->GetObjectState();
-    hud->GetBodyBar()->MatchWithData("", playerState.GetStat().body, playerState.GetCurrentBody());
-    hud->GetMindBar()->MatchWithData("", playerState.GetStat().mind, playerState.GetCurrentMind());
+    hud->GetBodyBar()->MatchWithData(hud->GetBodyBar()->GetPosition(), playerState.GetStat().body, playerState.GetCurrentBody());
+    hud->GetMindBar()->MatchWithData(hud->GetMindBar()->GetPosition(), playerState.GetStat().mind, playerState.GetCurrentMind());
 
     return hud;
 }

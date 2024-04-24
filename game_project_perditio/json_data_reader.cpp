@@ -133,8 +133,6 @@ VisualData* JSONDataReader::MakeVisualData(const char* id)
 			m_document[id]["BORDER_COLOR_G"].GetInt(),
 			m_document[id]["BORDER_COLOR_B"].GetInt()
 		);
-	data->floatingUiOn = m_document[id]["FLOATING_UI_ON"].GetInt();
-	data->floatingUiVisibleDistance = m_document[id]["FLOATING_UI_VISIBLE_DISTANCE"].GetDouble();
 
 	// enum 데이터 설정
 	std::string shape = m_document[id]["SHAPE"].GetString();

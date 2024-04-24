@@ -96,7 +96,7 @@ bool ObjectState::GiveDamage(PERObject& object, PERObject& opponent, short physi
 
 	if (m_currentBody <= 0) {
 		object.SetLifeTime(-1.0);
-		HideFloatingUi();
+		object.GetGraphics().RemoveFloatingUi();
 
 		// 부모가 있을 경우 총알이나 칼날이므로 부모에게 경험치를 줌
 		if (opponent.GetParent()) {
@@ -129,18 +129,4 @@ void ObjectState::GiveExp(PERObject& object, int exp)
 		m_exp -= m_stat.level * c_DEFAULT_LEVEL_EXP_GAP;
 		m_stat.level++;
 	}
-}
-
-void ObjectState::MatchFloatingUI(PERObject& object)
-{
-}
-
-bool ObjectState::ShowFloatingUi(PERObject& object, PERHud* hud)
-{
-	return false;
-}
-
-void ObjectState::HideFloatingUi()
-{
-	
 }

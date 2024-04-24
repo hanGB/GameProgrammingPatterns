@@ -16,6 +16,8 @@
 #include "stuck_physics_component.h"
 // graphics
 #include "visible_graphics_component.h"
+#include "visible_with_information_graphics_componenet.h"
+#include "monster_graphics_componenet.h"
 #include "hidden_graphics_component.h"
 
 // 오브젝트 스테이트
@@ -93,6 +95,12 @@ PERObject* ObjectFactory::CreateObject()
     switch (m_componentTypes.graphics) {
     case PERComponentType::VISIBLE:
         graphicsComponent = new VisibleGraphicsComponent();
+        break;
+    case PERComponentType::VISIBLE_WITH_INFORMATION:
+        graphicsComponent = new VisibleWithInformationGraphicsComponent();
+        break;
+    case PERComponentType::MONSTER_GRAPHICS:
+        graphicsComponent = new MonsterGraphicsComponent();
         break;
     case PERComponentType::HIDDEN:
         graphicsComponent = new HiddenGraphicsComponent();
@@ -188,8 +196,6 @@ void ObjectFactory::InitData()
     // graphics
     m_componentData.graphics.shape = PERShapeType::RECTANGLE;
     m_componentData.graphics.color = PERColor(255, 255, 255);
-    m_componentData.graphics.floatingUi = false;
-    m_componentData.graphics.distanceVisiblefloatingUi = 0.0;
 
     m_size = PERVec3(1.0, 1.0, 1.0);
     m_mass = 50.0;

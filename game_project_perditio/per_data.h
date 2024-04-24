@@ -34,6 +34,4 @@ struct VisualData {
 	int borderWidth;
 	PERColor borderColor;
 	PERBoundingType boundingType;
-	bool floatingUiOn;
-	double floatingUiVisibleDistance;
 };

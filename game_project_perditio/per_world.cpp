@@ -66,7 +66,7 @@ void PERWorld::ObjectsGraphicsUpdate(PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetGraphics().Update(*m_objects[i], audio, dTime);
+		m_objects[i]->GetGraphics().Update(*m_objects[i], GetHud(), audio, dTime);
 	}
 }
 

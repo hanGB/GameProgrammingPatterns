@@ -35,7 +35,5 @@ namespace PERComponent {
 		bool border = true;
 		int borderWidth = 1;
 		PERColor borderColor = PERColor(0, 0, 0);
-		bool floatingUi = false;
-		double distanceVisiblefloatingUi = 0.0;
 	};
 }

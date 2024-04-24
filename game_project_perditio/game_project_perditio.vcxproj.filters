@@ -127,9 +127,6 @@
     <Filter Include="00. game\user_interface\hud">
       <UniqueIdentifier>{71013919-d016-4311-b732-d5c7954e5825}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\user_interface\ui_element\ui_element_pool">
-      <UniqueIdentifier>{fd32e382-ea19-4ec1-a9a3-d856b3e26a5d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. game\user_interface\hud\test_field_hud">
       <UniqueIdentifier>{100e39ed-e0ed-4550-a28e-4b8befc8e0b8}</UniqueIdentifier>
     </Filter>
@@ -141,6 +138,48 @@
     </Filter>
     <Filter Include="00. game\user_interface\ui_element\name_tag">
       <UniqueIdentifier>{5aa20319-825b-40cc-b0ae-6b225f883419}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\ai\monster">
+      <UniqueIdentifier>{4b07d813-f706-466c-96a5-8deae821caa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\graphics\hidden">
+      <UniqueIdentifier>{84f73a43-6ed6-4a21-b82c-5f82546798fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\graphics\visible">
+      <UniqueIdentifier>{e13fa86b-9c58-438e-89e2-ef77ac77eead}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\input\interact">
+      <UniqueIdentifier>{dfee608c-bb9c-4982-a118-78f15f5b3ea4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\input\no_interact">
+      <UniqueIdentifier>{f41ead4f-562a-4463-912b-2d5f45ccf814}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\input\player">
+      <UniqueIdentifier>{e5bf238d-c346-4f29-ab31-ab623e4df230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\physics\fixed">
+      <UniqueIdentifier>{26a927cf-df26-49fa-b431-2e2c5517f43a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\physics\movable">
+      <UniqueIdentifier>{43406fae-a683-4dc3-bcf9-357eed36732c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\physics\stuck">
+      <UniqueIdentifier>{71fc7931-5879-43b7-ba86-405dba28f8be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\graphics\visible\visible_with_Information">
+      <UniqueIdentifier>{aa98a97e-5620-4bd7-a865-3873d178646c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\graphics\visible\visible_with_Information\monster">
+      <UniqueIdentifier>{dda2f6a8-73b7-4fb7-9393-2849470fb1ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\user_interface\ui_element\ui_element_pool">
+      <UniqueIdentifier>{fd32e382-ea19-4ec1-a9a3-d856b3e26a5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\ai\intelligent">
+      <UniqueIdentifier>{626fb4cf-eb83-450f-a27f-6fb3bde651b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\ai\unintelligent">
+      <UniqueIdentifier>{7014ffb9-3a15-43e5-a4a4-985b1f5883a2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -171,30 +210,6 @@
     <ClInclude Include="physics_component.h">
       <Filter>00. game\object\component\interface</Filter>
     </ClInclude>
-    <ClInclude Include="movable_physics_component.h">
-      <Filter>00. game\object\component\implements\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="fixed_physics_component.h">
-      <Filter>00. game\object\component\implements\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="visible_graphics_component.h">
-      <Filter>00. game\object\component\implements\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="hidden_graphics_component.h">
-      <Filter>00. game\object\component\implements\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="interact_input_component.h">
-      <Filter>00. game\object\component\implements\input</Filter>
-    </ClInclude>
-    <ClInclude Include="no_interact_input_component.h">
-      <Filter>00. game\object\component\implements\input</Filter>
-    </ClInclude>
-    <ClInclude Include="intelligent_ai_component.h">
-      <Filter>00. game\object\component\implements\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="unintelligent_ai_component.h">
-      <Filter>00. game\object\component\implements\ai</Filter>
-    </ClInclude>
     <ClInclude Include="object_factory.h">
       <Filter>00. game\object\object_storage\object_factory</Filter>
     </ClInclude>
@@ -203,9 +218,6 @@
     </ClInclude>
     <ClInclude Include="per_component.h">
       <Filter>00. game\object\component</Filter>
-    </ClInclude>
-    <ClInclude Include="player_input_component.h">
-      <Filter>00. game\object\component\implements\input</Filter>
     </ClInclude>
     <ClInclude Include="per_controller.h">
       <Filter>01. controller</Filter>
@@ -264,9 +276,6 @@
     <ClInclude Include="player_state.h">
       <Filter>00. game\object\object_state\player_state</Filter>
     </ClInclude>
-    <ClInclude Include="monster_state.h">
-      <Filter>00. game\object\object_state\monster_state</Filter>
-    </ClInclude>
     <ClInclude Include="black_board.h">
       <Filter>06. ai\black_board</Filter>
     </ClInclude>
@@ -276,14 +285,8 @@
     <ClInclude Include="a_star_calculator.h">
       <Filter>06. ai\path_finding\a_star</Filter>
     </ClInclude>
-    <ClInclude Include="monster_ai_component.h">
-      <Filter>00. game\object\component\implements\ai</Filter>
-    </ClInclude>
     <ClInclude Include="behavior_tree.h">
       <Filter>06. ai\behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="stuck_physics_component.h">
-      <Filter>00. game\object\component\implements\physics</Filter>
     </ClInclude>
     <ClInclude Include="object_spawner.h">
       <Filter>00. game\world\spawner</Filter>
@@ -318,6 +321,48 @@
     <ClInclude Include="ui_element_pool_group.h">
       <Filter>00. game\user_interface\ui_element\ui_element_pool</Filter>
     </ClInclude>
+    <ClInclude Include="monster_state.h">
+      <Filter>00. game\object\object_state\monster_state</Filter>
+    </ClInclude>
+    <ClInclude Include="monster_ai_component.h">
+      <Filter>00. game\object\component\implements\ai\monster</Filter>
+    </ClInclude>
+    <ClInclude Include="interact_input_component.h">
+      <Filter>00. game\object\component\implements\input\interact</Filter>
+    </ClInclude>
+    <ClInclude Include="no_interact_input_component.h">
+      <Filter>00. game\object\component\implements\input\no_interact</Filter>
+    </ClInclude>
+    <ClInclude Include="player_input_component.h">
+      <Filter>00. game\object\component\implements\input\player</Filter>
+    </ClInclude>
+    <ClInclude Include="fixed_physics_component.h">
+      <Filter>00. game\object\component\implements\physics\fixed</Filter>
+    </ClInclude>
+    <ClInclude Include="movable_physics_component.h">
+      <Filter>00. game\object\component\implements\physics\movable</Filter>
+    </ClInclude>
+    <ClInclude Include="stuck_physics_component.h">
+      <Filter>00. game\object\component\implements\physics\stuck</Filter>
+    </ClInclude>
+    <ClInclude Include="visible_with_information_graphics_componenet.h">
+      <Filter>00. game\object\component\implements\graphics\visible\visible_with_Information</Filter>
+    </ClInclude>
+    <ClInclude Include="monster_graphics_componenet.h">
+      <Filter>00. game\object\component\implements\graphics\visible\visible_with_Information\monster</Filter>
+    </ClInclude>
+    <ClInclude Include="hidden_graphics_component.h">
+      <Filter>00. game\object\component\implements\graphics\hidden</Filter>
+    </ClInclude>
+    <ClInclude Include="visible_graphics_component.h">
+      <Filter>00. game\object\component\implements\graphics\visible</Filter>
+    </ClInclude>
+    <ClInclude Include="intelligent_ai_component.h">
+      <Filter>00. game\object\component\implements\ai\intelligent</Filter>
+    </ClInclude>
+    <ClInclude Include="unintelligent_ai_component.h">
+      <Filter>00. game\object\component\implements\ai\unintelligent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -335,38 +380,11 @@
     <ClCompile Include="per_object.cpp">
       <Filter>00. game\object</Filter>
     </ClCompile>
-    <ClCompile Include="fixed_physics_component.cpp">
-      <Filter>00. game\object\component\implements\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="movable_physics_component.cpp">
-      <Filter>00. game\object\component\implements\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="interact_input_component.cpp">
-      <Filter>00. game\object\component\implements\input</Filter>
-    </ClCompile>
-    <ClCompile Include="unintelligent_ai_component.cpp">
-      <Filter>00. game\object\component\implements\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="visible_graphics_component.cpp">
-      <Filter>00. game\object\component\implements\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="intelligent_ai_component.cpp">
-      <Filter>00. game\object\component\implements\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="no_interact_input_component.cpp">
-      <Filter>00. game\object\component\implements\input</Filter>
-    </ClCompile>
-    <ClCompile Include="hidden_graphics_component.cpp">
-      <Filter>00. game\object\component\implements\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="object_factory.cpp">
       <Filter>00. game\object\object_storage\object_factory</Filter>
     </ClCompile>
     <ClCompile Include="object_storage.cpp">
       <Filter>00. game\object\object_storage</Filter>
-    </ClCompile>
-    <ClCompile Include="player_input_component.cpp">
-      <Filter>00. game\object\component\implements\input</Filter>
     </ClCompile>
     <ClCompile Include="per_controller.cpp">
       <Filter>01. controller</Filter>
@@ -416,17 +434,11 @@
     <ClCompile Include="a_star_calculator.cpp">
       <Filter>06. ai\path_finding\a_star</Filter>
     </ClCompile>
-    <ClCompile Include="monster_ai_component.cpp">
-      <Filter>00. game\object\component\implements\ai</Filter>
-    </ClCompile>
     <ClCompile Include="behavior_tree.cpp">
       <Filter>06. ai\behavior_tree</Filter>
     </ClCompile>
     <ClCompile Include="per_vector.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stuck_physics_component.cpp">
-      <Filter>00. game\object\component\implements\physics</Filter>
     </ClCompile>
     <ClCompile Include="object_spawner.cpp">
       <Filter>00. game\world\spawner</Filter>
@@ -457,6 +469,45 @@
     </ClCompile>
     <ClCompile Include="ui_element_pool_group.cpp">
       <Filter>00. game\user_interface\ui_element\ui_element_pool</Filter>
+    </ClCompile>
+    <ClCompile Include="monster_ai_component.cpp">
+      <Filter>00. game\object\component\implements\ai\monster</Filter>
+    </ClCompile>
+    <ClCompile Include="interact_input_component.cpp">
+      <Filter>00. game\object\component\implements\input\interact</Filter>
+    </ClCompile>
+    <ClCompile Include="no_interact_input_component.cpp">
+      <Filter>00. game\object\component\implements\input\no_interact</Filter>
+    </ClCompile>
+    <ClCompile Include="player_input_component.cpp">
+      <Filter>00. game\object\component\implements\input\player</Filter>
+    </ClCompile>
+    <ClCompile Include="fixed_physics_component.cpp">
+      <Filter>00. game\object\component\implements\physics\fixed</Filter>
+    </ClCompile>
+    <ClCompile Include="movable_physics_component.cpp">
+      <Filter>00. game\object\component\implements\physics\movable</Filter>
+    </ClCompile>
+    <ClCompile Include="stuck_physics_component.cpp">
+      <Filter>00. game\object\component\implements\physics\stuck</Filter>
+    </ClCompile>
+    <ClCompile Include="visible_with_information_graphics_componenet.cpp">
+      <Filter>00. game\object\component\implements\graphics\visible\visible_with_Information</Filter>
+    </ClCompile>
+    <ClCompile Include="monster_graphics_componenet.cpp">
+      <Filter>00. game\object\component\implements\graphics\visible\visible_with_Information\monster</Filter>
+    </ClCompile>
+    <ClCompile Include="hidden_graphics_component.cpp">
+      <Filter>00. game\object\component\implements\graphics\hidden</Filter>
+    </ClCompile>
+    <ClCompile Include="visible_graphics_component.cpp">
+      <Filter>00. game\object\component\implements\graphics\visible</Filter>
+    </ClCompile>
+    <ClCompile Include="intelligent_ai_component.cpp">
+      <Filter>00. game\object\component\implements\ai\intelligent</Filter>
+    </ClCompile>
+    <ClCompile Include="unintelligent_ai_component.cpp">
+      <Filter>00. game\object\component\implements\ai\unintelligent</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

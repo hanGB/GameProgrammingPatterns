@@ -59,7 +59,6 @@ void ObjectStorage::CreateObjectFactories()
     physics.friction = true; physics.isOccupySpace = true;
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(255, 255, 255);
     graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(0, 0, 0);
-    graphics.floatingUi = false; graphics.distanceVisiblefloatingUi = 0.0;
     fixedBlockFactory->SetInputData(input);              fixedBlockFactory->SetAiData(ai);
     fixedBlockFactory->SetPhysicsData(physics);          fixedBlockFactory->SetGraphicsData(graphics);
     fixedBlockFactory->SetSize(PERVec3(1.0, 1.0, 1.0));  fixedBlockFactory->SetMass(100'000);
@@ -80,7 +79,6 @@ void ObjectStorage::CreateObjectFactories()
     physics.friction = true; physics.isOccupySpace = true;
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(255, 255, 255);
     graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(0, 255, 0);
-    graphics.floatingUi = false; graphics.distanceVisiblefloatingUi = 0.0;
     movableBlockFactory->SetInputData(input);              movableBlockFactory->SetAiData(ai);
     movableBlockFactory->SetPhysicsData(physics);          movableBlockFactory->SetGraphicsData(graphics);
     movableBlockFactory->SetSize(PERVec3(1.0, 1.0, 1.0));  movableBlockFactory->SetMass(50);
@@ -94,14 +92,13 @@ void ObjectStorage::CreateObjectFactories()
             PERComponentType::NO_INTERACT,
             PERComponentType::MONSTER_AI,
             PERComponentType::MOVABLE,
-            PERComponentType::VISIBLE
+            PERComponentType::MONSTER_GRAPHICS
         );
     input.isAttack = false, input.isMove = false, input.isCheck = false;
     ai.isAttack = true, ai.isMove = true;
     physics.friction = true; physics.isOccupySpace = true;
     graphics.shape = PERShapeType::TRIANGLE; graphics.color = PERColor(255, 0, 0);
     graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(127, 0, 0);
-    graphics.floatingUi = true; graphics.distanceVisiblefloatingUi = 100.0;
     monsterFactory->SetInputData(input);                monsterFactory->SetAiData(ai);
     monsterFactory->SetPhysicsData(physics);            monsterFactory->SetGraphicsData(graphics);
     monsterFactory->SetSize(PERVec3(0.25, 0.25, 0.25)); monsterFactory->SetMass(30);
@@ -122,7 +119,6 @@ void ObjectStorage::CreateObjectFactories()
     physics.friction = false; physics.isOccupySpace = true;
     graphics.shape = PERShapeType::ELLIPSE; graphics.color = PERColor(100, 100, 100);
     graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(50, 50, 50);
-    graphics.floatingUi = false; graphics.distanceVisiblefloatingUi = 0.0;
     bulletFactory->SetInputData(input);                 bulletFactory->SetAiData(ai);
     bulletFactory->SetPhysicsData(physics);             bulletFactory->SetGraphicsData(graphics);
     bulletFactory->SetSize(PERVec3(0.2, 0.2, 0.2));     bulletFactory->SetMass(5);
@@ -143,7 +139,6 @@ void ObjectStorage::CreateObjectFactories()
     physics.friction = false; physics.isOccupySpace = true;
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(200, 200, 200);
     graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(50, 50, 50);
-    graphics.floatingUi = false; graphics.distanceVisiblefloatingUi = 0.0;
     bladeFactory->SetInputData(input);                bladeFactory->SetAiData(ai);
     bladeFactory->SetPhysicsData(physics);            bladeFactory->SetGraphicsData(graphics);
     bladeFactory->SetSize(PERVec3(0.5, 0.5, 0.5));    bladeFactory->SetMass(10);

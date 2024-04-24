@@ -13,6 +13,7 @@ void PlayerInputComponent::Update(PERObject& object, PERWorld& world, PERControl
 	UpdateDirection(object.GetCurrentAccel());
 	ShootBullet(object, world, controller, audio, dTime);
 	SwingBlade(object, world, controller, audio, dTime);
+	ShowObjectName(object, controller, audio, dTime);
 }
 
 void PlayerInputComponent::SetData(PERComponent::InputData data)

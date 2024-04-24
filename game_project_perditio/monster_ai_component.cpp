@@ -24,29 +24,6 @@ void MonsterAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& au
 	object.GetObjectState().RecoverPerTime(object, dTime);
 	// 행동 트리 실행
 	m_behaviorTree->Run(object, dTime);
-
-
-	PERVec3 playerPos = BlackBoard::GetPlayerPos();
-
-	// 보이는 값의 제곱 값을 10.0으로 임시로 사용 -> 그래픽관련 데이터로 저장된 값을 object state값으로 이동해야 할 필요가 있음
-	// 따라서 관련 데이터를 visual data에서 삭제필요
-	if (!m_isOnFlotingUI)
-	{
-		if (c_SHOWING_FAOLTING_UI_DISTANCE_2 > DistanceSquareAandBIgnoringZValue(playerPos, object.GetPosition()))
-		{
-			if (object.GetObjectState().ShowFloatingUi(object, &world.GetHud())) m_isOnFlotingUI = true;
-		}
-	}
-	else 
-	{
-		object.GetObjectState().MatchFloatingUI(object);
-		if (c_SHOWING_FAOLTING_UI_DISTANCE_2 < DistanceSquareAandBIgnoringZValue(playerPos, object.GetPosition()))
-		{
-			object.GetObjectState().HideFloatingUi();
-			m_isOnFlotingUI = false;
-		}
-	}
-	
 }
 
 void MonsterAiComponent::SetData(PERComponent::AiData data)

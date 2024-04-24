@@ -163,6 +163,8 @@ enum class PERComponentType {
 
 	// graphics
 	VISIBLE,
+	VISIBLE_WITH_INFORMATION,
+	MONSTER_GRAPHICS,
 	HIDDEN,
 
 	NUM_COMPONENT_TYPE

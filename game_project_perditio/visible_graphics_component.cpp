@@ -3,7 +3,7 @@
 #include "per_object.h"
 #include "per_renderer.h"
 
-void VisibleGraphicsComponent::Update(PERObject& object, PERAudio& audio, double dTime)
+void VisibleGraphicsComponent::Update(PERObject& object, PERHud& hud, PERAudio& audio, double dTime)
 {
 	m_position = object.GetPosition();
 	m_size = object.GetSize();
@@ -26,4 +26,8 @@ void VisibleGraphicsComponent::SetData(PERComponent::GraphicsData data)
 	m_border = data.border;
 	m_borderWidth = data.borderWidth;
 	m_borderColor = data.borderColor;
+}
+
+void VisibleGraphicsComponent::RemoveFloatingUi()
+{
 }
