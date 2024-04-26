@@ -155,6 +155,7 @@ enum class PERComponentType {
 	UNINTELLIGENT,
 	INTELLIGENT,
 	MONSTER_AI,
+	SPAWNER_AI,
 
 	// pysics
 	FIXED,
@@ -178,6 +179,7 @@ enum class PERObjectType {
 	BULLET,
 	BLADE,
 	TRIGGER,
+	SPAWNER,
 	NUM_OBJECT_TYPE
 };
 

@@ -143,6 +143,26 @@ void ObjectStorage::CreateObjectFactories()
     bladeFactory->SetPhysicsData(physics);            bladeFactory->SetGraphicsData(graphics);
     bladeFactory->SetSize(PERVec3(0.5, 0.5, 0.5));    bladeFactory->SetMass(10);
     m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::BLADE, bladeFactory));
+
+    // spawner
+    ObjectFactory* spawnerFactory
+        = new ObjectFactory(
+            PERObjectType::SPAWNER,
+            PERObjectStateType::NON,
+            PERComponentType::NO_INTERACT,
+            PERComponentType::SPAWNER_AI,
+            PERComponentType::FIXED,
+            PERComponentType::HIDDEN
+        );
+    input.isAttack = false, input.isMove = false, input.isCheck = false;
+    ai.isAttack = false, ai.isMove = false;
+    physics.friction = false; physics.isOccupySpace = false;
+    graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(0, 0, 0);
+    graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(0, 0, 0);
+    spawnerFactory->SetInputData(input);                spawnerFactory->SetAiData(ai);
+    spawnerFactory->SetPhysicsData(physics);            spawnerFactory->SetGraphicsData(graphics);
+    spawnerFactory->SetSize(PERVec3(1.0, 1.0, 1.0));    spawnerFactory->SetMass(100);
+    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::SPAWNER, spawnerFactory));
 }
 
 void ObjectStorage::DeleteObjectFactories()

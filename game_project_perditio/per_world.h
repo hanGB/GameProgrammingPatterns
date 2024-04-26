@@ -19,7 +19,8 @@ struct PERWorldMessage {
 	PERWorldMessageId id;
 	PERObject* object;
 	PERObjectType type;
-	std::string visualId;
+	std::string databaseId;
+	bool isVisualId;
 	PERVec3 position;
 	PERVec3 currentAccel;
 	PERStat stat;
@@ -52,8 +53,8 @@ public:
 
 	// 요청을 받는 함수
 	void RequestAddObject(
-		PERObject* parent, PERObjectType type, const char* visualId,
-		PERVec3 position, PERVec3 currentAccel, PERStat stat, double lifeTime = PER_MAXIMUM_LIFE_TIME);
+		PERObject* parent, PERObjectType type, const char* databaseId, bool isVisualId, PERStat stat,
+		PERVec3 position, double lifeTime = PER_MAXIMUM_LIFE_TIME, PERVec3 currentAccel = PERVec3(0.0, 0.0, 0.0));
 	void RequestDeleteObject(PERObject* object);
 
 	// 충돌 확인
@@ -88,12 +89,6 @@ private:
 	// 오브젝트 추가
 	virtual void AddFixedAndPhysicalObjects() = 0;
 	virtual void AddOtherObjects() = 0;
-
-	// 오브젝트 삭제
-	virtual void DeleteWorldObjects() = 0;
-
-	// 월드 업데이트
-	virtual void WorldUpdate(PERAudio& audio, double dTime) = 0;
 
 	void DoGarbegeCollection(double dTime);
 	void ProcessPendingMessage();

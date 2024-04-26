@@ -19,12 +19,4 @@ private:
 	// 오브젝트 추가
 	virtual void AddFixedAndPhysicalObjects();
 	virtual void AddOtherObjects();
-	// 오브젝트 삭제
-	virtual void DeleteWorldObjects();
-
-	// 월드 업데이트
-	virtual void WorldUpdate(PERAudio& audio, double dTime);
-
-	// 오브젝트 스포너
-	ObjectSpawner* m_monsterSpawners;
 };

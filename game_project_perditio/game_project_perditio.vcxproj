@@ -158,7 +158,6 @@
     <ClInclude Include="monster_state.h" />
     <ClInclude Include="name_tag.h" />
     <ClInclude Include="navigation_data.h" />
-    <ClInclude Include="object_spawner.h" />
     <ClInclude Include="per_database.h" />
     <ClInclude Include="per_log.h" />
     <ClInclude Include="null_audio.h" />
@@ -174,6 +173,7 @@
     <ClInclude Include="player_input_component.h" />
     <ClInclude Include="player_state.h" />
     <ClInclude Include="progress_bar.h" />
+    <ClInclude Include="spawner_ai_component.h" />
     <ClInclude Include="stuck_physics_component.h" />
     <ClInclude Include="test_field_hud.h" />
     <ClInclude Include="test_game_mode.h" />
@@ -218,7 +218,6 @@
     <ClCompile Include="monster_state.cpp" />
     <ClCompile Include="name_tag.cpp" />
     <ClCompile Include="navigation_data.cpp" />
-    <ClCompile Include="object_spawner.cpp" />
     <ClCompile Include="per_data.cpp" />
     <ClCompile Include="per_database.cpp" />
     <ClCompile Include="per_log.cpp" />
@@ -229,6 +228,7 @@
     <ClCompile Include="player_input_component.cpp" />
     <ClCompile Include="player_state.cpp" />
     <ClCompile Include="progress_bar.cpp" />
+    <ClCompile Include="spawner_ai_component.cpp" />
     <ClCompile Include="stuck_physics_component.cpp" />
     <ClCompile Include="test_field_hud.cpp" />
     <ClCompile Include="test_game_mode.cpp" />

@@ -94,9 +94,6 @@
     <Filter Include="06. ai\behavior_tree">
       <UniqueIdentifier>{d69dc6ed-6e45-4fb2-a4a5-a420d16720f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\world\spawner">
-      <UniqueIdentifier>{4c570d2f-0c5b-4825-bdcf-6f562745a5e5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. game\world\test_world">
       <UniqueIdentifier>{61884e6c-40f5-422b-96b7-e14f7be021b3}</UniqueIdentifier>
     </Filter>
@@ -180,6 +177,9 @@
     </Filter>
     <Filter Include="00. game\object\component\implements\ai\unintelligent">
       <UniqueIdentifier>{7014ffb9-3a15-43e5-a4a4-985b1f5883a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\ai\spawner">
+      <UniqueIdentifier>{798a9c28-9a31-4b6f-93cd-d45c4f2c70c6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -288,9 +288,6 @@
     <ClInclude Include="behavior_tree.h">
       <Filter>06. ai\behavior_tree</Filter>
     </ClInclude>
-    <ClInclude Include="object_spawner.h">
-      <Filter>00. game\world\spawner</Filter>
-    </ClInclude>
     <ClInclude Include="test_world.h">
       <Filter>00. game\world\test_world</Filter>
     </ClInclude>
@@ -362,6 +359,9 @@
     </ClInclude>
     <ClInclude Include="unintelligent_ai_component.h">
       <Filter>00. game\object\component\implements\ai\unintelligent</Filter>
+    </ClInclude>
+    <ClInclude Include="spawner_ai_component.h">
+      <Filter>00. game\object\component\implements\ai\spawner</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -440,9 +440,6 @@
     <ClCompile Include="per_vector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="object_spawner.cpp">
-      <Filter>00. game\world\spawner</Filter>
-    </ClCompile>
     <ClCompile Include="test_world.cpp">
       <Filter>00. game\world\test_world</Filter>
     </ClCompile>
@@ -508,6 +505,9 @@
     </ClCompile>
     <ClCompile Include="unintelligent_ai_component.cpp">
       <Filter>00. game\object\component\implements\ai\unintelligent</Filter>
+    </ClCompile>
+    <ClCompile Include="spawner_ai_component.cpp">
+      <Filter>00. game\object\component\implements\ai\spawner</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

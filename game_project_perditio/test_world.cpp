@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "test_world.h"
-#include "object_spawner.h"
+#include "spawner_ai_component.h"
 #include "per_object.h"
 #include "object_storage.h"
 #include "game_mode.h"
@@ -12,7 +12,7 @@ TestWorld::TestWorld(ObjectStorage* objectStorage, PERDatabase* database, GameMo
 
 TestWorld::~TestWorld()
 {
-	DeleteWorldObjects();
+	
 }
 
 void TestWorld::Enter()
@@ -109,14 +109,13 @@ void TestWorld::AddFixedAndPhysicalObjects()
 
 void TestWorld::AddOtherObjects()
 {
-	m_monsterSpawners = new ObjectSpawner[4];
-	int monster = 0;
 	for (double x = -3.0; x <= 3.0; x += 6.0) {
 		for (double y = -3.0; y <= 3.0; y += 6.0) {
-			MonsterData* data = m_database->GetMonsterData("MONSTER_KOPPER");
-			m_monsterSpawners[monster].SetSpawner("MONSTER_KOPPER", PERObjectType::MONSTER, data->nameId, data->stat,
-				m_database->GetVisualData(data->visualId.c_str()), PERVec3(x, y, 0.0));
-			monster++;
+			PERObject* monsterSpanwer;
+			monsterSpanwer = m_objectStorage->PopObject(PERObjectType::SPAWNER);
+			monsterSpanwer->SetPosition(PERVec3(x, y, 0.0));
+			dynamic_cast<SpawnerAiComponent*>(&monsterSpanwer->GetAi())->SetSpawner("MONSTER_KOPPER", PERObjectType::MONSTER, PERSpawnType::LIVE);
+			AddObject(monsterSpanwer);
 		}
 	}
 
@@ -140,21 +139,4 @@ void TestWorld::AddOtherObjects()
 	block->SetPosition(PERVec3(1.0, -3.0, 0.0));
 	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
 	AddObject(block);
-}
-
-void TestWorld::DeleteWorldObjects()
-{
-	delete[] m_monsterSpawners;
-}
-
-void TestWorld::WorldUpdate(PERAudio& audio, double dTime)
-{
-	for (int i = 0; i < 4; ++i) {
-		PERObject* monster = m_monsterSpawners[i].SpawnWithLiving(*m_objectStorage);
-		if (monster) {
-			//monster->GetObjectState().ShowFloatingUi(*monster, &GetHud());
-			AddObject(monster);
-
-		}
-	}
 }

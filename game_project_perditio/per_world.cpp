@@ -11,6 +11,7 @@
 #include "black_board.h"
 #include "per_component.h"
 #include "stuck_physics_component.h"
+#include "spawner_ai_component.h"
 
 PERWorld::PERWorld()
 {
@@ -26,9 +27,6 @@ void PERWorld::Update(PERAudio& audio, double dTime)
 	DoGarbegeCollection(dTime);
 
 	ProcessPendingMessage();
-
-
-	WorldUpdate(audio, dTime);
 
 	m_gameMode->Update();
 }
@@ -105,15 +103,16 @@ void PERWorld::Resume()
 {
 }
 
-void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, const char* visualId,
-	PERVec3 position, PERVec3 currentAccel, PERStat stat, double lifeTime)
+void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, const char* databaseId, bool isVisualId, PERStat stat,
+	PERVec3 position, double lifeTime, PERVec3 currentAccel)
 {
 	if (m_maxPending == m_numPending) ResizePedingArray();
 
 	m_pending[m_numPending].id = PERWorldMessageId::ADD_OBJECT;
 	m_pending[m_numPending].object = parent;
 	m_pending[m_numPending].type = type;
-	m_pending[m_numPending].visualId = visualId;
+	m_pending[m_numPending].databaseId = databaseId;
+	m_pending[m_numPending].isVisualId = isVisualId;
 	m_pending[m_numPending].position = position;
 	m_pending[m_numPending].currentAccel = currentAccel;
 	m_pending[m_numPending].lifeTime = lifeTime;
@@ -245,27 +244,43 @@ void PERWorld::ProcessPendingMessage()
 
 		switch (message.id) {
 		case PERWorldMessageId::ADD_OBJECT: {
-			PERObject* object = AddAndGetObject(message.type);
+			PERObject* newObject = AddAndGetObject(message.type);
 
-			VisualData* vData = m_database->GetVisualData(message.visualId.c_str());
+			// databaseId가 비주얼 아이디가 아닐 경우 몬스터 아이디(오브젝트 아이디)이므로 데이터베이스에서 비주얼 아이디를 얻음
+			if (!message.isVisualId) {
+				newObject->GetObjectState().SetNameId(m_database->GetMonsterData(message.databaseId.c_str())->nameId);
+				message.databaseId = m_database->GetMonsterData(message.databaseId.c_str())->visualId;
+			}
+
+			VisualData* vData = m_database->GetVisualData(message.databaseId.c_str());
 			PERComponent::GraphicsData gData;
 			gData.shape = vData->shape; gData.color = vData->color;
 			gData.border = vData->borderOn; gData.borderWidth = vData->borderWidth; gData.borderColor = vData->borderColor;
-			object->SetSize(vData->size);
-			object->GetGraphics().SetData(gData);
+			newObject->SetSize(vData->size);
+			newObject->GetGraphics().SetData(gData);
 
-			object->SetPosition(message.position);
-			object->SetCurrentAccel(message.currentAccel);
-			object->SetLifeTime(message.lifeTime);
-			object->SetParent(message.object);
-			object->GetObjectState().SetStat(message.stat);
+			newObject->SetPosition(message.position);
+			newObject->SetCurrentAccel(message.currentAccel);
+			newObject->SetLifeTime(message.lifeTime);
+			newObject->SetParent(message.object);
+			newObject->GetObjectState().SetStat(message.stat);
+
+			newObject->SetCurrentPositionToSpawnPosition();
 
 			// 칼날일 경우 위치값을 붙여진 위치로 설정
-			if (message.type == PERObjectType::BLADE) {
+			if (message.type == PERObjectType::BLADE)
+			{
 				PERComponent::PhysicsData pData;
 				pData.stuckPosition = message.position;
-				object->GetPhysics().SetData(pData);
+				newObject->GetPhysics().SetData(pData);
 			}
+
+			// 새로운 오브젝트 추가를 요청한 오브젝트가 스포너일 경우 스포너의 ai 컨포넌트에 추가된 오브젝트 연동
+			if (message.object->GetObjectType() == PERObjectType::SPAWNER)
+			{
+				dynamic_cast<SpawnerAiComponent*>(&message.object->GetAi())->SetSpawnedObject(newObject);
+			}
+
 			break;
 		}
 		case PERWorldMessageId::DELETE_OBJECT: 
