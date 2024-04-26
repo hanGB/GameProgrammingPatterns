@@ -105,32 +105,29 @@ void PERWorld::Resume()
 {
 }
 
-void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, 
-	PERVec3 position, PERVec3 size, PERVec3 currentAccel, PERStat stat, double lifeTime)
+void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, const char* visualId,
+	PERVec3 position, PERVec3 currentAccel, PERStat stat, double lifeTime)
 {
-	PERWorldMessage message;
-	message.id = PERWorldMessageId::ADD_OBJECT;
-	message.object = parent;
-	message.type = type;
-	message.position = position;
-	message.size = size;
-	message.currentAccel = currentAccel;
-	message.lifeTime = lifeTime;
-	message.stat = stat;
-
 	if (m_maxPending == m_numPending) ResizePedingArray();
-	m_pending[m_numPending] = message;
+
+	m_pending[m_numPending].id = PERWorldMessageId::ADD_OBJECT;
+	m_pending[m_numPending].object = parent;
+	m_pending[m_numPending].type = type;
+	m_pending[m_numPending].visualId = visualId;
+	m_pending[m_numPending].position = position;
+	m_pending[m_numPending].currentAccel = currentAccel;
+	m_pending[m_numPending].lifeTime = lifeTime;
+	m_pending[m_numPending].stat = stat;
+
 	m_numPending++;
 }
 
 void PERWorld::RequestDeleteObject(PERObject* object)
 {
-	PERWorldMessage message;
-	message.id = PERWorldMessageId::DELETE_OBJECT;
-	message.object = object;
-
 	if (m_maxPending == m_numPending) ResizePedingArray();
-	m_pending[m_numPending] = message;
+
+	m_pending[m_numPending].id = PERWorldMessageId::DELETE_OBJECT;
+	m_pending[m_numPending].object = object;
 	m_numPending++;
 }
 
@@ -227,6 +224,11 @@ PERHud& PERWorld::GetHud()
 	return m_gameMode->GetHud();
 }
 
+PERDatabase& PERWorld::GetDatabase()
+{
+	return *m_database;
+}
+
 void PERWorld::DoGarbegeCollection(double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) {
@@ -244,8 +246,15 @@ void PERWorld::ProcessPendingMessage()
 		switch (message.id) {
 		case PERWorldMessageId::ADD_OBJECT: {
 			PERObject* object = AddAndGetObject(message.type);
+
+			VisualData* vData = m_database->GetVisualData(message.visualId.c_str());
+			PERComponent::GraphicsData gData;
+			gData.shape = vData->shape; gData.color = vData->color;
+			gData.border = vData->borderOn; gData.borderWidth = vData->borderWidth; gData.borderColor = vData->borderColor;
+			object->SetSize(vData->size);
+			object->GetGraphics().SetData(gData);
+
 			object->SetPosition(message.position);
-			object->SetSize(message.size);
 			object->SetCurrentAccel(message.currentAccel);
 			object->SetLifeTime(message.lifeTime);
 			object->SetParent(message.object);

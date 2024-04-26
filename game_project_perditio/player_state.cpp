@@ -44,9 +44,9 @@ double PlayerState::GetShootCoolTime() const
     return m_shootCoolTime;
 }
 
-PERVec3 PlayerState::GetBulletSize() const
+std::string& PlayerState::GetBulletVisualId()
 {
-    return m_bulletSize;
+    return m_bulletVisualId;
 }
 
 double PlayerState::GetSwingCoolTime() const
@@ -54,7 +54,7 @@ double PlayerState::GetSwingCoolTime() const
     return m_swingCoolTime;
 }
 
-PERVec3 PlayerState::GetBladeSize() const
+std::string& PlayerState::GetBladeVisualId()
 {
-    return m_bladeSize;
+    return m_bladeVisualId;
 }

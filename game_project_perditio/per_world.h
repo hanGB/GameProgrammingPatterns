@@ -19,8 +19,8 @@ struct PERWorldMessage {
 	PERWorldMessageId id;
 	PERObject* object;
 	PERObjectType type;
+	std::string visualId;
 	PERVec3 position;
-	PERVec3 size;
 	PERVec3 currentAccel;
 	PERStat stat;
 	double lifeTime;
@@ -52,14 +52,15 @@ public:
 
 	// 요청을 받는 함수
 	void RequestAddObject(
-		PERObject* parent, PERObjectType type, 
-		PERVec3 position, PERVec3 size, PERVec3 currentAccel, PERStat stat, double lifeTime);
+		PERObject* parent, PERObjectType type, const char* visualId,
+		PERVec3 position, PERVec3 currentAccel, PERStat stat, double lifeTime = PER_MAXIMUM_LIFE_TIME);
 	void RequestDeleteObject(PERObject* object);
 
 	// 충돌 확인
 	bool CheckCollision(PERObject& object, double dTime);
 
 	PERHud& GetHud();
+	PERDatabase& GetDatabase();
 	
 protected:
 	// 자식이 접근해서 사용할 함수
