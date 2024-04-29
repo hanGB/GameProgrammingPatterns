@@ -137,7 +137,7 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 
 	// 본인 오브젝트 정보 얻기
 	PERObjectType type = object.GetObjectType();
-	PERVec3 position = object.GetPosition(), size = object.GetSize();
+	PERVec3 position = object.GetBoundingBoxPosition(), size = object.GetBoundingBoxSize();
 	PERBoundingType boundingtype = object.GetBoundingType();
 
 	int id = object.GetIDInWorld();
@@ -174,7 +174,7 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 
 		// 상대 오브젝트 타입 얻기
 		PERObjectType otherType = m_objects[i]->GetObjectType();
-		PERVec3 otherPos = m_objects[i]->GetPosition(), otherSize = m_objects[i]->GetSize();
+		PERVec3 otherPos = m_objects[i]->GetBoundingBoxPosition(), otherSize = m_objects[i]->GetBoundingBoxSize();
 		PERBoundingType otherBoundingType = m_objects[i]->GetBoundingType();
 
 		// 충돌 처리 무시 항목
@@ -185,7 +185,7 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE) {
 			if (CheckAABBCollision(position, size, otherPos, otherSize)) {
 				// 상대가 나보다 바로 아래 있고 고정 블럭일 경우 플랫폼 위에 있다고 설정 후 건너뜀(땅)
-				if ((int)(floor(m_objects[i]->GetPosition().z)) == (int)floor(position.z) -1 && otherType == PERObjectType::FIXED_BLOCK) {
+				if ((int)(floor(otherPos.z)) == (int)floor(position.z) -1 && otherType == PERObjectType::FIXED_BLOCK) {
 					isOnPlatform = true;  
 					continue;
 				}

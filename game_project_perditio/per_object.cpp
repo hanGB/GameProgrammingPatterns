@@ -99,6 +99,16 @@ PERBoundingType PERObject::GetBoundingType() const
 	return m_boundingType;
 }
 
+PERVec3 PERObject::GetBoundingBoxSize() const
+{
+	return m_boundingBoxSize;
+}
+
+PERVec3 PERObject::GetBoundingBoxPosition() const
+{
+	return m_boundingBoxPosition;
+}
+
 PERVec3 PERObject::GetCollidedVelocity() const
 {
 	if (m_collidedObject) 
@@ -138,14 +148,16 @@ void PERObject::SetParent(PERObject* object)
 	m_parent = object;
 }
 
-void PERObject::SetPosition(PERVec3 pos)
+void PERObject::SetPosition(PERVec3 pos, bool isSameWithBoundingBox)
 {
 	m_position = pos;
+	if (isSameWithBoundingBox) m_boundingBoxPosition = m_position;
 }
 
-void PERObject::SetSize(PERVec3 size)
+void PERObject::SetSize(PERVec3 size, bool isSameWithBoundingBox)
 {
 	m_size = size;
+	if (isSameWithBoundingBox) m_boundingBoxSize = m_size;
 }
 
 void PERObject::SetVelocity(PERVec3 vel)
@@ -166,6 +178,12 @@ void PERObject::SetMass(double mass)
 void PERObject::SetBoundingType(PERBoundingType bounding)
 {
 	m_boundingType = bounding;
+}
+
+void PERObject::SetBoundingBox(PERVec3 size, PERVec3 relativePos)
+{
+	m_boundingBoxSize = size;
+	m_boundingBoxPosition = m_position + relativePos;
 }
 
 void PERObject::SetIDInWorld(int id)
