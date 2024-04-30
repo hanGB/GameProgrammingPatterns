@@ -21,6 +21,8 @@ namespace PERComponent {
 	struct AiData {
 		bool isMove = false;
 		bool isAttack = false;
+		bool isSwitch = false;
+		bool isDisposable = false;
 	};
 
 	struct PhysicsData {

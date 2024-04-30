@@ -4,6 +4,7 @@
 #include "per_object.h"
 #include "object_storage.h"
 #include "game_mode.h"
+#include "response_to_signal_ai_component.h"
 
 TestWorld::TestWorld(ObjectStorage* objectStorage, PERDatabase* database, GameMode* mode)
 {
@@ -105,10 +106,38 @@ void TestWorld::AddFixedAndPhysicalObjects()
 	wall->SetSize(PERVec3(5.0, 0.5, 1.0));
 	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
 	AddObject(wall);
+
+	// 문
+	PERObject* door;
+	door = m_objectStorage->PopObject(PERObjectType::DOOR);
+	door->SetPosition(PERVec3(9.0, 0.0, 0.0));
+	door->SetSize(PERVec3(1.0, 3.0, 0.0));
+	dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi())->SetExcuteFunc([](PERObject& object) {
+		// 문을 통과 가능하게 변경
+		object.SetSize(PERVec3(1.0, 1.0, 0.0));
+		object.SetPosition(PERVec3(9.0, -1.0, 0.0));
+		});
+	dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi())->SetRevokeFunc([](PERObject& object) {
+		// 문을 통과 가능하게 변경
+		object.SetSize(PERVec3(1.0, 3.0, 0.0));
+		object.SetPosition(PERVec3(9.0, 0.0, 0.0));
+		});
+	AddObject(door);
+
+	// 버튼
+	PERObject* button;
+	button = m_objectStorage->PopObject(PERObjectType::BUTTON);
+	button->SetPosition(PERVec3(7.0, 0.0, 0.5));
+	button->SetParent(door);
+	PERComponent::AiData aiData;
+	aiData.isSwitch = true;
+	button->GetAi().SetData(aiData);
+	AddObject(button);
 }
 
 void TestWorld::AddOtherObjects()
 {
+	// 몬스터 생성기
 	for (double x = -3.0; x <= 3.0; x += 6.0) {
 		for (double y = -3.0; y <= 3.0; y += 6.0) {
 			PERObject* monsterSpanwer;
@@ -119,6 +148,7 @@ void TestWorld::AddOtherObjects()
 		}
 	}
 
+	// 움직이는 벽돌(충돌 처리 문제 해결 불가능시 제거)
 	PERObject* block;
 	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(3.0, 1.0, 0.0));

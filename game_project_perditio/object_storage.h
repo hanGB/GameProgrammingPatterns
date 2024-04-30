@@ -3,6 +3,7 @@
 #include "object_factory.h"
 #include <unordered_map>
 #include <queue>
+using namespace PERComponent;
 
 class ObjectStorage {
 public:
@@ -14,6 +15,11 @@ public:
 
 private:
 	void CreateObjectFactories();
+	ObjectFactory* CreateObjectFactory(
+		PERObjectType objectType, PERObjectStateType objectStateType,
+		PERComponentType inputComponentType, PERComponentType aiComponenentType,
+		PERComponentType physicsComponenentType, PERComponentType graphicsComponenentType,
+		InputData& inputData, AiData& aiData, PhysicsData& physicsData, GraphicsData& graphicsData);
 	void DeleteObjectFactories();
 
 	void FillObjectQueues();

@@ -144,9 +144,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="making_signal_ai_component.h" />
+    <ClInclude Include="response_to_signal_ai_component.h" />
     <ClInclude Include="a_star_calculator.h" />
     <ClInclude Include="behavior_tree.h" />
     <ClInclude Include="black_board.h" />
+    <ClInclude Include="button_input_component.h" />
     <ClInclude Include="cs_provider.h" />
     <ClInclude Include="event_dispatcher.h" />
     <ClInclude Include="event_reciver.h" />
@@ -172,6 +175,7 @@
     <ClInclude Include="per_data.h" />
     <ClInclude Include="player_input_component.h" />
     <ClInclude Include="player_state.h" />
+    <ClInclude Include="pressure_physics_componenet.h" />
     <ClInclude Include="progress_bar.h" />
     <ClInclude Include="spawner_ai_component.h" />
     <ClInclude Include="stuck_physics_component.h" />
@@ -206,9 +210,12 @@
     <ClInclude Include="visible_with_information_graphics_componenet.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="making_signal_ai_component.cpp" />
+    <ClCompile Include="response_to_signal_ai_component.cpp" />
     <ClCompile Include="a_star_calculator.cpp" />
     <ClCompile Include="behavior_tree.cpp" />
     <ClCompile Include="black_board.cpp" />
+    <ClCompile Include="button_input_component.cpp" />
     <ClCompile Include="event_dispatcher.cpp" />
     <ClCompile Include="game_mode.cpp" />
     <ClCompile Include="game_state.cpp" />
@@ -227,6 +234,7 @@
     <ClCompile Include="per_vector.cpp" />
     <ClCompile Include="player_input_component.cpp" />
     <ClCompile Include="player_state.cpp" />
+    <ClCompile Include="pressure_physics_componenet.cpp" />
     <ClCompile Include="progress_bar.cpp" />
     <ClCompile Include="spawner_ai_component.cpp" />
     <ClCompile Include="stuck_physics_component.cpp" />

@@ -38,131 +38,120 @@ void ObjectStorage::PushObject(PERObjectType type, PERObject* object)
 
 void ObjectStorage::CreateObjectFactories()
 {
-    using namespace PERComponent;
-    InputData input;
-    AiData ai;
-    PhysicsData physics;
-    GraphicsData graphics;
-
+    ObjectFactory* factory;
+    InputData input; AiData ai; PhysicsData physics; GraphicsData graphics;
+   
     // fixed block
-    ObjectFactory* fixedBlockFactory
-        = new ObjectFactory(
-            PERObjectType::FIXED_BLOCK,
-            PERObjectStateType::NON,
-            PERComponentType::NO_INTERACT,
-            PERComponentType::UNINTELLIGENT,
-            PERComponentType::FIXED,
-            PERComponentType::VISIBLE
-        );
-    input.isAttack = false, input.isMove = false, input.isCheck = false;
-    ai.isAttack = false, ai.isMove = false;
-    physics.friction = true; physics.isOccupySpace = true;
-    graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(255, 255, 255);
-    graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(0, 0, 0);
-    fixedBlockFactory->SetInputData(input);              fixedBlockFactory->SetAiData(ai);
-    fixedBlockFactory->SetPhysicsData(physics);          fixedBlockFactory->SetGraphicsData(graphics);
-    fixedBlockFactory->SetSize(PERVec3(1.0, 1.0, 1.0));  fixedBlockFactory->SetMass(100'000);
-    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::FIXED_BLOCK, fixedBlockFactory));
+    ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
+
+    factory = CreateObjectFactory(PERObjectType::FIXED_BLOCK, PERObjectStateType::NON,
+        PERComponentType::NO_INTERACT, PERComponentType::UNINTELLIGENT, PERComponentType::FIXED, PERComponentType::VISIBLE,
+        input, ai, physics, graphics);
+
+    factory->SetSize(PERVec3(1.0, 1.0, 1.0));  factory->SetMass(100'000);
 
     // movable block
-    ObjectFactory* movableBlockFactory
-        = new ObjectFactory(
-            PERObjectType::MOVABLE_BLOCK,
-            PERObjectStateType::NON,
-            PERComponentType::NO_INTERACT,
-            PERComponentType::UNINTELLIGENT,
-            PERComponentType::MOVABLE,
-            PERComponentType::VISIBLE
-        );
-    input.isAttack = false, input.isMove = false, input.isCheck = false;
-    ai.isAttack = false, ai.isMove = false;
-    physics.friction = true; physics.isOccupySpace = true;
-    graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(255, 255, 255);
-    graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(0, 255, 0);
-    movableBlockFactory->SetInputData(input);              movableBlockFactory->SetAiData(ai);
-    movableBlockFactory->SetPhysicsData(physics);          movableBlockFactory->SetGraphicsData(graphics);
-    movableBlockFactory->SetSize(PERVec3(1.0, 1.0, 1.0));  movableBlockFactory->SetMass(50);
-    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::MOVABLE_BLOCK, movableBlockFactory));
+    ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
+    graphics.borderColor = PERColor(0, 255, 0);
+    
+    factory = CreateObjectFactory(PERObjectType::MOVABLE_BLOCK, PERObjectStateType::NON,
+        PERComponentType::NO_INTERACT, PERComponentType::UNINTELLIGENT, PERComponentType::MOVABLE, PERComponentType::VISIBLE,
+        input, ai, physics, graphics);
+    
+    factory->SetSize(PERVec3(1.0, 1.0, 1.0));  factory->SetMass(50);
 
     // monster
-    ObjectFactory* monsterFactory
-        = new ObjectFactory(
-            PERObjectType::MONSTER,
-            PERObjectStateType::MONSTER,
-            PERComponentType::NO_INTERACT,
-            PERComponentType::MONSTER_AI,
-            PERComponentType::MOVABLE,
-            PERComponentType::MONSTER_GRAPHICS
-        );
-    input.isAttack = false, input.isMove = false, input.isCheck = false;
-    ai.isAttack = true, ai.isMove = true;
-    physics.friction = true; physics.isOccupySpace = true;
+    ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
     graphics.shape = PERShapeType::TRIANGLE; graphics.color = PERColor(255, 0, 0);
-    graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(127, 0, 0);
-    monsterFactory->SetInputData(input);                monsterFactory->SetAiData(ai);
-    monsterFactory->SetPhysicsData(physics);            monsterFactory->SetGraphicsData(graphics);
-    monsterFactory->SetSize(PERVec3(0.25, 0.25, 0.25)); monsterFactory->SetMass(30);
-    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::MONSTER, monsterFactory));
+    graphics.borderColor = PERColor(127, 0, 0);
+
+    factory = CreateObjectFactory(PERObjectType::MONSTER, PERObjectStateType::MONSTER,
+        PERComponentType::NO_INTERACT, PERComponentType::MONSTER_AI, PERComponentType::MOVABLE, PERComponentType::MONSTER_GRAPHICS,
+        input, ai, physics, graphics);
+
+    factory->SetSize(PERVec3(0.25, 0.25, 0.25)); factory->SetMass(30);
 
     // bullet
-    ObjectFactory* bulletFactory
-        = new ObjectFactory(
-            PERObjectType::BULLET,
-            PERObjectStateType::NON,
-            PERComponentType::NO_INTERACT,
-            PERComponentType::UNINTELLIGENT,
-            PERComponentType::MOVABLE,
-            PERComponentType::VISIBLE
-        );
-    input.isAttack = false, input.isMove = false, input.isCheck = false;
-    ai.isAttack = false, ai.isMove = false; 
-    physics.friction = false; physics.isOccupySpace = true;
+    ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
+    physics.friction = false;
     graphics.shape = PERShapeType::ELLIPSE; graphics.color = PERColor(100, 100, 100);
-    graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(50, 50, 50);
-    bulletFactory->SetInputData(input);                 bulletFactory->SetAiData(ai);
-    bulletFactory->SetPhysicsData(physics);             bulletFactory->SetGraphicsData(graphics);
-    bulletFactory->SetSize(PERVec3(0.2, 0.2, 0.2));     bulletFactory->SetMass(5);
-    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::BULLET, bulletFactory));
+    graphics.borderColor = PERColor(50, 50, 50);
+   
+    factory = CreateObjectFactory(PERObjectType::BULLET, PERObjectStateType::NON,
+        PERComponentType::NO_INTERACT, PERComponentType::UNINTELLIGENT, PERComponentType::MOVABLE, PERComponentType::VISIBLE,
+        input, ai, physics, graphics);
+
+    factory->SetSize(PERVec3(0.2, 0.2, 0.2));     factory->SetMass(5);
 
     // blade
-    ObjectFactory* bladeFactory
-        = new ObjectFactory(
-            PERObjectType::BLADE,
-            PERObjectStateType::NON,
-            PERComponentType::NO_INTERACT,
-            PERComponentType::UNINTELLIGENT,
-            PERComponentType::STUCK,
-            PERComponentType::VISIBLE
-        );
-    input.isAttack = false, input.isMove = false, input.isCheck = false;
-    ai.isAttack = false, ai.isMove = false;
-    physics.friction = false; physics.isOccupySpace = true;
+    ObjectFactory::InitComponentDatas(input, ai, physics, graphics); 
+    physics.friction = false; 
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(200, 200, 200);
-    graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(50, 50, 50);
-    bladeFactory->SetInputData(input);                bladeFactory->SetAiData(ai);
-    bladeFactory->SetPhysicsData(physics);            bladeFactory->SetGraphicsData(graphics);
-    bladeFactory->SetSize(PERVec3(0.5, 0.5, 0.5));    bladeFactory->SetMass(10);
-    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::BLADE, bladeFactory));
+    graphics.borderColor = PERColor(50, 50, 50);
+  
+    factory = CreateObjectFactory(PERObjectType::BLADE, PERObjectStateType::NON,
+        PERComponentType::NO_INTERACT, PERComponentType::UNINTELLIGENT, PERComponentType::STUCK, PERComponentType::VISIBLE,
+        input, ai, physics, graphics);
+
+    factory->SetSize(PERVec3(0.5, 0.5, 0.5));    factory->SetMass(10);
 
     // spawner
-    ObjectFactory* spawnerFactory
-        = new ObjectFactory(
-            PERObjectType::SPAWNER,
-            PERObjectStateType::NON,
-            PERComponentType::NO_INTERACT,
-            PERComponentType::SPAWNER_AI,
-            PERComponentType::FIXED,
-            PERComponentType::HIDDEN
+    ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
+    physics.isOccupySpace = false;
+
+    factory = CreateObjectFactory(PERObjectType::SPAWNER, PERObjectStateType::NON,
+        PERComponentType::NO_INTERACT, PERComponentType::SPAWNER_AI, PERComponentType::FIXED, PERComponentType::HIDDEN,
+        input, ai, physics, graphics);
+
+    factory->SetSize(PERVec3(1.0, 1.0, 1.0));    factory->SetMass(100);
+
+    // button
+    ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
+    graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(100, 100, 100);
+
+    factory = CreateObjectFactory(PERObjectType::BUTTON, PERObjectStateType::NON,
+        PERComponentType::BUTTON_INPUT, PERComponentType::MAKING_SIGNAL, PERComponentType::FIXED, PERComponentType::VISIBLE,
+        input, ai, physics, graphics);
+
+    factory->SetSize(PERVec3(1.0, 1.0, 1.0));    factory->SetMass(50);
+
+    // pressure
+    ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
+    physics.isOccupySpace = false;
+    graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(150, 150, 150);
+
+    factory = CreateObjectFactory(PERObjectType::PRESSURE, PERObjectStateType::NON,
+        PERComponentType::NO_INTERACT, PERComponentType::MAKING_SIGNAL, PERComponentType::PRESSURE_PHYSICS, PERComponentType::VISIBLE,
+        input, ai, physics, graphics);
+
+    factory->SetSize(PERVec3(1.0, 1.0, 1.0));    factory->SetMass(100);
+
+    // door
+    ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
+    graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(100, 50, 50);
+
+    factory = CreateObjectFactory(PERObjectType::DOOR, PERObjectStateType::NON,
+        PERComponentType::NO_INTERACT, PERComponentType::RESPONSE_TO_SIGNAL, PERComponentType::FIXED, PERComponentType::VISIBLE,
+        input, ai, physics, graphics);
+
+    factory->SetSize(PERVec3(2.0, 1.0, 1.0));    factory->SetMass(100);
+}
+
+ObjectFactory* ObjectStorage::CreateObjectFactory(
+    PERObjectType objectType, PERObjectStateType objectStateType, 
+    PERComponentType inputComponentType, PERComponentType aiComponenentType, 
+    PERComponentType physicsComponenentType, PERComponentType graphicsComponenentType, 
+    InputData& inputData, AiData& aiData, PhysicsData& physicsData, GraphicsData& graphicsData)
+{
+    ObjectFactory* factory
+        = new ObjectFactory(objectType,  objectStateType,
+            inputComponentType, aiComponenentType, physicsComponenentType, graphicsComponenentType,
+            inputData, aiData, physicsData, graphicsData
         );
-    input.isAttack = false, input.isMove = false, input.isCheck = false;
-    ai.isAttack = false, ai.isMove = false;
-    physics.friction = false; physics.isOccupySpace = false;
-    graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(0, 0, 0);
-    graphics.border = true; graphics.borderWidth = 1; graphics.borderColor = PERColor(0, 0, 0);
-    spawnerFactory->SetInputData(input);                spawnerFactory->SetAiData(ai);
-    spawnerFactory->SetPhysicsData(physics);            spawnerFactory->SetGraphicsData(graphics);
-    spawnerFactory->SetSize(PERVec3(1.0, 1.0, 1.0));    spawnerFactory->SetMass(100);
-    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(PERObjectType::SPAWNER, spawnerFactory));
+    
+    m_objectFactories.insert(std::pair<PERObjectType, ObjectFactory*>(objectType, factory));
+
+    return factory;
 }
 
 void ObjectStorage::DeleteObjectFactories()

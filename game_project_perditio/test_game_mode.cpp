@@ -50,21 +50,16 @@ void TestGameMode::CreatePlayerFactory()
     PERComponent::PhysicsData physics;
     PERComponent::GraphicsData graphics;
 
-    m_playerFactory = new ObjectFactory(
-        PERObjectType::PLAYER,
-        PERObjectStateType::PLAYER,
-        PERComponentType::PLAYER_INPUT,
-        PERComponentType::UNINTELLIGENT,
-        PERComponentType::MOVABLE,
-        PERComponentType::VISIBLE
-    );
-    input.isAttack = true, input.isMove = true, input.isCheck = false;
-    ai.isAttack = false, ai.isMove = false;
-    physics.friction = true; physics.isOccupySpace = true;
+    ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
     graphics.shape = PERShapeType::ELLIPSE; graphics.color = PERColor(0, 255, 255);
     graphics.border = true; graphics.borderWidth = 3; graphics.borderColor = PERColor(0, 127, 127);
-    m_playerFactory->SetInputData(input);             m_playerFactory->SetAiData(ai);
-    m_playerFactory->SetPhysicsData(physics);         m_playerFactory->SetGraphicsData(graphics);
+
+    m_playerFactory = new ObjectFactory(
+        PERObjectType::PLAYER, PERObjectStateType::PLAYER,
+        PERComponentType::PLAYER_INPUT, PERComponentType::UNINTELLIGENT,
+        PERComponentType::MOVABLE, PERComponentType::VISIBLE,
+        input, ai, physics, graphics
+    );
     m_playerFactory->SetSize(PERVec3(0.5, 0.5, 0.5)); m_playerFactory->SetMass(70);
 }
 

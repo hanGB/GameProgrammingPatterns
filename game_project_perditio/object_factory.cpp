@@ -6,15 +6,19 @@
 #include "player_input_component.h"
 #include "interact_input_component.h"
 #include "no_interact_input_component.h"
+#include "button_input_component.h"
 // ai
 #include "unintelligent_ai_component.h"
 #include "intelligent_ai_component.h"
 #include "monster_ai_component.h"
 #include "spawner_ai_component.h"
+#include "making_signal_ai_component.h"
+#include "response_to_signal_ai_component.h"
 // physics
 #include "movable_physics_component.h"
 #include "fixed_physics_component.h"
 #include "stuck_physics_component.h"
+#include "pressure_physics_componenet.h"
 // graphics
 #include "visible_graphics_component.h"
 #include "visible_with_information_graphics_componenet.h"
@@ -41,6 +45,21 @@ ObjectFactory::ObjectFactory(
     InitData();
 }
 
+ObjectFactory::ObjectFactory(PERObjectType objectType, PERObjectStateType objectStateType,
+    PERComponentType input, PERComponentType ai, PERComponentType physics, PERComponentType graphics, 
+    PERComponent::InputData& inputData, PERComponent::AiData& aiData, 
+    PERComponent::PhysicsData& physicsData, PERComponent::GraphicsData& graphicsData)
+{
+    PERLog::Logger().InfoWithFormat("오브젝트 팩토리 object type(%d) 생성", (int)objectType);
+
+    m_objectType = objectType;
+    m_objectStateType = objectStateType;
+    m_componentTypes = { input, ai, physics, graphics };
+    m_componentData = { inputData, aiData, physicsData, graphicsData };
+
+    m_size = PERVec3(1.0, 1.0, 1.0); m_mass = 50.0;
+}
+
 ObjectFactory::~ObjectFactory()
 {
     PERLog::Logger().InfoWithFormat("오브젝트 팩토리 object type(%d) 삭제", (int)m_objectType);
@@ -64,6 +83,9 @@ PERObject* ObjectFactory::CreateObject()
     case PERComponentType::NO_INTERACT:
         inputComponent = new NoInteractInputComponent();
         break;
+    case PERComponentType::BUTTON_INPUT:
+        inputComponent = new ButtonInputComponent();
+        break;
     }
 
     AiComponent* aiComponent = nullptr;
@@ -80,6 +102,12 @@ PERObject* ObjectFactory::CreateObject()
     case PERComponentType::SPAWNER_AI:
         aiComponent = new SpawnerAiComponent();
         break;
+    case PERComponentType::MAKING_SIGNAL:
+        aiComponent = new MakingSignalAiComponent();
+        break;
+    case PERComponentType::RESPONSE_TO_SIGNAL:
+        aiComponent = new ResponeseToSignalAiComponent();
+        break;
     }
 
     PhysicsComponent* physicsComponent = nullptr;
@@ -92,6 +120,9 @@ PERObject* ObjectFactory::CreateObject()
         break;
     case PERComponentType::STUCK:
         physicsComponent = new StuckPhysicsComponent();
+        break;
+    case PERComponentType::PRESSURE_PHYSICS:
+        physicsComponent = new PressurePhysicsComponent();
         break;
     }
 
@@ -123,6 +154,31 @@ PERObjectType ObjectFactory::GetObjectType() const
 PERComponent::ComponentTypes ObjectFactory::GetComponentTypes() const
 {
     return m_componentTypes;
+}
+
+void ObjectFactory::InitComponentDatas(
+    PERComponent::InputData& input, PERComponent::AiData& ai, 
+    PERComponent::PhysicsData& physics, PERComponent::GraphicsData& graphics)
+{
+    // input
+    input.isAttack = false;
+    input.isMove = false;
+    input.isCheck = false;
+    // ai
+    ai.isAttack = false;
+    ai.isMove = false;
+    ai.isSwitch = false;
+    ai.isDisposable = false;
+    // physics
+    physics.friction = true;
+    physics.isOccupySpace = true;
+    physics.stuckPosition = PERVec3(0.0, 0.0, 0.0);
+    // graphics
+    graphics.shape = PERShapeType::RECTANGLE;
+    graphics.color = PERColor(255, 255, 255);
+    graphics.border = true;
+    graphics.borderColor = PERColor(0, 0, 0);
+    graphics.borderWidth = 1;
 }
 
 void ObjectFactory::SetInputData(PERComponent::InputData input)
@@ -187,19 +243,7 @@ double ObjectFactory::GetMass() const
 
 void ObjectFactory::InitData()
 {
-    // 컨포넌트 데이터 초기화
-    // input
-    m_componentData.input.isAttack = false;
-    m_componentData.input.isMove = false;
-    m_componentData.input.isCheck = false;
-    // ai
-    m_componentData.ai.isAttack = false;
-    m_componentData.ai.isMove = false;
-    // physics
-    m_componentData.physics.friction = true;
-    // graphics
-    m_componentData.graphics.shape = PERShapeType::RECTANGLE;
-    m_componentData.graphics.color = PERColor(255, 255, 255);
+    InitComponentDatas(m_componentData.input, m_componentData.ai, m_componentData.physics, m_componentData.graphics);
 
     m_size = PERVec3(1.0, 1.0, 1.0);
     m_mass = 50.0;

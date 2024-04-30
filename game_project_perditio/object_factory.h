@@ -5,15 +5,24 @@
 class ObjectFactory {
 public:
 	ObjectFactory();
-	ObjectFactory(PERObjectType objectType, PERObjectStateType stateType,
+	ObjectFactory(PERObjectType objectType, PERObjectStateType objectStateType,
 		PERComponentType input, PERComponentType ai, 
 		PERComponentType physics, PERComponentType graphics);
+	ObjectFactory(PERObjectType objectType, PERObjectStateType objectStateType,
+		PERComponentType input, PERComponentType ai,
+		PERComponentType physics, PERComponentType graphics, 
+		PERComponent::InputData& inputData, PERComponent::AiData& aiData, 
+		PERComponent::PhysicsData& physicsData, PERComponent::GraphicsData& graphicsData);
 	~ObjectFactory();
 
 	PERObject* CreateObject();
 
 	PERObjectType GetObjectType() const;
 	PERComponent::ComponentTypes GetComponentTypes() const;
+
+	// 스태틱 함수(object storage에서도 컨포넌트 데이터들 초기화하기 위함)
+	static void InitComponentDatas(PERComponent::InputData& input, PERComponent::AiData& ai,
+	PERComponent::PhysicsData& physics, PERComponent::GraphicsData& graphics);
 
 	// setter
 	void SetInputData(PERComponent::InputData input);
