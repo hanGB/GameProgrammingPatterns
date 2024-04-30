@@ -31,6 +31,7 @@ public:
 	PERVec3 GetSpawnPosition() const;
 
 	void SetNameId(std::string& nameId);
+	void SetNameId(const char* name);
 	void SetStat(PERStat stat);
 	void SetIsHasCollisionDamage(bool damage);
 	void SetIsImmortal(bool immortal);

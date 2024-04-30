@@ -55,7 +55,7 @@ void ObjectStorage::CreateObjectFactories()
     graphics.borderColor = PERColor(0, 255, 0);
     
     factory = CreateObjectFactory(PERObjectType::MOVABLE_BLOCK, PERObjectStateType::NON,
-        PERComponentType::NO_INTERACT, PERComponentType::UNINTELLIGENT, PERComponentType::MOVABLE, PERComponentType::VISIBLE,
+        PERComponentType::NO_INTERACT, PERComponentType::UNINTELLIGENT, PERComponentType::MOVABLE, PERComponentType::VISIBLE_WITH_INFORMATION,
         input, ai, physics, graphics);
     
     factory->SetSize(PERVec3(1.0, 1.0, 1.0));  factory->SetMass(50);
@@ -111,7 +111,7 @@ void ObjectStorage::CreateObjectFactories()
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(100, 100, 100);
 
     factory = CreateObjectFactory(PERObjectType::BUTTON, PERObjectStateType::NON,
-        PERComponentType::BUTTON_INPUT, PERComponentType::MAKING_SIGNAL, PERComponentType::FIXED, PERComponentType::VISIBLE,
+        PERComponentType::BUTTON_INPUT, PERComponentType::MAKING_SIGNAL, PERComponentType::FIXED, PERComponentType::VISIBLE_WITH_INFORMATION,
         input, ai, physics, graphics);
 
     factory->SetSize(PERVec3(0.4, 0.8, 0.5));    factory->SetMass(50);
@@ -123,7 +123,7 @@ void ObjectStorage::CreateObjectFactories()
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(150, 150, 150);
 
     factory = CreateObjectFactory(PERObjectType::PRESSURE, PERObjectStateType::NON,
-        PERComponentType::NO_INTERACT, PERComponentType::MAKING_SIGNAL, PERComponentType::PRESSURE_PHYSICS, PERComponentType::VISIBLE,
+        PERComponentType::NO_INTERACT, PERComponentType::MAKING_SIGNAL, PERComponentType::PRESSURE_PHYSICS, PERComponentType::VISIBLE_WITH_INFORMATION,
         input, ai, physics, graphics);
 
     factory->SetSize(PERVec3(1.0, 1.0, 1.0));    factory->SetMass(100);
@@ -133,7 +133,7 @@ void ObjectStorage::CreateObjectFactories()
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(100, 50, 50);
 
     factory = CreateObjectFactory(PERObjectType::DOOR, PERObjectStateType::NON,
-        PERComponentType::NO_INTERACT, PERComponentType::RESPONSE_TO_SIGNAL, PERComponentType::FIXED, PERComponentType::VISIBLE,
+        PERComponentType::NO_INTERACT, PERComponentType::RESPONSE_TO_SIGNAL, PERComponentType::FIXED, PERComponentType::VISIBLE_WITH_INFORMATION,
         input, ai, physics, graphics);
 
     factory->SetSize(PERVec3(2.0, 1.0, 1.0));    factory->SetMass(100);

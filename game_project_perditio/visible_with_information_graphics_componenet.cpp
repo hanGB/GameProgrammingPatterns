@@ -71,8 +71,8 @@ bool VisibleWithInformationGraphicsComponent::ShowNameTag(PERObject& object, PER
 
 void VisibleWithInformationGraphicsComponent::MatchNameTagWithData(PERObject& object)
 {
-	PERVec2 pos = PERVec2(m_position.x, m_position.y - m_size.y * 1.5);
-	PERVec2 textPos = PERVec2(m_position.x, m_position.y - m_size.y * 1.3);
+	PERVec2 pos = PERVec2(m_position.x - 0.2, m_position.y + 0.2);
+	PERVec2 textPos = PERVec2(m_position.x - 0.2, m_position.y + 0.25);
 	m_nameTag->MatchWithData(pos, textPos);
 }
 

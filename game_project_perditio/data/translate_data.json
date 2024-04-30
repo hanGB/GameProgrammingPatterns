@@ -10,5 +10,25 @@
   "MONSTER_ANTIMONY_NAME": {
     "ENG_US": "Antimony",
     "KOR_KR": "안티모니"
+  },
+  "OBJECT_BUTTON_NAME": {
+    "ENG_US": "Button",
+    "KOR_KR": "버튼"
+  },
+  "OBJECT_SWITCH_NAME": {
+    "ENG_US": "Switch",
+    "KOR_KR": "스위치"
+  },
+  "OBJECT_PRESSURE_PLATE_NAME": {
+    "ENG_US": "Pressure",
+    "KOR_KR": "압력발판"
+  },
+  "OBJECT_DOOR_NAME": {
+    "ENG_US": "Door",
+    "KOR_KR": "문"
+  },
+  "OBJECT_BLOCK_NAME": {
+    "ENG_US": "Block",
+    "KOR_KR": "블록"
   }
 }

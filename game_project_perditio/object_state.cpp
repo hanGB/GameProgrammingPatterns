@@ -53,6 +53,11 @@ void ObjectState::SetNameId(std::string& nameId)
 	m_nameId = nameId;
 }
 
+void ObjectState::SetNameId(const char* name)
+{
+	m_nameId = name;
+}
+
 void ObjectState::SetStat(PERStat stat)
 {
 	m_stat = stat;

@@ -275,6 +275,12 @@ ObjectState* ObjectFactory::CreateObjectState()
     case PERObjectStateType::NON: {
         objectState = new ObjectState();
         objectState->SetIsImmortal(true);
+
+        if (m_objectType == PERObjectType::MOVABLE_BLOCK)  objectState->SetNameId("OBJECT_BLOCK_NAME");
+        else if (m_objectType == PERObjectType::BUTTON)  objectState->SetNameId("OBJECT_BUTTON_NAME");
+        else if (m_objectType == PERObjectType::PRESSURE)  objectState->SetNameId("OBJECT_PRESSURE_PLATE_NAME");
+        else if (m_objectType == PERObjectType::DOOR)  objectState->SetNameId("OBJECT_DOOR_NAME");
+       
         break;
     }
     }
