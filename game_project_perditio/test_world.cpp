@@ -5,6 +5,7 @@
 #include "object_storage.h"
 #include "game_mode.h"
 #include "response_to_signal_ai_component.h"
+#include "making_signal_ai_component.h"
 
 TestWorld::TestWorld(ObjectStorage* objectStorage, PERDatabase* database, GameMode* mode)
 {
@@ -163,11 +164,17 @@ void TestWorld::AddOtherObjects()
 	// 버튼
 	PERObject* button;
 	button = m_objectStorage->PopObject(PERObjectType::BUTTON);
-	button->SetPosition(PERVec3(7.0, 0.0, 0.5));
+	button->SetPosition(PERVec3(7.0, 0.0, 0.0));
 	button->SetParent(door);
 	PERComponent::AiData aiData;
 	aiData.isSwitch = true;
 	button->GetAi().SetData(aiData);
+	PERComponent::GraphicsData onData;
+	PERComponent::GraphicsData offData;
+	onData.color = PERColor(200, 50, 50);
+	offData.color = PERColor(100, 100, 100);
+	button->GetGraphics().SetData(offData);
+	dynamic_cast<MakingSignalAiComponent*>(&button->GetAi())->SetOnOffGraphicsData(onData, offData);
 	AddObject(button);
 
 	// 압력
@@ -175,5 +182,9 @@ void TestWorld::AddOtherObjects()
 	pressure = m_objectStorage->PopObject(PERObjectType::PRESSURE);
 	pressure->SetPosition(PERVec3(7.0, 2.0, 0.0));
 	pressure->SetParent(door);
+	onData.color = PERColor(150, 150, 200);
+	offData.color = PERColor(200, 200, 200);
+	pressure->GetGraphics().SetData(offData);
+	dynamic_cast<MakingSignalAiComponent*>(&pressure->GetAi())->SetOnOffGraphicsData(onData, offData);
 	AddObject(pressure);
 }

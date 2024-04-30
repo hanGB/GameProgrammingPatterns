@@ -8,6 +8,7 @@ public:
 	virtual void SetData(PERComponent::AiData data);
 
 	void SetIsGetInput(bool input);
+	void SetOnOffGraphicsData(PERComponent::GraphicsData onGraphicsData, PERComponent::GraphicsData offGraphicsData);
 
 private:
 	void MakeSignal(PERObject& object, PERAudio& audio, double dTime);
@@ -21,4 +22,8 @@ private:
 	bool m_isOn = false;
 	// 처음 한 번 입력만 반응함
 	bool m_isDisposable = false;
+
+	// 켜짐, 꺼짐 그래픽 데이터
+	PERComponent::GraphicsData m_onGraphicsData;
+	PERComponent::GraphicsData m_offGraphicsData;
 };

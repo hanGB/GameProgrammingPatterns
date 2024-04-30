@@ -107,13 +107,14 @@ void ObjectStorage::CreateObjectFactories()
 
     // button
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
+    physics.isOccupySpace = false;
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(100, 100, 100);
 
     factory = CreateObjectFactory(PERObjectType::BUTTON, PERObjectStateType::NON,
         PERComponentType::BUTTON_INPUT, PERComponentType::MAKING_SIGNAL, PERComponentType::FIXED, PERComponentType::VISIBLE,
         input, ai, physics, graphics);
 
-    factory->SetSize(PERVec3(1.0, 1.0, 1.0));    factory->SetMass(50);
+    factory->SetSize(PERVec3(0.4, 0.8, 0.5));    factory->SetMass(50);
 
     // pressure
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics);

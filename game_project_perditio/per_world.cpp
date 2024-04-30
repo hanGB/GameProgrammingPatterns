@@ -180,11 +180,10 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		// 특수 타입 처리
 		// 문은 고정 블럭으로 처리
 		if (otherType == PERObjectType::DOOR) otherType = PERObjectType::FIXED_BLOCK;
+		if (otherType == PERObjectType::BUTTON) continue;
 
 		// 충돌 처리 무시 항목
 		if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::MOVABLE_BLOCK) continue;
-		else if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::BUTTON) continue;
-		else if ((type == PERObjectType::BULLET || type == PERObjectType::BLADE) && otherType == PERObjectType::BUTTON) continue;
 		else if ((type == PERObjectType::BULLET || type == PERObjectType::BLADE) && otherType == PERObjectType::PRESSURE) continue;
 		else if ((otherType == PERObjectType::BULLET || otherType == PERObjectType::BLADE) && type == PERObjectType::PRESSURE) continue;
 
@@ -503,7 +502,6 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 	}
 	// 총알 데미지 처리
 	else if (aType == PERObjectType::BULLET) {
-		if (bType == PERObjectType::BUTTON) return;
 		bObject.GetObjectState().GiveDamage(bObject, aObject,
 			aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
 
@@ -519,7 +517,6 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 		}
 	}
 	else if (bType == PERObjectType::BULLET) {
-		if (aType == PERObjectType::BUTTON) return;
 		aObject.GetObjectState().GiveDamage(aObject, bObject,
 			bObject.GetObjectState().GetStat().physicalAttack, bObject.GetObjectState().GetStat().mindAttack);
 
