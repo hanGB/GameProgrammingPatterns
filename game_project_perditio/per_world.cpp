@@ -185,6 +185,8 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::MOVABLE_BLOCK) continue;
 		else if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::BUTTON) continue;
 		else if ((type == PERObjectType::BULLET || type == PERObjectType::BLADE) && otherType == PERObjectType::BUTTON) continue;
+		else if ((type == PERObjectType::BULLET || type == PERObjectType::BLADE) && otherType == PERObjectType::PRESSURE) continue;
+		else if ((otherType == PERObjectType::BULLET || otherType == PERObjectType::BLADE) && type == PERObjectType::PRESSURE) continue;
 
 		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE) {
 			if (CheckAABBCollision(position, size, otherPos, otherSize)) {
@@ -533,10 +535,20 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 		}
 	}
 	// 나머지
+	// 플레이어와 몬스터 간
 	else if (aType == PERObjectType::PLAYER && bType == PERObjectType::MONSTER) {
+		// 플레이어에게 대미지를 줌
 		aObject.GetObjectState().GiveDamage(aObject, bObject, bObject.GetObjectState().GetCollisionDamage(), 0);
 	}
 	else if (bType == PERObjectType::PLAYER && aType == PERObjectType::MONSTER) {
 		bObject.GetObjectState().GiveDamage(bObject, aObject, aObject.GetObjectState().GetCollisionDamage(), 0);
+	}
+	// 플레이어 또는 몬스터 또는 움직이는 오브젝트 와 압력 발판 간
+	else if ((aType == PERObjectType::PLAYER || aType == PERObjectType::MONSTER || aType == PERObjectType::MOVABLE_BLOCK) && bType == PERObjectType::PRESSURE) {
+		// 충돌 처리(필요한 건 본인 오브젝트 뿐, 내부적으로 발판이 눌려 입력된 것으로 처리됨)
+		bObject.GetPhysics().ProcessCollision(bObject, aObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
+	}
+	else if ((bType == PERObjectType::PLAYER || bType == PERObjectType::MONSTER || bType == PERObjectType::MOVABLE_BLOCK) && aType == PERObjectType::PRESSURE) {
+		aObject.GetPhysics().ProcessCollision(aObject, bObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
 	}
 }

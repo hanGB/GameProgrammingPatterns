@@ -10,4 +10,5 @@ public:
 
 private:
 	bool m_isKeepPressed = false;
+	bool m_isOn = false;
 };

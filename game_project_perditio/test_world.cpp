@@ -18,7 +18,7 @@ TestWorld::~TestWorld()
 
 void TestWorld::Enter()
 {
-	m_gameMode->GetPlayer().SetPosition(PERVec3(0.0, 0.0, 0.0));
+	m_gameMode->GetPlayer().SetPosition(PERVec3(0.0, 0.0, 0.1));
 	m_gameMode->GetPlayer().SetCurrentPositionToSpawnPosition();
 
 	PERWorld::Enter();
@@ -106,16 +106,52 @@ void TestWorld::AddFixedAndPhysicalObjects()
 	wall->SetSize(PERVec3(5.0, 0.5, 1.0));
 	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
 	AddObject(wall);
+}
+
+void TestWorld::AddOtherObjects()
+{
+	// 몬스터 생성기
+	for (double x = -3.0; x <= 3.0; x += 6.0) {
+		for (double y = -3.0; y <= 3.0; y += 6.0) {
+			PERObject* monsterSpanwer;
+			monsterSpanwer = m_objectStorage->PopObject(PERObjectType::SPAWNER);
+			monsterSpanwer->SetPosition(PERVec3(x, y, 0.1));
+			dynamic_cast<SpawnerAiComponent*>(&monsterSpanwer->GetAi())->SetSpawner("MONSTER_KOPPER", PERObjectType::MONSTER, PERSpawnType::LIVE);
+			AddObject(monsterSpanwer);
+		}
+	}
+
+	// 움직이는 벽돌(충돌 처리 문제 해결 불가능시 제거)
+	PERObject* block;
+	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block->SetPosition(PERVec3(3.0, 1.0, 0.1));
+	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
+	AddObject(block);
+
+	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block->SetPosition(PERVec3(-3.0, 1.0, 0.1));
+	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
+	AddObject(block);
+
+	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block->SetPosition(PERVec3(7.0, 3.0, 0.1));
+	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
+	AddObject(block);
+
+	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block->SetPosition(PERVec3(1.0, -3.0, 0.1));
+	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
+	AddObject(block);
 
 	// 문
 	PERObject* door;
 	door = m_objectStorage->PopObject(PERObjectType::DOOR);
 	door->SetPosition(PERVec3(9.0, 0.0, 0.0));
-	door->SetSize(PERVec3(1.0, 3.0, 0.0));
+	door->SetSize(PERVec3(1.0, 3.0, 0.1));
 	dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi())->SetExcuteFunc([](PERObject& object) {
 		// 문을 통과 가능하게 변경
 		object.SetSize(PERVec3(1.0, 1.0, 0.0));
-		object.SetPosition(PERVec3(9.0, -1.0, 0.0));
+		object.SetPosition(PERVec3(9.0, -1.0, 0.1));
 		});
 	dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi())->SetRevokeFunc([](PERObject& object) {
 		// 문을 통과 가능하게 변경
@@ -133,40 +169,11 @@ void TestWorld::AddFixedAndPhysicalObjects()
 	aiData.isSwitch = true;
 	button->GetAi().SetData(aiData);
 	AddObject(button);
-}
 
-void TestWorld::AddOtherObjects()
-{
-	// 몬스터 생성기
-	for (double x = -3.0; x <= 3.0; x += 6.0) {
-		for (double y = -3.0; y <= 3.0; y += 6.0) {
-			PERObject* monsterSpanwer;
-			monsterSpanwer = m_objectStorage->PopObject(PERObjectType::SPAWNER);
-			monsterSpanwer->SetPosition(PERVec3(x, y, 0.0));
-			dynamic_cast<SpawnerAiComponent*>(&monsterSpanwer->GetAi())->SetSpawner("MONSTER_KOPPER", PERObjectType::MONSTER, PERSpawnType::LIVE);
-			AddObject(monsterSpanwer);
-		}
-	}
-
-	// 움직이는 벽돌(충돌 처리 문제 해결 불가능시 제거)
-	PERObject* block;
-	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
-	block->SetPosition(PERVec3(3.0, 1.0, 0.0));
-	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
-	AddObject(block);
-
-	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
-	block->SetPosition(PERVec3(-3.0, 1.0, 0.0));
-	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
-	AddObject(block);
-
-	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
-	block->SetPosition(PERVec3(1.0, 3.0, 0.0));
-	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
-	AddObject(block);
-
-	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
-	block->SetPosition(PERVec3(1.0, -3.0, 0.0));
-	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
-	AddObject(block);
+	// 압력
+	PERObject* pressure;
+	pressure = m_objectStorage->PopObject(PERObjectType::PRESSURE);
+	pressure->SetPosition(PERVec3(7.0, 2.0, 0.0));
+	pressure->SetParent(door);
+	AddObject(pressure);
 }

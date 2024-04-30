@@ -117,6 +117,7 @@ void ObjectStorage::CreateObjectFactories()
 
     // pressure
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
+    ai.isSwitch = true;
     physics.isOccupySpace = false;
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(150, 150, 150);
 

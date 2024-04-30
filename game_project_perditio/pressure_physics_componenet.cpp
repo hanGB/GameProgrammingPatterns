@@ -6,7 +6,14 @@
 
 void PressurePhysicsComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
 {
-	if (!world.CheckCollision(object, dTime)) m_isKeepPressed = false;
+	world.CheckCollision(object, dTime);
+
+	if (!m_isKeepPressed && m_isOn)
+	{
+		dynamic_cast<MakingSignalAiComponent*>(&object.GetAi())->SetIsGetInput(true);
+		m_isOn = false;
+	}
+	m_isKeepPressed = false;
 }
 
 void PressurePhysicsComponent::SetData(PERComponent::PhysicsData data)
@@ -15,12 +22,11 @@ void PressurePhysicsComponent::SetData(PERComponent::PhysicsData data)
 
 void PressurePhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& otherObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
 {
-	if (otherObject.GetObjectType() != PERObjectType::PLAYER) return;
-
-	if (m_isKeepPressed) return;
+	m_isKeepPressed = true;
+	if (m_isOn) return;
 
 	dynamic_cast<MakingSignalAiComponent*>(&myObject.GetAi())->SetIsGetInput(true);
-	m_isKeepPressed = true;
+	m_isOn = true;
 }
 
 void PressurePhysicsComponent::GiveForce(PERObject& object, PERWorld& world, PERVec3 force, double dTime)

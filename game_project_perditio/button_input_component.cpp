@@ -11,9 +11,8 @@ void ButtonInputComponent::Update(PERObject& object, PERWorld& world, PERControl
 		PERVec3 playerPos = BlackBoard::GetPlayerPos();
 		PERVec3 pos = object.GetPosition();
 
-		if (1.0 > DistanceSquareAandBIgnoringZValue(playerPos, pos))
+		if (c_DEFAULT_INPUT_RANGE_SQURE > DistanceSquareAandBIgnoringZValue(playerPos, pos))
 		{
-			PERLog::Logger().Info("버튼이 눌림");
 			dynamic_cast<MakingSignalAiComponent*>(&object.GetAi())->SetIsGetInput(true);
 		}
 	}
