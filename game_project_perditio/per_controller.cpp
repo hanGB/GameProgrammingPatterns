@@ -13,10 +13,10 @@ PERController::~PERController()
 	PERLog::Logger().Info("컨트롤러 삭제");
 }
 
-bool PERController::IsKeyboardPressed(PERKeyboardValue value)
+bool PERController::IsKeyboardPressed(PERKeyboardValue value, bool isNotProcessed)
 {
-	// 처리된 것으로 설정
-	m_keyboardInputProcessedNeverDatas.find(value)->second = false;
+	// 처리된 것으로 설정(처리된 것으로 하지 않는 경우도 존재)
+	if (!isNotProcessed) m_keyboardInputProcessedNeverDatas.find(value)->second = false;
 	
 	return m_keyboardInputDatas.find(value)->second;
 }

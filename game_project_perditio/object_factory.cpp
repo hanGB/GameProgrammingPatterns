@@ -23,6 +23,7 @@
 #include "visible_graphics_component.h"
 #include "visible_with_information_graphics_componenet.h"
 #include "monster_graphics_componenet.h"
+#include "button_graphics_component.h"
 #include "hidden_graphics_component.h"
 
 // 오브젝트 스테이트
@@ -136,6 +137,9 @@ PERObject* ObjectFactory::CreateObject()
         break;
     case PERComponentType::MONSTER_GRAPHICS:
         graphicsComponent = new MonsterGraphicsComponent();
+        break;
+    case PERComponentType::BUTTON_GRAPHICS:
+        graphicsComponent = new ButtonGraphicsComponent();
         break;
     case PERComponentType::HIDDEN:
         graphicsComponent = new HiddenGraphicsComponent();

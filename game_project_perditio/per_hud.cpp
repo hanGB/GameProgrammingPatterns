@@ -13,9 +13,9 @@ PERHud::~PERHud()
 	delete m_uiElementPool;
 }
 
-void PERHud::Update(PERAudio& audio, double dTime)
+void PERHud::Update(PERController& controller, PERAudio& audio, double dTime)
 {
-	m_uiElementPool->Update(audio, dTime);
+	m_uiElementPool->Update(controller, audio, dTime);
 }
 
 void PERHud::Renderer(PERRenderer& renderer, PERDatabase& database)

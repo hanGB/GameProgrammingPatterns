@@ -8,7 +8,7 @@ public:
 	~PERController();
 
 	// 키보드 입력이 눌렸는지 확인
-	bool IsKeyboardPressed(PERKeyboardValue value);
+	bool IsKeyboardPressed(PERKeyboardValue value, bool isNotProcessed = false);
 	// 키보드 입력이 지금 당장 눌렸는지(한 번도 처리 안된 경우) 확인
 	bool IsKeyboardPressedRightNow(PERKeyboardValue value);
 	// 키보드 입력이 지금 당장 눌렸거나(한 번도 처리 안된 경우) 특정 시간보다 오래 눌렸는지 확인

@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
+class PERController;
 class PERAudio;
 class PERRenderer;
 class PERDatabase;
@@ -10,7 +11,7 @@ class UiElementPool {
 public:
 	UiElementPool();
 
-	void Update(PERAudio& audio, double dTime);
+	void Update(PERController& controller, PERAudio& audio, double dTime);
 	void Renderer(PERRenderer& renderer, PERDatabase& database);
 	void RendererInWorld(PERRenderer& renderer, PERDatabase& database);
 
@@ -45,13 +46,13 @@ UiElementPool<T>::UiElementPool()
 }
 
 template<class T>
-void UiElementPool<T>::Update(PERAudio& audio, double dTime)
+void UiElementPool<T>::Update(PERController& controller, PERAudio& audio, double dTime)
 {
 	for (auto& element : m_elementsInWorld) {
-		element.Update(audio, dTime);
+		element.Update(controller, audio, dTime);
 	}
 	for (auto& element : m_elementsOnScreen) {
-		element.Update(audio, dTime);
+		element.Update(controller, audio, dTime);
 	}
 }
 

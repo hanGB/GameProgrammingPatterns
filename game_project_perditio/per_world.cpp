@@ -31,9 +31,9 @@ void PERWorld::Update(PERAudio& audio, double dTime)
 	m_gameMode->Update();
 }
 
-void PERWorld::UIUpdate(PERAudio& audio, double dTime)
+void PERWorld::UIUpdate(PERController& controller, PERAudio& audio, double dTime)
 {
-	m_gameMode->GetHud().Update(audio, dTime);
+	m_gameMode->GetHud().Update(controller, audio, dTime);
 }
 
 void PERWorld::ObjectsInputUpdate(PERController& controller, PERAudio& audio, double dTime)

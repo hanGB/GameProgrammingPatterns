@@ -111,7 +111,7 @@ void ObjectStorage::CreateObjectFactories()
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(100, 100, 100);
 
     factory = CreateObjectFactory(PERObjectType::BUTTON, PERObjectStateType::NON,
-        PERComponentType::BUTTON_INPUT, PERComponentType::MAKING_SIGNAL, PERComponentType::FIXED, PERComponentType::VISIBLE_WITH_INFORMATION,
+        PERComponentType::BUTTON_INPUT, PERComponentType::MAKING_SIGNAL, PERComponentType::FIXED, PERComponentType::BUTTON_GRAPHICS,
         input, ai, physics, graphics);
 
     factory->SetSize(PERVec3(0.4, 0.8, 0.5));    factory->SetMass(50);

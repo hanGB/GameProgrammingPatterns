@@ -33,7 +33,7 @@ public:
 	~PERWorld();
 
 	void Update(PERAudio& audio, double dTime);
-	void UIUpdate(PERAudio& audio, double dTime);
+	void UIUpdate(PERController& controller, PERAudio& audio, double dTime);
 
 	void ObjectsInputUpdate(PERController& controller, PERAudio& audio, double dTime);
 	void ObjectsAiUpdate(PERAudio& audio, double dTime);

@@ -3,6 +3,7 @@
 #include "ui_element.h"
 #include "progress_bar.h"
 #include "name_tag.h"
+#include "key_input_helper.h"
 
 class PERDatabase;
 
@@ -11,7 +12,7 @@ public:
 	UiElementPoolGroup();
 	~UiElementPoolGroup();
 
-	void Update(PERAudio& audio, double dTime);
+	void Update(PERController& controller, PERAudio& audio, double dTime);
 	void Renderer(PERRenderer& renderer, PERDatabase& database);
 	void RendererInWorld(PERRenderer& renderer, PERDatabase& database);
 
@@ -22,4 +23,5 @@ private:
 
 	UiElementPool<ProgressBar> m_progressBarPool;
 	UiElementPool<NameTag> m_nameTagPool;
+	UiElementPool<KeyInputHelper> m_keyInputHelperPool;
 };

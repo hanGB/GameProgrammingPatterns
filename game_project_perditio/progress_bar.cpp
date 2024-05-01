@@ -31,7 +31,7 @@ void ProgressBar::MatchWithData(PERVec2 pos, int max, int current)
 	UpateShowingValueImmediately();
 }
 
-void ProgressBar::Update(PERAudio& audio, double dTime)
+void ProgressBar::Update(PERController& controller, PERAudio& audio, double dTime)
 {
 	if (!GetIsInUse()) return;
 

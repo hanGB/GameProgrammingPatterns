@@ -2,7 +2,7 @@
 
 struct PERKeyboardData {
 	PERKeyboardValue value;
-	char show;
+	std::wstring show;
 };
 
 class KeySetting {

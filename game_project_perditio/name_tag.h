@@ -1,8 +1,6 @@
 #pragma once
 #include "ui_element.h"
 
-class PERRenderer;
-class PERAudio;
 
 class NameTag : public UiElement {
 public:
@@ -13,7 +11,7 @@ public:
 
 	void MatchWithData(PERVec2 pos, PERVec2 textPos);
 
-	virtual void Update(PERAudio& audio, double dTime);
+	virtual void Update(PERController& controller, PERAudio& audio, double dTime);
 	virtual void RenderOnScreen(PERRenderer& renderer, PERDatabase& database);
 	virtual void RenderInWorld(PERRenderer& renderer, PERDatabase& database);
 

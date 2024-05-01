@@ -1,5 +1,6 @@
 #pragma once
 
+class PERController;
 class PERRenderer;
 class PERAudio;
 class PERDatabase;
@@ -17,7 +18,7 @@ public:
 
 	void Init(PERVec2 pos, PERVec2 size, PERColor backgroundColor, bool border = true, int borderWidth = 1, PERColor borderColor = PERColor(0, 0, 0));
 
-	virtual void Update(PERAudio& audio, double dTime) = 0;
+	virtual void Update(PERController& controller, PERAudio& audio, double dTime) = 0;
 	virtual void RenderOnScreen(PERRenderer& renderer, PERDatabase& database) = 0;
 	virtual void RenderInWorld(PERRenderer& renderer, PERDatabase& database) = 0;
 

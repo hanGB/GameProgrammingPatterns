@@ -108,7 +108,7 @@ void PERGame::UIUpdate(int time)
 
 	int fps = m_fps;
 	wsprintf(m_fpsText, L"FPS: %d", fps);
-	m_currentWorld->UIUpdate(*m_audio, (double)time / 1'000'000.0);
+	m_currentWorld->UIUpdate(*m_controller, *m_audio, (double)time / 1'000'000.0);
 	m_isUpdateUIEnd = true;
 }
 

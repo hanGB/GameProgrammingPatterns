@@ -144,6 +144,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="button_graphics_component.h" />
+    <ClInclude Include="key_input_helper.h" />
     <ClInclude Include="key_setting.h" />
     <ClInclude Include="making_signal_ai_component.h" />
     <ClInclude Include="response_to_signal_ai_component.h" />
@@ -211,6 +213,8 @@
     <ClInclude Include="visible_with_information_graphics_componenet.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="button_graphics_component.cpp" />
+    <ClCompile Include="key_input_helper.cpp" />
     <ClCompile Include="making_signal_ai_component.cpp" />
     <ClCompile Include="key_setting.cpp" />
     <ClCompile Include="response_to_signal_ai_component.cpp" />

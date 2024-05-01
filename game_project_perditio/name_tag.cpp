@@ -27,7 +27,7 @@ void NameTag::MatchWithData(PERVec2 pos, PERVec2 textPos)
 	m_textPosition = textPos;
 }
 
-void NameTag::Update(PERAudio& audio, double dTime)
+void NameTag::Update(PERController& controller, PERAudio& audio, double dTime)
 {
 	if (!GetIsInUse()) return;
 }
