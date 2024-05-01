@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="key_setting.h" />
     <ClInclude Include="making_signal_ai_component.h" />
     <ClInclude Include="response_to_signal_ai_component.h" />
     <ClInclude Include="a_star_calculator.h" />
@@ -211,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="making_signal_ai_component.cpp" />
+    <ClCompile Include="key_setting.cpp" />
     <ClCompile Include="response_to_signal_ai_component.cpp" />
     <ClCompile Include="a_star_calculator.cpp" />
     <ClCompile Include="behavior_tree.cpp" />

@@ -29,26 +29,27 @@ void PlayerInputComponent::Move(PERObject& object, PERController& controller, PE
 	double mass = object.GetMass();
 
 	// x, y축 이동 설정
-	if (controller.IsKeyboardPressed(PERKeyboardValue::UP)) {
+	if (controller.IsKeyboardPressed(KeySetting::MoveUpwards.value)) {
 		if (vel.y < object.c_MAXIMUM_XY_VELOCITY) {
 			cAcc.y += m_XYForce / mass * dTime;
 		}
 	}
-	if (controller.IsKeyboardPressed(PERKeyboardValue::DOWN)) {
+	if (controller.IsKeyboardPressed(KeySetting::MoveDownwards.value)) {
 		if (vel.y > -object.c_MAXIMUM_XY_VELOCITY) {
 			cAcc.y -= m_XYForce / mass * dTime;
 		}
 	}
-	if (controller.IsKeyboardPressed(PERKeyboardValue::LEFT)) {
+	if (controller.IsKeyboardPressed(KeySetting::MoveLeftwards.value)) {
 		if (vel.x > -object.c_MAXIMUM_XY_VELOCITY) {
 			cAcc.x -= m_XYForce / mass * dTime;
 		}
 	}
-	if (controller.IsKeyboardPressed(PERKeyboardValue::RIGHT)) {
+	if (controller.IsKeyboardPressed(KeySetting::MoveRightwards.value)) {
 		if (vel.x < object.c_MAXIMUM_XY_VELOCITY) {
 			cAcc.x += m_XYForce / mass * dTime;
 		}
 	}
+
 	object.SetCurrentAccel(cAcc);
 }
 
@@ -73,7 +74,7 @@ void PlayerInputComponent::ShootBullet(PERObject& object, PERWorld& world, PERCo
 	if (m_shootingCoolTime > 0.0) return;
 
 	// 총알 발사
-	if (controller.IsKeyboardPressed(PERKeyboardValue::D)) {
+	if (controller.IsKeyboardPressed(KeySetting::BulletAttack.value)) {
 		if (object.GetObjectState().UseMind(object, 10)) {
 			PlayerState& state = dynamic_cast<PlayerState&>(object.GetObjectState());
 
@@ -95,7 +96,7 @@ void PlayerInputComponent::SwingBlade(PERObject& object, PERWorld& world, PERCon
 	if (m_swingCoolTime > 0.0) return;
 
 	// 검 휘두루기
-	if (controller.IsKeyboardPressed(PERKeyboardValue::S)) {
+	if (controller.IsKeyboardPressed(KeySetting::BladeAttack.value)) {
 		PlayerState& state = dynamic_cast<PlayerState&>(object.GetObjectState());
 
 		VisualData* data = world.GetDatabase().GetVisualData(state.GetBladeVisualId().c_str());
@@ -113,7 +114,7 @@ void PlayerInputComponent::SwingBlade(PERObject& object, PERWorld& world, PERCon
 
 void PlayerInputComponent::ShowObjectName(PERObject& object, PERController& controller, PERAudio& audio, double dTime)
 {
-	if (controller.IsKeyboardPressedRightNow(PERKeyboardValue::Q)) {
+	if (controller.IsKeyboardPressedRightNow(KeySetting::ShowInformation.value)) {
 		bool showingName = BlackBoard::GetShowingName();
 
 		showingName = (showingName + 1) % 2;

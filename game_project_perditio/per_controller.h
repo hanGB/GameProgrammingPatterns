@@ -1,5 +1,6 @@
 #pragma once
 #include <concurrent_unordered_map.h>
+#include "key_setting.h"
 
 class PERController {
 public:

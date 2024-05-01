@@ -1,5 +1,6 @@
 #pragma once
 #include "input_component.h"
+#include "per_controller.h"
 
 class ButtonInputComponent : public InputComponent {
 public:
@@ -8,6 +9,4 @@ public:
 
 private:
 	const double c_DEFAULT_INPUT_RANGE_SQURE = 1.0;
-
-	PERKeyboardValue m_inputKeyValue = PERKeyboardValue::F;			
 };

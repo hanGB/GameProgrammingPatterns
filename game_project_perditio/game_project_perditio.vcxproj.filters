@@ -387,6 +387,9 @@
     <ClInclude Include="making_signal_ai_component.h">
       <Filter>00. game\object\component\implements\ai\making_signal_ai_component</Filter>
     </ClInclude>
+    <ClInclude Include="key_setting.h">
+      <Filter>01. controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -544,6 +547,9 @@
     </ClCompile>
     <ClCompile Include="object_storage.cpp">
       <Filter>00. game\object\object_storage</Filter>
+    </ClCompile>
+    <ClCompile Include="key_setting.cpp">
+      <Filter>01. controller</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
