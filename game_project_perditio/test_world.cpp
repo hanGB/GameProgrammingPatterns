@@ -180,7 +180,7 @@ void TestWorld::AddOtherObjects()
 	// ¾Ð·Â
 	PERObject* pressure;
 	pressure = m_objectStorage->PopObject(PERObjectType::PRESSURE);
-	pressure->SetPosition(PERVec3(7.0, 2.0, 0.0));
+	pressure->SetPosition(PERVec3(7.0, 1.5, 0.0));
 	pressure->SetParent(door);
 	onData.color = PERColor(150, 150, 200);
 	offData.color = PERColor(200, 200, 200);

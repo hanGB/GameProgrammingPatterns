@@ -101,12 +101,16 @@ PERBoundingType PERObject::GetBoundingType() const
 
 PERVec3 PERObject::GetBoundingBoxSize() const
 {
-	return m_boundingBoxSize;
+	return PERVec3(m_size.x * m_boundingBoxRelativeSize.x, 
+		m_size.y * m_boundingBoxRelativeSize.y, 
+		m_size.z * m_boundingBoxRelativeSize.z);
 }
 
 PERVec3 PERObject::GetBoundingBoxPosition() const
 {
-	return m_boundingBoxPosition;
+	return PERVec3(m_position.x + m_boundingBoxRelativePosition.x, 
+		m_position.y + m_boundingBoxRelativePosition.y, 
+		m_position.z + m_boundingBoxRelativePosition.z);
 }
 
 PERVec3 PERObject::GetCollidedVelocity() const
@@ -148,16 +152,14 @@ void PERObject::SetParent(PERObject* object)
 	m_parent = object;
 }
 
-void PERObject::SetPosition(PERVec3 pos, bool isSameWithBoundingBox)
+void PERObject::SetPosition(PERVec3 pos)
 {
 	m_position = pos;
-	if (isSameWithBoundingBox) m_boundingBoxPosition = m_position;
 }
 
-void PERObject::SetSize(PERVec3 size, bool isSameWithBoundingBox)
+void PERObject::SetSize(PERVec3 size)
 {
-	m_size = size;
-	if (isSameWithBoundingBox) m_boundingBoxSize = m_size;
+	m_size = size;;
 }
 
 void PERObject::SetVelocity(PERVec3 vel)
@@ -180,10 +182,10 @@ void PERObject::SetBoundingType(PERBoundingType bounding)
 	m_boundingType = bounding;
 }
 
-void PERObject::SetBoundingBox(PERVec3 size, PERVec3 relativePos)
+void PERObject::SetBoundingBox(PERVec3 relativeSize, PERVec3 relativePos)
 {
-	m_boundingBoxSize = size;
-	m_boundingBoxPosition = m_position + relativePos;
+	m_boundingBoxRelativeSize = relativeSize;
+	m_boundingBoxRelativePosition = relativePos;
 }
 
 void PERObject::SetIDInWorld(int id)

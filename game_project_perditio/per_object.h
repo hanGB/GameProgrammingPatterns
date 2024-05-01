@@ -49,13 +49,13 @@ public:
 	// setter
 	void SetParent(PERObject* object);
 	
-	void SetPosition(PERVec3 pos, bool isSameWithBoundingBox = true);
-	void SetSize(PERVec3 size, bool isSameWithBoundingBox = true);
+	void SetPosition(PERVec3 pos);
+	void SetSize(PERVec3 size);
 	void SetVelocity(PERVec3 vel);
 	void SetCurrentAccel(PERVec3 acc);
 	void SetMass(double mass);
 	void SetBoundingType(PERBoundingType bounding);
-	void SetBoundingBox(PERVec3 size, PERVec3 relativePos = PERVec3(0.0, 0.0, 0.0));
+	void SetBoundingBox(PERVec3 relativeSize, PERVec3 relativePos);
 
 	void SetIDInWorld(int id);
 	void SetLifeTime(double time);
@@ -93,8 +93,8 @@ private:
 	PERVec3 m_currentAccel	= PERVec3(0.0, 0.0, 0.0);
 	double	m_mass			= 50.0;
 	PERBoundingType m_boundingType			= PERBoundingType::RECTANGLE;
-	PERVec3			m_boundingBoxSize		= PERVec3(0.5, 0.5, 0.5);
-	PERVec3			m_boundingBoxPosition	= PERVec3(0.0, 0.0, 0.0);
+	PERVec3			m_boundingBoxRelativeSize		= PERVec3(1.0, 1.0, 1.0);
+	PERVec3			m_boundingBoxRelativePosition	= PERVec3(0.0, 0.0, 0.0);
 
 	// 충돌된 오브젝트
 	PERObject* m_collidedObject = nullptr;
