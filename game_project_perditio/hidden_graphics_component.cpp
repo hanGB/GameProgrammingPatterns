@@ -13,6 +13,11 @@ void HiddenGraphicsComponent::SetData(PERComponent::GraphicsData data)
 {
 }
 
+void HiddenGraphicsComponent::Initialize(PERComponent::GraphicsData data)
+{
+	SetData(data);
+}
+
 void HiddenGraphicsComponent::RemoveFloatingUi()
 {
 }

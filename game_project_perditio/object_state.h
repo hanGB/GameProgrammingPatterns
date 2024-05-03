@@ -17,6 +17,9 @@ public:
 	// 대미지 무시
 	void UseIgnoreDamageTime(double dTime);
 
+	// 초기화
+	virtual void Initialize();
+
 	// 상태 변화
 	virtual bool GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind);
 	virtual bool UseMind(PERObject& object, int mind);

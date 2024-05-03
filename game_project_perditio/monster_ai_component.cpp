@@ -30,6 +30,15 @@ void MonsterAiComponent::SetData(PERComponent::AiData data)
 {
 }
 
+void MonsterAiComponent::Initialize(PERComponent::AiData data)
+{
+	m_wanderAngle = 0.0;
+	m_isAStarCalculated = false;
+	m_numPath = 0;
+	m_currentPathIndex = 0;
+	SetData(data);
+}
+
 void MonsterAiComponent::InitBehaviorTree()
 {
 	// 리프 노드 생성

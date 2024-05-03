@@ -29,3 +29,9 @@ void IntelligentAiComponent::Update(PERObject& object, PERWorld& world, PERAudio
 void IntelligentAiComponent::SetData(PERComponent::AiData data)
 {
 }
+
+void IntelligentAiComponent::Initialize(PERComponent::AiData data)
+{
+	m_XYForce = c_DEFAULT_XY_FORCE;
+	SetData(data);
+}

@@ -4,6 +4,15 @@
 #include "progress_bar.h"
 #include "per_hud.h"
 
+void MonsterState::Initialize()
+{
+    // 시야의 제곱
+    m_sight = c_DEFAULT_SIGHT;
+    // 배회 거리의 제곱
+    m_wanderDistance = c_DEFAULT_WANDER_DISTANCE;
+    ObjectState::Initialize();
+}
+
 bool MonsterState::GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind)
 {
     if (!ObjectState::GiveDamage(object, opponent, physical, mind)) return false;

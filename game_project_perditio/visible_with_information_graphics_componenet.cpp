@@ -20,6 +20,13 @@ void VisibleWithInformationGraphicsComponent::SetData(PERComponent::GraphicsData
 	VisibleGraphicsComponent::SetData(data);
 }
 
+void VisibleWithInformationGraphicsComponent::Initialize(PERComponent::GraphicsData data)
+{
+	m_isShowingNameTag = false;
+	m_nameTag = nullptr;
+	SetData(data);
+}
+
 void VisibleWithInformationGraphicsComponent::RemoveFloatingUi()
 {
 	VisibleGraphicsComponent::RemoveFloatingUi();

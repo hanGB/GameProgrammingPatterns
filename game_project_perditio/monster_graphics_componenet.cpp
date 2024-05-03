@@ -20,6 +20,13 @@ void MonsterGraphicsComponent::SetData(PERComponent::GraphicsData data)
 	VisibleWithInformationGraphicsComponent::SetData(data);
 }
 
+void MonsterGraphicsComponent::Initialize(PERComponent::GraphicsData data)
+{
+	m_isShowingBodyBar = false;
+	m_bodyBar = nullptr;
+	SetData(data);
+}
+
 void MonsterGraphicsComponent::RemoveFloatingUi()
 {
 	VisibleWithInformationGraphicsComponent::RemoveFloatingUi();

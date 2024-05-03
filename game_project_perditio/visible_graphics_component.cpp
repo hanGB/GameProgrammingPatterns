@@ -28,6 +28,11 @@ void VisibleGraphicsComponent::SetData(PERComponent::GraphicsData data)
 	m_borderColor = data.borderColor;
 }
 
+void VisibleGraphicsComponent::Initialize(PERComponent::GraphicsData data)
+{
+	SetData(data);
+}
+
 void VisibleGraphicsComponent::RemoveFloatingUi()
 {
 }

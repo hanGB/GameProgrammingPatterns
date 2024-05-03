@@ -245,6 +245,40 @@ double ObjectFactory::GetMass() const
     return m_mass;
 }
 
+void ObjectFactory::InitializeObjectState(ObjectState* objectState)
+{
+    objectState->Initialize();
+
+    switch (m_objectStateType) {
+    case PERObjectStateType::PLAYER: {
+        m_stat = {
+            1, 100, 100, 10, 10, 10, 10
+        };
+        objectState->SetStat(m_stat);
+        break;
+    }
+    case PERObjectStateType::MONSTER: {
+        m_stat = {
+            1, 50, 50, 5, 5, 5, 5
+        };
+        objectState->SetStat(m_stat);
+        objectState->SetIsHasCollisionDamage(true);
+
+        break;
+    }
+    case PERObjectStateType::NON: {
+        objectState->SetIsImmortal(true);
+
+        if (m_objectType == PERObjectType::MOVABLE_BLOCK)  objectState->SetNameId("OBJECT_BLOCK_NAME");
+        else if (m_objectType == PERObjectType::BUTTON)  objectState->SetNameId("OBJECT_BUTTON_NAME");
+        else if (m_objectType == PERObjectType::PRESSURE)  objectState->SetNameId("OBJECT_PRESSURE_PLATE_NAME");
+        else if (m_objectType == PERObjectType::DOOR)  objectState->SetNameId("OBJECT_DOOR_NAME");
+
+        break;
+    }
+    }
+}
+
 void ObjectFactory::InitData()
 {
     InitComponentDatas(m_componentData.input, m_componentData.ai, m_componentData.physics, m_componentData.graphics);
@@ -260,34 +294,18 @@ ObjectState* ObjectFactory::CreateObjectState()
     switch (m_objectStateType) {
     case PERObjectStateType::PLAYER: {
         objectState = new PlayerState();
-        PERStat stat = {
-            1, 100, 100, 10, 10, 10, 10
-        };
-        objectState->SetStat(stat);
         break;
     }
     case PERObjectStateType::MONSTER: {
         objectState = new MonsterState();
-        PERStat stat = {
-            1, 50, 50, 5, 5, 5, 5
-        };
-        objectState->SetStat(stat);
-        objectState->SetIsHasCollisionDamage(true);
-
         break;
     }
     case PERObjectStateType::NON: {
         objectState = new ObjectState();
-        objectState->SetIsImmortal(true);
-
-        if (m_objectType == PERObjectType::MOVABLE_BLOCK)  objectState->SetNameId("OBJECT_BLOCK_NAME");
-        else if (m_objectType == PERObjectType::BUTTON)  objectState->SetNameId("OBJECT_BUTTON_NAME");
-        else if (m_objectType == PERObjectType::PRESSURE)  objectState->SetNameId("OBJECT_PRESSURE_PLATE_NAME");
-        else if (m_objectType == PERObjectType::DOOR)  objectState->SetNameId("OBJECT_DOOR_NAME");
-       
         break;
     }
     }
+    InitializeObjectState(objectState);
 
     return objectState;
 }

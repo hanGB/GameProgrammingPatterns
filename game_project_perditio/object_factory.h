@@ -42,6 +42,9 @@ public:
 	PERVec3 GetSize() const;
 	double GetMass() const;
 
+	// 오브젝트 스테이트 스텟 초기화
+	void InitializeObjectState(ObjectState* objectState);
+
 private:
 	void InitData();
 	// 오브젝트 스테이트 생성
@@ -61,4 +64,6 @@ private:
 
 	PERVec3 m_size;
 	double m_mass;
+
+	PERStat m_stat;
 };

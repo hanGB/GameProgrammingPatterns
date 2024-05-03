@@ -33,6 +33,8 @@ void ObjectStorage::PushObject(PERObjectType type, PERObject* object)
     // 플레이어는 게임 모드에서 생성하기 때문에 제외
     if (type == PERObjectType::PLAYER) return;
 
+    // 초기화 후 큐에 넣음
+    object->Initialize();
     m_objectQueues.find(type)->second.push(object);
 }
 

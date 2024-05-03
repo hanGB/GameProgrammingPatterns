@@ -21,6 +21,13 @@ void ButtonGraphicsComponent::SetData(PERComponent::GraphicsData data)
 	VisibleWithInformationGraphicsComponent::SetData(data);
 }
 
+void ButtonGraphicsComponent::Initialize(PERComponent::GraphicsData data)
+{
+	m_isShowingHelper = false;
+	m_Helper = nullptr;
+	SetData(data);
+}
+
 void ButtonGraphicsComponent::RemoveFloatingUi()
 {
 	if (m_Helper) m_Helper->SetLifeTime(-1.0);

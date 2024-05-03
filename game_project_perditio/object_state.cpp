@@ -5,6 +5,7 @@
 
 ObjectState::ObjectState()
 {
+	Initialize();
 }
 
 ObjectState::~ObjectState()
@@ -14,6 +15,23 @@ ObjectState::~ObjectState()
 void ObjectState::UseIgnoreDamageTime(double dTime)
 {
 	m_damageDelay -= dTime;
+}
+
+void ObjectState::Initialize()
+{
+	// 대미지 무시
+	m_damageDelay = 0.0;
+	// 자동 회복
+	m_recoverDelay = 0.0;
+	m_recoverTime = c_DEFAULT_TIME_FOR_RECOVER;
+	m_bodyRecoverPercent = c_DEFAULT_BODY_RECOVER_PERCENT;
+	m_mindRecoverPercent = c_DEFAULT_MIND_RECOVER_PERCENT;
+
+	// 기본 정보
+	m_isHasCollsionDamage = false;
+	m_isImmortal = false;
+	// 스폰 위치
+	m_spawnPosition = PERVec3(0.0, 0.0, 0.0);
 }
 
 std::string ObjectState::GetNameId() const

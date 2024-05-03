@@ -20,3 +20,8 @@ void ButtonInputComponent::Update(PERObject& object, PERWorld& world, PERControl
 void ButtonInputComponent::SetData(PERComponent::InputData data)
 {
 }
+
+void ButtonInputComponent::Initialize(PERComponent::InputData data)
+{
+	SetData(data);
+}

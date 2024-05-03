@@ -2,6 +2,17 @@
 #include "player_state.h"
 #include "event_dispatcher.h"
 
+void PlayerState::Initialize()
+{
+    // 공격체 관련
+    m_bulletVisualId = "PLAYER_BASIC_BULLET_VISUAL";
+    m_shootCoolTime = c_DEFAULT_SHOOT_BULLET_COOL_TIME;
+    m_bladeVisualId = "PLAYER_BASIC_BLADE_VISUAL";
+    m_swingCoolTime = C_DEFAULT_SWING_BLADE_COOL_TIME;
+
+    ObjectState::Initialize();
+}
+
 bool PlayerState::GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind)
 {
     if (!ObjectState::GiveDamage(object, opponent, physical, mind)) return false;

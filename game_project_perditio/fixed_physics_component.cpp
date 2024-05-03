@@ -9,6 +9,11 @@ void FixedPhysicsComponent::SetData(PERComponent::PhysicsData data)
 {
 }
 
+void FixedPhysicsComponent::Initialize(PERComponent::PhysicsData data)
+{
+	SetData(data);
+}
+
 void FixedPhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& otherObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
 {
 }

@@ -24,6 +24,11 @@ void StuckPhysicsComponent::SetData(PERComponent::PhysicsData data)
 	m_stuckPosition = data.stuckPosition;
 }
 
+void StuckPhysicsComponent::Initialize(PERComponent::PhysicsData data)
+{
+	SetData(data);
+}
+
 void StuckPhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& otherObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
 {
 }

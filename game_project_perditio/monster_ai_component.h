@@ -10,6 +10,7 @@ public:
 
 	virtual void Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime);
 	virtual void SetData(PERComponent::AiData data);
+	virtual void Initialize(PERComponent::AiData data);
 
 	const double c_DEFAULT_VELOCITY = 2.0;
 	const double c_PATH_GAP_2 = 0.05 * 0.05;

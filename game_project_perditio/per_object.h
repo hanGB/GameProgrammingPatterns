@@ -16,6 +16,8 @@ class PERObject {
 public:
 	~PERObject();
 
+	void Initialize();
+
 	bool IsLifeTimeIsEnd(double dTime);
 
 	ObjectState& GetObjectState();
@@ -86,12 +88,13 @@ private:
 	// 부모
 	PERObject* m_parent = nullptr;
 
-	// 정보
+	// 물리 정보
 	PERVec3	m_position	= PERVec3(0.0, 0.0, 0.0);
 	PERVec3 m_size		= PERVec3(0.5, 0.5, 0.5);
 	PERVec3 m_velocity	= PERVec3(0.0, 0.0, 0.0);
 	PERVec3 m_currentAccel	= PERVec3(0.0, 0.0, 0.0);
 	double	m_mass			= 50.0;
+	// 충돌체 정보
 	PERBoundingType m_boundingType			= PERBoundingType::RECTANGLE;
 	PERVec3			m_boundingBoxRelativeSize		= PERVec3(1.0, 1.0, 1.0);
 	PERVec3			m_boundingBoxRelativePosition	= PERVec3(0.0, 0.0, 0.0);
@@ -99,7 +102,7 @@ private:
 	// 충돌된 오브젝트
 	PERObject* m_collidedObject = nullptr;
 	PERVec3 m_collidedMomentVelocity;
-
+	// 월드 내 정보
 	int m_idInWorld = -1;
 	double m_lifeTime = PER_MAXIMUM_LIFE_TIME;
 };

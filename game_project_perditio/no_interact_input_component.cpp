@@ -8,3 +8,8 @@ void NoInteractInputComponent::Update(PERObject& object, PERWorld& world, PERCon
 void NoInteractInputComponent::SetData(PERComponent::InputData data)
 {
 }
+
+void NoInteractInputComponent::Initialize(PERComponent::InputData data)
+{
+	SetData(data);
+}

@@ -15,6 +15,11 @@ void MovablePhysicsComponent::SetData(PERComponent::PhysicsData data)
 	else m_MoveFunc = &MovablePhysicsComponent::MoveWithoutFriction;
 }
 
+void MovablePhysicsComponent::Initialize(PERComponent::PhysicsData data)
+{
+	SetData(data);
+}
+
 void MovablePhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& otherObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
 {
 	PERVec3 pos = myObject.GetPosition();

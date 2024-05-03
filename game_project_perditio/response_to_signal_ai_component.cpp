@@ -9,6 +9,11 @@ void ResponeseToSignalAiComponent::SetData(PERComponent::AiData data)
 {
 }
 
+void ResponeseToSignalAiComponent::Initialize(PERComponent::AiData data)
+{
+	SetData(data);
+}
+
 void ResponeseToSignalAiComponent::Execute(PERObject& object)
 {
 	m_ExecuteFunc(object);

@@ -13,3 +13,8 @@ void UnintelligentAiComponent::Update(PERObject& object, PERWorld& world, PERAud
 void UnintelligentAiComponent::SetData(PERComponent::AiData data)
 {
 }
+
+void UnintelligentAiComponent::Initialize(PERComponent::AiData data)
+{
+	SetData(data);
+}

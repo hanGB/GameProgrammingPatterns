@@ -14,6 +14,17 @@ void SpawnerAiComponent::SetData(PERComponent::AiData data)
 {
 }
 
+void SpawnerAiComponent::Initialize(PERComponent::AiData data)
+{
+    m_timeGap = 5.0;
+    m_time = 0.0;
+    m_distance2 = 4.0;
+    m_lifeTime = PER_MAXIMUM_LIFE_TIME;
+    m_spawnedObject = nullptr;
+    m_isSettingSpawnedObject = true;
+    SetData(data);
+}
+
 void SpawnerAiComponent::SetSpawner(std::string objectId, PERObjectType type, PERSpawnType spawnType, double timeGap, double distance, double lifeTime)
 {
     m_objectId = objectId;

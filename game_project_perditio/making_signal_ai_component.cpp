@@ -17,6 +17,15 @@ void MakingSignalAiComponent::SetData(PERComponent::AiData data)
 	m_isDisposable = data.isDisposable;
 }
 
+void MakingSignalAiComponent::Initialize(PERComponent::AiData data)
+{
+	m_isGetInput = false;
+	m_isSwitch = false;
+	m_isOn = false;
+	m_isDisposable = false;
+	SetData(data);
+}
+
 void MakingSignalAiComponent::SetIsGetInput(bool input)
 {
 	m_isGetInput = input;

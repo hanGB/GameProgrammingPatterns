@@ -6,6 +6,7 @@ class MakingSignalAiComponent : public AiComponent {
 public:
 	virtual void Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime);
 	virtual void SetData(PERComponent::AiData data);
+	virtual void Initialize(PERComponent::AiData data);
 
 	void SetIsGetInput(bool input);
 	void SetOnOffGraphicsData(PERComponent::GraphicsData onGraphicsData, PERComponent::GraphicsData offGraphicsData);

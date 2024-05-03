@@ -20,6 +20,13 @@ void PressurePhysicsComponent::SetData(PERComponent::PhysicsData data)
 {
 }
 
+void PressurePhysicsComponent::Initialize(PERComponent::PhysicsData data)
+{
+	m_isKeepPressed = false;
+	m_isOn = false;
+	SetData(data);
+}
+
 void PressurePhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& otherObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
 {
 	m_isKeepPressed = true;

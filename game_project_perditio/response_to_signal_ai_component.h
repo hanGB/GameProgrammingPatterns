@@ -6,6 +6,7 @@ class ResponeseToSignalAiComponent : public AiComponent {
 public:
 	virtual void Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime);
 	virtual void SetData(PERComponent::AiData data);
+	virtual void Initialize(PERComponent::AiData data);
 
 	void Execute(PERObject& object);
 	void Revoke(PERObject& object);

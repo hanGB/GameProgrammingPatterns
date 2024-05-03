@@ -21,6 +21,17 @@ void PlayerInputComponent::SetData(PERComponent::InputData data)
 {
 }
 
+void PlayerInputComponent::Initialize(PERComponent::InputData data)
+{
+	m_XYForce = c_DEFAULT_XY_FORCE;
+	m_shootingCoolTime = 0.0;
+	m_swingCoolTime = 0.0;
+	m_dirX = 0;
+	m_dirY = 1;
+
+	SetData(data);
+}
+
 void PlayerInputComponent::Move(PERObject& object, PERController& controller, PERAudio& audio, double dTime)
 {
 	// 필요 정보 얻기

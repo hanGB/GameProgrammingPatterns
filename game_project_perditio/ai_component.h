@@ -11,4 +11,5 @@ public:
 
 	virtual void Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime) = 0;
 	virtual void SetData(PERComponent::AiData data) = 0;
+	virtual void Initialize(PERComponent::AiData data) = 0;
 };

@@ -12,6 +12,12 @@ void InteractInputComponent::SetData(PERComponent::InputData data)
 {
 }
 
+void InteractInputComponent::Initialize(PERComponent::InputData data)
+{
+	m_XYForce = c_DEFAULT_XY_FORCE;
+	SetData(data);
+}
+
 void InteractInputComponent::Move(PERObject& object, PERController& controller, PERAudio& audio, double dTime)
 {
 	// 필요 정보 얻기

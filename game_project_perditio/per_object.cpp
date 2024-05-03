@@ -8,14 +8,7 @@ PERObject::PERObject(ObjectFactory& factory, ObjectState* objectState,
 	: m_factory(factory), m_objectState(objectState),
 	m_input(input), m_ai(ai), m_physics(physics), m_graphics(graphics)
 {
-	m_size = m_factory.GetSize();
-	m_mass = m_factory.GetMass();
-
-	// 컨포넌트 설정
-	m_input->SetData(m_factory.GetInputData());
-	m_ai->SetData(m_factory.GetAiData());
-	m_physics->SetData(m_factory.GetPhysicsData());
-	m_graphics->SetData(m_factory.GetGraphicsData());
+	Initialize();
 }
 
 PERObject::~PERObject()
@@ -25,6 +18,42 @@ PERObject::~PERObject()
 	delete m_ai;
 	delete m_physics;
 	delete m_graphics;
+}
+
+void PERObject::Initialize()
+{
+	// 컨포넌트 초기화
+	m_input->Initialize(m_factory.GetInputData());
+	m_ai->Initialize(m_factory.GetAiData());
+	m_physics->Initialize(m_factory.GetPhysicsData());
+	m_graphics->Initialize(m_factory.GetGraphicsData());
+
+	// 오브젝트 스테이트 초기화
+	m_factory.InitializeObjectState(m_objectState);
+
+	// 오브젝트 클래스내 멤버 변수 초기화
+	// 부모
+	PERObject* m_parent = nullptr;
+
+	// 물리 정보
+	m_position = PERVec3(0.0, 0.0, 0.0);
+	m_size = m_factory.GetSize();
+	m_velocity = PERVec3(0.0, 0.0, 0.0);
+	m_currentAccel = PERVec3(0.0, 0.0, 0.0);
+	m_mass = m_factory.GetMass();
+
+	// 충돌체 정보
+	m_boundingType = PERBoundingType::RECTANGLE;
+	m_boundingBoxRelativeSize = PERVec3(1.0, 1.0, 1.0);
+	m_boundingBoxRelativePosition = PERVec3(0.0, 0.0, 0.0);
+
+	// 충돌 정보
+	m_collidedObject = nullptr;
+	m_collidedMomentVelocity = PERVec3(0.0, 0.0, 0.0);
+
+	// 월드 내 정보
+	m_idInWorld = -1;
+	m_lifeTime = PER_MAXIMUM_LIFE_TIME;
 }
 
 bool PERObject::IsLifeTimeIsEnd(double dTime)
