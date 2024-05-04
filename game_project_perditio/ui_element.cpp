@@ -46,7 +46,7 @@ void UiElement::Init(PERVec2 pos, PERVec2 size, PERColor backgroundColor, bool b
 	 m_isInUse = true;
 }
 
-bool UiElement::IsLifeTimeIsEnd(double time)
+bool UiElement::IsLifeTimeEnd(double time)
 {
 	m_lifeTime -= time;
 

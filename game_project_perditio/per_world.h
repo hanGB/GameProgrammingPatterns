@@ -1,4 +1,5 @@
 #pragma once
+#include "circle_bomb_effect.h"
 
 class PERAudio;
 class ObjectStorage;
@@ -122,4 +123,7 @@ private:
 	int m_maxPending = PER_DEFAULT_MAX_EVENT_PENDING;
 	PERWorldMessage* m_pending = new PERWorldMessage[PER_DEFAULT_MAX_EVENT_PENDING];
 	int m_numPending = 0;
+
+	// 테스트 용
+	CircleBombEffect* m_circleBomb;
 };

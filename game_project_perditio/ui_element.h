@@ -22,7 +22,7 @@ public:
 	virtual void RenderOnScreen(PERRenderer& renderer, PERDatabase& database) = 0;
 	virtual void RenderInWorld(PERRenderer& renderer, PERDatabase& database) = 0;
 
-	bool IsLifeTimeIsEnd(double time);
+	bool IsLifeTimeEnd(double time);
 
 	// getter
 	PERVec2 GetPosition() const;

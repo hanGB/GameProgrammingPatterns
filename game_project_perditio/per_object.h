@@ -18,7 +18,7 @@ public:
 
 	void Initialize();
 
-	bool IsLifeTimeIsEnd(double dTime);
+	bool IsLifeTimeEnd(double dTime);
 
 	ObjectState& GetObjectState();
 

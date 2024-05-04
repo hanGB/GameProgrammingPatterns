@@ -15,11 +15,15 @@
 
 PERWorld::PERWorld()
 {
+	m_circleBomb = new CircleBombEffect(PERVec3(0.0, 0.0, 0.1), 0.25, 10.0);
+	m_circleBomb->SetParticle(PERShapeType::ELLIPSE, PERVec3(0.25, 0.25, 0.25), 10, PERColor(150, 0, 0), 1.5);
 }
 
 PERWorld::~PERWorld()
 {
 	PERLog::Logger().Info("월드 삭제");
+
+	delete m_circleBomb;
 }
 
 void PERWorld::Update(PERAudio& audio, double dTime)
@@ -29,6 +33,8 @@ void PERWorld::Update(PERAudio& audio, double dTime)
 	ProcessPendingMessage();
 
 	m_gameMode->Update();
+
+	m_circleBomb->Update(audio, dTime);
 }
 
 void PERWorld::UIUpdate(PERController& controller, PERAudio& audio, double dTime)
@@ -74,6 +80,8 @@ void PERWorld::Render(PERRenderer& renderer, double frameGap)
 		m_sortedObjects[i]->GetGraphics().Render(*m_sortedObjects[i], renderer, frameGap);
 	}
 	GetHud().RendererInWorld(renderer, *m_database);
+
+	m_circleBomb->Render(renderer);
 }
 
 void PERWorld::UIRender(PERRenderer& renderer)
@@ -236,7 +244,7 @@ PERDatabase& PERWorld::GetDatabase()
 void PERWorld::DoGarbegeCollection(double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) {
-		if (m_objects[i]->IsLifeTimeIsEnd(dTime)) {
+		if (m_objects[i]->IsLifeTimeEnd(dTime)) {
 			RequestDeleteObject(m_objects[i]);
 		}
 	}

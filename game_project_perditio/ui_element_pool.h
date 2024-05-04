@@ -100,7 +100,7 @@ void UiElementPool<T>::DoGarbegeCollection(double dTime)
 	for (auto& element : m_elementsInWorld) {
 		if (element.GetIsInUse())
 		{
-			if (element.IsLifeTimeIsEnd(dTime))
+			if (element.IsLifeTimeEnd(dTime))
 			{
 				element.SetNext(m_elementInWorldHead);
 				m_elementInWorldHead = &element;
@@ -111,7 +111,7 @@ void UiElementPool<T>::DoGarbegeCollection(double dTime)
 	for (auto& element : m_elementsOnScreen) {
 		if (element.GetIsInUse())
 		{
-			if (element.IsLifeTimeIsEnd(dTime))
+			if (element.IsLifeTimeEnd(dTime))
 			{
 				element.SetNext(m_elementOnScreenHead);
 				m_elementOnScreenHead = &element;

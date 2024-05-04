@@ -199,6 +199,18 @@
     <Filter Include="00. game\object\component\implements\graphics\visible\visible_with_Information\button">
       <UniqueIdentifier>{2f88fec3-18e5-4fe4-b633-0e8b218b13bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\particle">
+      <UniqueIdentifier>{926a23fc-11be-4d41-b347-7b460be2c9b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\particle\particle_pool">
+      <UniqueIdentifier>{816aeb49-ba47-4547-8b8b-11f7e4cdcf01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\particle\particle_effect">
+      <UniqueIdentifier>{c93b0a68-6c37-4d0f-922b-90099f70c584}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\particle\particle_effect\circle_bomb_effect">
+      <UniqueIdentifier>{c7c5afa5-074f-4ddd-a345-4b8d46ae90a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -402,6 +414,18 @@
     <ClInclude Include="button_graphics_component.h">
       <Filter>00. game\object\component\implements\graphics\visible\visible_with_Information\button</Filter>
     </ClInclude>
+    <ClInclude Include="per_particle.h">
+      <Filter>00. game\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="per_particle_pool.h">
+      <Filter>00. game\particle\particle_pool</Filter>
+    </ClInclude>
+    <ClInclude Include="particle_effect.h">
+      <Filter>00. game\particle\particle_effect</Filter>
+    </ClInclude>
+    <ClInclude Include="circle_bomb_effect.h">
+      <Filter>00. game\particle\particle_effect\circle_bomb_effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -568,6 +592,18 @@
     </ClCompile>
     <ClCompile Include="button_graphics_component.cpp">
       <Filter>00. game\object\component\implements\graphics\visible\visible_with_Information\button</Filter>
+    </ClCompile>
+    <ClCompile Include="per_particle.cpp">
+      <Filter>00. game\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="per_particle_pool.cpp">
+      <Filter>00. game\particle\particle_pool</Filter>
+    </ClCompile>
+    <ClCompile Include="particle_effect.cpp">
+      <Filter>00. game\particle\particle_effect</Filter>
+    </ClCompile>
+    <ClCompile Include="circle_bomb_effect.cpp">
+      <Filter>00. game\particle\particle_effect\circle_bomb_effect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

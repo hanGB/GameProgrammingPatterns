@@ -46,7 +46,7 @@ void MakingSignalAiComponent::MakeSignal(PERObject& object, PERAudio& audio, dou
 		{
 			if (!m_isOn)
 			{
-				PERLog::Logger().Info("스위치 온");
+				//PERLog::Logger().Info("스위치 온");
 
 				// 오브젝트의 ai 컨포넌트에 있는 Execute 함수 실행
 				dynamic_cast<ResponeseToSignalAiComponent*>(&ativeObejct->GetAi())->Execute(*ativeObejct);
@@ -54,7 +54,7 @@ void MakingSignalAiComponent::MakeSignal(PERObject& object, PERAudio& audio, dou
 			}
 			else
 			{
-				PERLog::Logger().Info("스위치 오프");
+				//PERLog::Logger().Info("스위치 오프");
 				// 오브젝트의 ai 컨포넌트에 있는 Revoke 함수 실행
 				dynamic_cast<ResponeseToSignalAiComponent*>(&ativeObejct->GetAi())->Revoke(*ativeObejct);
 				object.GetGraphics().SetData(m_offGraphicsData);
@@ -63,7 +63,7 @@ void MakingSignalAiComponent::MakeSignal(PERObject& object, PERAudio& audio, dou
 		}
 		else
 		{
-			PERLog::Logger().Info("버튼 눌림");
+			//PERLog::Logger().Info("버튼 눌림");
 			// 오브젝트의 ai 컨포넌트에 있는 Execute 함수 실행
 			dynamic_cast<ResponeseToSignalAiComponent*>(&ativeObejct->GetAi())->Execute(*ativeObejct);
 			object.GetGraphics().SetData(m_onGraphicsData);

@@ -56,7 +56,7 @@ void PERObject::Initialize()
 	m_lifeTime = PER_MAXIMUM_LIFE_TIME;
 }
 
-bool PERObject::IsLifeTimeIsEnd(double dTime)
+bool PERObject::IsLifeTimeEnd(double dTime)
 {
 	m_lifeTime -= dTime;
 

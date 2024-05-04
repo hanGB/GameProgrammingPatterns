@@ -145,9 +145,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="button_graphics_component.h" />
+    <ClInclude Include="circle_bomb_effect.h" />
     <ClInclude Include="key_input_helper.h" />
     <ClInclude Include="key_setting.h" />
     <ClInclude Include="making_signal_ai_component.h" />
+    <ClInclude Include="particle_effect.h" />
+    <ClInclude Include="per_particle_pool.h" />
+    <ClInclude Include="per_particle.h" />
     <ClInclude Include="response_to_signal_ai_component.h" />
     <ClInclude Include="a_star_calculator.h" />
     <ClInclude Include="behavior_tree.h" />
@@ -214,9 +218,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="button_graphics_component.cpp" />
+    <ClCompile Include="circle_bomb_effect.cpp" />
     <ClCompile Include="key_input_helper.cpp" />
     <ClCompile Include="making_signal_ai_component.cpp" />
     <ClCompile Include="key_setting.cpp" />
+    <ClCompile Include="particle_effect.cpp" />
+    <ClCompile Include="per_particle_pool.cpp" />
+    <ClCompile Include="per_particle.cpp" />
     <ClCompile Include="response_to_signal_ai_component.cpp" />
     <ClCompile Include="a_star_calculator.cpp" />
     <ClCompile Include="behavior_tree.cpp" />
