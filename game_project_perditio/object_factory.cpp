@@ -14,6 +14,7 @@
 #include "spawner_ai_component.h"
 #include "making_signal_ai_component.h"
 #include "response_to_signal_ai_component.h"
+#include "creating_particles_ai_component.h"
 // physics
 #include "movable_physics_component.h"
 #include "fixed_physics_component.h"
@@ -109,6 +110,8 @@ PERObject* ObjectFactory::CreateObject()
     case PERComponentType::RESPONSE_TO_SIGNAL:
         aiComponent = new ResponeseToSignalAiComponent();
         break;
+    case PERComponentType::CREATING_PARTICLE:
+        aiComponent = new CreatingParticlesAiComponent();
     }
 
     PhysicsComponent* physicsComponent = nullptr;
@@ -173,6 +176,9 @@ void ObjectFactory::InitComponentDatas(
     ai.isMove = false;
     ai.isSwitch = false;
     ai.isDisposable = false;
+    ai.particleDelay = 0.5;
+    ai.particleLifeTime = 3.0;
+    ai.particleEffectType = PERParticleEffectType::CIRCLE_BOMB;
     // physics
     physics.friction = true;
     physics.isOccupySpace = true;

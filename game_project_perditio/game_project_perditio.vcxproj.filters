@@ -31,9 +31,6 @@
     <Filter Include="00. game\object\component">
       <UniqueIdentifier>{127ca7ae-a578-41a5-a00c-4146ae8f06c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\object\component\interface">
-      <UniqueIdentifier>{0b717086-9c44-404c-b79b-ee5615fe8280}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. game\object\component\implements">
       <UniqueIdentifier>{0cacde96-4cb3-4dfc-a08d-edaf56a39149}</UniqueIdentifier>
     </Filter>
@@ -205,11 +202,11 @@
     <Filter Include="00. game\particle\particle_pool">
       <UniqueIdentifier>{816aeb49-ba47-4547-8b8b-11f7e4cdcf01}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\particle\particle_effect">
-      <UniqueIdentifier>{c93b0a68-6c37-4d0f-922b-90099f70c584}</UniqueIdentifier>
+    <Filter Include="00. game\object\component\implements\physics\interface">
+      <UniqueIdentifier>{0b717086-9c44-404c-b79b-ee5615fe8280}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\particle\particle_effect\circle_bomb_effect">
-      <UniqueIdentifier>{c7c5afa5-074f-4ddd-a345-4b8d46ae90a0}</UniqueIdentifier>
+    <Filter Include="00. game\object\component\implements\ai\creating_particles">
+      <UniqueIdentifier>{52933be3-7c12-45ff-96e0-111a135e0972}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -229,16 +226,16 @@
       <Filter>00. game\object</Filter>
     </ClInclude>
     <ClInclude Include="ai_component.h">
-      <Filter>00. game\object\component\interface</Filter>
+      <Filter>00. game\object\component\implements\physics\interface</Filter>
     </ClInclude>
     <ClInclude Include="graphics_component.h">
-      <Filter>00. game\object\component\interface</Filter>
+      <Filter>00. game\object\component\implements\physics\interface</Filter>
     </ClInclude>
     <ClInclude Include="input_component.h">
-      <Filter>00. game\object\component\interface</Filter>
+      <Filter>00. game\object\component\implements\physics\interface</Filter>
     </ClInclude>
     <ClInclude Include="physics_component.h">
-      <Filter>00. game\object\component\interface</Filter>
+      <Filter>00. game\object\component\implements\physics\interface</Filter>
     </ClInclude>
     <ClInclude Include="object_factory.h">
       <Filter>00. game\object\object_storage\object_factory</Filter>
@@ -420,11 +417,8 @@
     <ClInclude Include="per_particle_pool.h">
       <Filter>00. game\particle\particle_pool</Filter>
     </ClInclude>
-    <ClInclude Include="particle_effect.h">
-      <Filter>00. game\particle\particle_effect</Filter>
-    </ClInclude>
-    <ClInclude Include="circle_bomb_effect.h">
-      <Filter>00. game\particle\particle_effect\circle_bomb_effect</Filter>
+    <ClInclude Include="creating_particles_ai_component.h">
+      <Filter>00. game\object\component\implements\ai\creating_particles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -599,11 +593,8 @@
     <ClCompile Include="per_particle_pool.cpp">
       <Filter>00. game\particle\particle_pool</Filter>
     </ClCompile>
-    <ClCompile Include="particle_effect.cpp">
-      <Filter>00. game\particle\particle_effect</Filter>
-    </ClCompile>
-    <ClCompile Include="circle_bomb_effect.cpp">
-      <Filter>00. game\particle\particle_effect\circle_bomb_effect</Filter>
+    <ClCompile Include="creating_particles_ai_component.cpp">
+      <Filter>00. game\object\component\implements\ai\creating_particles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

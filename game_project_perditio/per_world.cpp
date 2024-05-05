@@ -12,18 +12,17 @@
 #include "per_component.h"
 #include "stuck_physics_component.h"
 #include "spawner_ai_component.h"
+#include "per_particle_pool.h"
 
 PERWorld::PERWorld()
 {
-	m_circleBomb = new CircleBombEffect(PERVec3(0.0, 0.0, 0.1), 0.25, 10.0);
-	m_circleBomb->SetParticle(PERShapeType::ELLIPSE, PERVec3(0.25, 0.25, 0.25), 10, PERColor(150, 0, 0), 1.5);
+	m_particlePool = new PERParticlePool();
 }
 
 PERWorld::~PERWorld()
 {
 	PERLog::Logger().Info("월드 삭제");
-
-	delete m_circleBomb;
+	delete m_particlePool;
 }
 
 void PERWorld::Update(PERAudio& audio, double dTime)
@@ -33,8 +32,6 @@ void PERWorld::Update(PERAudio& audio, double dTime)
 	ProcessPendingMessage();
 
 	m_gameMode->Update();
-
-	m_circleBomb->Update(audio, dTime);
 }
 
 void PERWorld::UIUpdate(PERController& controller, PERAudio& audio, double dTime)
@@ -64,6 +61,7 @@ void PERWorld::ObjectsPhysicsUpdate(PERAudio& audio, double dTime)
 	{
 		m_objects[i]->GetPhysics().Update(*m_objects[i], *this, audio, dTime);
 	}
+	m_particlePool->Update(dTime);
 }
 
 void PERWorld::ObjectsGraphicsUpdate(PERAudio& audio, double dTime)
@@ -79,9 +77,8 @@ void PERWorld::Render(PERRenderer& renderer, double frameGap)
 	for (size_t i = 0; i < m_sortedObjects.size(); ++i) {
 		m_sortedObjects[i]->GetGraphics().Render(*m_sortedObjects[i], renderer, frameGap);
 	}
+	m_particlePool->Renderer(renderer);
 	GetHud().RendererInWorld(renderer, *m_database);
-
-	m_circleBomb->Render(renderer);
 }
 
 void PERWorld::UIRender(PERRenderer& renderer)
@@ -188,7 +185,8 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		// 특수 타입 처리
 		// 문은 고정 블럭으로 처리
 		if (otherType == PERObjectType::DOOR) otherType = PERObjectType::FIXED_BLOCK;
-		if (otherType == PERObjectType::BUTTON) continue;
+		else if (otherType == PERObjectType::BUTTON) continue;
+		else if (otherType == PERObjectType::PARTICLE_EFFECTER) continue;
 
 		// 충돌 처리 무시 항목
 		if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::MOVABLE_BLOCK) continue;
@@ -239,6 +237,11 @@ PERHud& PERWorld::GetHud()
 PERDatabase& PERWorld::GetDatabase()
 {
 	return *m_database;
+}
+
+PERParticlePool& PERWorld::GetParticlePool()
+{
+	return *m_particlePool;
 }
 
 void PERWorld::DoGarbegeCollection(double dTime)

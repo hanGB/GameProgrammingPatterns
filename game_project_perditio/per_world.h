@@ -1,5 +1,4 @@
 #pragma once
-#include "circle_bomb_effect.h"
 
 class PERAudio;
 class ObjectStorage;
@@ -9,6 +8,7 @@ class PERObject;
 class GameMode;
 class PERDatabase;
 class PERHud;
+class PERParticlePool;
 
 enum class PERWorldMessageId {
 	ADD_OBJECT,
@@ -63,6 +63,7 @@ public:
 
 	PERHud& GetHud();
 	PERDatabase& GetDatabase();
+	PERParticlePool& GetParticlePool();
 	
 protected:
 	// 자식이 접근해서 사용할 함수
@@ -119,11 +120,11 @@ private:
 	std::vector<PERObject*> m_sortedObjects;
 	bool m_isUpdateSortedObject = false;
 
+	// 이펙트용 파티클 풀
+	PERParticlePool* m_particlePool;
+
 	// 메세지 처리 대기 배열(오브젝트 생성 삭제 관련)
 	int m_maxPending = PER_DEFAULT_MAX_EVENT_PENDING;
 	PERWorldMessage* m_pending = new PERWorldMessage[PER_DEFAULT_MAX_EVENT_PENDING];
 	int m_numPending = 0;
-
-	// 테스트 용
-	CircleBombEffect* m_circleBomb;
 };

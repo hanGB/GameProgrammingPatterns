@@ -23,6 +23,9 @@ namespace PERComponent {
 		bool isAttack = false;
 		bool isSwitch = false;
 		bool isDisposable = false;
+		double particleDelay = 0.5;
+		double particleLifeTime = 3.0;
+		PERParticleEffectType particleEffectType = PERParticleEffectType::CIRCLE_BOMB;
 	};
 
 	struct PhysicsData {

@@ -6,6 +6,7 @@
 #include "game_mode.h"
 #include "response_to_signal_ai_component.h"
 #include "making_signal_ai_component.h"
+#include "creating_particles_ai_component.h"
 
 TestWorld::TestWorld(ObjectStorage* objectStorage, PERDatabase* database, GameMode* mode)
 {
@@ -187,4 +188,16 @@ void TestWorld::AddOtherObjects()
 	pressure->GetGraphics().SetData(offData);
 	dynamic_cast<MakingSignalAiComponent*>(&pressure->GetAi())->SetOnOffGraphicsData(onData, offData);
 	AddObject(pressure);
+
+	PERObject* effecter;
+	effecter = m_objectStorage->PopObject(PERObjectType::PARTICLE_EFFECTER);
+	effecter->SetPosition(PERVec3(0.0, 0.0, 0.0));
+	PERComponent::AiData effecterData;
+	effecterData.particleEffectType = PERParticleEffectType::CIRCLE_BOMB;
+	effecterData.particleDelay = 0.5;
+	effecterData.particleLifeTime = 5.0;
+	effecter->GetAi().SetData(effecterData);
+	dynamic_cast<CreatingParticlesAiComponent*>(&effecter->GetAi())->SetParticle(PERShapeType::ELLIPSE, PERVec3(0.25, 0.25, 0.25), 10, PERColor(100, 0, 0));
+	effecter->SetLifeTime(5.0);
+	AddObject(effecter);
 }

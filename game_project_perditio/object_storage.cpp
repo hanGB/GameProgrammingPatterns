@@ -139,6 +139,13 @@ void ObjectStorage::CreateObjectFactories()
         input, ai, physics, graphics);
 
     factory->SetSize(PERVec3(2.0, 1.0, 1.0));    factory->SetMass(100);
+
+    // particle effecter
+    ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
+
+    factory = CreateObjectFactory(PERObjectType::PARTICLE_EFFECTER, PERObjectStateType::NON,
+        PERComponentType::NO_INTERACT, PERComponentType::CREATING_PARTICLE, PERComponentType::FIXED, PERComponentType::HIDDEN,
+        input, ai, physics, graphics);
 }
 
 ObjectFactory* ObjectStorage::CreateObjectFactory(

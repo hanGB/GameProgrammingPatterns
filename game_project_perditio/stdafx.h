@@ -92,7 +92,7 @@
 #define PER_DEFAULT_MAX_OBJECTS		  1024
 
 // 파티클
-#define PER_DEFAULT_MAX_PARTICLES	  1024
+#define PER_DEFAULT_MAX_PARTICLES	  4096
 
 // UI
 #define PER_DEFAULT_UI_ELEMENT_POOL_SIZE 256
@@ -166,6 +166,7 @@ enum class PERComponentType {
 	SPAWNER_AI,
 	RESPONSE_TO_SIGNAL,
 	MAKING_SIGNAL,
+	CREATING_PARTICLE,
 
 	// physics
 	FIXED,
@@ -194,6 +195,7 @@ enum class PERObjectType {
 	BUTTON,
 	PRESSURE,
 	DOOR,
+	PARTICLE_EFFECTER,
 	NUM_OBJECT_TYPE
 };
 
@@ -210,6 +212,11 @@ enum class PERUiElementType {
 	NAME_TAG,
 	KEY_INPUT_HELPER,
 	NUM_UI_ELEMENT_TYPE
+};
+
+enum class PERParticleEffectType {
+	CIRCLE_BOMB,
+	NUM_PARTICLE_EFFECT_TYPE
 };
 
 
