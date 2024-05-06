@@ -150,15 +150,15 @@ void TestWorld::AddOtherObjects()
 	door = m_objectStorage->PopObject(PERObjectType::DOOR);
 	door->SetPosition(PERVec3(9.0, 0.0, 0.0));
 	door->SetSize(PERVec3(1.0, 3.0, 0.1));
-	dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi())->SetExcuteFunc([](PERObject& object) {
+	dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi())->SetExcuteFunc([](ResponeseToSignalAiComponent* component) {
 		// 문을 통과 가능하게 변경
-		object.SetSize(PERVec3(1.0, 1.0, 0.0));
-		object.SetPosition(PERVec3(9.0, -1.0, 0.1));
+		component->GetOwner()->SetSize(PERVec3(1.0, 1.0, 0.0));
+		component->GetOwner()->SetPosition(PERVec3(9.0, -1.0, 0.1));
 		});
-	dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi())->SetRevokeFunc([](PERObject& object) {
+	dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi())->SetRevokeFunc([](ResponeseToSignalAiComponent* component) {
 		// 문을 통과 가능하게 변경
-		object.SetSize(PERVec3(1.0, 3.0, 0.0));
-		object.SetPosition(PERVec3(9.0, 0.0, 0.0));
+		component->GetOwner()->SetSize(PERVec3(1.0, 3.0, 0.0));
+		component->GetOwner()->SetPosition(PERVec3(9.0, 0.0, 0.0));
 		});
 	AddObject(door);
 

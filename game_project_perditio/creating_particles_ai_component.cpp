@@ -4,9 +4,9 @@
 #include "per_world.h"
 #include "per_particle_pool.h"
 
-void CreatingParticlesAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
+void CreatingParticlesAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
-	CreateParticlesForCircleBombEffect(object, world, audio, dTime);
+	CreateParticlesForCircleBombEffect(world, audio, dTime);
 }
 
 void CreatingParticlesAiComponent::SetData(PERComponent::AiData data)
@@ -48,9 +48,9 @@ void CreatingParticlesAiComponent::SetParticle(PERShapeType type, PERVec3 size, 
 	m_particleBorderColor = borderColor;
 }
 
-void CreatingParticlesAiComponent::CreateParticlesForCircleBombEffect(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
+void CreatingParticlesAiComponent::CreateParticlesForCircleBombEffect(PERWorld& world, PERAudio& audio, double dTime)
 {
-	PERVec3 pos = object.GetPosition();
+	PERVec3 pos = GetOwner()->GetPosition();
 
 	if (m_time > m_particleDelay) {
 		for (int i = 0; i != 360; i += 20) {

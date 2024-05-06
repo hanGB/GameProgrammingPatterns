@@ -4,15 +4,15 @@
 #include "per_hud.h"
 #include "per_object.h"
 
-void VisibleWithInformationGraphicsComponent::Update(PERObject& object, PERHud& hud, PERAudio& audio, double dTime)
+void VisibleWithInformationGraphicsComponent::Update(PERHud& hud, PERAudio& audio, double dTime)
 {
-	VisibleGraphicsComponent::Update(object, hud, audio, dTime);
-	UpdateNameTag(object, hud);
+	VisibleGraphicsComponent::Update(hud, audio, dTime);
+	UpdateNameTag(hud);
 }
 
-void VisibleWithInformationGraphicsComponent::Render(PERObject& object, PERRenderer& renderer, double frameGap)
+void VisibleWithInformationGraphicsComponent::Render(PERRenderer& renderer, double frameGap)
 {
-	VisibleGraphicsComponent::Render(object, renderer, frameGap);
+	VisibleGraphicsComponent::Render(renderer, frameGap);
 }
 
 void VisibleWithInformationGraphicsComponent::SetData(PERComponent::GraphicsData data)
@@ -33,16 +33,16 @@ void VisibleWithInformationGraphicsComponent::RemoveFloatingUi()
 	if (m_nameTag)m_nameTag->SetLifeTime(-1.0);
 }
 
-void VisibleWithInformationGraphicsComponent::UpdateNameTag(PERObject& object, PERHud& hud)
+void VisibleWithInformationGraphicsComponent::UpdateNameTag(PERHud& hud)
 {
 	if (!m_isShowingNameTag)
 	{
 		if (!BlackBoard::GetShowingName()) return;
 		PERVec3 playerPos = BlackBoard::GetPlayerPos();
 		if (c_SHOWING_NAME_TAG_DISTANCE_2 < DistanceSquareAandBIgnoringZValue(playerPos, m_position)) return;
-		if (ShowNameTag(object, hud)) 
+		if (ShowNameTag(hud)) 
 		{
-			MatchNameTagWithData(object);
+			MatchNameTagWithData();
 			m_isShowingNameTag = true;
 		}
 	}
@@ -62,21 +62,21 @@ void VisibleWithInformationGraphicsComponent::UpdateNameTag(PERObject& object, P
 			return;
 		}
 
-		MatchNameTagWithData(object);
+		MatchNameTagWithData();
 	}
 }
 
-bool VisibleWithInformationGraphicsComponent::ShowNameTag(PERObject& object, PERHud& hud)
+bool VisibleWithInformationGraphicsComponent::ShowNameTag(PERHud& hud)
 {
 	m_nameTag = dynamic_cast<NameTag*>(hud.GetNewUiElementInWorld(PERUiElementType::NAME_TAG));
 	if (!m_nameTag) return false;
 
 	m_nameTag->Init(PERVec2(0.0, 0.0), PERVec2(1.4, 0.25), PERColor(200, 200, 200),
-		object.GetObjectState().GetNameId(), 0.35, PERVec2(0.0, 0.0), PERColor(50, 50, 50));
+		GetOwner()->GetObjectState().GetNameId(), 0.35, PERVec2(0.0, 0.0), PERColor(50, 50, 50));
 	return true;
 }
 
-void VisibleWithInformationGraphicsComponent::MatchNameTagWithData(PERObject& object)
+void VisibleWithInformationGraphicsComponent::MatchNameTagWithData()
 {
 	PERVec2 pos = PERVec2(m_position.x - 0.2, m_position.y + 0.2);
 	PERVec2 textPos = PERVec2(m_position.x - 0.2, m_position.y + 0.25);

@@ -8,7 +8,7 @@ public:
 	MonsterAiComponent();
 	~MonsterAiComponent();
 
-	virtual void Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime);
+	virtual void Update(PERWorld& world, PERAudio& audio, double dTime);
 	virtual void SetData(PERComponent::AiData data);
 	virtual void Initialize(PERComponent::AiData data);
 
@@ -22,15 +22,15 @@ private:
 
 	// 행동 트리 함수
 	// 플레이어한테 이동
-	PERBehaviorResult FindPlayerPositionAndSetDestination(PERObject& object, double dTime);
-	PERBehaviorResult CalculatePath(PERObject& object, double dTime);
-	PERBehaviorResult MoveToDestination(PERObject& object, double dTime);
-	PERBehaviorResult DoNothing(PERObject& object, double dTime);
+	PERBehaviorResult FindPlayerPositionAndSetDestination(double dTime);
+	PERBehaviorResult CalculatePath(double dTime);
+	PERBehaviorResult MoveToDestination(double dTime);
+	PERBehaviorResult DoNothing(double dTime);
 	// 스폰 위치로 이동
-	PERBehaviorResult SetDestinationToSpawnPosition(PERObject& object, double dTime);
+	PERBehaviorResult SetDestinationToSpawnPosition(double dTime);
 	// 배회
-	PERBehaviorResult MoveToWanderPosition(PERObject& object, double dTime);
-	PERBehaviorResult SetWanderPosition(PERObject& object, double dTime);
+	PERBehaviorResult MoveToWanderPosition(double dTime);
+	PERBehaviorResult SetWanderPosition(double dTime);
 
 	// 행동 트리
 	BehaviorTree* m_behaviorTree;

@@ -5,8 +5,8 @@ class KeyInputHelper;
 
 class ButtonGraphicsComponent : public VisibleWithInformationGraphicsComponent {
 public:
-	virtual void Update(PERObject& object, PERHud& hud, PERAudio& audio, double dTime);
-	virtual void Render(PERObject& object, PERRenderer& renderer, double frameGap);
+	virtual void Update(PERHud& hud, PERAudio& audio, double dTime);
+	virtual void Render(PERRenderer& renderer, double frameGap);
 	virtual void SetData(PERComponent::GraphicsData data);
 	virtual void Initialize(PERComponent::GraphicsData data);
 
@@ -15,10 +15,10 @@ public:
 private:
 	const double c_SHOWING_BODY_BAR_DISTANCE_2 = 1.0;
 
-	void UpdateHelper(PERObject& object, PERHud& hud);
+	void UpdateHelper(PERHud& hud);
 
-	bool ShowHelper(PERObject& object, PERHud& hud);
-	void MatchHelperWithData(PERObject& object);
+	bool ShowHelper(PERHud& hud);
+	void MatchHelperWithData();
 	void HideHelper();
 
 	bool m_isShowingHelper = false;

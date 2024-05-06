@@ -2,20 +2,20 @@
 #include "stuck_physics_component.h"
 #include "per_object.h"
 
-void StuckPhysicsComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
+void StuckPhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
 	// 부모에 붙어 있도록 설정
-	PERObject* parent = object.GetParent();
+	PERObject* parent = GetOwner()->GetParent();
 
 	// 부모가 없는 경우
-	if (!parent) object.SetLifeTime(-1.0);
+	if (!parent) GetOwner()->SetLifeTime(-1.0);
 	// 부모가 죽은 경우
-	else if (parent->GetLifeTime() <= 0.0) object.SetLifeTime(-1.0);
+	else if (parent->GetLifeTime() <= 0.0) GetOwner()->SetLifeTime(-1.0);
 	// 부모가 있고 살아있는 경우
 	else {
 		PERVec3 parentPos = parent->GetPosition();
-		object.SetPosition(parentPos + m_stuckPosition);
-		world.CheckCollision(object, dTime);
+		GetOwner()->SetPosition(parentPos + m_stuckPosition);
+		world.CheckCollision(*GetOwner(), dTime);
 	}
 }
 
@@ -29,11 +29,11 @@ void StuckPhysicsComponent::Initialize(PERComponent::PhysicsData data)
 	SetData(data);
 }
 
-void StuckPhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& otherObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
+void StuckPhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
 {
 }
 
-void StuckPhysicsComponent::GiveForce(PERObject& object, PERWorld& world, PERVec3 force, double dTime)
+void StuckPhysicsComponent::GiveForce(PERWorld& world, PERVec3 force, double dTime)
 {
 }
 

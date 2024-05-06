@@ -9,9 +9,21 @@ class PhysicsComponent {
 public:
 	virtual ~PhysicsComponent() {}
 
-	virtual void Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime) = 0;
+	virtual void Update(PERWorld& world, PERAudio& audio, double dTime) = 0;
 	virtual void SetData(PERComponent::PhysicsData data) = 0;
 	virtual void Initialize(PERComponent::PhysicsData data) = 0;
-	virtual void ProcessCollision(PERObject& myObject, PERObject& otherObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime) = 0;
-	virtual void GiveForce(PERObject& object, PERWorld& world, PERVec3 force, double dTime) = 0;
+	virtual void ProcessCollision(PERObject& collidedObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime) = 0;
+	virtual void GiveForce(PERWorld& world, PERVec3 force, double dTime) = 0;
+
+	void SetOwner(PERObject* object)
+	{
+		m_owner = object;
+	}
+	PERObject* GetOwner()
+	{
+		return m_owner;
+	}
+
+private:
+	PERObject* m_owner;
 };

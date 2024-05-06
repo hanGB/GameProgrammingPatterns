@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "response_to_signal_ai_component.h"
 
-void ResponeseToSignalAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
+void ResponeseToSignalAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
 }
 
@@ -14,22 +14,22 @@ void ResponeseToSignalAiComponent::Initialize(PERComponent::AiData data)
 	SetData(data);
 }
 
-void ResponeseToSignalAiComponent::Execute(PERObject& object)
+void ResponeseToSignalAiComponent::Execute()
 {
-	m_ExecuteFunc(object);
+	m_ExecuteFunc(this);
 }
 
-void ResponeseToSignalAiComponent::Revoke(PERObject& object)
+void ResponeseToSignalAiComponent::Revoke()
 {
-	m_RevokeFunc(object);
+	m_RevokeFunc(this);
 }
 
-void ResponeseToSignalAiComponent::SetExcuteFunc(std::function<void(PERObject&)> func)
+void ResponeseToSignalAiComponent::SetExcuteFunc(std::function<void(ResponeseToSignalAiComponent* component)> func)
 {
 	m_ExecuteFunc = func;
 }
 
-void ResponeseToSignalAiComponent::SetRevokeFunc(std::function<void(PERObject&)> func)
+void ResponeseToSignalAiComponent::SetRevokeFunc(std::function<void(ResponeseToSignalAiComponent* component)> func)
 {
 	m_RevokeFunc = func;
 }

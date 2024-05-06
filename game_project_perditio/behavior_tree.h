@@ -15,7 +15,7 @@ public:
 	BehaviorTree(std::string name, BTNode* root);
 	~BehaviorTree();
 
-	void Run(PERObject& object, double dTime);
+	void Run(double dTime);
 
 private:
 	std::string m_name;
@@ -24,7 +24,7 @@ private:
 
 class BTNode {
 public:
-	virtual PERBehaviorResult Run(PERObject& object, double dTime) = 0;
+	virtual PERBehaviorResult Run(double dTime) = 0;
 
 protected:
 	std::string m_name;
@@ -35,7 +35,7 @@ public:
 	SequencerNode(std::string name);
 	~SequencerNode();
 
-	virtual PERBehaviorResult Run(PERObject& object, double dTime);
+	virtual PERBehaviorResult Run(double dTime);
 
 	void AddChild(BTNode* node);
 
@@ -49,7 +49,7 @@ public:
 	SelectorNode(std::string name);
 	~SelectorNode();
 
-	virtual PERBehaviorResult Run(PERObject& object, double dTime);
+	virtual PERBehaviorResult Run(double dTime);
 
 	void AddChild(BTNode* node);
 
@@ -62,19 +62,19 @@ private:
 template <class TComponent>
 class LeafNode : public BTNode {
 public:
-	LeafNode(std::string name, std::function<PERBehaviorResult(TComponent&, PERObject&, double dTime)> function, TComponent& m_component)
+	LeafNode(std::string name, std::function<PERBehaviorResult(TComponent&, double dTime)> function, TComponent& m_component)
 		: m_function(function), m_component(m_component)
 	{
 		m_name = name;
 	}
 
-	virtual PERBehaviorResult Run(PERObject& object, double dTime)
+	virtual PERBehaviorResult Run(double dTime)
 	{
-		return m_function(m_component, object, dTime);
+		return m_function(m_component, dTime);
 	}
 
 
 private:
-	std::function<PERBehaviorResult(TComponent&, PERObject&, double dTime)> m_function;
+	std::function<PERBehaviorResult(TComponent&, double dTime)> m_function;
 	TComponent& m_component;
 };

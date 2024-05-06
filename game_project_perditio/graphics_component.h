@@ -10,10 +10,22 @@ class GraphicsComponent {
 public:
 	virtual ~GraphicsComponent() {}
 
-	virtual void Update(PERObject& object, PERHud& hud, PERAudio& audio, double dTime) = 0;
-	virtual void Render(PERObject& object, PERRenderer& renderer, double frameGap) = 0;
+	virtual void Update(PERHud& hud, PERAudio& audio, double dTime) = 0;
+	virtual void Render(PERRenderer& renderer, double frameGap) = 0;
 	virtual void SetData(PERComponent::GraphicsData data) = 0;
 	virtual void Initialize(PERComponent::GraphicsData data) = 0;
 
 	virtual void RemoveFloatingUi() = 0;
+
+	void SetOwner(PERObject* object)
+	{
+		m_owner = object;
+	}
+	PERObject* GetOwner()
+	{
+		return m_owner;
+	}
+
+private:
+	PERObject* m_owner;
 };

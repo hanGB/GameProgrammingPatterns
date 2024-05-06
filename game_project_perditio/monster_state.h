@@ -7,8 +7,8 @@ public:
 	// √ ±‚»≠
 	virtual void Initialize();
 
-	virtual bool GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind);
-	virtual bool UseMind(PERObject& object, int mind);
+	virtual bool GiveDamage(PERObject& opponent, short physical, short mind);
+	virtual bool UseMind(int mind);
 
 	// setter
 	void SetSight(double sight);

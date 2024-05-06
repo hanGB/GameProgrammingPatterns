@@ -4,15 +4,15 @@
 #include "per_object.h"
 #include "making_signal_ai_component.h"
 
-void ButtonInputComponent::Update(PERObject& object, PERWorld& world, PERController& controller, PERAudio& audio, double dTime)
+void ButtonInputComponent::Update(PERWorld& world, PERController& controller, PERAudio& audio, double dTime)
 {
 	if (controller.IsKeyboardPressedRightNow(KeySetting::Use.value)) {
 		PERVec3 playerPos = BlackBoard::GetPlayerPos();
-		PERVec3 pos = object.GetPosition();
+		PERVec3 pos = GetOwner()->GetPosition();
 
 		if (c_DEFAULT_INPUT_RANGE_SQURE > DistanceSquareAandBIgnoringZValue(playerPos, pos))
 		{
-			dynamic_cast<MakingSignalAiComponent*>(&object.GetAi())->SetIsGetInput(true);
+			dynamic_cast<MakingSignalAiComponent*>(&GetOwner()->GetAi())->SetIsGetInput(true);
 		}
 	}
 }

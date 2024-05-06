@@ -4,13 +4,13 @@
 #include "per_object.h"
 #include "making_signal_ai_component.h"
 
-void PressurePhysicsComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
+void PressurePhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
-	world.CheckCollision(object, dTime);
+	world.CheckCollision(*GetOwner(), dTime);
 
 	if (!m_isKeepPressed && m_isOn)
 	{
-		dynamic_cast<MakingSignalAiComponent*>(&object.GetAi())->SetIsGetInput(true);
+		dynamic_cast<MakingSignalAiComponent*>(&GetOwner()->GetAi())->SetIsGetInput(true);
 		m_isOn = false;
 	}
 	m_isKeepPressed = false;
@@ -27,16 +27,16 @@ void PressurePhysicsComponent::Initialize(PERComponent::PhysicsData data)
 	SetData(data);
 }
 
-void PressurePhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& otherObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
+void PressurePhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
 {
 	m_isKeepPressed = true;
 	if (m_isOn) return;
 
-	dynamic_cast<MakingSignalAiComponent*>(&myObject.GetAi())->SetIsGetInput(true);
+	dynamic_cast<MakingSignalAiComponent*>(&GetOwner()->GetAi())->SetIsGetInput(true);
 	m_isOn = true;
 }
 
-void PressurePhysicsComponent::GiveForce(PERObject& object, PERWorld& world, PERVec3 force, double dTime)
+void PressurePhysicsComponent::GiveForce(PERWorld& world, PERVec3 force, double dTime)
 {
 }
 

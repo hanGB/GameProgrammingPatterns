@@ -5,9 +5,9 @@
 #include "per_database.h"
 #include "black_board.h"
 
-void SpawnerAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
+void SpawnerAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
-    m_SpawnFuc(*this, object, world, dTime);
+    m_SpawnFuc(*this, world, dTime);
 }
 
 void SpawnerAiComponent::SetData(PERComponent::AiData data)
@@ -47,13 +47,13 @@ void SpawnerAiComponent::SetSpawner(std::string objectId, PERObjectType type, PE
     }
 }
 
-void SpawnerAiComponent::SetSpawnedObject(PERObject* object)
+void SpawnerAiComponent::SetSpawnedObject(PERObject* spawnedObject)
 {
-    m_spawnedObject = object;
+    m_spawnedObject = spawnedObject;
     m_isSettingSpawnedObject = true;
 }
 
-void SpawnerAiComponent::SpawnWithTimer(PERObject& object, PERWorld& world, double dTime)
+void SpawnerAiComponent::SpawnWithTimer(PERWorld& world, double dTime)
 {
     m_time += dTime;
 
@@ -61,30 +61,30 @@ void SpawnerAiComponent::SpawnWithTimer(PERObject& object, PERWorld& world, doub
 
     m_time = 0.0;
 
-	RequsetSpawnObjcet(object, world);
+	RequsetSpawnObjcet(world);
 }
 
-void SpawnerAiComponent::SpawnWithLiving(PERObject& object, PERWorld& world, double dTime)
+void SpawnerAiComponent::SpawnWithLiving(PERWorld& world, double dTime)
 {
     if (!m_isSettingSpawnedObject) return;
 
     if (!m_spawnedObject) 
     {
         m_isSettingSpawnedObject = false;
-       RequsetSpawnObjcet(object, world);
+       RequsetSpawnObjcet(world);
     }
 
     if (m_spawnedObject && m_spawnedObject->GetLifeTime() <= 0.0) 
     {
         m_isSettingSpawnedObject = false;
-        RequsetSpawnObjcet(object, world);
+        RequsetSpawnObjcet(world);
     }
 }
 
-void SpawnerAiComponent::SpawnWithDistance(PERObject& object, PERWorld& world, double dTime)
+void SpawnerAiComponent::SpawnWithDistance(PERWorld& world, double dTime)
 {
     PERVec3 playerPos = BlackBoard::GetPlayerPos();
-    PERVec3 pos = object.GetPosition();
+    PERVec3 pos = GetOwner()->GetPosition();
 
     if (!m_isSettingSpawnedObject) return;
 
@@ -93,17 +93,17 @@ void SpawnerAiComponent::SpawnWithDistance(PERObject& object, PERWorld& world, d
     if (m_distance2 > DistanceSquareAandB(playerPos, pos))
     {
         m_isSettingSpawnedObject = false;
-        RequsetSpawnObjcet(object, world);
+        RequsetSpawnObjcet(world);
     }
 }
 
-void SpawnerAiComponent::RequsetSpawnObjcet(PERObject& object, PERWorld& world)
+void SpawnerAiComponent::RequsetSpawnObjcet(PERWorld& world)
 {
     MonsterData* data = world.GetDatabase().GetMonsterData(m_objectId.c_str());
-    PERVec3 pos = object.GetPosition();
+    PERVec3 pos = GetOwner()->GetPosition();
 
     // 월드에 추가 요청
     world.RequestAddObject(
-        &object, m_type, m_objectId.c_str(), false,
+        GetOwner(), m_type, m_objectId.c_str(), false,
         data->stat, pos, m_lifeTime);
 }

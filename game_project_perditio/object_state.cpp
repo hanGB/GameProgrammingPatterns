@@ -98,7 +98,17 @@ void ObjectState::SetSpawnPosition(PERVec3 position)
 	m_spawnPosition = position;
 }
 
-bool ObjectState::GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind)
+void ObjectState::SetOwner(PERObject* object)
+{
+	m_owner = object;
+}
+
+PERObject* ObjectState::GetOwner()
+{
+	return m_owner;
+}
+
+bool ObjectState::GiveDamage(PERObject& opponent, short physical, short mind)
 {
 	if (m_isImmortal) return false;
 	if (physical == 0 && mind == 0) return false;
@@ -118,22 +128,22 @@ bool ObjectState::GiveDamage(PERObject& object, PERObject& opponent, short physi
 	m_damageDelay = c_DEFAULT_IGNORE_DAMAGE_TIME;
 
 	if (m_currentBody <= 0) {
-		object.SetLifeTime(-1.0);
-		object.GetGraphics().RemoveFloatingUi();
+		GetOwner()->SetLifeTime(-1.0);
+		GetOwner()->GetGraphics().RemoveFloatingUi();
 
 		// 부모가 있을 경우 총알이나 칼날이므로 부모에게 경험치를 줌
 		if (opponent.GetParent()) {
-			opponent.GetParent()->GetObjectState().GiveExp(*opponent.GetParent(), m_stat.level);
+			opponent.GetParent()->GetObjectState().GiveExp(m_stat.level);
 		}
 		else {
-			opponent.GetObjectState().GiveExp(opponent, m_stat.level);
+			opponent.GetObjectState().GiveExp(m_stat.level);
 		}
 	}
 
 	return true;
 }
 
-bool ObjectState::UseMind(PERObject& object, int mind)
+bool ObjectState::UseMind(int mind)
 {
 	if (m_currentMind < mind) return false;
 	m_currentMind -= mind;
@@ -141,11 +151,11 @@ bool ObjectState::UseMind(PERObject& object, int mind)
 	return true;
 }
 
-void ObjectState::RecoverPerTime(PERObject& object, double dTime)
+void ObjectState::RecoverPerTime(double dTime)
 {
 }
 
-void ObjectState::GiveExp(PERObject& object, int exp)
+void ObjectState::GiveExp(int exp)
 {
 	m_exp += exp;
 	if (m_exp >= m_stat.level * c_DEFAULT_LEVEL_EXP_GAP) {

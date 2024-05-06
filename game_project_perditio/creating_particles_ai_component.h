@@ -4,7 +4,7 @@
 
 class CreatingParticlesAiComponent : public AiComponent {
 public:
-	virtual void Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime);
+	virtual void Update(PERWorld& world, PERAudio& audio, double dTime);
 	virtual void SetData(PERComponent::AiData data);
 	virtual void Initialize(PERComponent::AiData data);
 
@@ -12,9 +12,9 @@ public:
 		bool isBorderOn = true, int borderWidth = 1, PERColor borderColor = PERColor(0, 0, 0));
 
 private:
-	void CreateParticlesForCircleBombEffect(PERObject& object, PERWorld& world, PERAudio& audio, double dTime);
+	void CreateParticlesForCircleBombEffect(PERWorld& world, PERAudio& audio, double dTime);
 
-	std::function<void(CreatingParticlesAiComponent&, PERObject&, PERWorld&, PERAudio&, double)> m_CreateParticles;
+	std::function<void(CreatingParticlesAiComponent&, PERWorld&, PERAudio&, double)> m_CreateParticles;
 
 	double m_particleDelay;
 	double m_particleLifeTime;

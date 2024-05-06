@@ -43,7 +43,7 @@ void PERWorld::ObjectsInputUpdate(PERController& controller, PERAudio& audio, do
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetInput().Update(*m_objects[i], *this, controller, audio, dTime);
+		m_objects[i]->GetInput().Update(*this, controller, audio, dTime);
 	}
 }
 
@@ -51,7 +51,7 @@ void PERWorld::ObjectsAiUpdate(PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetAi().Update(*m_objects[i], *this, audio, dTime);
+		m_objects[i]->GetAi().Update(*this, audio, dTime);
 	}
 }
 
@@ -59,7 +59,7 @@ void PERWorld::ObjectsPhysicsUpdate(PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetPhysics().Update(*m_objects[i], *this, audio, dTime);
+		m_objects[i]->GetPhysics().Update(*this, audio, dTime);
 	}
 	m_particlePool->Update(dTime);
 }
@@ -68,14 +68,14 @@ void PERWorld::ObjectsGraphicsUpdate(PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetGraphics().Update(*m_objects[i], GetHud(), audio, dTime);
+		m_objects[i]->GetGraphics().Update(GetHud(), audio, dTime);
 	}
 }
 
 void PERWorld::Render(PERRenderer& renderer, double frameGap)
 {
 	for (size_t i = 0; i < m_sortedObjects.size(); ++i) {
-		m_sortedObjects[i]->GetGraphics().Render(*m_sortedObjects[i], renderer, frameGap);
+		m_sortedObjects[i]->GetGraphics().Render(renderer, frameGap);
 	}
 	m_particlePool->Renderer(renderer);
 	GetHud().RendererInWorld(renderer, *m_database);
@@ -488,8 +488,8 @@ void PERWorld::ProcessCollisionBetweenFixedAndMovable(
 	if (collisionTimeRate.x < collisionTimeRate.y) collisionTime = collisionTimeRate.y * dTime;
 
 	// 각 오브젝트에서 충돌 처리
-	fixedObject.GetPhysics().ProcessCollision(fixedObject, movableObject, collisionVelocity, fixedVel, 0.0);
-	movableObject.GetPhysics().ProcessCollision(movableObject, fixedObject, collisionVelocity, PERVec3(0.0, 0.0, movableVel.z), dTime * 1.5);
+	fixedObject.GetPhysics().ProcessCollision(movableObject, collisionVelocity, fixedVel, 0.0);
+	movableObject.GetPhysics().ProcessCollision(fixedObject, collisionVelocity, PERVec3(0.0, 0.0, movableVel.z), dTime * 1.5);
 }
 
 void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType aType, PERObject& bObject, PERObjectType bType, double dTime)
@@ -513,50 +513,48 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 	}
 	// 총알 데미지 처리
 	else if (aType == PERObjectType::BULLET) {
-		bObject.GetObjectState().GiveDamage(bObject, aObject,
-			aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
+		bObject.GetObjectState().GiveDamage(aObject, aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
 
 		// 총알 속도 방향으로 약간 이동(넉백)
 		if (aObject.GetObjectType() == PERObjectType::BULLET) {
 			aObject.SetLifeTime(-1.0);
-			bObject.GetPhysics().GiveForce(bObject, *this, NormalizeVector(aObject.GetVelocity()) * PER_KNOCK_BACK_POWER, dTime);
+			bObject.GetPhysics().GiveForce(*this, NormalizeVector(aObject.GetVelocity()) * PER_KNOCK_BACK_POWER, dTime);
 		}
 		// 칼날의 상대적 위치 방향으로 약간 이동(넉백)
 		else if (aObject.GetObjectType() == PERObjectType::BLADE) {
 			StuckPhysicsComponent& stuckPhysics = dynamic_cast<StuckPhysicsComponent&>(aObject.GetPhysics());
-			bObject.GetPhysics().GiveForce(bObject, *this, NormalizeVector(stuckPhysics.GetStuckPosition()) * PER_KNOCK_BACK_POWER, dTime);
+			bObject.GetPhysics().GiveForce(*this, NormalizeVector(stuckPhysics.GetStuckPosition()) * PER_KNOCK_BACK_POWER, dTime);
 		}
 	}
 	else if (bType == PERObjectType::BULLET) {
-		aObject.GetObjectState().GiveDamage(aObject, bObject,
-			bObject.GetObjectState().GetStat().physicalAttack, bObject.GetObjectState().GetStat().mindAttack);
+		aObject.GetObjectState().GiveDamage(bObject, bObject.GetObjectState().GetStat().physicalAttack, bObject.GetObjectState().GetStat().mindAttack);
 
 		// 총알 속도 방향으로 약간 이동(넉백)
 		if (bObject.GetObjectType() == PERObjectType::BULLET) {
 			bObject.SetLifeTime(-1.0);
-			aObject.GetPhysics().GiveForce(aObject, *this, NormalizeVector(bObject.GetVelocity()) * PER_KNOCK_BACK_POWER, dTime);
+			aObject.GetPhysics().GiveForce(*this, NormalizeVector(bObject.GetVelocity()) * PER_KNOCK_BACK_POWER, dTime);
 		}
 		// 칼날의 상대적 위치 방향으로 약간 이동(넉백)
 		else if (aObject.GetObjectType() == PERObjectType::BLADE) {
 			StuckPhysicsComponent& stuckPhysics = dynamic_cast<StuckPhysicsComponent&>(bObject.GetPhysics());
-			aObject.GetPhysics().GiveForce(aObject, *this, NormalizeVector(stuckPhysics.GetStuckPosition()) * PER_KNOCK_BACK_POWER, dTime);
+			aObject.GetPhysics().GiveForce(*this, NormalizeVector(stuckPhysics.GetStuckPosition()) * PER_KNOCK_BACK_POWER, dTime);
 		}
 	}
 	// 나머지
 	// 플레이어와 몬스터 간
 	else if (aType == PERObjectType::PLAYER && bType == PERObjectType::MONSTER) {
 		// 플레이어에게 대미지를 줌
-		aObject.GetObjectState().GiveDamage(aObject, bObject, bObject.GetObjectState().GetCollisionDamage(), 0);
+		aObject.GetObjectState().GiveDamage(bObject, bObject.GetObjectState().GetCollisionDamage(), 0);
 	}
 	else if (bType == PERObjectType::PLAYER && aType == PERObjectType::MONSTER) {
-		bObject.GetObjectState().GiveDamage(bObject, aObject, aObject.GetObjectState().GetCollisionDamage(), 0);
+		bObject.GetObjectState().GiveDamage(aObject, aObject.GetObjectState().GetCollisionDamage(), 0);
 	}
 	// 플레이어 또는 몬스터 또는 움직이는 오브젝트 와 압력 발판 간
 	else if ((aType == PERObjectType::PLAYER || aType == PERObjectType::MONSTER || aType == PERObjectType::MOVABLE_BLOCK) && bType == PERObjectType::PRESSURE) {
 		// 충돌 처리(필요한 건 본인 오브젝트 뿐, 내부적으로 발판이 눌려 입력된 것으로 처리됨)
-		bObject.GetPhysics().ProcessCollision(bObject, aObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
+		bObject.GetPhysics().ProcessCollision(aObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
 	}
 	else if ((bType == PERObjectType::PLAYER || bType == PERObjectType::MONSTER || bType == PERObjectType::MOVABLE_BLOCK) && aType == PERObjectType::PRESSURE) {
-		aObject.GetPhysics().ProcessCollision(aObject, bObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
+		aObject.GetPhysics().ProcessCollision(bObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
 	}
 }

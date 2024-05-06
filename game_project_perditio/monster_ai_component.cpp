@@ -16,14 +16,14 @@ MonsterAiComponent::~MonsterAiComponent()
 	delete m_behaviorTree;
 }
 
-void MonsterAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
+void MonsterAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
 	// 대미지 무시 시간
-	object.GetObjectState().UseIgnoreDamageTime(dTime);
+	GetOwner()->GetObjectState().UseIgnoreDamageTime(dTime);
 	// 시간 당 회복
-	object.GetObjectState().RecoverPerTime(object, dTime);
+	GetOwner()->GetObjectState().RecoverPerTime(dTime);
 	// 행동 트리 실행
-	m_behaviorTree->Run(object, dTime);
+	m_behaviorTree->Run(dTime);
 }
 
 void MonsterAiComponent::SetData(PERComponent::AiData data)
@@ -85,21 +85,21 @@ void MonsterAiComponent::InitBehaviorTree()
 	m_behaviorTree = new BehaviorTree("몬스터 행동 트리", MoveToPlayerOrWanderAroundSpawnSelector);
 }
 
-PERBehaviorResult MonsterAiComponent::FindPlayerPositionAndSetDestination(PERObject& object, double dTime)
+PERBehaviorResult MonsterAiComponent::FindPlayerPositionAndSetDestination(double dTime)
 {
 	PERVec3 playerPos = BlackBoard::GetPlayerPos();
-	MonsterState& state = dynamic_cast<MonsterState&>(object.GetObjectState());
+	MonsterState& state = dynamic_cast<MonsterState&>(GetOwner()->GetObjectState());
 
 	// 실제로는 플레이어가 볼 수 있는 위치에 있는 지 확인하는 절차 필요
-	if (DistanceSquareAandB(object.GetPosition(), playerPos) > state.GetSightSquare()) return PERBehaviorResult::FAIL;
+	if (DistanceSquareAandB(GetOwner()->GetPosition(), playerPos) > state.GetSightSquare()) return PERBehaviorResult::FAIL;
 
 	m_destination = playerPos;
 	return PERBehaviorResult::SUCCESS;
 }
 
-PERBehaviorResult MonsterAiComponent::CalculatePath(PERObject& object, double dTime)
+PERBehaviorResult MonsterAiComponent::CalculatePath(double dTime)
 {
-	bool result = m_AStarCalculator->FindPath(object.GetPosition(), m_destination, m_paths, &m_numPath);
+	bool result = m_AStarCalculator->FindPath(GetOwner()->GetPosition(), m_destination, m_paths, &m_numPath);
 	m_currentPathIndex = 0;
 	m_currentPathIndex++;
 
@@ -107,81 +107,81 @@ PERBehaviorResult MonsterAiComponent::CalculatePath(PERObject& object, double dT
 	return PERBehaviorResult::FAIL;
 }
 
-PERBehaviorResult MonsterAiComponent::MoveToDestination(PERObject& object, double dTime)
+PERBehaviorResult MonsterAiComponent::MoveToDestination(double dTime)
 {
 	// 도착했을 경우 성공으로
 	if (m_currentPathIndex >= m_numPath) return PERBehaviorResult::SUCCESS;
 
 
-	PERVec3 pos = object.GetPosition(); 
+	PERVec3 pos = GetOwner()->GetPosition(); 
 	PERVec3 goal = m_paths[m_currentPathIndex]; goal.z = pos.z;
 
 	// 해당 지점까지 이동시 다음 지점로
 	if (DistanceSquareAandB(pos, goal) < c_PATH_GAP_2)
 	{
 		m_currentPathIndex++;
-		object.SetVelocity(PERVec3(0.0, 0.0, 0.0));
+		GetOwner()->SetVelocity(PERVec3(0.0, 0.0, 0.0));
 		return PERBehaviorResult::RUNNING;
 	}
 
 	// 해당 지점 방향으로 이동을 위한 속도 계산
-	PERVec3 vel = object.GetVelocity();
+	PERVec3 vel = GetOwner()->GetVelocity();
 	double angle = atan2(goal.y - pos.y, goal.x - pos.x);
 
 	vel.x = cos(angle) * c_DEFAULT_VELOCITY;
 	vel.y = sin(angle) * c_DEFAULT_VELOCITY;
 
-	object.SetVelocity(vel);
+	GetOwner()->SetVelocity(vel);
 
 	return PERBehaviorResult::RUNNING;
 }
 
-PERBehaviorResult MonsterAiComponent::DoNothing(PERObject& object, double dTime)
+PERBehaviorResult MonsterAiComponent::DoNothing(double dTime)
 {
 	return PERBehaviorResult::SUCCESS;
 }
 
-PERBehaviorResult MonsterAiComponent::SetDestinationToSpawnPosition(PERObject& object, double dTime)
+PERBehaviorResult MonsterAiComponent::SetDestinationToSpawnPosition(double dTime)
 {
-	PERVec3 spawnPos = object.GetObjectState().GetSpawnPosition();
-	MonsterState& state = dynamic_cast<MonsterState&>(object.GetObjectState());
+	PERVec3 spawnPos = GetOwner()->GetObjectState().GetSpawnPosition();
+	MonsterState& state = dynamic_cast<MonsterState&>(GetOwner()->GetObjectState());
 
 	// 배회 거리 보다 스폰 위치까지의 거리가 짧을 경우 이동하지 않음
-	if (DistanceSquareAandB(object.GetPosition(), spawnPos) < state.GetWanderDistanceSquare()) return PERBehaviorResult::FAIL;
+	if (DistanceSquareAandB(GetOwner()->GetPosition(), spawnPos) < state.GetWanderDistanceSquare()) return PERBehaviorResult::FAIL;
 
 	m_destination = spawnPos;
 
 	return PERBehaviorResult::SUCCESS;
 }
 
-PERBehaviorResult MonsterAiComponent::MoveToWanderPosition(PERObject& object, double dTime)
+PERBehaviorResult MonsterAiComponent::MoveToWanderPosition(double dTime)
 {
-	PERVec3 pos = object.GetPosition();
+	PERVec3 pos = GetOwner()->GetPosition();
 	PERVec3 goal = m_wanderPosition; goal.z = pos.z;
 
 	// 도착시 성공으로
 	if (DistanceSquareAandB(pos, goal) < c_PATH_GAP_2) return PERBehaviorResult::SUCCESS;
 
 	// 해당 지점 방향으로 이동을 위한 속도 계산
-	PERVec3 vel = object.GetVelocity();
+	PERVec3 vel = GetOwner()->GetVelocity();
 	double angle = atan2(goal.y - pos.y, goal.x - pos.x);
 
 	vel.x = cos(angle) * c_DEFAULT_VELOCITY;
 	vel.y = sin(angle) * c_DEFAULT_VELOCITY;
 
-	object.SetVelocity(vel);
+	GetOwner()->SetVelocity(vel);
 
 	return PERBehaviorResult::RUNNING;
 }
 
-PERBehaviorResult MonsterAiComponent::SetWanderPosition(PERObject& object, double dTime)
+PERBehaviorResult MonsterAiComponent::SetWanderPosition(double dTime)
 {
 	m_wanderAngle += dTime * c_WANDER_SPEED;
 	
-	MonsterState& state = dynamic_cast<MonsterState&>(object.GetObjectState());
+	MonsterState& state = dynamic_cast<MonsterState&>(GetOwner()->GetObjectState());
 	PERVec3 spawnPos = state.GetSpawnPosition();
 	double wanderDis = state.GetWanderDistance();
-	PERVec3 pos = object.GetPosition();
+	PERVec3 pos = GetOwner()->GetPosition();
 
 	m_wanderPosition = PERVec3(spawnPos.x + wanderDis * cos(m_wanderAngle), spawnPos.y + wanderDis * sin(m_wanderAngle), pos.z);
 

@@ -3,9 +3,9 @@
 #include "per_object.h"
 #include "per_controller.h"
 
-void InteractInputComponent::Update(PERObject& object, PERWorld& world, PERController& controller, PERAudio& audio, double dTime)
+void InteractInputComponent::Update(PERWorld& world, PERController& controller, PERAudio& audio, double dTime)
 {
-	Move(object, controller, audio, dTime);
+	Move(controller, audio, dTime);
 }
 
 void InteractInputComponent::SetData(PERComponent::InputData data)
@@ -18,34 +18,34 @@ void InteractInputComponent::Initialize(PERComponent::InputData data)
 	SetData(data);
 }
 
-void InteractInputComponent::Move(PERObject& object, PERController& controller, PERAudio& audio, double dTime)
+void InteractInputComponent::Move(PERController& controller, PERAudio& audio, double dTime)
 {
 	// 필요 정보 얻기
-	PERVec3 vel = object.GetVelocity();
-	PERVec3 cAcc = object.GetCurrentAccel();
-	double mass = object.GetMass();
+	PERVec3 vel = GetOwner()->GetVelocity();
+	PERVec3 cAcc = GetOwner()->GetCurrentAccel();
+	double mass = GetOwner()->GetMass();
 
 	// x, y축 이동 설정
 	if (controller.IsKeyboardPressed(KeySetting::MoveUpwards.value)) {
-		if (vel.y < object.c_MAXIMUM_XY_VELOCITY) {
+		if (vel.y < GetOwner()->c_MAXIMUM_XY_VELOCITY) {
 			cAcc.y += m_XYForce / mass * dTime;
 		}
 	}
 	if (controller.IsKeyboardPressed(KeySetting::MoveDownwards.value)) {
-		if (vel.y > -object.c_MAXIMUM_XY_VELOCITY) {
+		if (vel.y > -GetOwner()->c_MAXIMUM_XY_VELOCITY) {
 			cAcc.y -= m_XYForce / mass * dTime;
 		}
 	}
 	if (controller.IsKeyboardPressed(KeySetting::MoveLeftwards.value)) {
-		if (vel.x > -object.c_MAXIMUM_XY_VELOCITY) {
+		if (vel.x > -GetOwner()->c_MAXIMUM_XY_VELOCITY) {
 			cAcc.x -= m_XYForce / mass * dTime;
 		}
 	}
 	if (controller.IsKeyboardPressed(KeySetting::MoveRightwards.value)) {
-		if (vel.x < object.c_MAXIMUM_XY_VELOCITY) {
+		if (vel.x < GetOwner()->c_MAXIMUM_XY_VELOCITY) {
 			cAcc.x += m_XYForce / mass * dTime;
 		}
 	}
 
-	object.SetCurrentAccel(cAcc);
+	GetOwner()->SetCurrentAccel(cAcc);
 }

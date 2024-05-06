@@ -3,14 +3,14 @@
 #include "per_object.h"
 #include "per_renderer.h"
 
-void VisibleGraphicsComponent::Update(PERObject& object, PERHud& hud, PERAudio& audio, double dTime)
+void VisibleGraphicsComponent::Update(PERHud& hud, PERAudio& audio, double dTime)
 {
-	m_position = object.GetPosition();
-	m_size = object.GetSize();
-	m_currentVelocity = object.GetVelocity();
+	m_position = GetOwner()->GetPosition();
+	m_size = GetOwner()->GetSize();
+	m_currentVelocity = GetOwner()->GetVelocity();
 }
 
-void VisibleGraphicsComponent::Render(PERObject& object, PERRenderer& renderer, double frameGap)
+void VisibleGraphicsComponent::Render(PERRenderer& renderer, double frameGap)
 {	
 	PERVec3 renderPos = m_position;
 	PERVec3 gap = m_currentVelocity * frameGap * ((double)PER_MICROSEC_PER_UPDATE / 1'000'000.0);

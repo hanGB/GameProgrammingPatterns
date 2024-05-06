@@ -5,15 +5,15 @@
 #include "per_hud.h"
 #include "key_setting.h"
 
-void ButtonGraphicsComponent::Update(PERObject& object, PERHud& hud, PERAudio& audio, double dTime)
+void ButtonGraphicsComponent::Update(PERHud& hud, PERAudio& audio, double dTime)
 {
-	VisibleWithInformationGraphicsComponent::Update(object, hud, audio, dTime);
-	UpdateHelper(object, hud);
+	VisibleWithInformationGraphicsComponent::Update(hud, audio, dTime);
+	UpdateHelper(hud);
 }
 
-void ButtonGraphicsComponent::Render(PERObject& object, PERRenderer& renderer, double frameGap)
+void ButtonGraphicsComponent::Render(PERRenderer& renderer, double frameGap)
 {
-	VisibleWithInformationGraphicsComponent::Render(object, renderer, frameGap);
+	VisibleWithInformationGraphicsComponent::Render(renderer, frameGap);
 }
 
 void ButtonGraphicsComponent::SetData(PERComponent::GraphicsData data)
@@ -33,16 +33,16 @@ void ButtonGraphicsComponent::RemoveFloatingUi()
 	if (m_Helper) m_Helper->SetLifeTime(-1.0);
 }
 
-void ButtonGraphicsComponent::UpdateHelper(PERObject& object, PERHud& hud)
+void ButtonGraphicsComponent::UpdateHelper(PERHud& hud)
 {
 	PERVec3 playerPos = BlackBoard::GetPlayerPos();
 
 	if (!m_isShowingHelper)
 	{
 		if (c_SHOWING_BODY_BAR_DISTANCE_2 < DistanceSquareAandBIgnoringZValue(playerPos, m_position)) return;
-		if (ShowHelper(object, hud))
+		if (ShowHelper(hud))
 		{
-			MatchHelperWithData(object);
+			MatchHelperWithData();
 			m_isShowingHelper = true;
 		}
 	}
@@ -54,11 +54,11 @@ void ButtonGraphicsComponent::UpdateHelper(PERObject& object, PERHud& hud)
 			m_isShowingHelper = false;
 			return;
 		}
-		MatchHelperWithData(object);
+		MatchHelperWithData();
 	}
 }
 
-bool ButtonGraphicsComponent::ShowHelper(PERObject& object, PERHud& hud)
+bool ButtonGraphicsComponent::ShowHelper(PERHud& hud)
 {
 	m_Helper = dynamic_cast<KeyInputHelper*>(hud.GetNewUiElementInWorld(PERUiElementType::KEY_INPUT_HELPER));
 	if (!m_Helper) return false;
@@ -68,7 +68,7 @@ bool ButtonGraphicsComponent::ShowHelper(PERObject& object, PERHud& hud)
 	return true;
 }
 
-void ButtonGraphicsComponent::MatchHelperWithData(PERObject& object)
+void ButtonGraphicsComponent::MatchHelperWithData()
 {
 	// button은 고정되어 있기 때문에 위치를 변경할 필요 없음
 	// PERVec2 pos = PERVec2(m_position.x, m_position.y + m_size.y * 1.5);

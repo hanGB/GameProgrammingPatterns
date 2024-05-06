@@ -21,10 +21,10 @@ public:
 	virtual void Initialize();
 
 	// 상태 변화
-	virtual bool GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind);
-	virtual bool UseMind(PERObject& object, int mind);
-	virtual void RecoverPerTime(PERObject& object, double dTime);
-	virtual void GiveExp(PERObject& object, int exp);
+	virtual bool GiveDamage(PERObject& opponent, short physical, short mind);
+	virtual bool UseMind(int mind);
+	virtual void RecoverPerTime(double dTime);
+	virtual void GiveExp( int exp);
 
 	std::string GetNameId() const;
 	PERStat GetStat() const;
@@ -39,6 +39,9 @@ public:
 	void SetIsHasCollisionDamage(bool damage);
 	void SetIsImmortal(bool immortal);
 	void SetSpawnPosition(PERVec3 position);
+
+	void SetOwner(PERObject* object);
+	PERObject* GetOwner();
 
 protected:
 	static const int	c_DEFAULT_MAXIMUM_FLOATING_UI = 5;
@@ -70,4 +73,7 @@ protected:
 
 	// 스폰 위치
 	PERVec3 m_spawnPosition = PERVec3(0.0, 0.0, 0.0);
+
+private:
+	PERObject* m_owner;
 };

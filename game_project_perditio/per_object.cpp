@@ -8,6 +8,13 @@ PERObject::PERObject(ObjectFactory& factory, ObjectState* objectState,
 	: m_factory(factory), m_objectState(objectState),
 	m_input(input), m_ai(ai), m_physics(physics), m_graphics(graphics)
 {
+	// 스테이트와 컨포넌트의 오너를 자신으로 설정
+	m_objectState->SetOwner(this);
+	m_input->SetOwner(this);
+	m_ai->SetOwner(this);
+	m_physics->SetOwner(this);
+	m_graphics->SetOwner(this);
+
 	Initialize();
 }
 

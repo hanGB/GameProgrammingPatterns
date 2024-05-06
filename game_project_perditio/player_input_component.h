@@ -3,16 +3,16 @@
 
 class PlayerInputComponent : public InputComponent {
 public:
-	virtual void Update(PERObject& object, PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
+	virtual void Update(PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
 	virtual void SetData(PERComponent::InputData data);
 	virtual void Initialize(PERComponent::InputData data);
 
 private:
-	void Move(PERObject& object, PERController& controller, PERAudio& audio, double dTime);
+	void Move(PERController& controller, PERAudio& audio, double dTime);
 	void UpdateDirection(PERVec3 currentAccel);
-	void ShootBullet(PERObject& object, PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
-	void SwingBlade(PERObject& object, PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
-	void ShowObjectName(PERObject& object, PERController& controller, PERAudio& audio, double dTime);
+	void ShootBullet(PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
+	void SwingBlade(PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
+	void ShowObjectName(PERController& controller, PERAudio& audio, double dTime);
 
 	const int c_DEFAULT_XY_FORCE = 150000;
 

@@ -3,18 +3,18 @@
 #include "per_object.h"
 #include "black_board.h"
 
-void IntelligentAiComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
+void IntelligentAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
 	// 대미지 무시 시간
-	object.GetObjectState().UseIgnoreDamageTime(dTime);
+	GetOwner()->GetObjectState().UseIgnoreDamageTime(dTime);
 	// 시간 당 회복
-	object.GetObjectState().RecoverPerTime(object, dTime);
+	GetOwner()->GetObjectState().RecoverPerTime(dTime);
 
 	// 필요 정보 얻기
-	PERVec3 vel = object.GetVelocity();
-	PERVec3 cAcc = object.GetCurrentAccel();
-	PERVec3 pos = object.GetPosition();
-	double mass = object.GetMass();
+	PERVec3 vel = GetOwner()->GetVelocity();
+	PERVec3 cAcc = GetOwner()->GetCurrentAccel();
+	PERVec3 pos = GetOwner()->GetPosition();
+	double mass = GetOwner()->GetMass();
 
 	PERVec3 playerPos = BlackBoard::GetPlayerPos();
 
@@ -23,7 +23,7 @@ void IntelligentAiComponent::Update(PERObject& object, PERWorld& world, PERAudio
 	cAcc.x += cos(angle) * m_XYForce / mass * dTime;
 	cAcc.y += sin(angle) * m_XYForce / mass * dTime;
 
-	object.SetCurrentAccel(cAcc);
+	GetOwner()->SetCurrentAccel(cAcc);
 }
 
 void IntelligentAiComponent::SetData(PERComponent::AiData data)

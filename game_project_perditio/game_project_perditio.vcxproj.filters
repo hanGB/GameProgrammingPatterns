@@ -184,9 +184,6 @@
     <Filter Include="00. game\object\component\implements\physics\pressure">
       <UniqueIdentifier>{a78d688e-6a64-4f6a-b3fa-8900500ec65f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\object\component\implements\ai\active_with_signal">
-      <UniqueIdentifier>{f4e5017b-7dfa-4e2e-baf7-8694a023ae3f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. game\object\component\implements\ai\making_signal_ai_component">
       <UniqueIdentifier>{28a411bd-c6e9-4c9a-bfeb-46e350edc38d}</UniqueIdentifier>
     </Filter>
@@ -202,11 +199,14 @@
     <Filter Include="00. game\particle\particle_pool">
       <UniqueIdentifier>{816aeb49-ba47-4547-8b8b-11f7e4cdcf01}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\object\component\implements\physics\interface">
-      <UniqueIdentifier>{0b717086-9c44-404c-b79b-ee5615fe8280}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. game\object\component\implements\ai\creating_particles">
       <UniqueIdentifier>{52933be3-7c12-45ff-96e0-111a135e0972}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\interface">
+      <UniqueIdentifier>{0b717086-9c44-404c-b79b-ee5615fe8280}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\implements\ai\response_to_signal">
+      <UniqueIdentifier>{f4e5017b-7dfa-4e2e-baf7-8694a023ae3f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -226,16 +226,16 @@
       <Filter>00. game\object</Filter>
     </ClInclude>
     <ClInclude Include="ai_component.h">
-      <Filter>00. game\object\component\implements\physics\interface</Filter>
+      <Filter>00. game\object\component\interface</Filter>
     </ClInclude>
     <ClInclude Include="graphics_component.h">
-      <Filter>00. game\object\component\implements\physics\interface</Filter>
+      <Filter>00. game\object\component\interface</Filter>
     </ClInclude>
     <ClInclude Include="input_component.h">
-      <Filter>00. game\object\component\implements\physics\interface</Filter>
+      <Filter>00. game\object\component\interface</Filter>
     </ClInclude>
     <ClInclude Include="physics_component.h">
-      <Filter>00. game\object\component\implements\physics\interface</Filter>
+      <Filter>00. game\object\component\interface</Filter>
     </ClInclude>
     <ClInclude Include="object_factory.h">
       <Filter>00. game\object\object_storage\object_factory</Filter>
@@ -397,7 +397,7 @@
       <Filter>00. game\object\component\implements\physics\pressure</Filter>
     </ClInclude>
     <ClInclude Include="response_to_signal_ai_component.h">
-      <Filter>00. game\object\component\implements\ai\active_with_signal</Filter>
+      <Filter>00. game\object\component\implements\ai\response_to_signal</Filter>
     </ClInclude>
     <ClInclude Include="making_signal_ai_component.h">
       <Filter>00. game\object\component\implements\ai\making_signal_ai_component</Filter>
@@ -570,7 +570,7 @@
       <Filter>00. game\object\component\implements\physics\pressure</Filter>
     </ClCompile>
     <ClCompile Include="response_to_signal_ai_component.cpp">
-      <Filter>00. game\object\component\implements\ai\active_with_signal</Filter>
+      <Filter>00. game\object\component\implements\ai\response_to_signal</Filter>
     </ClCompile>
     <ClCompile Include="making_signal_ai_component.cpp">
       <Filter>00. game\object\component\implements\ai\making_signal_ai_component</Filter>

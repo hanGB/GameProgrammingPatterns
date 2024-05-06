@@ -2,10 +2,10 @@
 #include "movable_physics_component.h"
 #include "per_object.h"
 
-void MovablePhysicsComponent::Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime)
+void MovablePhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
-	m_MoveFunc(*this, object, dTime);
-	if (!world.CheckCollision(object, dTime)) object.SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
+	m_MoveFunc(*this, dTime);
+	if (!world.CheckCollision(*GetOwner(), dTime)) GetOwner()->SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
 	//else PERLog::Logger().Info("충돌됨");
 }
 
@@ -20,42 +20,42 @@ void MovablePhysicsComponent::Initialize(PERComponent::PhysicsData data)
 	SetData(data);
 }
 
-void MovablePhysicsComponent::ProcessCollision(PERObject& myObject, PERObject& otherObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
+void MovablePhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
 {
-	PERVec3 pos = myObject.GetPosition();
-	PERVec3 vel = myObject.GetVelocity();
+	PERVec3 pos = GetOwner()->GetPosition();
+	PERVec3 vel = GetOwner()->GetVelocity();
 
 	// 충돌한 시간만큼 충돌 속도로 반대로 이동
 	pos.x = pos.x - collisionVelocity.x * collisionTime;
 	pos.y = pos.y - collisionVelocity.y * collisionTime;
 
-	myObject.SetPosition(pos);
-	myObject.SetVelocity(changedVelocity);
+	GetOwner()->SetPosition(pos);
+	GetOwner()->SetVelocity(changedVelocity);
 
-	myObject.SetCollidedObject(&otherObject, collisionVelocity);
+	GetOwner()->SetCollidedObject(&collidedObject, collisionVelocity);
 }
 
-void MovablePhysicsComponent::GiveForce(PERObject& object, PERWorld& world, PERVec3 force, double dTime)
+void MovablePhysicsComponent::GiveForce(PERWorld& world, PERVec3 force, double dTime)
 {
-	double mass = object.GetMass();
+	double mass = GetOwner()->GetMass();
 
-	object.SetVelocity(PERVec3(0.0, 0.0, 0.0));
-	object.SetCurrentAccel(PERVec3(force.x / mass, force.y / mass, force.z / mass));
+	GetOwner()->SetVelocity(PERVec3(0.0, 0.0, 0.0));
+	GetOwner()->SetCurrentAccel(PERVec3(force.x / mass, force.y / mass, force.z / mass));
 
 	// 이동 시키고 다시 계산
-	m_MoveFunc(*this, object, dTime);
-	if (!world.CheckCollision(object, dTime)) object.SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
+	m_MoveFunc(*this, dTime);
+	if (!world.CheckCollision(*GetOwner(), dTime)) GetOwner()->SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
 
-	object.SetVelocity(PERVec3(0.0, 0.0, 0.0));
+	GetOwner()->SetVelocity(PERVec3(0.0, 0.0, 0.0));
 }
 
-void MovablePhysicsComponent::Move(PERObject& object, double dTime)
+void MovablePhysicsComponent::Move(double dTime)
 {
 	// 필요 정보 얻기
-	PERVec3 pos = object.GetPosition();
-	PERVec3 vel = object.GetVelocity();
-	PERVec3 cAcc = object.GetCurrentAccel();
-	double mass = object.GetMass();
+	PERVec3 pos = GetOwner()->GetPosition();
+	PERVec3 vel = GetOwner()->GetVelocity();
+	PERVec3 cAcc = GetOwner()->GetCurrentAccel();
+	double mass = GetOwner()->GetMass();
 
 	// 마찰력 계산
 	if (std::abs(vel.x) > 0.0) {
@@ -96,21 +96,21 @@ void MovablePhysicsComponent::Move(PERObject& object, double dTime)
 	pos.y = pos.y + vel.y * dTime + 0.5 * cAcc.y * dTime * dTime;
 
 	// 계산 결과 적용
-	object.SetPosition(pos);
-	object.SetVelocity(vel);
+	GetOwner()->SetPosition(pos);
+	GetOwner()->SetVelocity(vel);
 
 	// 현재 가속도 초기화
 	cAcc = PERVec3(0.0, 0.0, 0.0);
-	object.SetCurrentAccel(cAcc);
+	GetOwner()->SetCurrentAccel(cAcc);
 }
 
-void MovablePhysicsComponent::MoveWithoutFriction(PERObject& object, double dTime)
+void MovablePhysicsComponent::MoveWithoutFriction(double dTime)
 {
 	// 필요 정보 얻기
-	PERVec3 pos = object.GetPosition();
-	PERVec3 vel = object.GetVelocity();
-	PERVec3 cAcc = object.GetCurrentAccel();
-	double mass = object.GetMass();
+	PERVec3 pos = GetOwner()->GetPosition();
+	PERVec3 vel = GetOwner()->GetVelocity();
+	PERVec3 cAcc = GetOwner()->GetCurrentAccel();
+	double mass = GetOwner()->GetMass();
 
 	vel.x = vel.x + cAcc.x * dTime;
 	vel.y = vel.y + cAcc.y * dTime;
@@ -120,10 +120,10 @@ void MovablePhysicsComponent::MoveWithoutFriction(PERObject& object, double dTim
 	pos.y = pos.y + vel.y * dTime + 0.5 * cAcc.y * dTime * dTime;
 
 	// 계산 결과 적용
-	object.SetPosition(pos);
-	object.SetVelocity(vel);
+	GetOwner()->SetPosition(pos);
+	GetOwner()->SetVelocity(vel);
 
 	// 현재 가속도 초기화
 	cAcc = PERVec3(0.0, 0.0, 0.0);
-	object.SetCurrentAccel(cAcc);
+	GetOwner()->SetCurrentAccel(cAcc);
 }

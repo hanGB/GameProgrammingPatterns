@@ -13,9 +13,9 @@ BehaviorTree::~BehaviorTree()
 	delete m_root;
 }
 
-void BehaviorTree::Run(PERObject& object, double dTime)
+void BehaviorTree::Run(double dTime)
 {
-	m_root->Run(object, dTime);
+	m_root->Run(dTime);
 }
 
 
@@ -32,10 +32,10 @@ SequencerNode::~SequencerNode()
 	for (auto& child : m_children) delete child;
 }
 
-PERBehaviorResult SequencerNode::Run(PERObject& object, double dTime)
+PERBehaviorResult SequencerNode::Run(double dTime)
 {
 	for (size_t i = m_current; i < m_children.size(); ++i) {
-		PERBehaviorResult result = m_children[i]->Run(object, dTime);
+		PERBehaviorResult result = m_children[i]->Run(dTime);
 
 		if (result == PERBehaviorResult::FAIL) {
 			m_current = 0;
@@ -65,10 +65,10 @@ SelectorNode::~SelectorNode()
 	for (auto& child : m_children) delete child;
 }
 
-PERBehaviorResult SelectorNode::Run(PERObject& object, double dTime)
+PERBehaviorResult SelectorNode::Run(double dTime)
 {
 	for (size_t i = m_current; i < m_children.size(); ++i) {
-		PERBehaviorResult result = m_children[i]->Run(object, dTime);
+		PERBehaviorResult result = m_children[i]->Run(dTime);
 
 		if (result == PERBehaviorResult::SUCCESS) {
 			m_current = 0;

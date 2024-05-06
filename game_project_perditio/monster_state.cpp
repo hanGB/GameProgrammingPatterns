@@ -13,16 +13,16 @@ void MonsterState::Initialize()
     ObjectState::Initialize();
 }
 
-bool MonsterState::GiveDamage(PERObject& object, PERObject& opponent, short physical, short mind)
+bool MonsterState::GiveDamage(PERObject& opponent, short physical, short mind)
 {
-    if (!ObjectState::GiveDamage(object, opponent, physical, mind)) return false;
+    if (!ObjectState::GiveDamage(opponent, physical, mind)) return false;
 
     return true;
 }
 
-bool MonsterState::UseMind(PERObject& object, int mind)
+bool MonsterState::UseMind(int mind)
 {
-    if (!ObjectState::UseMind(object, mind)) return false;
+    if (!ObjectState::UseMind(mind)) return false;
     return true;
 }
 

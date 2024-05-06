@@ -4,7 +4,7 @@
 
 class MakingSignalAiComponent : public AiComponent {
 public:
-	virtual void Update(PERObject& object, PERWorld& world, PERAudio& audio, double dTime);
+	virtual void Update(PERWorld& world, PERAudio& audio, double dTime);
 	virtual void SetData(PERComponent::AiData data);
 	virtual void Initialize(PERComponent::AiData data);
 
@@ -12,7 +12,7 @@ public:
 	void SetOnOffGraphicsData(PERComponent::GraphicsData onGraphicsData, PERComponent::GraphicsData offGraphicsData);
 
 private:
-	void MakeSignal(PERObject& object, PERAudio& audio, double dTime);
+	void MakeSignal(PERAudio& audio, double dTime);
 
 	// 버튼 정보
 	// 입력 여부

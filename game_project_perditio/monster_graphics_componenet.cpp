@@ -4,15 +4,15 @@
 #include "per_hud.h"
 #include "per_object.h"
 
-void MonsterGraphicsComponent::Update(PERObject& object, PERHud& hud, PERAudio& audio, double dTime)
+void MonsterGraphicsComponent::Update(PERHud& hud, PERAudio& audio, double dTime)
 {
-	VisibleWithInformationGraphicsComponent::Update(object, hud, audio, dTime);
-	UpdateBodyBar(object, hud);
+	VisibleWithInformationGraphicsComponent::Update(hud, audio, dTime);
+	UpdateBodyBar(hud);
 }
 
-void MonsterGraphicsComponent::Render(PERObject& object, PERRenderer& renderer, double frameGap)
+void MonsterGraphicsComponent::Render(PERRenderer& renderer, double frameGap)
 {
-	VisibleWithInformationGraphicsComponent::Render(object, renderer, frameGap);
+	VisibleWithInformationGraphicsComponent::Render(renderer, frameGap);
 }
 
 void MonsterGraphicsComponent::SetData(PERComponent::GraphicsData data)
@@ -33,16 +33,16 @@ void MonsterGraphicsComponent::RemoveFloatingUi()
 	if (m_bodyBar)m_bodyBar->SetLifeTime(-1.0);
 }
 
-void MonsterGraphicsComponent::UpdateBodyBar(PERObject& object, PERHud& hud)
+void MonsterGraphicsComponent::UpdateBodyBar(PERHud& hud)
 {
 	PERVec3 playerPos = BlackBoard::GetPlayerPos();
 
 	if (!m_isShowingBodyBar)
 	{
 		if (c_SHOWING_BODY_BAR_DISTANCE_2 < DistanceSquareAandBIgnoringZValue(playerPos, m_position)) return;
-		if (ShowBodyBar(object, hud))
+		if (ShowBodyBar(hud))
 		{
-			MatchBodyBarWithData(object);
+			MatchBodyBarWithData();
 			m_isShowingBodyBar = true;
 		}
 	}
@@ -54,11 +54,11 @@ void MonsterGraphicsComponent::UpdateBodyBar(PERObject& object, PERHud& hud)
 			m_isShowingBodyBar = false;
 			return;
 		}
-		MatchBodyBarWithData(object);
+		MatchBodyBarWithData();
 	}
 }
 
-bool MonsterGraphicsComponent::ShowBodyBar(PERObject& object, PERHud& hud)
+bool MonsterGraphicsComponent::ShowBodyBar(PERHud& hud)
 {
 	m_bodyBar = dynamic_cast<ProgressBar*>(hud.GetNewUiElementInWorld(PERUiElementType::PROGRESS_BAR));
 	if (!m_bodyBar) return false;
@@ -67,10 +67,10 @@ bool MonsterGraphicsComponent::ShowBodyBar(PERObject& object, PERHud& hud)
 	return true;
 }
 
-void MonsterGraphicsComponent::MatchBodyBarWithData(PERObject& object)
+void MonsterGraphicsComponent::MatchBodyBarWithData()
 {
 	PERVec2 pos = PERVec2(m_position.x, m_position.y + m_size.y * 1.5);
-	m_bodyBar->MatchWithData(pos, object.GetObjectState().GetStat().body, object.GetObjectState().GetCurrentBody());
+	m_bodyBar->MatchWithData(pos, GetOwner()->GetObjectState().GetStat().body, GetOwner()->GetObjectState().GetCurrentBody());
 }
 
 void MonsterGraphicsComponent::HideBodyBar()
