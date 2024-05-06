@@ -9,6 +9,10 @@ class GameMode;
 class PERDatabase;
 class PERHud;
 class PERParticlePool;
+class InputComponent;
+class AiComponent;
+class PhysicsComponent;
+class GraphicsComponent;
 
 enum class PERWorldMessageId {
 	ADD_OBJECT,
@@ -36,12 +40,12 @@ public:
 	void Update(PERAudio& audio, double dTime);
 	void UIUpdate(PERController& controller, PERAudio& audio, double dTime);
 
-	void ObjectsInputUpdate(PERController& controller, PERAudio& audio, double dTime);
-	void ObjectsAiUpdate(PERAudio& audio, double dTime);
-	void ObjectsPhysicsUpdate(PERAudio& audio, double dTime);
-	void ObjectsGraphicsUpdate(PERAudio& audio, double dTime);
+	void InputUpdate(PERController& controller, PERAudio& audio, double dTime);
+	void AiUpdate(PERAudio& audio, double dTime);
+	void PhysicsUpdate(PERAudio& audio, double dTime);
+	void GraphicsUpdate(PERAudio& audio, double dTime);
 
-	void UpdateSortedObjects();
+	void UpdateSortedGraphicsComponents();
 	void UpdateCamera(PERRenderer& renderer, double frameGap);
 
 	void Render(PERRenderer& renderer, double frameGap);
@@ -115,10 +119,15 @@ private:
 	std::vector<PERObject*> m_objects;
 	int m_maxObject = PER_DEFAULT_MAX_OBJECTS;
 	int m_numObject = 0;
+	// 컨포넌트
+	std::vector<InputComponent*> m_inputComponents;
+	std::vector<AiComponent*> m_aiComponents;
+	std::vector<PhysicsComponent*> m_physicsComponents;
+	std::vector<GraphicsComponent*> m_graphicsComponents;
 
-	// 렌더링용 z좌표로 정렬된 오브젝트 벡터
-	std::vector<PERObject*> m_sortedObjects;
-	bool m_isUpdateSortedObject = false;
+	// 렌더링용 z좌표로 정렬된 그래픽스 컨포넌트
+	std::vector<GraphicsComponent*> m_sortedGraphicsComponents;
+	bool m_isUpdateSortedGraphicsComponent = false;
 
 	// 이펙트용 파티클 풀
 	PERParticlePool* m_particlePool;

@@ -13,6 +13,7 @@
 #include "stuck_physics_component.h"
 #include "spawner_ai_component.h"
 #include "per_particle_pool.h"
+#include "graphics_component.h"
 
 PERWorld::PERWorld()
 {
@@ -39,43 +40,43 @@ void PERWorld::UIUpdate(PERController& controller, PERAudio& audio, double dTime
 	m_gameMode->GetHud().Update(controller, audio, dTime);
 }
 
-void PERWorld::ObjectsInputUpdate(PERController& controller, PERAudio& audio, double dTime)
+void PERWorld::InputUpdate(PERController& controller, PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetInput().Update(*this, controller, audio, dTime);
+		m_inputComponents[i]->Update(*this, controller, audio, dTime);
 	}
 }
 
-void PERWorld::ObjectsAiUpdate(PERAudio& audio, double dTime)
+void PERWorld::AiUpdate(PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetAi().Update(*this, audio, dTime);
+		m_aiComponents[i]->Update(*this, audio, dTime);
 	}
 }
 
-void PERWorld::ObjectsPhysicsUpdate(PERAudio& audio, double dTime)
+void PERWorld::PhysicsUpdate(PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetPhysics().Update(*this, audio, dTime);
+		m_physicsComponents[i]->Update(*this, audio, dTime);
 	}
 	m_particlePool->Update(dTime);
 }
 
-void PERWorld::ObjectsGraphicsUpdate(PERAudio& audio, double dTime)
+void PERWorld::GraphicsUpdate(PERAudio& audio, double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) 
 	{
-		m_objects[i]->GetGraphics().Update(GetHud(), audio, dTime);
+		m_graphicsComponents[i]->Update(GetHud(), audio, dTime);
 	}
 }
 
 void PERWorld::Render(PERRenderer& renderer, double frameGap)
 {
-	for (size_t i = 0; i < m_sortedObjects.size(); ++i) {
-		m_sortedObjects[i]->GetGraphics().Render(renderer, frameGap);
+	for (size_t i = 0; i < m_sortedGraphicsComponents.size(); ++i) {
+		m_sortedGraphicsComponents[i]->Render(renderer, frameGap);
 	}
 	m_particlePool->Renderer(renderer);
 	GetHud().RendererInWorld(renderer, *m_database);
@@ -313,23 +314,39 @@ void PERWorld::AddObject(PERObject* object)
 		m_maxObject *= 2;
 		m_objects.reserve(m_maxObject);
 		m_objects.resize(m_maxObject);
+		// 컨포넌트들도 리사이즈
+		m_inputComponents.resize(m_maxObject);
+		m_aiComponents.resize(m_maxObject);
+		m_physicsComponents.resize(m_maxObject);
+		m_graphicsComponents.resize(m_maxObject);
 	}
+	m_inputComponents[m_numObject]		= &object->GetInput();
+	m_aiComponents[m_numObject]			= &object->GetAi();
+	m_physicsComponents[m_numObject]	= &object->GetPhysics();
+	m_graphicsComponents[m_numObject]	= &object->GetGraphics();
+
 	m_objects[m_numObject] = object;
 	object->SetIDInWorld(m_numObject);
 	m_numObject++;
 
-	m_isUpdateSortedObject = false;
+	m_isUpdateSortedGraphicsComponent = false;
 }
 
 void PERWorld::DeleteObject(PERObject* object)
 {
 	m_numObject--;
 	int id = object->GetIDInWorld();
+	// 맨 뒤 컨포넌트 이동
+	m_inputComponents[id]		= m_inputComponents[m_numObject];
+	m_aiComponents[id]			= m_aiComponents[m_numObject];
+	m_physicsComponents[id]		= m_physicsComponents[m_numObject];
+	m_graphicsComponents[id]	= m_graphicsComponents[m_numObject];
+	// 맨 뒤 오브젝트 이동 및 아이디 변경
 	m_objects[id] = m_objects[m_numObject];
 	m_objects[id]->SetIDInWorld(id);
 	m_objectStorage->PushObject(object->GetObjectType(), object);
 
-	m_isUpdateSortedObject = false;
+	m_isUpdateSortedGraphicsComponent = false;
 }
 
 PERObject* PERWorld::AddAndGetObject(PERObjectType type)
@@ -362,8 +379,13 @@ void PERWorld::InitSettingForWorld(ObjectStorage* objectStorage, PERDatabase* da
 	m_database = database;
 	m_gameMode = mode;
 
+	// 오브젝트, 컨포넌트 벡터 리사이즈
 	m_objects.reserve(m_maxObject);
 	m_objects.resize(m_maxObject);
+	m_inputComponents.resize(m_maxObject);
+	m_aiComponents.resize(m_maxObject);
+	m_physicsComponents.resize(m_maxObject);
+	m_graphicsComponents.resize(m_maxObject);
 }
 
 void PERWorld::SetObjectVisual(PERObject* object, const char* visualId)
@@ -386,20 +408,20 @@ void PERWorld::SetObjectShapeAndColor(PERObject* object, PERShapeType shape, PER
 	object->GetGraphics().SetData(graphicsData);
 }
 
-void PERWorld::UpdateSortedObjects()
+void PERWorld::UpdateSortedGraphicsComponents()
 {
-	if (m_isUpdateSortedObject) return;
+	if (m_isUpdateSortedGraphicsComponent) return;
 
-	m_sortedObjects.clear();
+	m_sortedGraphicsComponents.clear();
 
 	// 위치의 z값이 작은 순서로 정렬
-	m_sortedObjects.resize((size_t)m_numObject);
-	std::copy(m_objects.begin(), m_objects.begin() + m_numObject, m_sortedObjects.begin());
-	std::sort(m_sortedObjects.begin(), m_sortedObjects.end(), [](PERObject* a, PERObject* b) {
-		return a->GetPosition().z < b->GetPosition().z;
+	m_sortedGraphicsComponents.resize((size_t)m_numObject);
+	std::copy(m_graphicsComponents.begin(), m_graphicsComponents.begin() + m_numObject, m_sortedGraphicsComponents.begin());
+	std::sort(m_sortedGraphicsComponents.begin(), m_sortedGraphicsComponents.end(), [](GraphicsComponent* a, GraphicsComponent* b) {
+		return a->GetZValue() < b->GetZValue();
 		});
 
-	m_isUpdateSortedObject = true;
+	m_isUpdateSortedGraphicsComponent = true;
 }
 
 void PERWorld::UpdateCamera(PERRenderer& renderer, double frameGap)

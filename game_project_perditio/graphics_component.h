@@ -25,7 +25,17 @@ public:
 	{
 		return m_owner;
 	}
+	void SetZValue(double z)
+	{
+		m_zValue = z;
+	}
+	double GetZValue() const
+	{
+		return m_zValue;
+	}
 
 private:
+	double m_zValue = PER_LOWEST_Z_VALUE;
+
 	PERObject* m_owner;
 };

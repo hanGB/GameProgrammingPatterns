@@ -8,6 +8,8 @@ void VisibleGraphicsComponent::Update(PERHud& hud, PERAudio& audio, double dTime
 	m_position = GetOwner()->GetPosition();
 	m_size = GetOwner()->GetSize();
 	m_currentVelocity = GetOwner()->GetVelocity();
+	
+	SetZValue(m_position.z);
 }
 
 void VisibleGraphicsComponent::Render(PERRenderer& renderer, double frameGap)

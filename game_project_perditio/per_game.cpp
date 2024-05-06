@@ -80,21 +80,21 @@ void PERGame::Update(int time)
 	// PER_MILLISEC_PER_UPDATE 만큼씩 업데이트
 	for (int i = 0; i < PER_MAXIMUM_UPDATE_LOOP_COUNT && m_updateLag >= PER_MICROSEC_PER_UPDATE; ++i) {
 		// 정해진 시간만큼 게임 업데이트
-		m_currentWorld->ObjectsInputUpdate(*m_controller, *m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
-		m_currentWorld->ObjectsAiUpdate(*m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
-		m_currentWorld->ObjectsPhysicsUpdate(*m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
+		m_currentWorld->InputUpdate(*m_controller, *m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
+		m_currentWorld->AiUpdate(*m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
+		m_currentWorld->PhysicsUpdate(*m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
 		m_updateLag -= PER_MICROSEC_PER_UPDATE;
 	}
 	// 최대 업데이트 루프 횟수를 넘어서 끝날 경우를 대비해 업데이트에 걸리는 시간으로 나눔
 	m_updateLag %= PER_MICROSEC_PER_UPDATE;
 	
-	// 업데이트가 끝난 경우 리턴
+	// 업데이트가 끝난 경우 리턴(저번 업데이트가 끝난 후 아직 렌더링이 완료되지 않아 false로 변경되지 않음)
 	if (m_isUpdateEnd) return;
 	m_frameGap = (double)m_updateLag / (double)PER_MICROSEC_PER_UPDATE;
-	m_currentWorld->ObjectsGraphicsUpdate(*m_audio, dTime);
+	m_currentWorld->GraphicsUpdate(*m_audio, dTime);
 
 	// 오브젝트 정렬
-	m_currentWorld->UpdateSortedObjects();
+	m_currentWorld->UpdateSortedGraphicsComponents();
 	// 카메라 업데이트
 	m_currentWorld->UpdateCamera(*m_renderer, m_frameGap);
 
