@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "player_state.h"
 #include "event_dispatcher.h"
+#include "per_world.h"
+#include "per_object.h"
 
 void PlayerState::Initialize()
 {
@@ -13,9 +15,19 @@ void PlayerState::Initialize()
     ObjectState::Initialize();
 }
 
-bool PlayerState::GiveDamage(PERObject& opponent, short physical, short mind)
+bool PlayerState::GiveDamage(PERObject& opponent, PERWorld& world, short physical, short mind)
 {
-    if (!ObjectState::GiveDamage(opponent, physical, mind)) return false;
+    if (!ObjectState::GiveDamage(opponent, world, physical, mind)) return false;
+
+    if ( m_currentBody <= 0 ) 
+    {   
+        PERStat stat;
+        // 레벨을 이펙트 타입으로 사용
+        stat.level = 0;
+        // accel의 x을 파티클 딜레이로 y을 파티클 수명으로
+        PERVec3 accel = PERVec3(5.0, 1.0, 2.5);
+        world.RequestAddObject(GetOwner(), PERObjectType::PARTICLE_EFFECTER, "PARTICLE_EFFECT_DEATH_VISUAL", true, stat, GetOwner()->GetPosition(), 1.0, accel);
+    }
     EventDispatcher::Send(PEREvent::UPDATE_BD, PERVec3(m_currentBody, 0.0, 0.0));
     return true;
 }
@@ -44,9 +56,9 @@ void PlayerState::RecoverPerTime(double dTime)
     m_recoverDelay = 0.0;
 }
 
-void PlayerState::GiveExp(int exp)
+void PlayerState::GiveExp(PERWorld& world, int exp)
 {
-    ObjectState::GiveExp(exp);
+    ObjectState::GiveExp(world, exp);
     PERLog::Logger().InfoWithFormat("플레이어가 경험치 %d를 획득", exp);
 }
 

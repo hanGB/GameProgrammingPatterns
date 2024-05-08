@@ -99,6 +99,13 @@ private:
 	void DoGarbegeCollection(double dTime);
 	void ProcessPendingMessage();
 
+	// 메세지 처리
+	void ProcessAddMessage(PERWorldMessage& message);
+	void SetBaseOfAddMessage(PERWorldMessage& message, PERObject* newObject, VisualData* vData);
+	void SetForAddParticleEffecterMessage(PERWorldMessage& message, PERObject* newObject, VisualData* vData);
+	void SetForAddBladeMessage(PERWorldMessage& message, PERObject* newObject);
+	void SetForAddBySpawnerMessage(PERWorldMessage& message, PERObject* newObject);
+
 	void ResizePedingArray();
 
 	// AABB 충돌 관련

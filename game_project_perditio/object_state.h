@@ -8,6 +8,7 @@
 class PERObject;
 class PERHud;
 class UiElement;
+class PERWorld;
 
 class ObjectState {
 public:
@@ -21,10 +22,10 @@ public:
 	virtual void Initialize();
 
 	// 상태 변화
-	virtual bool GiveDamage(PERObject& opponent, short physical, short mind);
+	virtual bool GiveDamage(PERObject& opponent, PERWorld& world, short physical, short mind);
 	virtual bool UseMind(int mind);
 	virtual void RecoverPerTime(double dTime);
-	virtual void GiveExp( int exp);
+	virtual void GiveExp(PERWorld& world, int exp);
 
 	std::string GetNameId() const;
 	PERStat GetStat() const;

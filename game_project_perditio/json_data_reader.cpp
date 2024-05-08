@@ -124,6 +124,7 @@ VisualData* JSONDataReader::MakeVisualData(const char* id)
 			m_document[id]["SIZE_Y"].GetDouble(), 
 			m_document[id]["SIZE_Z"].GetDouble()
 		);
+	data->mass = m_document[ id ][ "MASS" ].GetInt();
 	data->color =
 		PERColor(
 			m_document[id]["COLOR_R"].GetInt(),

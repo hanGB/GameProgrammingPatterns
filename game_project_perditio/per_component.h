@@ -25,6 +25,7 @@ namespace PERComponent {
 		bool isDisposable = false;
 		double particleDelay = 0.5;
 		double particleLifeTime = 3.0;
+		double particleSpeed = 1.0;
 		PERParticleEffectType particleEffectType = PERParticleEffectType::CIRCLE_BOMB;
 	};
 

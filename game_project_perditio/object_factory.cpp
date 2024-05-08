@@ -258,14 +258,14 @@ void ObjectFactory::InitializeObjectState(ObjectState* objectState)
     switch (m_objectStateType) {
     case PERObjectStateType::PLAYER: {
         m_stat = {
-            1, 100, 100, 10, 10, 10, 10
+            1, 50, 50, 20, 20, 10, 10
         };
         objectState->SetStat(m_stat);
         break;
     }
     case PERObjectStateType::MONSTER: {
         m_stat = {
-            1, 50, 50, 5, 5, 5, 5
+            1, 50, 50, 15, 15, 5, 5
         };
         objectState->SetStat(m_stat);
         objectState->SetIsHasCollisionDamage(true);

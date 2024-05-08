@@ -13,6 +13,8 @@ void CreatingParticlesAiComponent::SetData(PERComponent::AiData data)
 {
 	m_particleDelay = data.particleDelay;
 	m_particleLifeTime = data.particleLifeTime;
+	m_particleSpeed = data.particleSpeed;
+	m_time = m_particleDelay;
 
 	switch (data.particleEffectType)
 	{
@@ -56,7 +58,7 @@ void CreatingParticlesAiComponent::CreateParticlesForCircleBombEffect(PERWorld& 
 		for (int i = 0; i != 360; i += 20) {
 			PERVec3 vel = PERVec3(std::cos(i * ONE_DEGREE_IN_RADIAN) * 5.0, std::sin(i * ONE_DEGREE_IN_RADIAN) * 5.0, 0.1);
 
-			world.GetParticlePool().Create(m_particleShapeType, pos, m_particleSize, m_particleMass, PERVec3(0.0, 0.0, 0.0), vel,
+			world.GetParticlePool().Create(m_particleShapeType, pos, m_particleSize, m_particleMass, PERVec3(0.0, 0.0, 0.0), vel * m_particleSpeed,
 				m_particleColor, m_particleLifeTime, m_isParticleBorderOn, m_particleBorderWidth, m_particleBorderColor);
 		}
 		m_time = 0.0;

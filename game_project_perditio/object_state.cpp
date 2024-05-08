@@ -108,7 +108,7 @@ PERObject* ObjectState::GetOwner()
 	return m_owner;
 }
 
-bool ObjectState::GiveDamage(PERObject& opponent, short physical, short mind)
+bool ObjectState::GiveDamage(PERObject& opponent, PERWorld& world, short physical, short mind)
 {
 	if (m_isImmortal) return false;
 	if (physical == 0 && mind == 0) return false;
@@ -133,10 +133,10 @@ bool ObjectState::GiveDamage(PERObject& opponent, short physical, short mind)
 
 		// 부모가 있을 경우 총알이나 칼날이므로 부모에게 경험치를 줌
 		if (opponent.GetParent()) {
-			opponent.GetParent()->GetObjectState().GiveExp(m_stat.level);
+			opponent.GetParent()->GetObjectState().GiveExp(world, m_stat.level);
 		}
 		else {
-			opponent.GetObjectState().GiveExp(m_stat.level);
+			opponent.GetObjectState().GiveExp(world, m_stat.level);
 		}
 	}
 
@@ -155,7 +155,7 @@ void ObjectState::RecoverPerTime(double dTime)
 {
 }
 
-void ObjectState::GiveExp(int exp)
+void ObjectState::GiveExp(PERWorld& world, int exp)
 {
 	m_exp += exp;
 	if (m_exp >= m_stat.level * c_DEFAULT_LEVEL_EXP_GAP) {

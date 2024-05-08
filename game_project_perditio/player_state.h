@@ -7,10 +7,10 @@ public:
 	// 초기화
 	virtual void Initialize();
 
-	virtual bool GiveDamage(PERObject& opponent, short physical, short mind);
+	virtual bool GiveDamage(PERObject& opponent, PERWorld& world, short physical, short mind);
 	virtual bool UseMind(int mind);
 	virtual void RecoverPerTime(double dTime);
-	virtual void GiveExp(int exp);
+	virtual void GiveExp(PERWorld& world, int exp);
 
 	// getter
 	double GetShootCoolTime() const;

@@ -14,6 +14,7 @@
 #include "spawner_ai_component.h"
 #include "per_particle_pool.h"
 #include "graphics_component.h"
+#include "creating_particles_ai_component.h"
 
 PERWorld::PERWorld()
 {
@@ -261,43 +262,7 @@ void PERWorld::ProcessPendingMessage()
 
 		switch (message.id) {
 		case PERWorldMessageId::ADD_OBJECT: {
-			PERObject* newObject = AddAndGetObject(message.type);
-
-			// databaseId가 비주얼 아이디가 아닐 경우 몬스터 아이디(오브젝트 아이디)이므로 데이터베이스에서 비주얼 아이디를 얻음
-			if (!message.isVisualId) {
-				newObject->GetObjectState().SetNameId(m_database->GetMonsterData(message.databaseId.c_str())->nameId);
-				message.databaseId = m_database->GetMonsterData(message.databaseId.c_str())->visualId;
-			}
-
-			VisualData* vData = m_database->GetVisualData(message.databaseId.c_str());
-			PERComponent::GraphicsData gData;
-			gData.shape = vData->shape; gData.color = vData->color;
-			gData.border = vData->borderOn; gData.borderWidth = vData->borderWidth; gData.borderColor = vData->borderColor;
-			newObject->SetSize(vData->size);
-			newObject->GetGraphics().SetData(gData);
-
-			newObject->SetPosition(message.position);
-			newObject->SetCurrentAccel(message.currentAccel);
-			newObject->SetLifeTime(message.lifeTime);
-			newObject->SetParent(message.object);
-			newObject->GetObjectState().SetStat(message.stat);
-
-			newObject->SetCurrentPositionToSpawnPosition();
-
-			// 칼날일 경우 위치값을 붙여진 위치로 설정
-			if (message.type == PERObjectType::BLADE)
-			{
-				PERComponent::PhysicsData pData;
-				pData.stuckPosition = message.position;
-				newObject->GetPhysics().SetData(pData);
-			}
-
-			// 새로운 오브젝트 추가를 요청한 오브젝트가 스포너일 경우 스포너의 ai 컨포넌트에 추가된 오브젝트 연동
-			if (message.object->GetObjectType() == PERObjectType::SPAWNER)
-			{
-				dynamic_cast<SpawnerAiComponent*>(&message.object->GetAi())->SetSpawnedObject(newObject);
-			}
-
+			ProcessAddMessage(message);
 			break;
 		}
 		case PERWorldMessageId::DELETE_OBJECT: 
@@ -306,6 +271,84 @@ void PERWorld::ProcessPendingMessage()
 		}
 	}
 	m_numPending = 0;
+}
+
+void PERWorld::ProcessAddMessage(PERWorldMessage& message)
+{
+	PERObject* newObject = AddAndGetObject(message.type);
+
+	// databaseId가 비주얼 아이디가 아닐 경우 몬스터 아이디(오브젝트 아이디)이므로 데이터베이스에서 비주얼 아이디를 얻음
+	if ( !message.isVisualId ) {
+		newObject->GetObjectState().SetNameId(m_database->GetMonsterData(message.databaseId.c_str())->nameId);
+		message.databaseId = m_database->GetMonsterData(message.databaseId.c_str())->visualId;
+	}
+	VisualData* vData = m_database->GetVisualData(message.databaseId.c_str());
+	
+	// 기본
+	SetBaseOfAddMessage(message, newObject, vData);
+	// 파티클 이펙터일 경우
+	if ( message.type == PERObjectType::PARTICLE_EFFECTER ) SetForAddParticleEffecterMessage(message, newObject, vData);
+	// 칼날일 경우
+	else if ( message.type == PERObjectType::BLADE ) SetForAddBladeMessage(message, newObject);
+	// 스포너가 소환 요청한 오브젝트인 경우
+	else if ( message.object->GetObjectType() == PERObjectType::SPAWNER ) SetForAddBySpawnerMessage(message, newObject);
+}
+
+void PERWorld::SetBaseOfAddMessage(PERWorldMessage& message, PERObject* newObject, VisualData* vData)
+{
+	// 그래픽 설정
+	PERComponent::GraphicsData gData;
+	gData.shape = vData->shape; gData.color = vData->color;
+	gData.border = vData->borderOn; gData.borderWidth = vData->borderWidth; gData.borderColor = vData->borderColor;
+
+	newObject->SetSize(vData->size);
+	newObject->SetMass(vData->mass);
+	newObject->GetGraphics().SetData(gData);
+
+	// 메세지로 받은 데이터 설정
+	newObject->SetPosition(message.position);
+	newObject->SetCurrentAccel(message.currentAccel);
+	newObject->SetLifeTime(message.lifeTime);
+	newObject->SetParent(message.object);
+	newObject->GetObjectState().SetStat(message.stat);
+}
+
+void PERWorld::SetForAddParticleEffecterMessage(PERWorldMessage& message, PERObject* newObject, VisualData* vData)
+{
+	dynamic_cast< CreatingParticlesAiComponent* >( &newObject->GetAi() )->SetParticle(vData->shape, vData->size, vData->mass, vData->color,
+			vData->borderOn, vData->borderWidth, vData->borderColor);
+
+	PERComponent::AiData aData;
+	// 레벨을 이펙트 타입으로 대신 사용
+	aData.particleEffectType = ( PERParticleEffectType ) message.stat.level;
+	// 가속도 x 값을 파티클 소환 딜레이로 사용
+	aData.particleDelay = message.currentAccel.x;
+	// 가속도 y 값을 파티클 수명으로 사용
+	aData.particleLifeTime = message.currentAccel.y;
+	// 가속도 z값을 파티클 속도로 사용
+	aData.particleSpeed = message.currentAccel.z;
+
+	newObject->GetAi().SetData(aData);
+
+	// 가속도 삭제
+	newObject->SetCurrentAccel(PERVec3(0.0, 0.0, 0.0));
+	// 부모 삭제
+	newObject->SetParent(nullptr);
+}
+
+void PERWorld::SetForAddBladeMessage(PERWorldMessage& message, PERObject* newObject)
+{
+	// 위치값을 붙여진 위치로 설정
+	PERComponent::PhysicsData pData;
+	pData.stuckPosition = message.position;
+	newObject->GetPhysics().SetData(pData);
+}
+
+void PERWorld::SetForAddBySpawnerMessage(PERWorldMessage& message, PERObject* newObject)
+{
+	// 스포너의 ai 컨포넌트에 추가된 오브젝트 연동 및 스폰된 위치 설정
+	dynamic_cast< SpawnerAiComponent* >( &message.object->GetAi() )->SetSpawnedObject(newObject);
+	newObject->SetCurrentPositionToSpawnPosition();
 }
 
 void PERWorld::AddObject(PERObject* object)
@@ -535,7 +578,7 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 	}
 	// 총알 데미지 처리
 	else if (aType == PERObjectType::BULLET) {
-		bObject.GetObjectState().GiveDamage(aObject, aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
+		bObject.GetObjectState().GiveDamage(aObject, *this, aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
 
 		// 총알 속도 방향으로 약간 이동(넉백)
 		if (aObject.GetObjectType() == PERObjectType::BULLET) {
@@ -549,7 +592,7 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 		}
 	}
 	else if (bType == PERObjectType::BULLET) {
-		aObject.GetObjectState().GiveDamage(bObject, bObject.GetObjectState().GetStat().physicalAttack, bObject.GetObjectState().GetStat().mindAttack);
+		aObject.GetObjectState().GiveDamage(bObject, *this, bObject.GetObjectState().GetStat().physicalAttack, bObject.GetObjectState().GetStat().mindAttack);
 
 		// 총알 속도 방향으로 약간 이동(넉백)
 		if (bObject.GetObjectType() == PERObjectType::BULLET) {
@@ -566,10 +609,10 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 	// 플레이어와 몬스터 간
 	else if (aType == PERObjectType::PLAYER && bType == PERObjectType::MONSTER) {
 		// 플레이어에게 대미지를 줌
-		aObject.GetObjectState().GiveDamage(bObject, bObject.GetObjectState().GetCollisionDamage(), 0);
+		aObject.GetObjectState().GiveDamage(bObject, *this, bObject.GetObjectState().GetCollisionDamage(), 0);
 	}
 	else if (bType == PERObjectType::PLAYER && aType == PERObjectType::MONSTER) {
-		bObject.GetObjectState().GiveDamage(aObject, aObject.GetObjectState().GetCollisionDamage(), 0);
+		bObject.GetObjectState().GiveDamage(aObject, *this, aObject.GetObjectState().GetCollisionDamage(), 0);
 	}
 	// 플레이어 또는 몬스터 또는 움직이는 오브젝트 와 압력 발판 간
 	else if ((aType == PERObjectType::PLAYER || aType == PERObjectType::MONSTER || aType == PERObjectType::MOVABLE_BLOCK) && bType == PERObjectType::PRESSURE) {

@@ -7,7 +7,7 @@ public:
 	// 초기화
 	virtual void Initialize();
 
-	virtual bool GiveDamage(PERObject& opponent, short physical, short mind);
+	virtual bool GiveDamage(PERObject& opponent, PERWorld& world, short physical, short mind);
 	virtual bool UseMind(int mind);
 
 	// setter
