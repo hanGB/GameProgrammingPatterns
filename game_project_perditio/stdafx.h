@@ -8,10 +8,6 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <Windows.h>
-
-#include <locale> 
-#include <codecvt>
-
 #include <tchar.h>
 // 멀티 스레드
 #include <thread>

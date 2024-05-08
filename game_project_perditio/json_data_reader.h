@@ -14,8 +14,8 @@ private:
 
 	void ReadJson(const char* fileName);
 	 
-	// 한글 깨짐 해결을 위한 변환 함수
-	std::wstring StringToWString(const std::string& var);
+	// UTF-8 텍스트를 wstring에 넣음
+	void UTF8TextToWString(const char* utf8Text, std::wstring& result);
 
 	MonsterData* MakeMonsterData(const char* id);
 	TranslateData* MakeTranslateData(const char* id);

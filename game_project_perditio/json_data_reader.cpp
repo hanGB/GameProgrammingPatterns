@@ -63,11 +63,10 @@ void JSONDataReader::ReadJson(const char* fileName)
 	delete[] buffer;
 }
 
-std::wstring JSONDataReader::StringToWString(const std::string& var)
+void JSONDataReader::UTF8TextToWString(const char* utf8Text, std::wstring& result)
 {
-	static std::locale loc("");
-	auto& facet = std::use_facet<std::codecvt<wchar_t, char, std::mbstate_t>>(loc);
-	return std::wstring_convert<std::remove_reference<decltype(facet)>::type, wchar_t>(&facet).from_bytes(var);
+	int nLen = MultiByteToWideChar(CP_UTF8, 0, utf8Text, sizeof(utf8Text), NULL, NULL);
+	MultiByteToWideChar(CP_UTF8, 0, utf8Text, sizeof(utf8Text), &result[0], nLen);
 }
 
 MonsterData* JSONDataReader::MakeMonsterData(const char* id)
@@ -102,8 +101,8 @@ TranslateData* JSONDataReader::MakeTranslateData(const char* id)
 		PERLog::Logger().ErrorWithFormat("Not correct translate ID: %s", id);
 		return nullptr;
 	}
-	data->engUS = StringToWString(m_document[id]["ENG_US"].GetString());
-	data->korKR = StringToWString(m_document[id]["KOR_KR"].GetString());
+	UTF8TextToWString(m_document[id]["ENG_US"].GetString(), data->engUS);
+	UTF8TextToWString(m_document[id]["KOR_KR"].GetString(), data->korKR);
 
 	return data;
 }

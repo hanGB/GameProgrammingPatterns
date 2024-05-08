@@ -4,17 +4,21 @@
 ConsoleLogger::ConsoleLogger()
 {
 	AllocConsole();
+
 	FILE* stream;
 	freopen_s(&stream, "CONIN$", "r", stdin);
 	freopen_s(&stream, "CONOUT$", "w", stderr);
 	freopen_s(&stream, "CONOUT$", "w", stdout);
 
-	Info("能贾芒 积己");
+	// 콘솔 UTF-8로 설정
+	SetConsoleOutputCP(65001);
+
+	Info("콘솔 로거 생성");
 }
 
 ConsoleLogger::~ConsoleLogger()
 {
-	Info("能贾芒 力芭");
+	Info("콘솔 로거 삭제");
 
 	FreeConsole();
 }
