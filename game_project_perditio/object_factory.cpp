@@ -178,6 +178,7 @@ void ObjectFactory::InitComponentDatas(
     ai.isDisposable = false;
     ai.particleDelay = 0.5;
     ai.particleLifeTime = 3.0;
+    ai.isCollectedByPlayerParticle = false;
     ai.particleEffectType = PERParticleEffectType::CIRCLE_BOMB;
     // physics
     physics.friction = true;

@@ -15,14 +15,15 @@ PERParticlePool::~PERParticlePool()
 {
 }
 
-void PERParticlePool::Create(PERShapeType type, PERVec3 pos, PERVec3 size, double mass, PERVec3 force, PERVec3 vel, PERColor color, double lifeTime, bool isBorderOn, int borderWidth, PERColor borderColor)
+void PERParticlePool::Create(PERShapeType type, PERVec3 pos, PERVec3 size, double mass, PERVec3 force, PERVec3 vel, PERColor color, 
+	double lifeTime, bool isColletedByPlayer, bool isBorderOn, int borderWidth, PERColor borderColor)
 {
 	if (!m_head) return;
 
 	PERParticle* particle = m_head;
 	m_head = particle->GetNext();
 
-	particle->Init(type, pos, size, mass, force, vel, color, lifeTime, isBorderOn, borderWidth, borderColor);
+	particle->Init(type, pos, size, mass, force, vel, color, lifeTime, isColletedByPlayer, isBorderOn, borderWidth, borderColor);
 }
 
 void PERParticlePool::Update(double dTime)

@@ -114,7 +114,7 @@ void PlayerInputComponent::SwingBlade(PERWorld& world, PERController& controller
 
 		// 플레이어에 대한 상대적 위치를 위치값으로 넘김
 		PERVec3 stuckPosition = PERVec3((double)m_dirX * data->size.x * 0.8, (double)m_dirY * data->size.y * 0.8, 0.0);
-		PERStat stat = { 1, 0, 0, 10, 0, 0, 0 };
+		PERStat stat = { 1, 0, 0, 20, 0, 0, 0 };
 		world.RequestAddObject(
 			GetOwner(), PERObjectType::BLADE, state.GetBladeVisualId().c_str(), true,
 			stat, stuckPosition, 0.1);

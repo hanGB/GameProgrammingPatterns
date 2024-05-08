@@ -19,6 +19,8 @@ private:
 	double m_particleDelay;
 	double m_particleLifeTime;
 	double m_particleSpeed;
+	bool m_isCollectedByPlayer;
+
 	double m_time;
 
 	// 소환 파티클 모양

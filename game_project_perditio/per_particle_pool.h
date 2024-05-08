@@ -7,7 +7,7 @@ public:
 	~PERParticlePool();
 
 	void Create(PERShapeType type, PERVec3 pos, PERVec3 size, double mass, PERVec3 force, PERVec3 vel, PERColor color,
-		double lifeTime = PER_MAXIMUM_LIFE_TIME, bool isBorderOn = true, int borderWidth = 1, PERColor borderColor = PERColor(0, 0, 0));
+		double lifeTime = PER_MAXIMUM_LIFE_TIME, bool isColletedByPlayer = false, bool isBorderOn = true, int borderWidth = 1, PERColor borderColor = PERColor(0, 0, 0));
 
 	void Update(double dTime);
 	void Renderer(PERRenderer& renderer);

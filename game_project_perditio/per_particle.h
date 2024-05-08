@@ -8,7 +8,7 @@ public:
 	~PERParticle();
 
 	void Init(PERShapeType type, PERVec3 pos, PERVec3 size, double mass, PERVec3 force, PERVec3 vel, PERColor color,
-		double lifeTime = PER_MAXIMUM_LIFE_TIME, bool isBorderOn = true, int borderWidth = 1, PERColor borderColor = PERColor(0, 0, 0));
+		double lifeTime = PER_MAXIMUM_LIFE_TIME, bool isColletedByPlayer = false, bool isBorderOn = true, int borderWidth = 1, PERColor borderColor = PERColor(0, 0, 0));
 
 	bool Update(double dTime);
 	void Render(PERRenderer& renderer);
@@ -20,8 +20,14 @@ public:
 	void SetNext(PERParticle* next);
 
 private:
+	static const int c_COLLECT_DISTANCE_2 = 100;
+	static const int c_COLLETED_SPEED = 10;
+
 	bool m_isInUse;
+	bool m_isColletedByPlayer = false;
 	double m_lifeTime;
+
+	double m_halfSettingLifeTime;
 
 	// 물리값
 	PERVec3 m_position;

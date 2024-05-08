@@ -321,6 +321,8 @@ void PERWorld::SetForAddParticleEffecterMessage(PERWorldMessage& message, PERObj
 	PERComponent::AiData aData;
 	// 레벨을 이펙트 타입으로 대신 사용
 	aData.particleEffectType = ( PERParticleEffectType ) message.stat.level;
+	// 바디를 흡수 여부로 사용
+	aData.isCollectedByPlayerParticle = ( bool ) message.stat.body;
 	// 가속도 x 값을 파티클 소환 딜레이로 사용
 	aData.particleDelay = message.currentAccel.x;
 	// 가속도 y 값을 파티클 수명으로 사용

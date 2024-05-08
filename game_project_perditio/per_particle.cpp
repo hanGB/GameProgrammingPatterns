@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "per_particle.h"
 #include "per_renderer.h"
+#include "black_board.h"
 
 PERParticle::PERParticle()
 {
@@ -12,11 +13,13 @@ PERParticle::~PERParticle()
 {
 }
 
-void PERParticle::Init(PERShapeType type, PERVec3 pos, PERVec3 size, double mass, PERVec3 force, PERVec3 vel, PERColor color,
-	double lifeTime, bool isBorderOn, int borderWidth, PERColor borderColor)
+void PERParticle::Init(PERShapeType type, PERVec3 pos, PERVec3 size, double mass, PERVec3 force, PERVec3 vel, PERColor color, 
+	double lifeTime, bool isColletedByPlayer, bool isBorderOn, int borderWidth, PERColor borderColor)
 {
 	m_isInUse = true;
 	m_lifeTime = lifeTime;
+	m_isColletedByPlayer = isColletedByPlayer;
+	m_halfSettingLifeTime = m_lifeTime * 0.5;
 
 	// 물리값
 	m_position = pos;
@@ -39,6 +42,23 @@ bool PERParticle::Update(double dTime)
 	m_lifeTime -= dTime;
 	// 라이프 타임이 0보다 작으면 사용 중이 아니도록 하기 위해 false를 넘김
 	if (m_lifeTime < 0.0) return false;
+
+	// 라이프 타임이 절반 남았을 경우부터 플레이어가 흡수 가능
+	if ( m_isColletedByPlayer )
+	{
+		if ( m_lifeTime < m_halfSettingLifeTime ) 
+		{
+			PERVec3 pos = BlackBoard::GetPlayerPos();
+			double distance = DistanceSquareAandBIgnoringZValue(pos, m_position);
+			// 특정 거리 안이면 플레이어를 향해 이동
+			if ( c_COLLECT_DISTANCE_2 > distance ) 
+			{
+				// 충분히 가까워 졌을 경우 삭제
+				double rDistance = std::sqrt(distance);
+				m_velocity = PERVec3(( pos.x - m_position.x ) / rDistance, ( pos.y - m_position.y ) / rDistance, 0.0) * c_COLLETED_SPEED;
+			}
+		}
+	}
 
 	// 힘에 의한 속도 변화 계산
 	PERVec3 acc = m_force * (1.0 / m_mass);
