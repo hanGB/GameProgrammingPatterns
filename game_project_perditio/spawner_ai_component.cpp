@@ -102,7 +102,7 @@ void SpawnerAiComponent::RequsetSpawnObjcet(PERWorld& world)
     MonsterData* data = world.GetDatabase().GetMonsterData(m_objectId.c_str());
     PERVec3 pos = GetOwner()->GetPosition();
 
-    // ¿ùµå¿¡ Ãß°¡ ¿äÃ»
+    // ì›”ë“œì— ì¶”ê°€ ìš”ì²­
     world.RequestAddObject(
         GetOwner(), m_type, m_objectId.c_str(), false,
         data->stat, pos, m_lifeTime);

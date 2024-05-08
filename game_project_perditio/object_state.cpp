@@ -19,18 +19,18 @@ void ObjectState::UseIgnoreDamageTime(double dTime)
 
 void ObjectState::Initialize()
 {
-	// ´ë¹ÌÁö ¹«½Ã
+	// ëŒ€ë¯¸ì§€ ë¬´ì‹œ
 	m_damageDelay = 0.0;
-	// ÀÚµ¿ È¸º¹
+	// ìžë™ íšŒë³µ
 	m_recoverDelay = 0.0;
 	m_recoverTime = c_DEFAULT_TIME_FOR_RECOVER;
 	m_bodyRecoverPercent = c_DEFAULT_BODY_RECOVER_PERCENT;
 	m_mindRecoverPercent = c_DEFAULT_MIND_RECOVER_PERCENT;
 
-	// ±âº» Á¤º¸
+	// ê¸°ë³¸ ì •ë³´
 	m_isHasCollsionDamage = false;
 	m_isImmortal = false;
-	// ½ºÆù À§Ä¡
+	// ìŠ¤í° ìœ„ì¹˜
 	m_spawnPosition = PERVec3(0.0, 0.0, 0.0);
 }
 
@@ -131,7 +131,7 @@ bool ObjectState::GiveDamage(PERObject& opponent, short physical, short mind)
 		GetOwner()->SetLifeTime(-1.0);
 		GetOwner()->GetGraphics().RemoveFloatingUi();
 
-		// ºÎ¸ð°¡ ÀÖÀ» °æ¿ì ÃÑ¾ËÀÌ³ª Ä®³¯ÀÌ¹Ç·Î ºÎ¸ð¿¡°Ô °æÇèÄ¡¸¦ ÁÜ
+		// ë¶€ëª¨ê°€ ìžˆì„ ê²½ìš° ì´ì•Œì´ë‚˜ ì¹¼ë‚ ì´ë¯€ë¡œ ë¶€ëª¨ì—ê²Œ ê²½í—˜ì¹˜ë¥¼ ì¤Œ
 		if (opponent.GetParent()) {
 			opponent.GetParent()->GetObjectState().GiveExp(m_stat.level);
 		}

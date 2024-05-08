@@ -1,34 +1,34 @@
 {
   "MONSTER_KOPPER_NAME": {
     "ENG_US": "Kopper",
-    "KOR_KR": "Ä«ÆÛ"
+    "KOR_KR": "ì¹´í¼"
   },
   "MONSTER_NIKKEL_NAME": {
     "ENG_US": "Nikkel",
-    "KOR_KR": "´ÏÄÌ"
+    "KOR_KR": "ë‹ˆì¼ˆ"
   },
   "MONSTER_ANTIMONY_NAME": {
     "ENG_US": "Antimony",
-    "KOR_KR": "¾ÈÆ¼¸ð´Ï"
+    "KOR_KR": "ì•ˆí‹°ëª¨ë‹ˆ"
   },
   "OBJECT_BUTTON_NAME": {
     "ENG_US": "Button",
-    "KOR_KR": "¹öÆ°"
+    "KOR_KR": "ë²„íŠ¼"
   },
   "OBJECT_SWITCH_NAME": {
     "ENG_US": "Switch",
-    "KOR_KR": "½ºÀ§Ä¡"
+    "KOR_KR": "ìŠ¤ìœ„ì¹˜"
   },
   "OBJECT_PRESSURE_PLATE_NAME": {
     "ENG_US": "Pressure",
-    "KOR_KR": "¾Ð·Â¹ßÆÇ"
+    "KOR_KR": "ì••ë ¥ë°œíŒ"
   },
   "OBJECT_DOOR_NAME": {
     "ENG_US": "Door",
-    "KOR_KR": "¹®"
+    "KOR_KR": "ë¬¸"
   },
   "OBJECT_BLOCK_NAME": {
     "ENG_US": "Block",
-    "KOR_KR": "ºí·Ï"
+    "KOR_KR": "ë¸”ë¡"
   }
 }

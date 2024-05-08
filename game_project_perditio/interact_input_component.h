@@ -10,7 +10,7 @@ public:
 private:
 	void Move(PERController& controller, PERAudio& audio, double dTime);
 
-	// ÃÊ´ç °¡ÇÏ´Â Èû
+	// ì´ˆë‹¹ ê°€í•˜ëŠ” íž˜
 	const int c_DEFAULT_XY_FORCE = 10000;
 
 	int m_XYForce = c_DEFAULT_XY_FORCE;

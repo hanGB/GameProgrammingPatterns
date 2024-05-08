@@ -17,11 +17,13 @@ public:
 
 
 private:
-	// ╦П╬Г а╓╨╦
+	// К╙╗Л√▒ Л═∙КЁ╢
 	double		m_fontSize;
 	PERVec2		m_textPosition;
 	PERColor	m_textColor;
 
-	// ╣╔юлем а╓╨╦
+	// К█╟Л²╢М└╟ Л═∙КЁ╢
 	std::string m_nameId;
+	// Л²╢К╕└ М┘█Л┼╓М┼╦К╔╪ Л·└Л▀° Л═─Л·╔М∙≤К┼■ КЁ─Л┬≤
+	std::wstring m_textMemory;
 };

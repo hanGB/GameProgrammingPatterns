@@ -38,33 +38,31 @@ void NameTag::RenderOnScreen(PERRenderer& renderer, PERDatabase& database)
 
 	PERVec2 pos = GetPosition();
 	PERVec2 size = GetSize();
-	// πŸ
+	// Î∞î
 	renderer.RenderShapeInScreenCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 		pos, size, GetBackgroundColor(), false);
-	// ¿Ã∏ß ≈ÿΩ∫∆Æ
+	// Ïù¥Î¶Ñ ÌÖçÏä§Ìä∏
 	TranslateData* data = database.GetTranslateData(m_nameId.c_str());
-	USES_CONVERSION;
-	std::wstring name = A2W(data->korKR.c_str());
-	renderer.RenderFontInScreenCoordinate(name.c_str(), name.size(), m_fontSize, m_textPosition, m_textColor);
+	m_textMemory = data->korKR.c_str();
+	renderer.RenderFontInScreenCoordinate(m_textMemory.c_str(), m_textMemory.size(), m_fontSize, m_textPosition, m_textColor);
 }
 
 void NameTag::RenderInWorld(PERRenderer& renderer, PERDatabase& database)
 {
 	if (!GetIsInUse()) return;
 	
-	// ¿Ã∏ß æ∆¿Ãµ∑Œ π¯ø™ µ•¿Ã≈Õ∫£¿ÃΩ∫ø°º≠ Ω«¡¶ ¿Ã∏ß ∞°¡Æø¿±‚
+	// Ïù¥Î¶Ñ ÏïÑÏù¥ÎîîÎ°ú Î≤àÏó≠ Îç∞Ïù¥ÌÑ∞Î≤†Ïù¥Ïä§ÏóêÏÑú Ïã§Ï†ú Ïù¥Î¶Ñ Í∞ÄÏ†∏Ïò§Í∏∞
 	TranslateData* data = database.GetTranslateData(m_nameId.c_str());
-	USES_CONVERSION;
-	std::wstring name = A2W(data->korKR.c_str());
+	m_textMemory = data->korKR.c_str();
 	PERVec2 pos = GetPosition();
 	PERVec2 size = GetSize();
 
-	// πŸ
+	// Î∞î
 	renderer.RenderShapeInWorldCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 		PERVec3(pos.x - size.x * 0.5, pos.y, 0.0), PERVec3(size.x, size.y, 0.0),
 		GetBackgroundColor(), false);
-	// ¿Ã∏ß ≈ÿΩ∫∆Æ
-	renderer.RenderFontInWorldCoordinate(name.c_str(), (int)(name.size()), m_fontSize, 
-		PERVec2(m_textPosition.x - size.x / 9.0 * (double)(name.size()), m_textPosition.y), m_textColor);
+	// Ïù¥Î¶Ñ ÌÖçÏä§Ìä∏
+	renderer.RenderFontInWorldCoordinate(m_textMemory.c_str(), (int)(m_textMemory.size()), m_fontSize,
+		PERVec2(m_textPosition.x - size.x / 9.0 * (double)(m_textMemory.size()), m_textPosition.y), m_textColor);
 
 }

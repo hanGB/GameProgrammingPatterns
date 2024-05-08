@@ -34,12 +34,12 @@ void PlayerInputComponent::Initialize(PERComponent::InputData data)
 
 void PlayerInputComponent::Move(PERController& controller, PERAudio& audio, double dTime)
 {
-	// ÇÊ¿ä Á¤º¸ ¾ò±â
+	// í•„ìš” ì •ë³´ ì–»ê¸°
 	PERVec3 vel = GetOwner()->GetVelocity();
 	PERVec3 cAcc = GetOwner()->GetCurrentAccel();
 	double mass = GetOwner()->GetMass();
 
-	// x, yÃà ÀÌµ¿ ¼³Á¤
+	// x, yì¶• ì´ë™ ì„¤ì •
 	if (controller.IsKeyboardPressed(KeySetting::MoveUpwards.value)) {
 		if (vel.y < GetOwner()->c_MAXIMUM_XY_VELOCITY) {
 			cAcc.y += m_XYForce / mass * dTime;
@@ -66,10 +66,10 @@ void PlayerInputComponent::Move(PERController& controller, PERAudio& audio, doub
 
 void PlayerInputComponent::UpdateDirection(PERVec3 currentAccel)
 {
-	// µÑ ´Ù °¡¼ÓÀÌ ¾øÀ» °æ¿ì ¾÷µ¥ÀÌÆ® ¾ÈÇÔ
+	// ë‘˜ ë‹¤ ê°€ì†ì´ ì—†ì„ ê²½ìš° ì—…ë°ì´íŠ¸ ì•ˆí•¨
 	if (currentAccel.x == 0.0 && currentAccel.y == 0.0) return;
 
-	// ¹æÇâ ¼³Á¤
+	// ë°©í–¥ ì„¤ì •
 	if (currentAccel.x > 0.0) m_dirX = 1;
 	else if (currentAccel.x < 0.0) m_dirX = -1;
 	else m_dirX = 0;
@@ -84,7 +84,7 @@ void PlayerInputComponent::ShootBullet(PERWorld& world, PERController& controlle
 	m_shootingCoolTime -= dTime;
 	if (m_shootingCoolTime > 0.0) return;
 
-	// ÃÑ¾Ë ¹ß»ç
+	// ì´ì•Œ ë°œì‚¬
 	if (controller.IsKeyboardPressed(KeySetting::BulletAttack.value)) {
 		if (GetOwner()->GetObjectState().UseMind(10)) {
 			PlayerState& state = dynamic_cast<PlayerState&>(GetOwner()->GetObjectState());
@@ -106,13 +106,13 @@ void PlayerInputComponent::SwingBlade(PERWorld& world, PERController& controller
 	m_swingCoolTime -= dTime;
 	if (m_swingCoolTime > 0.0) return;
 
-	// °Ë ÈÖµÎ·ç±â
+	// ê²€ íœ˜ë‘ë£¨ê¸°
 	if (controller.IsKeyboardPressed(KeySetting::BladeAttack.value)) {
 		PlayerState& state = dynamic_cast<PlayerState&>(GetOwner()->GetObjectState());
 
 		VisualData* data = world.GetDatabase().GetVisualData(state.GetBladeVisualId().c_str());
 
-		// ÇÃ·¹ÀÌ¾î¿¡ ´ëÇÑ »ó´ëÀû À§Ä¡¸¦ À§Ä¡°ªÀ¸·Î ³Ñ±è
+		// í”Œë ˆì´ì–´ì— ëŒ€í•œ ìƒëŒ€ì  ìœ„ì¹˜ë¥¼ ìœ„ì¹˜ê°’ìœ¼ë¡œ ë„˜ê¹€
 		PERVec3 stuckPosition = PERVec3((double)m_dirX * data->size.x * 0.8, (double)m_dirY * data->size.y * 0.8, 0.0);
 		PERStat stat = { 1, 0, 0, 10, 0, 0, 0 };
 		world.RequestAddObject(

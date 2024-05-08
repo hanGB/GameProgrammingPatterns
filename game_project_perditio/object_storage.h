@@ -26,8 +26,8 @@ private:
 	void RefillObjectQueue(std::queue<PERObject*>& queue, PERObjectType type);
 	void ClearObjectQueues();
 
-	// ¿ÀºêÁ§Æ® ÆåÅä¸®
+	// ì˜¤ë¸Œì íŠ¸ í™í† ë¦¬
 	std::unordered_map <PERObjectType, ObjectFactory*> m_objectFactories;
-	// ¿ÀºêÁ§Æ® Å¥
+	// ì˜¤ë¸Œì íŠ¸ í
 	std::unordered_map<PERObjectType, std::queue<PERObject*>> m_objectQueues;
 };

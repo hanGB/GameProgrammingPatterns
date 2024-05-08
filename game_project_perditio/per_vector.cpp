@@ -29,7 +29,7 @@ PERVec3 NormalizeVector(PERVec3 vec)
 {
 	double value = sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
 
-	// °ªÀÌ 0.0ÀÎ °æ¿ì Ã³¸®
+	// ê°’ì´ 0.0ì¸ ê²½ìš° ì²˜ë¦¬
 	if (value == 0.0) return PERVec3(0.0, 0.0, 0.0);
 	return PERVec3(vec.x / value, vec.y / value, vec.z / value);
 }

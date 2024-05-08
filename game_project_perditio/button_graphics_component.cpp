@@ -70,7 +70,7 @@ bool ButtonGraphicsComponent::ShowHelper(PERHud& hud)
 
 void ButtonGraphicsComponent::MatchHelperWithData()
 {
-	// buttonÀº °íÁ¤µÇ¾î ÀÖ±â ¶§¹®¿¡ À§Ä¡¸¦ º¯°æÇÒ ÇÊ¿ä ¾øÀ½
+	// buttonì€ ê³ ì •ë˜ì–´ ìžˆê¸° ë•Œë¬¸ì— ìœ„ì¹˜ë¥¼ ë³€ê²½í•  í•„ìš” ì—†ìŒ
 	// PERVec2 pos = PERVec2(m_position.x, m_position.y + m_size.y * 1.5);
 	// m_Helper->MatchWithData(pos);
 }

@@ -22,7 +22,7 @@ PERWorld::PERWorld()
 
 PERWorld::~PERWorld()
 {
-	PERLog::Logger().Info("¿ùµå »èÁ¦");
+	PERLog::Logger().Info("ì›”ë“œ ì‚­ì œ");
 	delete m_particlePool;
 }
 
@@ -141,70 +141,70 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 	bool collided = false;
 	bool isOnPlatform = false;
 
-	// º»ÀÎ ¿ÀºêÁ§Æ® Á¤º¸ ¾ò±â
+	// ë³¸ì¸ ì˜¤ë¸Œì íŠ¸ ì •ë³´ ì–»ê¸°
 	PERObjectType type = object.GetObjectType();
 	PERVec3 position = object.GetBoundingBoxPosition(), size = object.GetBoundingBoxSize();
 	PERBoundingType boundingtype = object.GetBoundingType();
 
 	int id = object.GetIDInWorld();
 	for (int i = 0; i < m_numObject; ++i) {
-		// º»ÀÎÀÌ Á×¾ú°Å³ª Á×Àº ¿ÀºêÁ§Æ® °Ç³Ê¶Ü
+		// ë³¸ì¸ì´ ì£½ì—ˆê±°ë‚˜ ì£½ì€ ì˜¤ë¸Œì íŠ¸ ê±´ë„ˆëœ€
 		if (object.GetLifeTime() < 0.0) return collided;
 		if (m_objects[i]->GetLifeTime() < 0.0) continue;
 
-		// id°¡ °°Àº °Å(º»ÀÎ), ºÎ¸ğ, ÀÚ½Ä °Ç³Ê¶Ü
+		// idê°€ ê°™ì€ ê±°(ë³¸ì¸), ë¶€ëª¨, ìì‹ ê±´ë„ˆëœ€
 		if (id == i) continue;
 		if (object.GetParent() == m_objects[i]) continue;
 		if (&object == (m_objects[i]->GetParent())) continue;
 
-		// »ó´ëÀÇ z°ªÀÌ ³ªº¸´Ù ³ôÀ¸¸é °Ç³Ê¶Ü
+		// ìƒëŒ€ì˜ zê°’ì´ ë‚˜ë³´ë‹¤ ë†’ìœ¼ë©´ ê±´ë„ˆëœ€
 		if ((int)(floor(m_objects[i]->GetPosition().z)) > (int)floor(position.z)) continue;
-		// »ó´ëÀÇ z°ª + 1ÀÌ ³ªº¸´Ù ÀÛÀ¸¸é °Ç³Ê¶Ü
+		// ìƒëŒ€ì˜ zê°’ + 1ì´ ë‚˜ë³´ë‹¤ ì‘ìœ¼ë©´ ê±´ë„ˆëœ€
 		if ((int)(floor(m_objects[i]->GetPosition().z)) + 1 < (int)floor(position.z)) continue;
 
-		// Àü¿¡ Ãæµ¹µÈ ¿ÀºêÁ§Æ®°¡ °°À» °æ¿ì Ãæµ¹ ¿ÀºêÁ§Æ® Á¦°Å
+		// ì „ì— ì¶©ëŒëœ ì˜¤ë¸Œì íŠ¸ê°€ ê°™ì„ ê²½ìš° ì¶©ëŒ ì˜¤ë¸Œì íŠ¸ ì œê±°
 		if (object.GetCollidedObject() == m_objects[i]) object.SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
 		if (&object == m_objects[i]->GetCollidedObject()) m_objects[i]->SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
 
-		// Ãæµ¹ Ã³¸® ¼³Á¤ -> type(Ãæµ¹ °Ë»ç¸¦ ¿äÃ»ÇÑ ¿ÀºêÁ§Æ®ÀÇ Å¸ÀÔ)Àº fixed object, trigger°¡ µÉ ¼ö ¾øÀ½
+		// ì¶©ëŒ ì²˜ë¦¬ ì„¤ì • -> type(ì¶©ëŒ ê²€ì‚¬ë¥¼ ìš”ì²­í•œ ì˜¤ë¸Œì íŠ¸ì˜ íƒ€ì…)ì€ fixed object, triggerê°€ ë  ìˆ˜ ì—†ìŒ
 		// 
-		// movable object && movable object == ¿ÏÀü ¹«½Ã
-		// movable object && trigger == ¿ÏÀü ¹«½Ã
-		// bullet(blade) && trigger == ¿ÏÀü ¹«½Ã
+		// movable object && movable object == ì™„ì „ ë¬´ì‹œ
+		// movable object && trigger == ì™„ì „ ë¬´ì‹œ
+		// bullet(blade) && trigger == ì™„ì „ ë¬´ì‹œ
 		// 
-		// movable object && fixed object == fixed ¿ÀºêÁ§Æ®¿¡ ÇÕÃÄÁü(º¯°æ µÉ ¼ö ÀÖÀ½)
-		// movable object && (player || monster) == ¹°¸®Àû Ã³¸®
-		// (player || monster) && fixed object  == ¹°¸®Àû Ã³¸®
+		// movable object && fixed object == fixed ì˜¤ë¸Œì íŠ¸ì— í•©ì³ì§(ë³€ê²½ ë  ìˆ˜ ìˆìŒ)
+		// movable object && (player || monster) == ë¬¼ë¦¬ì  ì²˜ë¦¬
+		// (player || monster) && fixed object  == ë¬¼ë¦¬ì  ì²˜ë¦¬
 		// 
-		// ³ª¸ÓÁö °ü°è == ¹°¸®Àû Ã³¸® ¾ø´Â Ãæµ¹ Ã³¸®
+		// ë‚˜ë¨¸ì§€ ê´€ê³„ == ë¬¼ë¦¬ì  ì²˜ë¦¬ ì—†ëŠ” ì¶©ëŒ ì²˜ë¦¬
 
-		// »ó´ë ¿ÀºêÁ§Æ® Å¸ÀÔ ¾ò±â
+		// ìƒëŒ€ ì˜¤ë¸Œì íŠ¸ íƒ€ì… ì–»ê¸°
 		PERObjectType otherType = m_objects[i]->GetObjectType();
 		PERVec3 otherPos = m_objects[i]->GetBoundingBoxPosition(), otherSize = m_objects[i]->GetBoundingBoxSize();
 		PERBoundingType otherBoundingType = m_objects[i]->GetBoundingType();
 
-		// Æ¯¼ö Å¸ÀÔ Ã³¸®
-		// ¹®Àº °íÁ¤ ºí·°À¸·Î Ã³¸®
+		// íŠ¹ìˆ˜ íƒ€ì… ì²˜ë¦¬
+		// ë¬¸ì€ ê³ ì • ë¸”ëŸ­ìœ¼ë¡œ ì²˜ë¦¬
 		if (otherType == PERObjectType::DOOR) otherType = PERObjectType::FIXED_BLOCK;
 		else if (otherType == PERObjectType::BUTTON) continue;
 		else if (otherType == PERObjectType::PARTICLE_EFFECTER) continue;
 
-		// Ãæµ¹ Ã³¸® ¹«½Ã Ç×¸ñ
+		// ì¶©ëŒ ì²˜ë¦¬ ë¬´ì‹œ í•­ëª©
 		if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::MOVABLE_BLOCK) continue;
 		else if ((type == PERObjectType::BULLET || type == PERObjectType::BLADE) && otherType == PERObjectType::PRESSURE) continue;
 		else if ((otherType == PERObjectType::BULLET || otherType == PERObjectType::BLADE) && type == PERObjectType::PRESSURE) continue;
 
 		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE) {
 			if (CheckAABBCollision(position, size, otherPos, otherSize)) {
-				// »ó´ë°¡ ³ªº¸´Ù ¹Ù·Î ¾Æ·¡ ÀÖ°í °íÁ¤ ºí·°ÀÏ °æ¿ì ÇÃ·§Æû À§¿¡ ÀÖ´Ù°í ¼³Á¤ ÈÄ °Ç³Ê¶Ü(¶¥)
+				// ìƒëŒ€ê°€ ë‚˜ë³´ë‹¤ ë°”ë¡œ ì•„ë˜ ìˆê³  ê³ ì • ë¸”ëŸ­ì¼ ê²½ìš° í”Œë«í¼ ìœ„ì— ìˆë‹¤ê³  ì„¤ì • í›„ ê±´ë„ˆëœ€(ë•…)
 				if ((int)(floor(otherPos.z)) == (int)floor(position.z) -1 && otherType == PERObjectType::FIXED_BLOCK) {
 					isOnPlatform = true;  
 					continue;
 				}
-				// Ãæµ¹‰ç´Ù°í ¼³Á¤
+				// ì¶©ëŒæ¦®é³´ ì„¤ì •
 				collided = true;
 
-				// ¹°¸®Àû Ã³¸® Ç×¸ñ
+				// ë¬¼ë¦¬ì  ì²˜ë¦¬ í•­ëª©
 				if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::FIXED_BLOCK)
 					AdjustPositionWithObjects(object, position, size, *m_objects[i], otherPos, otherSize, dTime);
 				else if (type == PERObjectType::MOVABLE_BLOCK && (otherType == PERObjectType::PLAYER || otherType == PERObjectType::MONSTER))
@@ -214,16 +214,16 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 				else if ((type == PERObjectType::PLAYER || type == PERObjectType::MONSTER) && otherType == PERObjectType::FIXED_BLOCK)
 					AdjustPositionWithObjects(object, position, size, *m_objects[i], otherPos, otherSize, dTime);
 
-				// ¹°¸®Àû Ã³¸® ¾øÀÌ ´Ù¸¥ »óÈ£ ÀÛ¿ë
+				// ë¬¼ë¦¬ì  ì²˜ë¦¬ ì—†ì´ ë‹¤ë¥¸ ìƒí˜¸ ì‘ìš©
 				else ProcessCollisionWithoutMoving(object, type, *m_objects[i], otherType, dTime);
 
 			}
 		}
 	}
 
-	// ÇÃ·§Æû À§¿¡ ÀÖÁö ¾ÊÀ» °æ¿ì ¶³¾îÁ® Á×À½
+	// í”Œë«í¼ ìœ„ì— ìˆì§€ ì•Šì„ ê²½ìš° ë–¨ì–´ì ¸ ì£½ìŒ
 	if (!isOnPlatform) {
-		// ÀÓ½Ã·Î ¶óÀÌÇÁ Å¸ÀÓÀÌ 0º¸´Ù ÀÛµµ·Ï ¼³Á¤ÇØ ´Ü¼øÈ÷ ¿ÀºêÁ§Æ® Á¦°Å
+		// ì„ì‹œë¡œ ë¼ì´í”„ íƒ€ì„ì´ 0ë³´ë‹¤ ì‘ë„ë¡ ì„¤ì •í•´ ë‹¨ìˆœíˆ ì˜¤ë¸Œì íŠ¸ ì œê±°
 		object.SetLifeTime(-1.0);
 	}
 
@@ -263,7 +263,7 @@ void PERWorld::ProcessPendingMessage()
 		case PERWorldMessageId::ADD_OBJECT: {
 			PERObject* newObject = AddAndGetObject(message.type);
 
-			// databaseId°¡ ºñÁÖ¾ó ¾ÆÀÌµğ°¡ ¾Æ´Ò °æ¿ì ¸ó½ºÅÍ ¾ÆÀÌµğ(¿ÀºêÁ§Æ® ¾ÆÀÌµğ)ÀÌ¹Ç·Î µ¥ÀÌÅÍº£ÀÌ½º¿¡¼­ ºñÁÖ¾ó ¾ÆÀÌµğ¸¦ ¾òÀ½
+			// databaseIdê°€ ë¹„ì£¼ì–¼ ì•„ì´ë””ê°€ ì•„ë‹ ê²½ìš° ëª¬ìŠ¤í„° ì•„ì´ë””(ì˜¤ë¸Œì íŠ¸ ì•„ì´ë””)ì´ë¯€ë¡œ ë°ì´í„°ë² ì´ìŠ¤ì—ì„œ ë¹„ì£¼ì–¼ ì•„ì´ë””ë¥¼ ì–»ìŒ
 			if (!message.isVisualId) {
 				newObject->GetObjectState().SetNameId(m_database->GetMonsterData(message.databaseId.c_str())->nameId);
 				message.databaseId = m_database->GetMonsterData(message.databaseId.c_str())->visualId;
@@ -284,7 +284,7 @@ void PERWorld::ProcessPendingMessage()
 
 			newObject->SetCurrentPositionToSpawnPosition();
 
-			// Ä®³¯ÀÏ °æ¿ì À§Ä¡°ªÀ» ºÙ¿©Áø À§Ä¡·Î ¼³Á¤
+			// ì¹¼ë‚ ì¼ ê²½ìš° ìœ„ì¹˜ê°’ì„ ë¶™ì—¬ì§„ ìœ„ì¹˜ë¡œ ì„¤ì •
 			if (message.type == PERObjectType::BLADE)
 			{
 				PERComponent::PhysicsData pData;
@@ -292,7 +292,7 @@ void PERWorld::ProcessPendingMessage()
 				newObject->GetPhysics().SetData(pData);
 			}
 
-			// »õ·Î¿î ¿ÀºêÁ§Æ® Ãß°¡¸¦ ¿äÃ»ÇÑ ¿ÀºêÁ§Æ®°¡ ½ºÆ÷³ÊÀÏ °æ¿ì ½ºÆ÷³ÊÀÇ ai ÄÁÆ÷³ÍÆ®¿¡ Ãß°¡µÈ ¿ÀºêÁ§Æ® ¿¬µ¿
+			// ìƒˆë¡œìš´ ì˜¤ë¸Œì íŠ¸ ì¶”ê°€ë¥¼ ìš”ì²­í•œ ì˜¤ë¸Œì íŠ¸ê°€ ìŠ¤í¬ë„ˆì¼ ê²½ìš° ìŠ¤í¬ë„ˆì˜ ai ì»¨í¬ë„ŒíŠ¸ì— ì¶”ê°€ëœ ì˜¤ë¸Œì íŠ¸ ì—°ë™
 			if (message.object->GetObjectType() == PERObjectType::SPAWNER)
 			{
 				dynamic_cast<SpawnerAiComponent*>(&message.object->GetAi())->SetSpawnedObject(newObject);
@@ -314,7 +314,7 @@ void PERWorld::AddObject(PERObject* object)
 		m_maxObject *= 2;
 		m_objects.reserve(m_maxObject);
 		m_objects.resize(m_maxObject);
-		// ÄÁÆ÷³ÍÆ®µéµµ ¸®»çÀÌÁî
+		// ì»¨í¬ë„ŒíŠ¸ë“¤ë„ ë¦¬ì‚¬ì´ì¦ˆ
 		m_inputComponents.resize(m_maxObject);
 		m_aiComponents.resize(m_maxObject);
 		m_physicsComponents.resize(m_maxObject);
@@ -336,12 +336,12 @@ void PERWorld::DeleteObject(PERObject* object)
 {
 	m_numObject--;
 	int id = object->GetIDInWorld();
-	// ¸Ç µÚ ÄÁÆ÷³ÍÆ® ÀÌµ¿
+	// ë§¨ ë’¤ ì»¨í¬ë„ŒíŠ¸ ì´ë™
 	m_inputComponents[id]		= m_inputComponents[m_numObject];
 	m_aiComponents[id]			= m_aiComponents[m_numObject];
 	m_physicsComponents[id]		= m_physicsComponents[m_numObject];
 	m_graphicsComponents[id]	= m_graphicsComponents[m_numObject];
-	// ¸Ç µÚ ¿ÀºêÁ§Æ® ÀÌµ¿ ¹× ¾ÆÀÌµğ º¯°æ
+	// ë§¨ ë’¤ ì˜¤ë¸Œì íŠ¸ ì´ë™ ë° ì•„ì´ë”” ë³€ê²½
 	m_objects[id] = m_objects[m_numObject];
 	m_objects[id]->SetIDInWorld(id);
 	m_objectStorage->PushObject(object->GetObjectType(), object);
@@ -358,28 +358,28 @@ PERObject* PERWorld::AddAndGetObject(PERObjectType type)
 
 void PERWorld::InitWorldObject()
 {
-	// ³×ºñ°ÔÀÌ¼Ç µ¥ÀÌÅÍ¿¡ ¿µÇâÀ» ÁÖ´Â ¿ÀºêÁ§Æ® ¸ÕÀú Ãß°¡
+	// ë„¤ë¹„ê²Œì´ì…˜ ë°ì´í„°ì— ì˜í–¥ì„ ì£¼ëŠ” ì˜¤ë¸Œì íŠ¸ ë¨¼ì € ì¶”ê°€
 	AddFixedAndPhysicalObjects();
 
-	// ³×ºñ°ÔÀÌ¼Ç µ¥ÀÌÅÍ ¼³Á¤
+	// ë„¤ë¹„ê²Œì´ì…˜ ë°ì´í„° ì„¤ì •
 	BlackBoard::GetNavigationData().InitCells();
 	BlackBoard::GetNavigationData().SetCells(m_objects, m_numObject);
 
-	// ³×ºñ°ÔÀÌ¼Ç µ¥ÀÌÅÍ¿Í »ó°ü¾ø´Â ³ª¸ÓÁö ¿ÀºêÁ§Æ® Ãß°¡
+	// ë„¤ë¹„ê²Œì´ì…˜ ë°ì´í„°ì™€ ìƒê´€ì—†ëŠ” ë‚˜ë¨¸ì§€ ì˜¤ë¸Œì íŠ¸ ì¶”ê°€
 	AddOtherObjects();
 
-	PERLog::Logger().InfoWithFormat("¿ùµå ³» ¿ÀºêÁ§Æ® ¼ö: %d", m_numObject);
+	PERLog::Logger().InfoWithFormat("ì›”ë“œ ë‚´ ì˜¤ë¸Œì íŠ¸ ìˆ˜: %d", m_numObject);
 }
 
 void PERWorld::InitSettingForWorld(ObjectStorage* objectStorage, PERDatabase* database, GameMode* mode)
 {
-	PERLog::Logger().Info("¿ùµå »ı¼º");
+	PERLog::Logger().Info("ì›”ë“œ ìƒì„±");
 
 	m_objectStorage = objectStorage;
 	m_database = database;
 	m_gameMode = mode;
 
-	// ¿ÀºêÁ§Æ®, ÄÁÆ÷³ÍÆ® º¤ÅÍ ¸®»çÀÌÁî
+	// ì˜¤ë¸Œì íŠ¸, ì»¨í¬ë„ŒíŠ¸ ë²¡í„° ë¦¬ì‚¬ì´ì¦ˆ
 	m_objects.reserve(m_maxObject);
 	m_objects.resize(m_maxObject);
 	m_inputComponents.resize(m_maxObject);
@@ -414,7 +414,7 @@ void PERWorld::UpdateSortedGraphicsComponents()
 
 	m_sortedGraphicsComponents.clear();
 
-	// À§Ä¡ÀÇ z°ªÀÌ ÀÛÀº ¼ø¼­·Î Á¤·Ä
+	// ìœ„ì¹˜ì˜ zê°’ì´ ì‘ì€ ìˆœì„œë¡œ ì •ë ¬
 	m_sortedGraphicsComponents.resize((size_t)m_numObject);
 	std::copy(m_graphicsComponents.begin(), m_graphicsComponents.begin() + m_numObject, m_sortedGraphicsComponents.begin());
 	std::sort(m_sortedGraphicsComponents.begin(), m_sortedGraphicsComponents.end(), [](GraphicsComponent* a, GraphicsComponent* b) {
@@ -426,13 +426,13 @@ void PERWorld::UpdateSortedGraphicsComponents()
 
 void PERWorld::UpdateCamera(PERRenderer& renderer, double frameGap)
 {
-	// °ÔÀÓ ¸ğµå¿¡ µû¶ó Ä«¸Ş¶ó ¾÷µ¥ÀÌÆ®
+	// ê²Œì„ ëª¨ë“œì— ë”°ë¼ ì¹´ë©”ë¼ ì—…ë°ì´íŠ¸
 	m_gameMode->UpdateCamera(renderer, frameGap);
 }
 
 void PERWorld::ResizePedingArray()
 {
-	// ÇöÀç ¹è¿­ Å©±â¸¦ 2¹è·Î Áõ°¡
+	// í˜„ì¬ ë°°ì—´ í¬ê¸°ë¥¼ 2ë°°ë¡œ ì¦ê°€
 	m_maxPending *= 2;
 	PERWorldMessage* newArray = new PERWorldMessage[m_maxPending];
 	memmove(newArray, m_pending, sizeof(m_pending));
@@ -457,11 +457,11 @@ bool PERWorld::CheckAABBCollision(PERVec3 aPos, PERVec3 aSize, PERVec3 bPos, PER
 void PERWorld::AdjustPositionWithObjects(PERObject& aObject, PERVec3 aPos, PERVec3 aSize,
 	PERObject& bObject, PERVec3 bPos, PERVec3 bSize, double dTime)
 {
-	// ÀÌÀü Ãæµ¹·Î ÀÎÇØ ½ÇÁ¦·Î º¯°æµÈ °ª ¾ò±â
+	// ì´ì „ ì¶©ëŒë¡œ ì¸í•´ ì‹¤ì œë¡œ ë³€ê²½ëœ ê°’ ì–»ê¸°
 	PERVec3	aVel = aObject.GetCollidedVelocity(); double aMass = aObject.GetCollidedMass();
 	PERVec3 bVel = bObject.GetCollidedVelocity(); double bMass = bObject.GetCollidedMass();
 
-	// Ãæµ¹ Ã³¸®(¹«°Å¿î ÂÊÀ» °íÁ¤µÈ °É·Î »ı°¢)
+	// ì¶©ëŒ ì²˜ë¦¬(ë¬´ê±°ìš´ ìª½ì„ ê³ ì •ëœ ê±¸ë¡œ ìƒê°)
 	if (aMass > bMass) {
 		ProcessCollisionBetweenFixedAndMovable(
 			aObject, aPos, aSize, aVel,
@@ -478,10 +478,10 @@ void PERWorld::ProcessCollisionBetweenFixedAndMovable(
 	PERObject& fixedObject, PERVec3 fixedPos, PERVec3 fixedSize, PERVec3 fixedVel,
 	PERObject& movableObject, PERVec3 movablePos, PERVec3 movableSize, PERVec3 movableVel, double dTime)
 {
-	// Ãæµ¹ ¼Óµµ °è»ê
+	// ì¶©ëŒ ì†ë„ ê³„ì‚°
 	PERVec3 collisionVelocity = movableVel - fixedVel;
 
-	// Ãæµ¹ °Å¸® °è»ê
+	// ì¶©ëŒ ê±°ë¦¬ ê³„ì‚°
 	PERVec3 fixedHalfSize = fixedSize * 0.5;
 	PERVec3 movableHalfSize = movableSize * 0.5;
 
@@ -509,40 +509,40 @@ void PERWorld::ProcessCollisionBetweenFixedAndMovable(
 	double collisionTime = collisionTimeRate.x * dTime;
 	if (collisionTimeRate.x < collisionTimeRate.y) collisionTime = collisionTimeRate.y * dTime;
 
-	// °¢ ¿ÀºêÁ§Æ®¿¡¼­ Ãæµ¹ Ã³¸®
+	// ê° ì˜¤ë¸Œì íŠ¸ì—ì„œ ì¶©ëŒ ì²˜ë¦¬
 	fixedObject.GetPhysics().ProcessCollision(movableObject, collisionVelocity, fixedVel, 0.0);
 	movableObject.GetPhysics().ProcessCollision(fixedObject, collisionVelocity, PERVec3(0.0, 0.0, movableVel.z), dTime * 1.5);
 }
 
 void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType aType, PERObject& bObject, PERObjectType bType, double dTime)
 {
-	// bullet(blade) && bullet(blade) == ¹°¸®Àû Ã³¸®¸¸ ¹«½Ã, bullet(blade) »èÁ¦
-	// bullet(blade) && fixed object == ¹°¸®Àû Ã³¸®¸¸ ¹«½Ã, bullet(blade) »èÁ¦
-	// bullet(blade) && movable object == ¹°¸®Àû Ã³¸®¸¸ ¹«½Ã, bullet(blade) »èÁ¦
-	// bullet(blade) && (player || monster) == ¹°¸®Àû Ã³¸®¸¸ ¹«½Ã, bullet(blade) »èÁ¦, µ¥¹ÌÁö Ã³¸®
-	// bullet(blade) && trigger == ¿ÏÀü ¹«½Ã
-	// (player || monster) && (player || monster) == ¹°¸®Àû Ã³¸®¸¸ ¹«½Ã, µ¥¹ÌÁö Ã³¸®		 
-	// (player || monster) && trigger == ¹°¸®Àû Ã³¸®¸¸ ¹«½Ã
+	// bullet(blade) && bullet(blade) == ë¬¼ë¦¬ì  ì²˜ë¦¬ë§Œ ë¬´ì‹œ, bullet(blade) ì‚­ì œ
+	// bullet(blade) && fixed object == ë¬¼ë¦¬ì  ì²˜ë¦¬ë§Œ ë¬´ì‹œ, bullet(blade) ì‚­ì œ
+	// bullet(blade) && movable object == ë¬¼ë¦¬ì  ì²˜ë¦¬ë§Œ ë¬´ì‹œ, bullet(blade) ì‚­ì œ
+	// bullet(blade) && (player || monster) == ë¬¼ë¦¬ì  ì²˜ë¦¬ë§Œ ë¬´ì‹œ, bullet(blade) ì‚­ì œ, ë°ë¯¸ì§€ ì²˜ë¦¬
+	// bullet(blade) && trigger == ì™„ì „ ë¬´ì‹œ
+	// (player || monster) && (player || monster) == ë¬¼ë¦¬ì  ì²˜ë¦¬ë§Œ ë¬´ì‹œ, ë°ë¯¸ì§€ ì²˜ë¦¬		 
+	// (player || monster) && trigger == ë¬¼ë¦¬ì  ì²˜ë¦¬ë§Œ ë¬´ì‹œ
 
-	// ÃÑ¾ËÀÌ¶û Ä®³¯Àº Ã³¸® ¹æ½ÄÀÌ µ¿ÀÏÇÏ±â ¶§¹®¿¡ Ä®³¯À» ÃÑ¾Ë·Î Ãë±ŞÇÔ
+	// ì´ì•Œì´ë‘ ì¹¼ë‚ ì€ ì²˜ë¦¬ ë°©ì‹ì´ ë™ì¼í•˜ê¸° ë•Œë¬¸ì— ì¹¼ë‚ ì„ ì´ì•Œë¡œ ì·¨ê¸‰í•¨
 	if (aType == PERObjectType::BLADE) aType = PERObjectType::BULLET;
 	if (bType == PERObjectType::BLADE) bType = PERObjectType::BULLET;
 
-	// ÃÑ¾Ë°£ »ó¼â
+	// ì´ì•Œê°„ ìƒì‡„
 	if (aType == PERObjectType::BULLET && bType == PERObjectType::BULLET) {
 		aObject.SetLifeTime(-1.0);
 		bObject.SetLifeTime(-1.0);
 	}
-	// ÃÑ¾Ë µ¥¹ÌÁö Ã³¸®
+	// ì´ì•Œ ë°ë¯¸ì§€ ì²˜ë¦¬
 	else if (aType == PERObjectType::BULLET) {
 		bObject.GetObjectState().GiveDamage(aObject, aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
 
-		// ÃÑ¾Ë ¼Óµµ ¹æÇâÀ¸·Î ¾à°£ ÀÌµ¿(³Ë¹é)
+		// ì´ì•Œ ì†ë„ ë°©í–¥ìœ¼ë¡œ ì•½ê°„ ì´ë™(ë„‰ë°±)
 		if (aObject.GetObjectType() == PERObjectType::BULLET) {
 			aObject.SetLifeTime(-1.0);
 			bObject.GetPhysics().GiveForce(*this, NormalizeVector(aObject.GetVelocity()) * PER_KNOCK_BACK_POWER, dTime);
 		}
-		// Ä®³¯ÀÇ »ó´ëÀû À§Ä¡ ¹æÇâÀ¸·Î ¾à°£ ÀÌµ¿(³Ë¹é)
+		// ì¹¼ë‚ ì˜ ìƒëŒ€ì  ìœ„ì¹˜ ë°©í–¥ìœ¼ë¡œ ì•½ê°„ ì´ë™(ë„‰ë°±)
 		else if (aObject.GetObjectType() == PERObjectType::BLADE) {
 			StuckPhysicsComponent& stuckPhysics = dynamic_cast<StuckPhysicsComponent&>(aObject.GetPhysics());
 			bObject.GetPhysics().GiveForce(*this, NormalizeVector(stuckPhysics.GetStuckPosition()) * PER_KNOCK_BACK_POWER, dTime);
@@ -551,29 +551,29 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 	else if (bType == PERObjectType::BULLET) {
 		aObject.GetObjectState().GiveDamage(bObject, bObject.GetObjectState().GetStat().physicalAttack, bObject.GetObjectState().GetStat().mindAttack);
 
-		// ÃÑ¾Ë ¼Óµµ ¹æÇâÀ¸·Î ¾à°£ ÀÌµ¿(³Ë¹é)
+		// ì´ì•Œ ì†ë„ ë°©í–¥ìœ¼ë¡œ ì•½ê°„ ì´ë™(ë„‰ë°±)
 		if (bObject.GetObjectType() == PERObjectType::BULLET) {
 			bObject.SetLifeTime(-1.0);
 			aObject.GetPhysics().GiveForce(*this, NormalizeVector(bObject.GetVelocity()) * PER_KNOCK_BACK_POWER, dTime);
 		}
-		// Ä®³¯ÀÇ »ó´ëÀû À§Ä¡ ¹æÇâÀ¸·Î ¾à°£ ÀÌµ¿(³Ë¹é)
+		// ì¹¼ë‚ ì˜ ìƒëŒ€ì  ìœ„ì¹˜ ë°©í–¥ìœ¼ë¡œ ì•½ê°„ ì´ë™(ë„‰ë°±)
 		else if (aObject.GetObjectType() == PERObjectType::BLADE) {
 			StuckPhysicsComponent& stuckPhysics = dynamic_cast<StuckPhysicsComponent&>(bObject.GetPhysics());
 			aObject.GetPhysics().GiveForce(*this, NormalizeVector(stuckPhysics.GetStuckPosition()) * PER_KNOCK_BACK_POWER, dTime);
 		}
 	}
-	// ³ª¸ÓÁö
-	// ÇÃ·¹ÀÌ¾î¿Í ¸ó½ºÅÍ °£
+	// ë‚˜ë¨¸ì§€
+	// í”Œë ˆì´ì–´ì™€ ëª¬ìŠ¤í„° ê°„
 	else if (aType == PERObjectType::PLAYER && bType == PERObjectType::MONSTER) {
-		// ÇÃ·¹ÀÌ¾î¿¡°Ô ´ë¹ÌÁö¸¦ ÁÜ
+		// í”Œë ˆì´ì–´ì—ê²Œ ëŒ€ë¯¸ì§€ë¥¼ ì¤Œ
 		aObject.GetObjectState().GiveDamage(bObject, bObject.GetObjectState().GetCollisionDamage(), 0);
 	}
 	else if (bType == PERObjectType::PLAYER && aType == PERObjectType::MONSTER) {
 		bObject.GetObjectState().GiveDamage(aObject, aObject.GetObjectState().GetCollisionDamage(), 0);
 	}
-	// ÇÃ·¹ÀÌ¾î ¶Ç´Â ¸ó½ºÅÍ ¶Ç´Â ¿òÁ÷ÀÌ´Â ¿ÀºêÁ§Æ® ¿Í ¾Ğ·Â ¹ßÆÇ °£
+	// í”Œë ˆì´ì–´ ë˜ëŠ” ëª¬ìŠ¤í„° ë˜ëŠ” ì›€ì§ì´ëŠ” ì˜¤ë¸Œì íŠ¸ ì™€ ì••ë ¥ ë°œíŒ ê°„
 	else if ((aType == PERObjectType::PLAYER || aType == PERObjectType::MONSTER || aType == PERObjectType::MOVABLE_BLOCK) && bType == PERObjectType::PRESSURE) {
-		// Ãæµ¹ Ã³¸®(ÇÊ¿äÇÑ °Ç º»ÀÎ ¿ÀºêÁ§Æ® »Ó, ³»ºÎÀûÀ¸·Î ¹ßÆÇÀÌ ´­·Á ÀÔ·ÂµÈ °ÍÀ¸·Î Ã³¸®µÊ)
+		// ì¶©ëŒ ì²˜ë¦¬(í•„ìš”í•œ ê±´ ë³¸ì¸ ì˜¤ë¸Œì íŠ¸ ë¿, ë‚´ë¶€ì ìœ¼ë¡œ ë°œíŒì´ ëˆŒë ¤ ì…ë ¥ëœ ê²ƒìœ¼ë¡œ ì²˜ë¦¬ë¨)
 		bObject.GetPhysics().ProcessCollision(aObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
 	}
 	else if ((bType == PERObjectType::PLAYER || bType == PERObjectType::MONSTER || bType == PERObjectType::MOVABLE_BLOCK) && aType == PERObjectType::PRESSURE) {

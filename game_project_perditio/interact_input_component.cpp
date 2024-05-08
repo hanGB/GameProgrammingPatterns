@@ -20,12 +20,12 @@ void InteractInputComponent::Initialize(PERComponent::InputData data)
 
 void InteractInputComponent::Move(PERController& controller, PERAudio& audio, double dTime)
 {
-	// « ø‰ ¡§∫∏ æÚ±‚
+	// ÌïÑÏöî Ï†ïÎ≥¥ ÏñªÍ∏∞
 	PERVec3 vel = GetOwner()->GetVelocity();
 	PERVec3 cAcc = GetOwner()->GetCurrentAccel();
 	double mass = GetOwner()->GetMass();
 
-	// x, y√‡ ¿Ãµø º≥¡§
+	// x, yÏ∂ï Ïù¥Îèô ÏÑ§Ï†ï
 	if (controller.IsKeyboardPressed(KeySetting::MoveUpwards.value)) {
 		if (vel.y < GetOwner()->c_MAXIMUM_XY_VELOCITY) {
 			cAcc.y += m_XYForce / mass * dTime;

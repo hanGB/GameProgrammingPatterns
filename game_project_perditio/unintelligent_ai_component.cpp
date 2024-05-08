@@ -4,9 +4,9 @@
 
 void UnintelligentAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {	
-	// ´ë¹ÌÁö ¹«½Ã ½Ã°£
+	// ëŒ€ë¯¸ì§€ ë¬´ì‹œ ì‹œê°„
 	GetOwner()->GetObjectState().UseIgnoreDamageTime(dTime);
-	// ½Ã°£ ´ç È¸º¹
+	// ì‹œê°„ ë‹¹ íšŒë³µ
 	GetOwner()->GetObjectState().RecoverPerTime(dTime);
 }
 

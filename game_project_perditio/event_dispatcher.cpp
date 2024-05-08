@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "event_dispatcher.h"
 
-// static º¯¼ö ¼±¾ğ
+// static ë³€ìˆ˜ ì„ ì–¸
 EventReciver* EventDispatcher::m_game;
 std::vector<EventReciver*> EventDispatcher::m_recivers;
 
@@ -44,7 +44,7 @@ void EventDispatcher::RemoveReciver(EventReciver* reciver)
 		it++;
 	}
 
-	// ¹«Á¶°Ç °ÔÀÓ Å¬·¡½º´Â ÀÌº¥Æ®¸¦ ¹Ş¾Æ¾ß ÇÔ
+	// ë¬´ì¡°ê±´ ê²Œì„ í´ë˜ìŠ¤ëŠ” ì´ë²¤íŠ¸ë¥¼ ë°›ì•„ì•¼ í•¨
 	AddReciver(m_game);
 
 	m_csProvider.Unlock();
@@ -94,7 +94,7 @@ void EventDispatcher::Send(PEREvent event, PERVec3 data)
 
 void EventDispatcher::ResizePending()
 {
-	// ¹è¿­ Å©±â 2¹è·Î º¯°æ
+	// ë°°ì—´ í¬ê¸° 2ë°°ë¡œ ë³€ê²½
 	m_maxPending *= 2;
 	EventData* newPending = new EventData[m_maxPending];
 	memmove(newPending, m_pending, sizeof(m_pending));

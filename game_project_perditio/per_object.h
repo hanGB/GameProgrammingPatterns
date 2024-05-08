@@ -64,7 +64,7 @@ public:
 
 	void SetCollidedObject(PERObject* object, PERVec3 collidedMomentVel);
 
-	// ÇöÀç À§Ä¡¸¦ ½ºÆù À§Ä¡·Î ¼³Á¤
+	// í˜„ì¬ ìœ„ì¹˜ë¥¼ ìŠ¤í° ìœ„ì¹˜ë¡œ ì„¤ì •
 	void SetCurrentPositionToSpawnPosition();
 
 	static const int c_MAXIMUM_XY_VELOCITY = 3;
@@ -73,36 +73,36 @@ private:
 	PERObject(ObjectFactory& factory, ObjectState* m_objectState,
 		InputComponent* input, AiComponent* ai, PhysicsComponent* physics, GraphicsComponent* graphics);
 
-	// ÆÑÅä¸®
+	// íŒ©í† ë¦¬
 	ObjectFactory& m_factory;
 
-	// »óÅÂ
+	// ìƒíƒœ
 	ObjectState* m_objectState;
 
-	// ÄÁÆ÷³ÍÆ®
+	// ì»¨í¬ë„ŒíŠ¸
 	InputComponent*		m_input;
 	AiComponent*			m_ai;
 	PhysicsComponent*	m_physics;
 	GraphicsComponent*	m_graphics;
 
-	// ºÎ¸ğ
+	// ë¶€ëª¨
 	PERObject* m_parent = nullptr;
 
-	// ¹°¸® Á¤º¸
+	// ë¬¼ë¦¬ ì •ë³´
 	PERVec3	m_position	= PERVec3(0.0, 0.0, 0.0);
 	PERVec3 m_size		= PERVec3(0.5, 0.5, 0.5);
 	PERVec3 m_velocity	= PERVec3(0.0, 0.0, 0.0);
 	PERVec3 m_currentAccel	= PERVec3(0.0, 0.0, 0.0);
 	double	m_mass			= 50.0;
-	// Ãæµ¹Ã¼ Á¤º¸
+	// ì¶©ëŒì²´ ì •ë³´
 	PERBoundingType m_boundingType			= PERBoundingType::RECTANGLE;
 	PERVec3			m_boundingBoxRelativeSize		= PERVec3(1.0, 1.0, 1.0);
 	PERVec3			m_boundingBoxRelativePosition	= PERVec3(0.0, 0.0, 0.0);
 
-	// Ãæµ¹µÈ ¿ÀºêÁ§Æ®
+	// ì¶©ëŒëœ ì˜¤ë¸Œì íŠ¸
 	PERObject* m_collidedObject = nullptr;
 	PERVec3 m_collidedMomentVelocity;
-	// ¿ùµå ³» Á¤º¸
+	// ì›”ë“œ ë‚´ ì •ë³´
 	int m_idInWorld = -1;
 	double m_lifeTime = PER_MAXIMUM_LIFE_TIME;
 };

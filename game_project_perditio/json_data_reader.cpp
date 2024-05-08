@@ -51,23 +51,30 @@ void JSONDataReader::ReadJson(const char* fileName)
 {
 	char* buffer = new char[c_BUFFER_SIZE];
 
-	// ÆÄÀÏ ÀĞ±â
+	// íŒŒì¼ ì½ê¸°
 	FILE* file;
 	fopen_s(&file, fileName, "rb");
 	rapidjson::FileReadStream is(file, buffer, c_BUFFER_SIZE);
 	fclose(file);
 
-	// json ÆÄ½Ì
+	// json íŒŒì‹±
 	m_document.ParseStream(is);
 
 	delete[] buffer;
+}
+
+std::wstring JSONDataReader::StringToWString(const std::string& var)
+{
+	static std::locale loc("");
+	auto& facet = std::use_facet<std::codecvt<wchar_t, char, std::mbstate_t>>(loc);
+	return std::wstring_convert<std::remove_reference<decltype(facet)>::type, wchar_t>(&facet).from_bytes(var);
 }
 
 MonsterData* JSONDataReader::MakeMonsterData(const char* id)
 {
 	MonsterData* data = new MonsterData;
 
-	// Àß¸øµÈ ¾ÆÀÌµğÀÎ °æ¿ì ¿À·ù Ãâ·Â
+	// ì˜ëª»ëœ ì•„ì´ë””ì¸ ê²½ìš° ì˜¤ë¥˜ ì¶œë ¥
 	if (!m_document.HasMember(id)) {
 		PERLog::Logger().ErrorWithFormat("Not correct monster ID: %s", id);
 		return nullptr;
@@ -90,14 +97,13 @@ TranslateData* JSONDataReader::MakeTranslateData(const char* id)
 {
 	TranslateData* data = new TranslateData;
 
-	// Àß¸øµÈ ¾ÆÀÌµğÀÎ °æ¿ì ¿À·ù Ãâ·Â
+	// ì˜ëª»ëœ ì•„ì´ë””ì¸ ê²½ìš° ì˜¤ë¥˜ ì¶œë ¥
 	if (!m_document.HasMember(id)) {
 		PERLog::Logger().ErrorWithFormat("Not correct translate ID: %s", id);
 		return nullptr;
 	}
-
-	data->engUS = m_document[id]["ENG_US"].GetString();
-	data->korKR = m_document[id]["KOR_KR"].GetString();
+	data->engUS = StringToWString(m_document[id]["ENG_US"].GetString());
+	data->korKR = StringToWString(m_document[id]["KOR_KR"].GetString());
 
 	return data;
 }
@@ -106,7 +112,7 @@ VisualData* JSONDataReader::MakeVisualData(const char* id)
 {
 	VisualData* data = new VisualData;
 
-	// Àß¸øµÈ ¾ÆÀÌµğÀÎ °æ¿ì ¿À·ù Ãâ·Â
+	// ì˜ëª»ëœ ì•„ì´ë””ì¸ ê²½ìš° ì˜¤ë¥˜ ì¶œë ¥
 	if (!m_document.HasMember(id)) {
 		PERLog::Logger().ErrorWithFormat("Not correct visual ID: %s", id);
 		return nullptr;
@@ -134,7 +140,7 @@ VisualData* JSONDataReader::MakeVisualData(const char* id)
 			m_document[id]["BORDER_COLOR_B"].GetInt()
 		);
 
-	// enum µ¥ÀÌÅÍ ¼³Á¤
+	// enum ë°ì´í„° ì„¤ì •
 	std::string shape = m_document[id]["SHAPE"].GetString();
 	if (strcmp(shape.c_str(), "ellipse") == 0) data->shape = PERShapeType::ELLIPSE;
 	else if (strcmp(shape.c_str(), "triangle") == 0) data->shape = PERShapeType::TRIANGLE;

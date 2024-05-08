@@ -37,7 +37,7 @@ void UiElement::Init(PERVec2 pos, PERVec2 size, PERColor backgroundColor, bool b
 	 m_size = size;
 	 m_backgroundColor = backgroundColor;
 
-	// �׵θ�
+	// ׵θ
 	 m_border = border;
 	 m_borderWidth = borderWidth;
 	 m_borderColor = borderColor;

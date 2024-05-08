@@ -30,9 +30,9 @@ protected:
 	PERObject* m_player;
 
 private:
-	// ÇÃ·¹ÀÌ¾î ÆÑÅä¸® »ı¼º
+	// í”Œë ˆì´ì–´ íŒ©í† ë¦¬ ìƒì„±
 	virtual void CreatePlayerFactory() = 0;
-	// hud »ı¼º
+	// hud ìƒì„±
 	virtual PERHud* CreateHud() = 0;
 
 	GameState* m_gameState;

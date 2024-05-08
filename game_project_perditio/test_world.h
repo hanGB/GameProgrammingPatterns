@@ -9,14 +9,14 @@ public:
 	TestWorld(ObjectStorage* objectStorage, PERDatabase* database, GameMode* mode);
 	~TestWorld();
 
-	// ÇØ´ç ¿ùµå¿¡ µé¾î¿À°í ³ª°¥ ¶§ Ã³¸®
+	// í•´ë‹¹ ì›”ë“œì— ë“¤ì–´ì˜¤ê³  ë‚˜ê°ˆ ë•Œ ì²˜ë¦¬
 	virtual void Enter();
 	virtual void Exit();
 	virtual void Pause();
 	virtual void Resume();
 
 private:
-	// ¿ÀºêÁ§Æ® Ãß°¡
+	// ì˜¤ë¸Œì íŠ¸ ì¶”ê°€
 	virtual void AddFixedAndPhysicalObjects();
 	virtual void AddOtherObjects();
 };

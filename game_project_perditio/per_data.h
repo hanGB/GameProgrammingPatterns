@@ -21,8 +21,8 @@ struct MonsterData {
 };
 
 struct TranslateData {
-	std::string engUS;
-	std::string korKR;
+	std::wstring engUS;
+	std::wstring korKR;
 };
 
 struct VisualData {

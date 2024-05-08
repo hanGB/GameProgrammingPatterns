@@ -41,42 +41,42 @@ private:
 	static const int c_PREPARED_CELL_DATA_QUEUE_SIZE = 1000;
 	static const int c_PREPARED_CELL_QUEUE_SIZE = 10000;
 
-	// ÆĞ½º °è»ê
+	// íŒ¨ìŠ¤ ê³„ì‚°
 	void SetStartAndDestination(PERVec3 start, PERVec3 dest);
 	bool CalculateParents();
 	void ChangeParentsToPaths(PERVec3* paths, int* numPath);
 	void Clear();
 
-	// µµÂø±îÁö ³²Àº °Å¸® °è»ê
+	// ë„ì°©ê¹Œì§€ ë‚¨ì€ ê±°ë¦¬ ê³„ì‚°
 	int CalulateDistanceFromDest(int ax, int ay);
 
-	// ÇØ´ç ÁÂÇ¥±îÁö ÀÌµ¿ÇÏ´Â ºñ¿ë
+	// í•´ë‹¹ ì¢Œí‘œê¹Œì§€ ì´ë™í•˜ëŠ” ë¹„ìš©
 	int m_costs[3][3] = {
 		{14,	10,		14},
 		{10,	0,		10},
 		{14,	10,		14}
 	};
 
-	// ÇØ´ç ÁÂÇ¥¸¦ ÀÌ¹Ì ¹æ¹®Çß´Â Áö ¿©ºÎ
+	// í•´ë‹¹ ì¢Œí‘œë¥¼ ì´ë¯¸ ë°©ë¬¸í–ˆëŠ” ì§€ ì—¬ë¶€
 	bool m_alreadyVisited[PER_MAX_CELL][PER_MAX_CELL];
-	// Ãâ¹ßÁöºÎÅÍ ÇØ´ç ÁÂÇ¥¸¦ °ÅÃ³ µµÂø±îÁöÀÇ ÃßÁ¤ °Å¸®
+	// ì¶œë°œì§€ë¶€í„° í•´ë‹¹ ì¢Œí‘œë¥¼ ê±°ì²˜ ë„ì°©ê¹Œì§€ì˜ ì¶”ì • ê±°ë¦¬
 	int m_distanceWithCell[PER_MAX_CELL][PER_MAX_CELL];
 
-	// ¿ì¼±¼øÀ§ Å¥
+	// ìš°ì„ ìˆœìœ„ í
 	std::priority_queue<AStar::CellData*, std::vector<AStar::CellData*>, AStar::CellDataCmp> m_priorityQueue;
 
-	// Ãâ¹ß ÁöÁ¡ ÁÂÇ¥
+	// ì¶œë°œ ì§€ì  ì¢Œí‘œ
 	int m_startXIndexed, m_startYIndexed;
-	// µµÂø ÁöÁ¡ ÁÂÇ¥
+	// ë„ì°© ì§€ì  ì¢Œí‘œ
 	int m_destXIndexed, m_destYIndexed;
 
-	// ¶¥ÀÇ z°ª(¹à°í ÀÖ´Â ¶¥ ³ôÀÌ)
+	// ë•…ì˜ zê°’(ë°ê³  ìˆëŠ” ë•… ë†’ì´)
 	int m_groundZValue;
 
-	// µµÂøÁöºÎÅÍ ½ÃÀÛÇØ Ã³À½ ÁöÁ¡À» Ã£±â À§ÇÑ ºÎ¸ğ ÀúÀå
+	// ë„ì°©ì§€ë¶€í„° ì‹œì‘í•´ ì²˜ìŒ ì§€ì ì„ ì°¾ê¸° ìœ„í•œ ë¶€ëª¨ ì €ì¥
 	AStar::Cell* m_parents[PER_MAX_CELL][PER_MAX_CELL];
 
-	// »ı¼º, »èÁ¦¸¦ ÁÙÀÌ±â À§ÇÑ ÀúÀå¼Ò
+	// ìƒì„±, ì‚­ì œë¥¼ ì¤„ì´ê¸° ìœ„í•œ ì €ì¥ì†Œ
 	std::queue<AStar::Cell*> m_cellQueue;
 	std::queue<AStar::CellData*> m_cellDataQueue;
 };

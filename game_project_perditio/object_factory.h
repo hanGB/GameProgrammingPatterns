@@ -20,7 +20,7 @@ public:
 	PERObjectType GetObjectType() const;
 	PERComponent::ComponentTypes GetComponentTypes() const;
 
-	// ½ºÅÂÆ½ ÇÔ¼ö(object storage¿¡¼­µµ ÄÁÆ÷³ÍÆ® µ¥ÀÌÅÍµé ÃÊ±âÈ­ÇÏ±â À§ÇÔ)
+	// ìŠ¤íƒœí‹± í•¨ìˆ˜(object storageì—ì„œë„ ì»¨í¬ë„ŒíŠ¸ ë°ì´í„°ë“¤ ì´ˆê¸°í™”í•˜ê¸° ìœ„í•¨)
 	static void InitComponentDatas(PERComponent::InputData& input, PERComponent::AiData& ai,
 	PERComponent::PhysicsData& physics, PERComponent::GraphicsData& graphics);
 
@@ -42,12 +42,12 @@ public:
 	PERVec3 GetSize() const;
 	double GetMass() const;
 
-	// ¿ÀºêÁ§Æ® ½ºÅ×ÀÌÆ® ½ºÅİ ÃÊ±âÈ­
+	// ì˜¤ë¸Œì íŠ¸ ìŠ¤í…Œì´íŠ¸ ìŠ¤í…Ÿ ì´ˆê¸°í™”
 	void InitializeObjectState(ObjectState* objectState);
 
 private:
 	void InitData();
-	// ¿ÀºêÁ§Æ® ½ºÅ×ÀÌÆ® »ı¼º
+	// ì˜¤ë¸Œì íŠ¸ ìŠ¤í…Œì´íŠ¸ ìƒì„±
 	ObjectState* CreateObjectState();
 	
 	PERObjectType m_objectType;

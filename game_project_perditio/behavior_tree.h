@@ -58,7 +58,7 @@ private:
 	size_t m_current = 0;
 };
 
-// °¢ ÄÁÆ÷³ÍÆ® Å¬·¡½º º°·Î »ı¼ºµÇ¾î »ç¿ëµÊ
+// ê° ì»¨í¬ë„ŒíŠ¸ í´ë˜ìŠ¤ ë³„ë¡œ ìƒì„±ë˜ì–´ ì‚¬ìš©ë¨
 template <class TComponent>
 class LeafNode : public BTNode {
 public:

@@ -13,6 +13,9 @@ private:
 	const int c_BUFFER_SIZE = 1'000'000;
 
 	void ReadJson(const char* fileName);
+	 
+	// 한글 깨짐 해결을 위한 변환 함수
+	std::wstring StringToWString(const std::string& var);
 
 	MonsterData* MakeMonsterData(const char* id);
 	TranslateData* MakeTranslateData(const char* id);

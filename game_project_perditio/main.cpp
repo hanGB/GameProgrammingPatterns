@@ -29,7 +29,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	WNDCLASSEX WndClass;
 	g_hInst = hInstance;
 
-	// À©µµ¿ì Å¬·¡½º ±¸Á¶Ã¼ °ª ¼³Á¤
+	// ìœˆë„ìš° í´ë˜ìŠ¤ êµ¬ì¡°ì²´ ê°’ ì„¤ì •
 	WndClass.cbSize = sizeof(WndClass);
 	WndClass.style = CS_HREDRAW | CS_VREDRAW;
 	WndClass.lpfnWndProc = (WNDPROC)WndProc;
@@ -43,21 +43,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	WndClass.lpszClassName = lpszClass;
 	WndClass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 
-	// À©µµ¿ì Å¬·¡½º µî·Ï
+	// ìœˆë„ìš° í´ë˜ìŠ¤ ë“±ë¡
 	RegisterClassEx(&WndClass);
 
-	// À©µµ¿ì »ı¼º
+	// ìœˆë„ìš° ìƒì„±
 	g_hWnd = CreateWindow(lpszClass, lpszWindowName,
 		WS_OVERLAPPEDWINDOW, 
 		PER_DEFAULT_WINDOW_LOCATION_X, PER_DEFAULT_WINDOW_LOCATION_Y, 
 		PER_DEFAULT_WINDOW_WIDTH, PER_DEFAULT_WINDOW_HEIGHT,
 		NULL, (HMENU)NULL, hInstance, NULL);
 
-	// À©µµ¿ì Ãâ·Â
+	// ìœˆë„ìš° ì¶œë ¥
 	ShowWindow(g_hWnd, nCmdShow);
 	UpdateWindow(g_hWnd);
 
-	// ÀÌº¥Æ® ·çÇÁ Ã³¸®
+	// ì´ë²¤íŠ¸ ë£¨í”„ ì²˜ë¦¬
 	while (GetMessage(&Message, 0, 0, 0)) {
 		TranslateMessage(&Message);
 		DispatchMessage(&Message);
@@ -69,7 +69,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	DWORD threadID;
 
-	// ¸Ş¼¼Áö Ã³¸®ÇÏ±â
+	// ë©”ì„¸ì§€ ì²˜ë¦¬í•˜ê¸°
 	switch (uMsg) {
 	case WM_CREATE:
 #ifdef PER_DEBUG
@@ -80,14 +80,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		g_windowSizeW = PER_DEFAULT_WINDOW_WIDTH;
 		g_windowSizeH = PER_DEFAULT_WINDOW_HEIGHT;
 		
-		// °ÔÀÓ ÃÊ±âÈ­
+		// ê²Œì„ ì´ˆê¸°í™”
 		g_game = new PERGame(g_hWnd);
 		EventDispatcher::SetGame(dynamic_cast<EventReciver*>(g_game));
-		// ¿ùµå ½ÇÇà
+		// ì›”ë“œ ì‹¤í–‰
 		g_game->Recive(PEREvent::RUN_DEFAULT_WORLD_AND_GAME_MODE, PERVec3());
 
 		g_isGameEnd = false;
-		// °ÔÀÓ ·çÇÁ ½º·¹µå »ı¼º
+		// ê²Œì„ ë£¨í”„ ìŠ¤ë ˆë“œ ìƒì„±
 		g_hWorkerThreads[0] = CreateThread(NULL, 0, GameTheadFunc, NULL, 0, &threadID);
 		g_hWorkerThreads[1] = CreateThread(NULL, 0, RenderTheadFunc, NULL, 0, &threadID);
 		g_hWorkerThreads[2] = CreateThread(NULL, 0, UIUpdateTheadFunc, NULL, 0, &threadID);
@@ -105,7 +105,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_KEYDOWN:
-		// esc¸¦ ´©¸¦ °æ¿ì Á¾·á
+		// escë¥¼ ëˆ„ë¥¼ ê²½ìš° ì¢…ë£Œ
 		if (wParam == VK_ESCAPE) PostMessageW(hWnd, WM_DESTROY, 0, 0);
 		if (wParam == VK_RETURN) {
 			if (g_isMaxScreenSize) {
@@ -132,7 +132,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_DESTROY:
 		g_isGameEnd = true;
-		// °ÔÀÓ ·çÇÁ ½º·¹µå°¡ Á¾·áµÉ ¶§ ±îÁö ¹«ÇÑ ´ë±â
+		// ê²Œì„ ë£¨í”„ ìŠ¤ë ˆë“œê°€ ì¢…ë£Œë  ë•Œ ê¹Œì§€ ë¬´í•œ ëŒ€ê¸°
 		WaitForMultipleObjects(PER_NUM_WORKER_THREAD, g_hWorkerThreads, true, INFINITE);
 
 #ifdef PER_DEBUG
@@ -142,20 +142,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		break;
 	}
-	// À§ÀÇ ¼¼ ¸Ş½ÃÁö ¿ÜÀÇ ³ª¸ÓÁö ¸Ş¼¼Áö´Â OS·Î
+	// ìœ„ì˜ ì„¸ ë©”ì‹œì§€ ì™¸ì˜ ë‚˜ë¨¸ì§€ ë©”ì„¸ì§€ëŠ” OSë¡œ
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);    
 }
 
 inline int CalculateDeltaTime(std::chrono::system_clock::time_point* lastTime, std::chrono::system_clock::time_point* currentTime)
 {
-	// ÇöÀç ½Ã°£ ÃøÁ¤
+	// í˜„ì¬ ì‹œê°„ ì¸¡ì •
 	*currentTime = std::chrono::system_clock::now();
 	auto deltaTime = *currentTime - *lastTime;
 
-	// °æ°úµÈ ½Ã°£(¸¶ÀÌÅ©·ÎÃÊ ´ÜÀ§)
+	// ê²½ê³¼ëœ ì‹œê°„(ë§ˆì´í¬ë¡œì´ˆ ë‹¨ìœ„)
 	int dTime = (int)std::chrono::duration_cast<std::chrono::microseconds>(deltaTime).count();
 
-	// ÇöÀç ½Ã°£À» ¸¶Áö¸· ½Ã°£À¸·Î ÀúÀå
+	// í˜„ì¬ ì‹œê°„ì„ ë§ˆì§€ë§‰ ì‹œê°„ìœ¼ë¡œ ì €ì¥
 	*lastTime = *currentTime;
 
 	return dTime;
@@ -163,7 +163,7 @@ inline int CalculateDeltaTime(std::chrono::system_clock::time_point* lastTime, s
 
 inline void SleepForRestDevice(int dTime)
 {
-	// ³Ê¹« ºü¸¦ °æ¿ì ÈŞ½Ä
+	// ë„ˆë¬´ ë¹ ë¥¼ ê²½ìš° íœ´ì‹
 	int restTime = PER_MINIMUM_FRAME_TIME - dTime;
 	if (restTime > 0) {
 		Sleep(int(restTime / 1'000.0));
@@ -172,7 +172,7 @@ inline void SleepForRestDevice(int dTime)
 
 DWORD WINAPI GameTheadFunc(LPVOID temp)
 {
-	PERLog::Logger().Info("°ÔÀÓ ½º·¹µå ½ÃÀÛ");
+	PERLog::Logger().Info("ê²Œì„ ìŠ¤ë ˆë“œ ì‹œì‘");
 
 	int dTime;
 	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
@@ -182,13 +182,13 @@ DWORD WINAPI GameTheadFunc(LPVOID temp)
 		SleepForRestDevice(dTime);
 	}
 
-	PERLog::Logger().Info("°ÔÀÓ ½º·¹µå Á¾·á");
+	PERLog::Logger().Info("ê²Œì„ ìŠ¤ë ˆë“œ ì¢…ë£Œ");
 	return 0;
 }
 
 DWORD WINAPI RenderTheadFunc(LPVOID temp)
 {
-	PERLog::Logger().Info("·»´õ ½º·¹µå ½ÃÀÛ");
+	PERLog::Logger().Info("ë Œë” ìŠ¤ë ˆë“œ ì‹œì‘");
 
 	int dTime;
 	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
@@ -198,13 +198,13 @@ DWORD WINAPI RenderTheadFunc(LPVOID temp)
 		SleepForRestDevice(dTime);
 	}
 
-	PERLog::Logger().Info("·»´õ ½º·¹µå Á¾·á");
+	PERLog::Logger().Info("ë Œë” ìŠ¤ë ˆë“œ ì¢…ë£Œ");
 	return 0;
 }
 
 DWORD WINAPI UIUpdateTheadFunc(LPVOID temp)
 {
-	PERLog::Logger().Info("UI ¾÷µ¥ÀÌÆ® ½º·¹µå ½ÃÀÛ");
+	PERLog::Logger().Info("UI ì—…ë°ì´íŠ¸ ìŠ¤ë ˆë“œ ì‹œì‘");
 
 	int dTime;
 	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
@@ -214,12 +214,12 @@ DWORD WINAPI UIUpdateTheadFunc(LPVOID temp)
 		SleepForRestDevice(dTime);
 	}
 
-	PERLog::Logger().Info("UI ¾÷µ¥ÀÌÆ® ½º·¹µå Á¾·á");
+	PERLog::Logger().Info("UI ì—…ë°ì´íŠ¸ ìŠ¤ë ˆë“œ ì¢…ë£Œ");
 	return 0;
 }
 DWORD WINAPI UIRenderTheadFunc(LPVOID temp)
 {
-	PERLog::Logger().Info("UI ·»´õ ½º·¹µå ½ÃÀÛ");
+	PERLog::Logger().Info("UI ë Œë” ìŠ¤ë ˆë“œ ì‹œì‘");
 
 	int dTime;
 	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
@@ -229,13 +229,13 @@ DWORD WINAPI UIRenderTheadFunc(LPVOID temp)
 		SleepForRestDevice(dTime);
 	}
 
-	PERLog::Logger().Info("UI ·»´õ ½º·¹µå Á¾·á");
+	PERLog::Logger().Info("UI ë Œë” ìŠ¤ë ˆë“œ ì¢…ë£Œ");
 	return 0;
 }
 
 DWORD WINAPI AudioTheadFunc(LPVOID temp)
 {
-	PERLog::Logger().Info("¿Àµğ¿À ½º·¹µå ½ÃÀÛ");
+	PERLog::Logger().Info("ì˜¤ë””ì˜¤ ìŠ¤ë ˆë“œ ì‹œì‘");
 
 	int dTime;
 	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
@@ -245,13 +245,13 @@ DWORD WINAPI AudioTheadFunc(LPVOID temp)
 		SleepForRestDevice(dTime);
 	}
 
-	PERLog::Logger().Info("¿Àµğ¿À ½º·¹µå Á¾·á");
+	PERLog::Logger().Info("ì˜¤ë””ì˜¤ ìŠ¤ë ˆë“œ ì¢…ë£Œ");
 	return 0;
 }
 
 DWORD WINAPI EventDispatchterTheadFunc(LPVOID temp)
 {
-	PERLog::Logger().Info("ÀÌº¥Æ® µğ½ºÆĞÃÄ ½º·¹µå ½ÃÀÛ");
+	PERLog::Logger().Info("ì´ë²¤íŠ¸ ë””ìŠ¤íŒ¨ì³ ìŠ¤ë ˆë“œ ì‹œì‘");
 
 	int dTime;
 	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
@@ -261,13 +261,13 @@ DWORD WINAPI EventDispatchterTheadFunc(LPVOID temp)
 		SleepForRestDevice(dTime);
 	}
 
-	PERLog::Logger().Info("ÀÌº¥Æ® µğ½ºÆĞÃÄ ½º·¹µå Á¾·á");
+	PERLog::Logger().Info("ì´ë²¤íŠ¸ ë””ìŠ¤íŒ¨ì³ ìŠ¤ë ˆë“œ ì¢…ë£Œ");
 	return 0;
 }
 
 DWORD WINAPI LogTheadFunc(LPVOID temp)
 {
-	PERLog::Logger().Info("·Î±× ½º·¹µå ½ÃÀÛ");
+	PERLog::Logger().Info("ë¡œê·¸ ìŠ¤ë ˆë“œ ì‹œì‘");
 
 	int dTime;
 	auto lastTime = std::chrono::system_clock::now(); auto currentTime = std::chrono::system_clock::now();
@@ -277,6 +277,6 @@ DWORD WINAPI LogTheadFunc(LPVOID temp)
 		SleepForRestDevice(dTime);
 	}
 
-	PERLog::Logger().Info("·Î±× ½º·¹µå Á¾·á");
+	PERLog::Logger().Info("ë¡œê·¸ ìŠ¤ë ˆë“œ ì¢…ë£Œ");
 	return 0;
 }

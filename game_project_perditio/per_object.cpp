@@ -8,7 +8,7 @@ PERObject::PERObject(ObjectFactory& factory, ObjectState* objectState,
 	: m_factory(factory), m_objectState(objectState),
 	m_input(input), m_ai(ai), m_physics(physics), m_graphics(graphics)
 {
-	// ½ºÅ×ÀÌÆ®¿Í ÄÁÆ÷³ÍÆ®ÀÇ ¿À³Ê¸¦ ÀÚ½ÅÀ¸·Î ¼³Á¤
+	// ìŠ¤í…Œì´íŠ¸ì™€ ì»¨í¬ë„ŒíŠ¸ì˜ ì˜¤ë„ˆë¥¼ ìì‹ ìœ¼ë¡œ ì„¤ì •
 	m_objectState->SetOwner(this);
 	m_input->SetOwner(this);
 	m_ai->SetOwner(this);
@@ -29,36 +29,36 @@ PERObject::~PERObject()
 
 void PERObject::Initialize()
 {
-	// ÄÁÆ÷³ÍÆ® ÃÊ±âÈ­
+	// ì»¨í¬ë„ŒíŠ¸ ì´ˆê¸°í™”
 	m_input->Initialize(m_factory.GetInputData());
 	m_ai->Initialize(m_factory.GetAiData());
 	m_physics->Initialize(m_factory.GetPhysicsData());
 	m_graphics->Initialize(m_factory.GetGraphicsData());
 
-	// ¿ÀºêÁ§Æ® ½ºÅ×ÀÌÆ® ÃÊ±âÈ­
+	// ì˜¤ë¸Œì íŠ¸ ìŠ¤í…Œì´íŠ¸ ì´ˆê¸°í™”
 	m_factory.InitializeObjectState(m_objectState);
 
-	// ¿ÀºêÁ§Æ® Å¬·¡½º³» ¸â¹ö º¯¼ö ÃÊ±âÈ­
-	// ºÎ¸ğ
+	// ì˜¤ë¸Œì íŠ¸ í´ë˜ìŠ¤ë‚´ ë©¤ë²„ ë³€ìˆ˜ ì´ˆê¸°í™”
+	// ë¶€ëª¨
 	PERObject* m_parent = nullptr;
 
-	// ¹°¸® Á¤º¸
+	// ë¬¼ë¦¬ ì •ë³´
 	m_position = PERVec3(0.0, 0.0, 0.0);
 	m_size = m_factory.GetSize();
 	m_velocity = PERVec3(0.0, 0.0, 0.0);
 	m_currentAccel = PERVec3(0.0, 0.0, 0.0);
 	m_mass = m_factory.GetMass();
 
-	// Ãæµ¹Ã¼ Á¤º¸
+	// ì¶©ëŒì²´ ì •ë³´
 	m_boundingType = PERBoundingType::RECTANGLE;
 	m_boundingBoxRelativeSize = PERVec3(1.0, 1.0, 1.0);
 	m_boundingBoxRelativePosition = PERVec3(0.0, 0.0, 0.0);
 
-	// Ãæµ¹ Á¤º¸
+	// ì¶©ëŒ ì •ë³´
 	m_collidedObject = nullptr;
 	m_collidedMomentVelocity = PERVec3(0.0, 0.0, 0.0);
 
-	// ¿ùµå ³» Á¤º¸
+	// ì›”ë“œ ë‚´ ì •ë³´
 	m_idInWorld = -1;
 	m_lifeTime = PER_MAXIMUM_LIFE_TIME;
 }

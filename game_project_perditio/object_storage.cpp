@@ -3,7 +3,7 @@
 
 ObjectStorage::ObjectStorage()
 {
-    PERLog::Logger().Info("¿ÀºêÁ§Æ® Ç® »ý¼º");
+    PERLog::Logger().Info("ì˜¤ë¸Œì íŠ¸ í’€ ìƒì„±");
 
     CreateObjectFactories();
     FillObjectQueues();
@@ -11,7 +11,7 @@ ObjectStorage::ObjectStorage()
 
 ObjectStorage::~ObjectStorage()
 {
-    PERLog::Logger().Info("¿ÀºêÁ§Æ® Ç® »èÁ¦");
+    PERLog::Logger().Info("ì˜¤ë¸Œì íŠ¸ í’€ ì‚­ì œ");
 
     ClearObjectQueues();
     DeleteObjectFactories();
@@ -30,10 +30,10 @@ PERObject* ObjectStorage::PopObject(PERObjectType type)
 
 void ObjectStorage::PushObject(PERObjectType type, PERObject* object)
 {
-    // ÇÃ·¹ÀÌ¾î´Â °ÔÀÓ ¸ðµå¿¡¼­ »ý¼ºÇÏ±â ¶§¹®¿¡ Á¦¿Ü
+    // í”Œë ˆì´ì–´ëŠ” ê²Œìž„ ëª¨ë“œì—ì„œ ìƒì„±í•˜ê¸° ë•Œë¬¸ì— ì œì™¸
     if (type == PERObjectType::PLAYER) return;
 
-    // ÃÊ±âÈ­ ÈÄ Å¥¿¡ ³ÖÀ½
+    // ì´ˆê¸°í™” í›„ íì— ë„£ìŒ
     object->Initialize();
     m_objectQueues.find(type)->second.push(object);
 }

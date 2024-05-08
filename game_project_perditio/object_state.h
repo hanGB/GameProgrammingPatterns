@@ -1,8 +1,8 @@
 #pragma once
 /*
-*	ÇöÀç ¿ÀºêÁ§Æ® »óÅÂ(Á¤º¸)¸¦ ´ã´Â Å¬·¡½º
+*	í˜„ì¬ ì˜¤ë¸Œì íŠ¸ ìƒíƒœ(ì •ë³´)ë¥¼ ë‹´ëŠ” í´ë˜ìŠ¤
 * 
-*	¿ÀºêÁ§Æ®°¡ ¼ÒÀ¯ÇÏµµ·Ï ±¸Çö
+*	ì˜¤ë¸Œì íŠ¸ê°€ ì†Œìœ í•˜ë„ë¡ êµ¬í˜„
 */
 
 class PERObject;
@@ -14,13 +14,13 @@ public:
 	ObjectState();
 	~ObjectState();
 
-	// ´ë¹ÌÁö ¹«½Ã
+	// ëŒ€ë¯¸ì§€ ë¬´ì‹œ
 	void UseIgnoreDamageTime(double dTime);
 
-	// ÃÊ±âÈ­
+	// ì´ˆê¸°í™”
 	virtual void Initialize();
 
-	// »óÅÂ º¯È­
+	// ìƒíƒœ ë³€í™”
 	virtual bool GiveDamage(PERObject& opponent, short physical, short mind);
 	virtual bool UseMind(int mind);
 	virtual void RecoverPerTime(double dTime);
@@ -52,26 +52,26 @@ protected:
 	const double c_DEFAULT_IGNORE_DAMAGE_TIME = 0.1;
 	const int	 c_DEFAULT_LEVEL_EXP_GAP = 2;
 
-	// ½ºÅÈ
+	// ìŠ¤íƒ¯
 	std::string m_nameId;
 	PERStat m_stat;
 	int m_currentBody;
 	int m_currentMind;
 	int m_exp;
 
-	// ´ë¹ÌÁö ¹«½Ã
+	// ëŒ€ë¯¸ì§€ ë¬´ì‹œ
 	double m_damageDelay = 0.0;
-	// ÀÚµ¿ È¸º¹
+	// ìë™ íšŒë³µ
 	double m_recoverDelay = 0.0;
 	double m_recoverTime = c_DEFAULT_TIME_FOR_RECOVER;
 	double m_bodyRecoverPercent = c_DEFAULT_BODY_RECOVER_PERCENT;
 	double m_mindRecoverPercent = c_DEFAULT_MIND_RECOVER_PERCENT;
 
-	// ±âº» Á¤º¸
+	// ê¸°ë³¸ ì •ë³´
 	bool m_isHasCollsionDamage = false;
 	bool m_isImmortal = false;
 
-	// ½ºÆù À§Ä¡
+	// ìŠ¤í° ìœ„ì¹˜
 	PERVec3 m_spawnPosition = PERVec3(0.0, 0.0, 0.0);
 
 private:

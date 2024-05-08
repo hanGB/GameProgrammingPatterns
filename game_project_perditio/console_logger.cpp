@@ -9,12 +9,12 @@ ConsoleLogger::ConsoleLogger()
 	freopen_s(&stream, "CONOUT$", "w", stderr);
 	freopen_s(&stream, "CONOUT$", "w", stdout);
 
-	Info("ÄÜ¼ÖÃ¢ »ý¼º");
+	Info("èƒ½è´¾èŠ’ ç§¯å·±");
 }
 
 ConsoleLogger::~ConsoleLogger()
 {
-	Info("ÄÜ¼ÖÃ¢ Á¦°Å");
+	Info("èƒ½è´¾èŠ’ åŠ›èŠ­");
 
 	FreeConsole();
 }

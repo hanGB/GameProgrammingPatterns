@@ -4,7 +4,7 @@
 
 class PlayerState : public ObjectState {
 public:
-	// ÃÊ±âÈ­
+	// ì´ˆê¸°í™”
 	virtual void Initialize();
 
 	virtual bool GiveDamage(PERObject& opponent, short physical, short mind);
@@ -25,7 +25,7 @@ private:
 	const double C_DEFAULT_SWING_BLADE_COOL_TIME	= 0.5;
 	
 
-	// °ø°ÝÃ¼ °ü·Ã
+	// ê³µê²©ì²´ ê´€ë ¨
 	std::string m_bulletVisualId = "PLAYER_BASIC_BULLET_VISUAL";
 	double m_shootCoolTime	= c_DEFAULT_SHOOT_BULLET_COOL_TIME;
 	std::string m_bladeVisualId = "PLAYER_BASIC_BLADE_VISUAL";

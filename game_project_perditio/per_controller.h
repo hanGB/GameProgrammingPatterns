@@ -7,11 +7,11 @@ public:
 	PERController();
 	~PERController();
 
-	// Å°º¸µå ÀÔ·ÂÀÌ ´­·È´ÂÁö È®ÀÎ
+	// í‚¤ë³´ë“œ ì…ë ¥ì´ ëˆŒë ¸ëŠ”ì§€ í™•ì¸
 	bool IsKeyboardPressed(PERKeyboardValue value, bool isNotProcessed = false);
-	// Å°º¸µå ÀÔ·ÂÀÌ Áö±İ ´çÀå ´­·È´ÂÁö(ÇÑ ¹øµµ Ã³¸® ¾ÈµÈ °æ¿ì) È®ÀÎ
+	// í‚¤ë³´ë“œ ì…ë ¥ì´ ì§€ê¸ˆ ë‹¹ì¥ ëˆŒë ¸ëŠ”ì§€(í•œ ë²ˆë„ ì²˜ë¦¬ ì•ˆëœ ê²½ìš°) í™•ì¸
 	bool IsKeyboardPressedRightNow(PERKeyboardValue value);
-	// Å°º¸µå ÀÔ·ÂÀÌ Áö±İ ´çÀå ´­·È°Å³ª(ÇÑ ¹øµµ Ã³¸® ¾ÈµÈ °æ¿ì) Æ¯Á¤ ½Ã°£º¸´Ù ¿À·¡ ´­·È´ÂÁö È®ÀÎ
+	// í‚¤ë³´ë“œ ì…ë ¥ì´ ì§€ê¸ˆ ë‹¹ì¥ ëˆŒë ¸ê±°ë‚˜(í•œ ë²ˆë„ ì²˜ë¦¬ ì•ˆëœ ê²½ìš°) íŠ¹ì • ì‹œê°„ë³´ë‹¤ ì˜¤ë˜ ëˆŒë ¸ëŠ”ì§€ í™•ì¸
 	bool IsKeyboardPressedRightNowOrMoreThanTime(PERKeyboardValue value, double time = PER_KEYBOARD_LONG_PRESS_TIME);
 
 	void SetKeyboardPressed(PERKeyboardValue value, bool pressed);
@@ -21,10 +21,10 @@ public:
 private:
 	void InitKeyboardInputDatas();
 
-	// Å°º¸µå ÀÔ·Â Á¤º¸¿¡ ´ëÇÑ µ¥ÀÌÅÍ
+	// í‚¤ë³´ë“œ ì…ë ¥ ì •ë³´ì— ëŒ€í•œ ë°ì´í„°
 	concurrency::concurrent_unordered_map<PERKeyboardValue, bool> m_keyboardInputDatas;
-	// Å°º¸µå ÀÔ·Â Á¤º¸¸¦ Ã³¸®µÈ Àû ¾ø´Â Áö¿¡ ´ëÇÑ µ¥ÀÌÅÍ
+	// í‚¤ë³´ë“œ ì…ë ¥ ì •ë³´ë¥¼ ì²˜ë¦¬ëœ ì  ì—†ëŠ” ì§€ì— ëŒ€í•œ ë°ì´í„°
 	concurrency::concurrent_unordered_map<PERKeyboardValue, bool> m_keyboardInputProcessedNeverDatas;
-	// Å°º¸µå ÀÔ·ÂÀÇ ½Ã°£ÀÌ ¾ó¸¶³ª Áö³µ´ÂÁö¿¡ ´ëÇÑ µ¥ÀÌÅÍ
+	// í‚¤ë³´ë“œ ì…ë ¥ì˜ ì‹œê°„ì´ ì–¼ë§ˆë‚˜ ì§€ë‚¬ëŠ”ì§€ì— ëŒ€í•œ ë°ì´í„°
 	concurrency::concurrent_unordered_map<PERKeyboardValue, double> m_keyboardInputPressTimerDatas;
 };

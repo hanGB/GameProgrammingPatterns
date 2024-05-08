@@ -14,17 +14,17 @@ public:
 private:
 	void MakeSignal(PERAudio& audio, double dTime);
 
-	// ¹öÆ° Á¤º¸
-	// ÀÔ·Â ¿©ºÎ
+	// ë²„íŠ¼ ì •ë³´
+	// ì…ë ¥ ì—¬ë¶€
 	bool m_isGetInput = false;
-	// ÀÔ·Â ½Ã ¿Â, ¿ÀÇÁ°¡ ¹İº¹µÊ 
+	// ì…ë ¥ ì‹œ ì˜¨, ì˜¤í”„ê°€ ë°˜ë³µë¨ 
 	bool m_isSwitch = false;
-	// ÄÑÁ³´ÂÁö ¿©ºÎ
+	// ì¼œì¡ŒëŠ”ì§€ ì—¬ë¶€
 	bool m_isOn = false;
-	// Ã³À½ ÇÑ ¹ø ÀÔ·Â¸¸ ¹İÀÀÇÔ
+	// ì²˜ìŒ í•œ ë²ˆ ì…ë ¥ë§Œ ë°˜ì‘í•¨
 	bool m_isDisposable = false;
 
-	// ÄÑÁü, ²¨Áü ±×·¡ÇÈ µ¥ÀÌÅÍ
+	// ì¼œì§, êº¼ì§ ê·¸ë˜í”½ ë°ì´í„°
 	PERComponent::GraphicsData m_onGraphicsData;
 	PERComponent::GraphicsData m_offGraphicsData;
 };

@@ -46,16 +46,16 @@ void MakingSignalAiComponent::MakeSignal(PERAudio& audio, double dTime)
 		{
 			if (!m_isOn)
 			{
-				//PERLog::Logger().Info("½ºÀ§Ä¡ ¿Â");
+				//PERLog::Logger().Info("ìŠ¤ìœ„ì¹˜ ì˜¨");
 
-				// ¿ÀºêÁ§Æ®ÀÇ ai ÄÁÆ÷³ÍÆ®¿¡ ÀÖ´Â Execute ÇÔ¼ö ½ÇÇà
+				// ì˜¤ë¸Œì íŠ¸ì˜ ai ì»¨í¬ë„ŒíŠ¸ì— ìˆëŠ” Execute í•¨ìˆ˜ ì‹¤í–‰
 				dynamic_cast<ResponeseToSignalAiComponent*>(&ativeObejct->GetAi())->Execute();
 				GetOwner()->GetGraphics().SetData(m_onGraphicsData);
 			}
 			else
 			{
-				//PERLog::Logger().Info("½ºÀ§Ä¡ ¿ÀÇÁ");
-				// ¿ÀºêÁ§Æ®ÀÇ ai ÄÁÆ÷³ÍÆ®¿¡ ÀÖ´Â Revoke ÇÔ¼ö ½ÇÇà
+				//PERLog::Logger().Info("ìŠ¤ìœ„ì¹˜ ì˜¤í”„");
+				// ì˜¤ë¸Œì íŠ¸ì˜ ai ì»¨í¬ë„ŒíŠ¸ì— ìˆëŠ” Revoke í•¨ìˆ˜ ì‹¤í–‰
 				dynamic_cast<ResponeseToSignalAiComponent*>(&ativeObejct->GetAi())->Revoke();
 				GetOwner()->GetGraphics().SetData(m_offGraphicsData);
 			}
@@ -63,8 +63,8 @@ void MakingSignalAiComponent::MakeSignal(PERAudio& audio, double dTime)
 		}
 		else
 		{
-			//PERLog::Logger().Info("¹öÆ° ´­¸²");
-			// ¿ÀºêÁ§Æ®ÀÇ ai ÄÁÆ÷³ÍÆ®¿¡ ÀÖ´Â Execute ÇÔ¼ö ½ÇÇà
+			//PERLog::Logger().Info("ë²„íŠ¼ ëˆŒë¦¼");
+			// ì˜¤ë¸Œì íŠ¸ì˜ ai ì»¨í¬ë„ŒíŠ¸ì— ìˆëŠ” Execute í•¨ìˆ˜ ì‹¤í–‰
 			dynamic_cast<ResponeseToSignalAiComponent*>(&ativeObejct->GetAi())->Execute();
 			GetOwner()->GetGraphics().SetData(m_onGraphicsData);
 		}

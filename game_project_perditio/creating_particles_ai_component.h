@@ -20,7 +20,7 @@ private:
 	double m_particleLifeTime;
 	double m_time;
 
-	// ¼ÒÈ¯ ÆÄÆ¼Å¬ ¸ğ¾ç
+	// ì†Œí™˜ íŒŒí‹°í´ ëª¨ì–‘
 	PERShapeType	m_particleShapeType = PERShapeType::RECTANGLE;
 	PERVec3			m_particleSize = PERVec3(0.25, 0.25, 0.25);
 	double			m_particleMass = 10;

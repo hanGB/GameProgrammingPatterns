@@ -25,11 +25,11 @@ public:
 
 	void AudioUpdate();
 
-	// À©µµ¿ì hwnd Àç¼³Á¤
+	// ìœˆë„ìš° hwnd ì¬ì„¤ì •
 	void MatchWindowHWND(HWND hWnd);
 
 private:
-	// °ÔÀÓ ¿ùµå, ¸ğµå º¯°æ
+	// ê²Œì„ ì›”ë“œ, ëª¨ë“œ ë³€ê²½
 	void Run(PERWorld* world, GameMode* gameMode);
 	void ChangeWorld(PERWorld* world, GameMode* gameMode);
 	void PushWorld(PERWorld* world, GameMode* gameMode);
@@ -55,7 +55,7 @@ private:
 	PERWorld*	m_currentWorld;
 	GameMode*   m_currentGameMode;
 
-	// ÇÁ·¹ÀÓ ÃøÁ¤ °ü·Ã
+	// í”„ë ˆì„ ì¸¡ì • ê´€ë ¨
 	double m_fpsUpdateTime = 0.0;
 	wchar_t m_fpsText[10];
 	std::atomic<int> m_fps;

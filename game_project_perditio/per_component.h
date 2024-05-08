@@ -3,7 +3,7 @@
 
 namespace PERComponent {
 
-	// ÄÁÆ÷³ÍÆ® Á¾·ù
+	// ì»¨í¬ë„ŒíŠ¸ ì¢…ë¥˜
 	struct ComponentTypes {
 		PERComponentType input;
 		PERComponentType ai;
@@ -11,7 +11,7 @@ namespace PERComponent {
 		PERComponentType graphics;
 	};
 
-	// ÄÁÆ÷³ÍÆ® ¼³Á¤ µ¥ÀÌÅÍ
+	// ì»¨í¬ë„ŒíŠ¸ ì„¤ì • ë°ì´í„°
 	struct InputData {
 		bool isMove = false;
 		bool isAttack = false;

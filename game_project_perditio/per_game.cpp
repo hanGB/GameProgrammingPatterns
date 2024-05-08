@@ -8,7 +8,7 @@
 
 PERGame::PERGame(HWND hWnd)
 {
-	PERLog::Logger().Info("°ÔÀÓ Å¬·¡½º »ý¼º ½ÃÀÛ");
+	PERLog::Logger().Info("ê²Œìž„ í´ëž˜ìŠ¤ ìƒì„± ì‹œìž‘");
 
 	m_renderer = new PERRenderer(hWnd);
 	m_controller = new PERController();
@@ -16,19 +16,19 @@ PERGame::PERGame(HWND hWnd)
 	m_objectStorage = new ObjectStorage();
 	m_database = new PERDatabase();
 
-	PERLog::Logger().Info("°ÔÀÓ Å¬·¡½º »ý¼º ¿Ï·á");
+	PERLog::Logger().Info("ê²Œìž„ í´ëž˜ìŠ¤ ìƒì„± ì™„ë£Œ");
 }
 
 PERGame::~PERGame()
 {
-	PERLog::Logger().Info("°ÔÀÓ Å¬·¡½º »èÁ¦ ½ÃÀÛ");
+	PERLog::Logger().Info("ê²Œìž„ í´ëž˜ìŠ¤ ì‚­ì œ ì‹œìž‘");
 
 	delete m_controller;
 	delete m_renderer;
 	delete m_currentWorld;
 	delete m_objectStorage;
 
-	PERLog::Logger().Info("°ÔÀÓ Å¬·¡½º »èÁ¦ ¿Ï·á");
+	PERLog::Logger().Info("ê²Œìž„ í´ëž˜ìŠ¤ ì‚­ì œ ì™„ë£Œ");
 }
 
 void PERGame::Recive(PEREvent event, PERVec3 data)
@@ -71,34 +71,34 @@ void PERGame::Update(int time)
 	
 	m_controller->Update(dTime);
 
-	// Á×Àº ¿ÀºêÁ§Æ® ¿ùµå¿¡¼­ Á¦°Å
+	// ì£½ì€ ì˜¤ë¸Œì íŠ¸ ì›”ë“œì—ì„œ ì œê±°
 	m_currentWorld->Update(*m_audio, dTime);
 
 	
-	// Á¤ÇØÁø ½Ã°£¸¸Å­ ¾÷µ¥ÀÌÆ®°¡ ÇÊ¿äÇÑ Ç×¸ñ ¾÷µ¥ÀÌÆ®
+	// ì •í•´ì§„ ì‹œê°„ë§Œí¼ ì—…ë°ì´íŠ¸ê°€ í•„ìš”í•œ í•­ëª© ì—…ë°ì´íŠ¸
 	m_updateLag += time;
-	// PER_MILLISEC_PER_UPDATE ¸¸Å­¾¿ ¾÷µ¥ÀÌÆ®
+	// PER_MILLISEC_PER_UPDATE ë§Œí¼ì”© ì—…ë°ì´íŠ¸
 	for (int i = 0; i < PER_MAXIMUM_UPDATE_LOOP_COUNT && m_updateLag >= PER_MICROSEC_PER_UPDATE; ++i) {
-		// Á¤ÇØÁø ½Ã°£¸¸Å­ °ÔÀÓ ¾÷µ¥ÀÌÆ®
+		// ì •í•´ì§„ ì‹œê°„ë§Œí¼ ê²Œìž„ ì—…ë°ì´íŠ¸
 		m_currentWorld->InputUpdate(*m_controller, *m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
 		m_currentWorld->AiUpdate(*m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
 		m_currentWorld->PhysicsUpdate(*m_audio, PER_MICROSEC_PER_UPDATE / 1'000'000.0);
 		m_updateLag -= PER_MICROSEC_PER_UPDATE;
 	}
-	// ÃÖ´ë ¾÷µ¥ÀÌÆ® ·çÇÁ È½¼ö¸¦ ³Ñ¾î¼­ ³¡³¯ °æ¿ì¸¦ ´ëºñÇØ ¾÷µ¥ÀÌÆ®¿¡ °É¸®´Â ½Ã°£À¸·Î ³ª´®
+	// ìµœëŒ€ ì—…ë°ì´íŠ¸ ë£¨í”„ íšŸìˆ˜ë¥¼ ë„˜ì–´ì„œ ëë‚  ê²½ìš°ë¥¼ ëŒ€ë¹„í•´ ì—…ë°ì´íŠ¸ì— ê±¸ë¦¬ëŠ” ì‹œê°„ìœ¼ë¡œ ë‚˜ëˆ”
 	m_updateLag %= PER_MICROSEC_PER_UPDATE;
 	
-	// ¾÷µ¥ÀÌÆ®°¡ ³¡³­ °æ¿ì ¸®ÅÏ(Àú¹ø ¾÷µ¥ÀÌÆ®°¡ ³¡³­ ÈÄ ¾ÆÁ÷ ·»´õ¸µÀÌ ¿Ï·áµÇÁö ¾Ê¾Æ false·Î º¯°æµÇÁö ¾ÊÀ½)
+	// ì—…ë°ì´íŠ¸ê°€ ëë‚œ ê²½ìš° ë¦¬í„´(ì €ë²ˆ ì—…ë°ì´íŠ¸ê°€ ëë‚œ í›„ ì•„ì§ ë Œë”ë§ì´ ì™„ë£Œë˜ì§€ ì•Šì•„ falseë¡œ ë³€ê²½ë˜ì§€ ì•ŠìŒ)
 	if (m_isUpdateEnd) return;
 	m_frameGap = (double)m_updateLag / (double)PER_MICROSEC_PER_UPDATE;
 	m_currentWorld->GraphicsUpdate(*m_audio, dTime);
 
-	// ¿ÀºêÁ§Æ® Á¤·Ä
+	// ì˜¤ë¸Œì íŠ¸ ì •ë ¬
 	m_currentWorld->UpdateSortedGraphicsComponents();
-	// Ä«¸Þ¶ó ¾÷µ¥ÀÌÆ®
+	// ì¹´ë©”ë¼ ì—…ë°ì´íŠ¸
 	m_currentWorld->UpdateCamera(*m_renderer, m_frameGap);
 
-	// ¾÷µ¥ÀÌÆ® ³¡ ¿Ï·á
+	// ì—…ë°ì´íŠ¸ ë ì™„ë£Œ
 	m_isUpdateEnd = true;
 }
 
@@ -114,16 +114,16 @@ void PERGame::UIUpdate(int time)
 
 void PERGame::Render(HWND hWnd)
 {
-	// ·»´õ¸µ ÁØºñ°¡ µÇÁö ¾ÊÀº °æ¿ì ¸®ÅÏ
+	// ë Œë”ë§ ì¤€ë¹„ê°€ ë˜ì§€ ì•Šì€ ê²½ìš° ë¦¬í„´
 	if (!m_isUpdateEnd) return;
 
 	if (!m_isRenderEnd) {
 		m_renderer->ResetMemoryDC(hWnd);
 
-		// °ÔÀÓ ¿ùµå ·»´õ¸µ
+		// ê²Œìž„ ì›”ë“œ ë Œë”ë§
 		m_currentWorld->Render(*m_renderer, m_frameGap);
 
-		// ³×ºñ°ÔÀÌ¼Ç µ¥ÀÌÅÍ Å×½ºÆ®¿ë
+		// ë„¤ë¹„ê²Œì´ì…˜ ë°ì´í„° í…ŒìŠ¤íŠ¸ìš©
 		//BlackBoard::GetNavigationData().RenderOutData(*m_renderer);
 
 		m_isRenderEnd = true;
@@ -164,7 +164,7 @@ void PERGame::MatchWindowHWND(HWND hWnd)
 
 void PERGame::Run(PERWorld* world, GameMode* gameMode)
 {
-	PERLog::Logger().Info("¿ùµå ÃÖÃÊ ½ÇÇà");
+	PERLog::Logger().Info("ì›”ë“œ ìµœì´ˆ ì‹¤í–‰");
 
 	world->Enter();
 

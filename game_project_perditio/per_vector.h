@@ -83,10 +83,10 @@ struct PERColor {
 	PERColor(const PERColor& copy) : r(copy.r), g(copy.g), b(copy.b) {}
 };
 
-// º¤ÅÍ °è»ê¿¡ ÇÊ¿äÇÑ ÇÔ¼ö
-// A¿Í B »çÀÌÀÇ °Å¸®ÀÇ Á¦°ö°ª
+// ë²¡í„° ê³„ì‚°ì— í•„ìš”í•œ í•¨ìˆ˜
+// Aì™€ B ì‚¬ì´ì˜ ê±°ë¦¬ì˜ ì œê³±ê°’
 double DistanceSquareAandB(PERVec3 a, PERVec3 b);
-// A¿Í B »çÀÌÀÇ °Å¸®ÀÇ Á¦°ö°ª(z°ª ¹«½Ã)
+// Aì™€ B ì‚¬ì´ì˜ ê±°ë¦¬ì˜ ì œê³±ê°’(zê°’ ë¬´ì‹œ)
 double DistanceSquareAandBIgnoringZValue(PERVec3 a, PERVec3 b);
 double DistanceSquareAandBIgnoringZValue(PERVec2 a, PERVec2 b);
 PERVec3 NormalizeVector(PERVec3 vec);

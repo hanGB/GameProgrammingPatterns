@@ -4,7 +4,7 @@
 
 void PlayerState::Initialize()
 {
-    // °ø°ÝÃ¼ °ü·Ã
+    // ê³µê²©ì²´ ê´€ë ¨
     m_bulletVisualId = "PLAYER_BASIC_BULLET_VISUAL";
     m_shootCoolTime = c_DEFAULT_SHOOT_BULLET_COOL_TIME;
     m_bladeVisualId = "PLAYER_BASIC_BLADE_VISUAL";
@@ -35,7 +35,7 @@ void PlayerState::RecoverPerTime(double dTime)
 
     if (m_recoverDelay < m_recoverTime) return;
 
-    // Æ¯Á¤·® È¸º¹
+    // íŠ¹ì •ëŸ‰ íšŒë³µ
     m_currentBody = std::clamp(m_currentBody + (int)(m_stat.body * m_bodyRecoverPercent), 0, (int)m_stat.body);
     m_currentMind = std::clamp(m_currentMind + (int)(m_stat.mind * m_mindRecoverPercent), 0, (int)m_stat.mind);
     EventDispatcher::Send(PEREvent::UPDATE_BD, PERVec3(m_currentBody, 0.0, 0.0));
@@ -47,7 +47,7 @@ void PlayerState::RecoverPerTime(double dTime)
 void PlayerState::GiveExp(int exp)
 {
     ObjectState::GiveExp(exp);
-    PERLog::Logger().InfoWithFormat("ÇÃ·¹ÀÌ¾î°¡ °æÇèÄ¡ %d¸¦ È¹µæ", exp);
+    PERLog::Logger().InfoWithFormat("í”Œë ˆì´ì–´ê°€ ê²½í—˜ì¹˜ %dë¥¼ íšë“", exp);
 }
 
 double PlayerState::GetShootCoolTime() const

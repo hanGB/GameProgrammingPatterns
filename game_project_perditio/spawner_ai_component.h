@@ -26,22 +26,22 @@ private:
 
 	void RequsetSpawnObjcet(PERWorld& world);
 
-	// ¿ÀºêÁ§Æ® ¼³Á¤
+	// ì˜¤ë¸Œì íŠ¸ ì„¤ì •
 	std::string m_objectId;
 	PERObjectType m_type;
 
-	// ½ºÆù °£°İ
+	// ìŠ¤í° ê°„ê²©
 	double m_timeGap = 5.0;
-	// ½ºÆù Å¸ÀÌ¸Ó
+	// ìŠ¤í° íƒ€ì´ë¨¸
 	double m_time = 0.0;
 
-	// ½ºÆù °Å¸®ÀÇ Á¦°ö
+	// ìŠ¤í° ê±°ë¦¬ì˜ ì œê³±
 	double m_distance2 = 4.0;
 
-	// ½ºÆù ¿ÀºêÁ§Æ® ¼ö¸í
+	// ìŠ¤í° ì˜¤ë¸Œì íŠ¸ ìˆ˜ëª…
 	double m_lifeTime = PER_MAXIMUM_LIFE_TIME;
 
-	// ½ºÆùµÈ ¿ÀºêÁ§Æ®
+	// ìŠ¤í°ëœ ì˜¤ë¸Œì íŠ¸
 	PERObject* m_spawnedObject = nullptr;
 	bool m_isSettingSpawnedObject = true;
 

@@ -18,14 +18,14 @@ void PERParticle::Init(PERShapeType type, PERVec3 pos, PERVec3 size, double mass
 	m_isInUse = true;
 	m_lifeTime = lifeTime;
 
-	// ¹°¸®°ª
+	// ë¬¼ë¦¬ê°’
 	m_position = pos;
 	m_size = size;
 	m_force = force;
 	m_velocity = vel;
 	m_mass = mass;
 
-	// ¿ÜÇü
+	// ì™¸í˜•
 	m_shapeType = type;
 	m_color = color;
 	m_isBorderOn = isBorderOn;
@@ -37,10 +37,10 @@ bool PERParticle::Update(double dTime)
 {
 	if (!GetIsInUse()) return true;
 	m_lifeTime -= dTime;
-	// ¶óÀÌÇÁ Å¸ÀÓÀÌ 0º¸´Ù ÀÛÀ¸¸é »ç¿ë ÁßÀÌ ¾Æ´Ïµµ·Ï ÇÏ±â À§ÇØ false¸¦ ³Ñ±è
+	// ë¼ì´í”„ íƒ€ì„ì´ 0ë³´ë‹¤ ì‘ìœ¼ë©´ ì‚¬ìš© ì¤‘ì´ ì•„ë‹ˆë„ë¡ í•˜ê¸° ìœ„í•´ falseë¥¼ ë„˜ê¹€
 	if (m_lifeTime < 0.0) return false;
 
-	// Èû¿¡ ÀÇÇÑ ¼Óµµ º¯È­ °è»ê
+	// í˜ì— ì˜í•œ ì†ë„ ë³€í™” ê³„ì‚°
 	PERVec3 acc = m_force * (1.0 / m_mass);
 	m_velocity = m_velocity + acc * dTime;
 	m_position = m_position + m_velocity * dTime + acc * 0.5 * dTime * dTime;

@@ -8,7 +8,7 @@ public:
 	virtual void SetData(PERComponent::GraphicsData data);
 	virtual void Initialize(PERComponent::GraphicsData data);
 
-	// ¿ÀºêÁ§Æ® »ç¸Á½Ã Á¦°Å¿ë
+	// ì˜¤ë¸Œì íŠ¸ ì‚¬ë§ì‹œ ì œê±°ìš©
 	virtual void RemoveFloatingUi();
 
 protected:
@@ -16,10 +16,10 @@ protected:
 	PERVec3 m_size;
 
 private:
-	// ¸ğ¾ç ¹× »ö»ó ¼³Á¤
+	// ëª¨ì–‘ ë° ìƒ‰ìƒ ì„¤ì •
 	PERShapeType m_shapeType;
 	PERColor m_color;
-	// Å×µÎ¸® ¼³Á¤
+	// í…Œë‘ë¦¬ ì„¤ì •
 	bool m_border;
 	int m_borderWidth;
 	PERColor m_borderColor;

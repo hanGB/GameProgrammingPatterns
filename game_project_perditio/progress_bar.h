@@ -27,10 +27,10 @@ private:
 
 	const double c_UPDATE_TIME = 0.2;
 
-	// ╦П╬Г а╓╨╦
+	// К╙╗Л√▒ Л═∙КЁ╢
 	PERColor	m_valueColor;
 
-	// ╣╔юлем а╓╨╦
+	// К█╟Л²╢М└╟ Л═∙КЁ╢
 	int		m_max;
 	int		m_current;
 	double	m_showing;

@@ -10,7 +10,7 @@ TestFieldHud::TestFieldHud()
 	}
 	else
 	{
-		PERLog::Logger().ErrorWithFormat("Test field hudÀÇ Ã¼·Â ¹Ù°¡ »ı¼ºµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+		PERLog::Logger().ErrorWithFormat("Test field hudì˜ ì²´ë ¥ ë°”ê°€ ìƒì„±ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 	}
 
 	m_mindBar = dynamic_cast<ProgressBar*>(m_uiElementPool->Create(PERUiElementType::PROGRESS_BAR));
@@ -20,7 +20,7 @@ TestFieldHud::TestFieldHud()
 	}
 	else
 	{
-		PERLog::Logger().ErrorWithFormat("Test field hudÀÇ Á¤½Å ¹Ù°¡ »ı¼ºµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+		PERLog::Logger().ErrorWithFormat("Test field hudì˜ ì •ì‹  ë°”ê°€ ìƒì„±ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 	}
 }
 

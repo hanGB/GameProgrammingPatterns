@@ -6,7 +6,7 @@ void MovablePhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dT
 {
 	m_MoveFunc(*this, dTime);
 	if (!world.CheckCollision(*GetOwner(), dTime)) GetOwner()->SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
-	//else PERLog::Logger().Info("Ãæµ¹µÊ");
+	//else PERLog::Logger().Info("ì¶©ëŒë¨");
 }
 
 void MovablePhysicsComponent::SetData(PERComponent::PhysicsData data)
@@ -25,7 +25,7 @@ void MovablePhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVec
 	PERVec3 pos = GetOwner()->GetPosition();
 	PERVec3 vel = GetOwner()->GetVelocity();
 
-	// Ãæµ¹ÇÑ ½Ã°£¸¸Å­ Ãæµ¹ ¼Óµµ·Î ¹Ý´ë·Î ÀÌµ¿
+	// ì¶©ëŒí•œ ì‹œê°„ë§Œí¼ ì¶©ëŒ ì†ë„ë¡œ ë°˜ëŒ€ë¡œ ì´ë™
 	pos.x = pos.x - collisionVelocity.x * collisionTime;
 	pos.y = pos.y - collisionVelocity.y * collisionTime;
 
@@ -42,7 +42,7 @@ void MovablePhysicsComponent::GiveForce(PERWorld& world, PERVec3 force, double d
 	GetOwner()->SetVelocity(PERVec3(0.0, 0.0, 0.0));
 	GetOwner()->SetCurrentAccel(PERVec3(force.x / mass, force.y / mass, force.z / mass));
 
-	// ÀÌµ¿ ½ÃÅ°°í ´Ù½Ã °è»ê
+	// ì´ë™ ì‹œí‚¤ê³  ë‹¤ì‹œ ê³„ì‚°
 	m_MoveFunc(*this, dTime);
 	if (!world.CheckCollision(*GetOwner(), dTime)) GetOwner()->SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
 
@@ -51,19 +51,19 @@ void MovablePhysicsComponent::GiveForce(PERWorld& world, PERVec3 force, double d
 
 void MovablePhysicsComponent::Move(double dTime)
 {
-	// ÇÊ¿ä Á¤º¸ ¾ò±â
+	// í•„ìš” ì •ë³´ ì–»ê¸°
 	PERVec3 pos = GetOwner()->GetPosition();
 	PERVec3 vel = GetOwner()->GetVelocity();
 	PERVec3 cAcc = GetOwner()->GetCurrentAccel();
 	double mass = GetOwner()->GetMass();
 
-	// ¸¶Âû·Â °è»ê
+	// ë§ˆì°°ë ¥ ê³„ì‚°
 	if (std::abs(vel.x) > 0.0) {
 		cAcc.x += vel.x / std::abs(vel.x) * PER_FRICTION * (-PER_GRAVITY);
 
 		double tempVelX = vel.x + cAcc.x * dTime;
 
-		// ¸¶Âû·ÂÀ¸·Î ÀÎÇØ ¹Ý´ë ¹æÇâÀ¸·Î ¿òÁ÷ÀÌÁö ¾Êµµ·Ï È®ÀÎ
+		// ë§ˆì°°ë ¥ìœ¼ë¡œ ì¸í•´ ë°˜ëŒ€ ë°©í–¥ìœ¼ë¡œ ì›€ì§ì´ì§€ ì•Šë„ë¡ í™•ì¸
 		if (tempVelX * vel.x < 0.0) {
 			vel.x = 0.0;
 		}
@@ -79,7 +79,7 @@ void MovablePhysicsComponent::Move(double dTime)
 
 		double tempVelY = vel.y + cAcc.y * dTime;
 
-		// ¸¶Âû·ÂÀ¸·Î ÀÎÇØ ¹Ý´ë ¹æÇâÀ¸·Î ¿òÁ÷ÀÌÁö ¾Êµµ·Ï È®ÀÎ
+		// ë§ˆì°°ë ¥ìœ¼ë¡œ ì¸í•´ ë°˜ëŒ€ ë°©í–¥ìœ¼ë¡œ ì›€ì§ì´ì§€ ì•Šë„ë¡ í™•ì¸
 		if (tempVelY * vel.y < 0.0) {
 			vel.y = 0.0;
 		}
@@ -91,22 +91,22 @@ void MovablePhysicsComponent::Move(double dTime)
 		vel.y = vel.y + cAcc.y * dTime;
 	}
 
-	// ÇöÀç À§Ä¡ °è»ê
+	// í˜„ìž¬ ìœ„ì¹˜ ê³„ì‚°
 	pos.x = pos.x + vel.x * dTime + 0.5 * cAcc.x * dTime * dTime;
 	pos.y = pos.y + vel.y * dTime + 0.5 * cAcc.y * dTime * dTime;
 
-	// °è»ê °á°ú Àû¿ë
+	// ê³„ì‚° ê²°ê³¼ ì ìš©
 	GetOwner()->SetPosition(pos);
 	GetOwner()->SetVelocity(vel);
 
-	// ÇöÀç °¡¼Óµµ ÃÊ±âÈ­
+	// í˜„ìž¬ ê°€ì†ë„ ì´ˆê¸°í™”
 	cAcc = PERVec3(0.0, 0.0, 0.0);
 	GetOwner()->SetCurrentAccel(cAcc);
 }
 
 void MovablePhysicsComponent::MoveWithoutFriction(double dTime)
 {
-	// ÇÊ¿ä Á¤º¸ ¾ò±â
+	// í•„ìš” ì •ë³´ ì–»ê¸°
 	PERVec3 pos = GetOwner()->GetPosition();
 	PERVec3 vel = GetOwner()->GetVelocity();
 	PERVec3 cAcc = GetOwner()->GetCurrentAccel();
@@ -115,15 +115,15 @@ void MovablePhysicsComponent::MoveWithoutFriction(double dTime)
 	vel.x = vel.x + cAcc.x * dTime;
 	vel.y = vel.y + cAcc.y * dTime;
 
-	// ÇöÀç À§Ä¡ °è»ê
+	// í˜„ìž¬ ìœ„ì¹˜ ê³„ì‚°
 	pos.x = pos.x + vel.x * dTime + 0.5 * cAcc.x * dTime * dTime;
 	pos.y = pos.y + vel.y * dTime + 0.5 * cAcc.y * dTime * dTime;
 
-	// °è»ê °á°ú Àû¿ë
+	// ê³„ì‚° ê²°ê³¼ ì ìš©
 	GetOwner()->SetPosition(pos);
 	GetOwner()->SetVelocity(vel);
 
-	// ÇöÀç °¡¼Óµµ ÃÊ±âÈ­
+	// í˜„ìž¬ ê°€ì†ë„ ì´ˆê¸°í™”
 	cAcc = PERVec3(0.0, 0.0, 0.0);
 	GetOwner()->SetCurrentAccel(cAcc);
 }

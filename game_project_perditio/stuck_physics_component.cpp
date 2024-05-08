@@ -4,14 +4,14 @@
 
 void StuckPhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
-	// ºÎ¸ð¿¡ ºÙ¾î ÀÖµµ·Ï ¼³Á¤
+	// ë¶€ëª¨ì— ë¶™ì–´ ìžˆë„ë¡ ì„¤ì •
 	PERObject* parent = GetOwner()->GetParent();
 
-	// ºÎ¸ð°¡ ¾ø´Â °æ¿ì
+	// ë¶€ëª¨ê°€ ì—†ëŠ” ê²½ìš°
 	if (!parent) GetOwner()->SetLifeTime(-1.0);
-	// ºÎ¸ð°¡ Á×Àº °æ¿ì
+	// ë¶€ëª¨ê°€ ì£½ì€ ê²½ìš°
 	else if (parent->GetLifeTime() <= 0.0) GetOwner()->SetLifeTime(-1.0);
-	// ºÎ¸ð°¡ ÀÖ°í »ì¾ÆÀÖ´Â °æ¿ì
+	// ë¶€ëª¨ê°€ ìžˆê³  ì‚´ì•„ìžˆëŠ” ê²½ìš°
 	else {
 		PERVec3 parentPos = parent->GetPosition();
 		GetOwner()->SetPosition(parentPos + m_stuckPosition);

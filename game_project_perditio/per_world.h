@@ -56,13 +56,13 @@ public:
 	virtual void Pause();
 	virtual void Resume();
 
-	// ¿äÃ»À» ¹Ş´Â ÇÔ¼ö
+	// ìš”ì²­ì„ ë°›ëŠ” í•¨ìˆ˜
 	void RequestAddObject(
 		PERObject* parent, PERObjectType type, const char* databaseId, bool isVisualId, PERStat stat,
 		PERVec3 position, double lifeTime = PER_MAXIMUM_LIFE_TIME, PERVec3 currentAccel = PERVec3(0.0, 0.0, 0.0));
 	void RequestDeleteObject(PERObject* object);
 
-	// Ãæµ¹ È®ÀÎ
+	// ì¶©ëŒ í™•ì¸
 	bool CheckCollision(PERObject& object, double dTime);
 
 	PERHud& GetHud();
@@ -70,18 +70,18 @@ public:
 	PERParticlePool& GetParticlePool();
 	
 protected:
-	// ÀÚ½ÄÀÌ Á¢±ÙÇØ¼­ »ç¿ëÇÒ ÇÔ¼ö
-	// ¿ùµå ¼³Á¤
+	// ìì‹ì´ ì ‘ê·¼í•´ì„œ ì‚¬ìš©í•  í•¨ìˆ˜
+	// ì›”ë“œ ì„¤ì •
 	void InitSettingForWorld(ObjectStorage* objectStorage, PERDatabase* database, GameMode* mode);
 
-	// ¿ÀºêÁ§Æ® ºñÁÖ¾ó ¼³Á¤
+	// ì˜¤ë¸Œì íŠ¸ ë¹„ì£¼ì–¼ ì„¤ì •
 	void SetObjectVisual(PERObject* object, const char* visualId);
 
-	// ¿ÀºêÁ§Æ® »ö»ó ¸ğ¾ç ¼³Á¤
+	// ì˜¤ë¸Œì íŠ¸ ìƒ‰ìƒ ëª¨ì–‘ ì„¤ì •
 	void SetObjectShapeAndColor(PERObject* object, PERShapeType shape, PERColor color,
 		bool border = true, int borderWidth = 1, PERColor borderColor = PERColor(0, 0, 0));
 
-	// ¿ÀºêÁ§Æ® Ãß°¡ »èÁ¦ °ü·Ã
+	// ì˜¤ë¸Œì íŠ¸ ì¶”ê°€ ì‚­ì œ ê´€ë ¨
 	PERObject* AddAndGetObject(PERObjectType type);
 	void AddObject(PERObject* object);
 	void DeleteObject(PERObject* object);
@@ -92,7 +92,7 @@ protected:
 
 private:
 	void InitWorldObject();
-	// ¿ÀºêÁ§Æ® Ãß°¡
+	// ì˜¤ë¸Œì íŠ¸ ì¶”ê°€
 	virtual void AddFixedAndPhysicalObjects() = 0;
 	virtual void AddOtherObjects() = 0;
 
@@ -101,38 +101,38 @@ private:
 
 	void ResizePedingArray();
 
-	// AABB Ãæµ¹ °ü·Ã
+	// AABB ì¶©ëŒ ê´€ë ¨
 	bool CheckAABBCollision(
 		PERVec3 aPos, PERVec3 aSize, 
 		PERVec3 bPos, PERVec3 bSize);
 
-	// AABB Ãæµ¹ Ã³¸®
-	// À§Ä¡ Àû¿ë
+	// AABB ì¶©ëŒ ì²˜ë¦¬
+	// ìœ„ì¹˜ ì ìš©
 	void AdjustPositionWithObjects(PERObject& aObject, PERVec3 aPos, PERVec3 aSize,
 		PERObject& bObject, PERVec3 bPos, PERVec3 bSize, double dTime);
 	void ProcessCollisionBetweenFixedAndMovable(
 		PERObject& fixedObject, PERVec3 fixedPos, PERVec3 fixedSize, PERVec3 fixedVel,
 		PERObject& movableObject, PERVec3 movablePos, PERVec3 movableSize, PERVec3 movableVel, double dTime);
-	// À§Ä¡ ÀÌµ¿ Á¦¿Ü Ãæµ¹ Ã³¸®
+	// ìœ„ì¹˜ ì´ë™ ì œì™¸ ì¶©ëŒ ì²˜ë¦¬
 	void ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType aType, PERObject& bObject, PERObjectType bType, double dTime);
 
 	std::vector<PERObject*> m_objects;
 	int m_maxObject = PER_DEFAULT_MAX_OBJECTS;
 	int m_numObject = 0;
-	// ÄÁÆ÷³ÍÆ®
+	// ì»¨í¬ë„ŒíŠ¸
 	std::vector<InputComponent*> m_inputComponents;
 	std::vector<AiComponent*> m_aiComponents;
 	std::vector<PhysicsComponent*> m_physicsComponents;
 	std::vector<GraphicsComponent*> m_graphicsComponents;
 
-	// ·»´õ¸µ¿ë zÁÂÇ¥·Î Á¤·ÄµÈ ±×·¡ÇÈ½º ÄÁÆ÷³ÍÆ®
+	// ë Œë”ë§ìš© zì¢Œí‘œë¡œ ì •ë ¬ëœ ê·¸ë˜í”½ìŠ¤ ì»¨í¬ë„ŒíŠ¸
 	std::vector<GraphicsComponent*> m_sortedGraphicsComponents;
 	bool m_isUpdateSortedGraphicsComponent = false;
 
-	// ÀÌÆåÆ®¿ë ÆÄÆ¼Å¬ Ç®
+	// ì´í™íŠ¸ìš© íŒŒí‹°í´ í’€
 	PERParticlePool* m_particlePool;
 
-	// ¸Ş¼¼Áö Ã³¸® ´ë±â ¹è¿­(¿ÀºêÁ§Æ® »ı¼º »èÁ¦ °ü·Ã)
+	// ë©”ì„¸ì§€ ì²˜ë¦¬ ëŒ€ê¸° ë°°ì—´(ì˜¤ë¸Œì íŠ¸ ìƒì„± ì‚­ì œ ê´€ë ¨)
 	int m_maxPending = PER_DEFAULT_MAX_EVENT_PENDING;
 	PERWorldMessage* m_pending = new PERWorldMessage[PER_DEFAULT_MAX_EVENT_PENDING];
 	int m_numPending = 0;

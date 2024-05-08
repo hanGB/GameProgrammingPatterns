@@ -3,19 +3,19 @@
 
 PERController::PERController()
 {
-	PERLog::Logger().Info("ÄÁÆ®·Ñ·¯ »ý¼º");
+	PERLog::Logger().Info("ì»¨íŠ¸ë¡¤ëŸ¬ ìƒì„±");
 
 	InitKeyboardInputDatas();
 }
 
 PERController::~PERController()
 {
-	PERLog::Logger().Info("ÄÁÆ®·Ñ·¯ »èÁ¦");
+	PERLog::Logger().Info("ì»¨íŠ¸ë¡¤ëŸ¬ ì‚­ì œ");
 }
 
 bool PERController::IsKeyboardPressed(PERKeyboardValue value, bool isNotProcessed)
 {
-	// Ã³¸®µÈ °ÍÀ¸·Î ¼³Á¤(Ã³¸®µÈ °ÍÀ¸·Î ÇÏÁö ¾Ê´Â °æ¿ìµµ Á¸Àç)
+	// ì²˜ë¦¬ëœ ê²ƒìœ¼ë¡œ ì„¤ì •(ì²˜ë¦¬ëœ ê²ƒìœ¼ë¡œ í•˜ì§€ ì•ŠëŠ” ê²½ìš°ë„ ì¡´ìž¬)
 	if (!isNotProcessed) m_keyboardInputProcessedNeverDatas.find(value)->second = false;
 	
 	return m_keyboardInputDatas.find(value)->second;
@@ -23,10 +23,10 @@ bool PERController::IsKeyboardPressed(PERKeyboardValue value, bool isNotProcesse
 
 bool PERController::IsKeyboardPressedRightNow(PERKeyboardValue value)
 {
-	// ÇØ´ç Å°°¡ ÇÑ ¹øµµ Ã³¸®µÈ Àû ¾ø´Â Áö È®ÀÎ
+	// í•´ë‹¹ í‚¤ê°€ í•œ ë²ˆë„ ì²˜ë¦¬ëœ ì  ì—†ëŠ” ì§€ í™•ì¸
 	if (!m_keyboardInputProcessedNeverDatas.find(value)->second) return false;
 
-	// ÇØ´ç Å°°¡ ´­·È´Â Áö È®ÀÎ
+	// í•´ë‹¹ í‚¤ê°€ ëˆŒë ¸ëŠ” ì§€ í™•ì¸
 	if (!m_keyboardInputDatas.find(value)->second) return false;
 	m_keyboardInputProcessedNeverDatas.find(value)->second = false;
 
@@ -35,11 +35,11 @@ bool PERController::IsKeyboardPressedRightNow(PERKeyboardValue value)
 
 bool PERController::IsKeyboardPressedRightNowOrMoreThanTime(PERKeyboardValue value, double time)
 {
-	// ÇØ´ç Å°°¡ Ã³¸®µÈ Àû ¾ø´ÂÁö È®ÀÎ
+	// í•´ë‹¹ í‚¤ê°€ ì²˜ë¦¬ëœ ì  ì—†ëŠ”ì§€ í™•ì¸
 	bool onceProcessed = IsKeyboardPressedRightNow(value);
 	if (onceProcessed) return true;
 
-	// ÇØ´ç Å°°¡ timeº¸´Ù ´õ ´­·È´ÂÁö È®ÀÎ 
+	// í•´ë‹¹ í‚¤ê°€ timeë³´ë‹¤ ë” ëˆŒë ¸ëŠ”ì§€ í™•ì¸ 
 	if (m_keyboardInputPressTimerDatas.find(value)->second < time) return false;
 	m_keyboardInputPressTimerDatas.find(value)->second = 0.0;
 
@@ -50,7 +50,7 @@ void PERController::SetKeyboardPressed(PERKeyboardValue value, bool pressed)
 {
 	if (m_keyboardInputDatas.find(value)->second == pressed) return;
 
-	// °¢Á¾ Á¤º¸ ÃÊ±âÈ­
+	// ê°ì¢… ì •ë³´ ì´ˆê¸°í™”
 	m_keyboardInputDatas.find(value)->second = pressed;
 	m_keyboardInputProcessedNeverDatas.find(value)->second = true;
 	m_keyboardInputPressTimerDatas.find(value)->second = 0.0;

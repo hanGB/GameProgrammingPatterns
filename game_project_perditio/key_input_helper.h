@@ -17,15 +17,15 @@ public:
 	virtual void RenderInWorld(PERRenderer& renderer, PERDatabase& database);
 
 private:
-	// ¹öÆ°ÀÌ ´­·ÈÀ» ¶§ÀÇ ÄÃ·¯
+	// ë²„íŠ¼ì´ ëˆŒë ¸ì„ ë•Œì˜ ì»¬ëŸ¬
 	PERColor m_pressedColor;
 
-	// Ç¥½ÃÇÒ Å°ÀÇ Á¤º¸
+	// í‘œì‹œí•  í‚¤ì˜ ì •ë³´
 	PERKeyboardData m_key;
 	double m_fontSize;
 	PERColor m_defaultTextColor;
 	PERColor m_pressedTextColor;
 
-	// Å°°¡ ´­·È´ÂÁö ¿©ºÎ
+	// í‚¤ê°€ ëˆŒë ¸ëŠ”ì§€ ì—¬ë¶€
 	bool m_isPressed;
 };

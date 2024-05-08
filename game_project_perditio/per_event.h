@@ -9,6 +9,6 @@ enum class PEREvent {
 	UPDATE_BD,
 	UPDATE_MD,
 
-	// 이벤트 수
+	// 遣트 
 	NUM_EVENT
 };

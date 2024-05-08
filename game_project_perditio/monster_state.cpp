@@ -6,9 +6,9 @@
 
 void MonsterState::Initialize()
 {
-    // ½Ã¾ßÀÇ Á¦°ö
+    // ì‹œì•¼ì˜ ì œê³±
     m_sight = c_DEFAULT_SIGHT;
-    // ¹èÈ¸ °Å¸®ÀÇ Á¦°ö
+    // ë°°íšŒ ê±°ë¦¬ì˜ ì œê³±
     m_wanderDistance = c_DEFAULT_WANDER_DISTANCE;
     ObjectState::Initialize();
 }

@@ -34,13 +34,13 @@ AStarCalculator::~AStarCalculator()
 
 bool AStarCalculator::FindPath(PERVec3 start, PERVec3 dest, PERVec3* paths, int* numPath)
 {
-	// ½ÃÀÛ ¹× µµÀÛÁ¡ ¼³Á¤
+	// ì‹œì‘ ë° ë„ì‘ì  ì„¤ì •
 	SetStartAndDestination(start, dest);
-	// °æ·Î µµÃâÀ» À§ÇÑ ºÎ¸ğ ¸ñ·Ï °è»ê(°æ·Î °Ë»ö¿¡ ½ÇÆĞÇß´Â Áö ¶ÇÇÑ ¹İÈ¯)
+	// ê²½ë¡œ ë„ì¶œì„ ìœ„í•œ ë¶€ëª¨ ëª©ë¡ ê³„ì‚°(ê²½ë¡œ ê²€ìƒ‰ì— ì‹¤íŒ¨í–ˆëŠ” ì§€ ë˜í•œ ë°˜í™˜)
 	bool result = CalculateParents();
-	// ºÎ¸ğ ¸ñ·ÏÀ» ½ÇÁ¦ °æ·Î·Î º¯°æ
+	// ë¶€ëª¨ ëª©ë¡ì„ ì‹¤ì œ ê²½ë¡œë¡œ ë³€ê²½
 	if (result) ChangeParentsToPaths(paths, numPath);
-	// ÃÊ±âÈ­
+	// ì´ˆê¸°í™”
 	Clear();
 
 	//PERLog::Logger().InfoWithFormat("CD queue: %d, C queue: %d", m_cellDataQueue.size(), m_cellQueue.size());
@@ -50,19 +50,19 @@ bool AStarCalculator::FindPath(PERVec3 start, PERVec3 dest, PERVec3* paths, int*
 
 void AStarCalculator::SetStartAndDestination(PERVec3 start, PERVec3 dest)
 {
-	// °¢ ÁÂÇ¥¸¦ ÀÎµ¦½ºÈ­
+	// ê° ì¢Œí‘œë¥¼ ì¸ë±ìŠ¤í™”
 	m_startXIndexed = (int)(start.x / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
 	m_startYIndexed = (int)(start.y / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
 	m_destXIndexed = (int)(dest.x / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
 	m_destYIndexed = (int)(dest.y / PER_CELL_DISTANCE) + (PER_MAX_CELL / 2);
 
-	// ½ÃÀÛÁ¡ÀÇ z°ª¿¡ °¡ÁßÄ¡¸¦ ´õÇÑ °ªÀÇ ¹Ù·Î ¹Ø(1»« °ª)À¸·Î ¶¥ÀÇ z°ª ¼³Á¤ 
+	// ì‹œì‘ì ì˜ zê°’ì— ê°€ì¤‘ì¹˜ë¥¼ ë”í•œ ê°’ì˜ ë°”ë¡œ ë°‘(1ëº€ ê°’)ìœ¼ë¡œ ë•…ì˜ zê°’ ì„¤ì • 
 	m_groundZValue = (int)(floor(start.z) + PER_CELL_DATA_WEIGHT) - 1;
 
-	// ÃßÁ¤ °Å¸® ÀúÀå
+	// ì¶”ì • ê±°ë¦¬ ì €ì¥
 	m_distanceWithCell[m_startXIndexed][m_startYIndexed] = CalulateDistanceFromDest(m_startXIndexed, m_startYIndexed);
 
-	// ÀúÀåµÈ Å¥¿¡¼­ ²¨³»¿È
+	// ì €ì¥ëœ íì—ì„œ êº¼ë‚´ì˜´
 	if (m_cellDataQueue.empty()) m_cellDataQueue.push(new CellData());
 	CellData* cData = m_cellDataQueue.front();
 	m_cellDataQueue.pop();
@@ -73,14 +73,14 @@ void AStarCalculator::SetStartAndDestination(PERVec3 start, PERVec3 dest)
 
 	m_priorityQueue.push(cData);
 
-	// ÀúÀåµÈ Å¥¿¡¼­ ²¨³»¿È
+	// ì €ì¥ëœ íì—ì„œ êº¼ë‚´ì˜´
 	if (m_cellQueue.empty()) m_cellQueue.push(new Cell());
 	m_parents[m_startXIndexed][m_startYIndexed] = m_cellQueue.front();
 	m_parents[m_startXIndexed][m_startYIndexed]->SetData(m_startXIndexed, m_startYIndexed);
 	m_cellQueue.pop();
 
-	//PERLog::Logger().InfoWithFormat("½ÃÀÛÁ¡ - %d, %d", m_startXIndexed, m_startYIndexed);
-	//PERLog::Logger().InfoWithFormat("µµÂøÁ¡ - %d, %d", m_destXIndexed, m_destYIndexed);
+	//PERLog::Logger().InfoWithFormat("ì‹œì‘ì  - %d, %d", m_startXIndexed, m_startYIndexed);
+	//PERLog::Logger().InfoWithFormat("ë„ì°©ì  - %d, %d", m_destXIndexed, m_destYIndexed);
 }
 
 bool AStarCalculator::CalculateParents()
@@ -89,54 +89,54 @@ bool AStarCalculator::CalculateParents()
 		CellData* data = m_priorityQueue.top();
 		m_priorityQueue.pop();
 
-		// ÀÌ¹Ì ¹æ¹®ÇÑ °æ¿ì ½ºÅµ
+		// ì´ë¯¸ ë°©ë¬¸í•œ ê²½ìš° ìŠ¤í‚µ
 		if (m_alreadyVisited[data->x][data->y]) {
 			m_cellDataQueue.push(data);
 			continue;
 		}
-		// ¹æ¹® Ã³¸®
+		// ë°©ë¬¸ ì²˜ë¦¬
 		m_alreadyVisited[data->x][data->y] = true;
 
-		// µµÂøÇßÀ¸´Ï ¼º°ø ¸®ÅÏ
+		// ë„ì°©í–ˆìœ¼ë‹ˆ ì„±ê³µ ë¦¬í„´
 		if (data->x == m_destXIndexed && data->y == m_destYIndexed) {
 			m_cellDataQueue.push(data);
 			return true;
 		}
-		// ÁÖº¯ °Ë»ö
+		// ì£¼ë³€ ê²€ìƒ‰
 		for (int x = -1; x < 2; ++x) {
 			for (int y = -1; y < 2; ++y) {
 
-				//PERLog::Logger().Info("ÁÖº¯ °Ë»ö Áß");
+				//PERLog::Logger().Info("ì£¼ë³€ ê²€ìƒ‰ ì¤‘");
 
-				// ´ÙÀ½ ÁÂÇ¥
+				// ë‹¤ìŒ ì¢Œí‘œ
 				int nextX = data->x + x;
 				int nextY = data->y + y;
 
-				// ´ÙÀ½¿¡ ÇØ´ç µÇ´Â °æ¿ì ½ºÅµ
-				// ¸Ê Å©±â ¹Û
+				// ë‹¤ìŒì— í•´ë‹¹ ë˜ëŠ” ê²½ìš° ìŠ¤í‚µ
+				// ë§µ í¬ê¸° ë°–
 				if (nextX < 0 || nextX >= PER_MAX_CELL || nextY < 0 || nextY >= PER_MAX_CELL) continue;
-				// °¥ ¼ö ¾ø´Â °÷(¶¥ÀÌ ¾Æ´Ñ °÷)
+				// ê°ˆ ìˆ˜ ì—†ëŠ” ê³³(ë•…ì´ ì•„ë‹Œ ê³³)
 				if (BlackBoard::GetNavigationData().GetCellInfo(nextX, nextY) != m_groundZValue) continue;
-				// ÀÌ¹Ì ¹æ¹®ÇÑ ¼¿
+				// ì´ë¯¸ ë°©ë¬¸í•œ ì…€
 				if (m_alreadyVisited[nextX][nextY]) continue;
-				// ´ë°¢¼±À¸·Î °¥ ¼ö ¾ø´Â °æ¿ì(ÀÌµ¿ÇÏ¸é¼­ Áö³ª°¡´Â ÁöÁ¡ÀÌ ¶¥ÀÌ ¾Æ´Ô)
+				// ëŒ€ê°ì„ ìœ¼ë¡œ ê°ˆ ìˆ˜ ì—†ëŠ” ê²½ìš°(ì´ë™í•˜ë©´ì„œ ì§€ë‚˜ê°€ëŠ” ì§€ì ì´ ë•…ì´ ì•„ë‹˜)
 				if (m_costs[x + 1][y + 1] == 14)
 				{
-					// x, y Áß µÑ Áß ÇÏ³ª°¡ 0ÀÏ °æ¿ìÀÇ Ä­ÀÌ ¶¥ÀÌ ¾Æ´Ñ °æ¿ì ½ºÅµ
+					// x, y ì¤‘ ë‘˜ ì¤‘ í•˜ë‚˜ê°€ 0ì¼ ê²½ìš°ì˜ ì¹¸ì´ ë•…ì´ ì•„ë‹Œ ê²½ìš° ìŠ¤í‚µ
 					if (BlackBoard::GetNavigationData().GetCellInfo(nextX, data->y) != m_groundZValue) continue;
 					if (BlackBoard::GetNavigationData().GetCellInfo(data->x, nextY) != m_groundZValue) continue;
 				}
 
-				// °¡´Â °Å¸®(ºñ¿ë) °è»ê
+				// ê°€ëŠ” ê±°ë¦¬(ë¹„ìš©) ê³„ì‚°
 				int g = data->g + m_costs[x + 1][y + 1];
 				int h = CalulateDistanceFromDest(nextX, nextY);
 
-				// ÀÌ¹Ì ´õ ÁÁÀº °æ¿ì°¡ ÀÖÀ¸¸é ½ºÅµ
+				// ì´ë¯¸ ë” ì¢‹ì€ ê²½ìš°ê°€ ìˆìœ¼ë©´ ìŠ¤í‚µ
 				if (m_distanceWithCell[nextX][nextY] < g + h) continue;
 
-				//PERLog::Logger().InfoWithFormat("%d, %d ÀúÀå", nextX, nextY);
+				//PERLog::Logger().InfoWithFormat("%d, %d ì €ì¥", nextX, nextY);
 
-				// ÀúÀå
+				// ì €ì¥
 				m_distanceWithCell[nextX][nextY] = g + h;
 
 				if (m_cellDataQueue.empty()) m_cellDataQueue.push(new CellData());
@@ -160,7 +160,7 @@ bool AStarCalculator::CalculateParents()
 		m_cellDataQueue.push(data);
 	}
 
-	// µµÂøÀ» ¸ø ÇßÀ¸´Ï ½ÇÆĞ ¸®ÅÏ
+	// ë„ì°©ì„ ëª» í–ˆìœ¼ë‹ˆ ì‹¤íŒ¨ ë¦¬í„´
 	return false;
 }
 
@@ -168,18 +168,18 @@ void AStarCalculator::ChangeParentsToPaths(PERVec3* paths, int* numPath)
 {
 	int x = m_destXIndexed, y = m_destYIndexed;
 
-	// µµÂøÁöºÎÅÍ ±× ÁöÁ¡ÀÇ ºÎ¸ğ¸¦ µû¶ó Ãâ¹ßÁö±îÁö ÀúÀå
+	// ë„ì°©ì§€ë¶€í„° ê·¸ ì§€ì ì˜ ë¶€ëª¨ë¥¼ ë”°ë¼ ì¶œë°œì§€ê¹Œì§€ ì €ì¥
 	*numPath = 0;
 	while (m_parents[x][y]->x != x || m_parents[x][y]->y != y) {
 		paths[(*numPath)++] = BlackBoard::GetNavigationData().ChangeCellToWorldPosition(x, y);
-		// ÇöÀç ÁöÁ¡ÀÇ ºÎ¸ğ(±× ÁöÁ¡À¸·Î °¡±â Àü ÁöÁ¡)·Î ÀÌµ¿
+		// í˜„ì¬ ì§€ì ì˜ ë¶€ëª¨(ê·¸ ì§€ì ìœ¼ë¡œ ê°€ê¸° ì „ ì§€ì )ë¡œ ì´ë™
 		Cell* parent = m_parents[x][y];
 		x = parent->x;
 		y = parent->y;
 	}
 	paths[(*numPath)++] = BlackBoard::GetNavigationData().ChangeCellToWorldPosition(x, y);
 
-	// Ãâ¹ßÁöºÎÅÍ Á¤·ÄµÇµµ·Ï ¿ªÁ¤·Ä
+	// ì¶œë°œì§€ë¶€í„° ì •ë ¬ë˜ë„ë¡ ì—­ì •ë ¬
 	for (int i = 0; i < *numPath / 2; ++i) {
 		PERVec3 temp = paths[*numPath - 1 - i];
 		paths[*numPath - 1 - i] = paths[i];
@@ -189,13 +189,13 @@ void AStarCalculator::ChangeParentsToPaths(PERVec3* paths, int* numPath)
 
 void AStarCalculator::Clear()
 {
-	// ¿ì¼±¼øÀ§ Å¥¿¡ ³²Àº °Å Á¦°Å
+	// ìš°ì„ ìˆœìœ„ íì— ë‚¨ì€ ê±° ì œê±°
 	while (!m_priorityQueue.empty()) {
 		m_cellDataQueue.push(m_priorityQueue.top());
 		m_priorityQueue.pop();
 	}
 
-	// ºÎ¸ğ ¸ñ·Ï ÃÊ±âÈ­
+	// ë¶€ëª¨ ëª©ë¡ ì´ˆê¸°í™”
 	for (int x = 0; x < PER_MAX_CELL; ++x) {
 		for (int y = 0; y < PER_MAX_CELL; ++y) {
 			if (!m_parents[x][y]) continue;
@@ -204,9 +204,9 @@ void AStarCalculator::Clear()
 		}
 	}
 
-	// ¹æ¹® ¿©ºÎ ÃÊ±âÈ­
+	// ë°©ë¬¸ ì—¬ë¶€ ì´ˆê¸°í™”
 	memset(m_alreadyVisited, 0, PER_MAX_CELL * PER_MAX_CELL * sizeof(bool));
-	// ÇØ´ç ¼¿À» Æ÷ÇÔÇÑ °Å¸® ÃÊ±âÈ­
+	// í•´ë‹¹ ì…€ì„ í¬í•¨í•œ ê±°ë¦¬ ì´ˆê¸°í™”
 	for (int x = 0; x < PER_MAX_CELL; ++x) {
 		for (int y = 0; y < PER_MAX_CELL; ++y) {
 			m_distanceWithCell[x][y] = INT_MAX;
@@ -221,28 +221,28 @@ int AStarCalculator::CalulateDistanceFromDest(int x, int y)
 
 	int cost;
 	if (distX > distY) {
-		// Á÷¼±À¸·Î ÀÌµ¿ÇÒ °Å¸®
+		// ì§ì„ ìœ¼ë¡œ ì´ë™í•  ê±°ë¦¬
 		int str = (distX - distY);
-		// ´ë°¢¼± ÀÌµ¿ÇÒ °Å¸® * ºñ¿ë
+		// ëŒ€ê°ì„  ì´ë™í•  ê±°ë¦¬ * ë¹„ìš©
 		int dia = 14 * (distX - str);
-		// Á÷¼± ÀÌµ¿ ºñ¿ë
+		// ì§ì„  ì´ë™ ë¹„ìš©
 		str *= 10;
 
 		cost = dia + str;
 	}
 	else if (distX < distY) {
-		// Á÷¼±À¸·Î ÀÌµ¿ÇÒ °Å¸®
+		// ì§ì„ ìœ¼ë¡œ ì´ë™í•  ê±°ë¦¬
 		int str = (distY - distX);
-		// ´ë°¢¼± ÀÌµ¿ÇÒ °Å¸® * ºñ¿ë
+		// ëŒ€ê°ì„  ì´ë™í•  ê±°ë¦¬ * ë¹„ìš©
 		int dia = 14 * (distY - str);
-		// Á÷¼± ÀÌµ¿ ºñ¿ë
+		// ì§ì„  ì´ë™ ë¹„ìš©
 		str *= 10;
 
 		cost = dia + str;
 	}
 	else 
 	{
-		// ´ë°¢¼±À¸·Î¸¸ ÀÌµ¿
+		// ëŒ€ê°ì„ ìœ¼ë¡œë§Œ ì´ë™
 		cost = 14 * distX;
 	}
 

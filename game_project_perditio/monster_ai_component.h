@@ -17,34 +17,34 @@ public:
 	const double c_WANDER_SPEED = 0.5;
 
 private:
-	// Çàµ¿ Æ®¸® »ı¼º
+	// í–‰ë™ íŠ¸ë¦¬ ìƒì„±
 	void InitBehaviorTree();
 
-	// Çàµ¿ Æ®¸® ÇÔ¼ö
-	// ÇÃ·¹ÀÌ¾îÇÑÅ× ÀÌµ¿
+	// í–‰ë™ íŠ¸ë¦¬ í•¨ìˆ˜
+	// í”Œë ˆì´ì–´í•œí…Œ ì´ë™
 	PERBehaviorResult FindPlayerPositionAndSetDestination(double dTime);
 	PERBehaviorResult CalculatePath(double dTime);
 	PERBehaviorResult MoveToDestination(double dTime);
 	PERBehaviorResult DoNothing(double dTime);
-	// ½ºÆù À§Ä¡·Î ÀÌµ¿
+	// ìŠ¤í° ìœ„ì¹˜ë¡œ ì´ë™
 	PERBehaviorResult SetDestinationToSpawnPosition(double dTime);
-	// ¹èÈ¸
+	// ë°°íšŒ
 	PERBehaviorResult MoveToWanderPosition(double dTime);
 	PERBehaviorResult SetWanderPosition(double dTime);
 
-	// Çàµ¿ Æ®¸®
+	// í–‰ë™ íŠ¸ë¦¬
 	BehaviorTree* m_behaviorTree;
 
-	// A*¸¦ ÀÌ¿ëÇÑ °æ·Î °è»ê±â
+	// A*ë¥¼ ì´ìš©í•œ ê²½ë¡œ ê³„ì‚°ê¸°
 	static AStarCalculator* m_AStarCalculator;
 
-	// µµÂøÁö
+	// ë„ì°©ì§€
 	PERVec3 m_destination;
-	// ¹èÈ¸ °¢µµ ¹× À§Ä¡
+	// ë°°íšŒ ê°ë„ ë° ìœ„ì¹˜
 	double m_wanderAngle = 0.0;
 	PERVec3 m_wanderPosition;
 
-	// °è»êµÈ °æ·Î¸¦ ÀúÀå “G ÀÌ¿ëÇÏ±â À§ÇÑ º¯¼ö
+	// ê³„ì‚°ëœ ê²½ë¡œë¥¼ ì €ì¥ G ì´ìš©í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
 	bool m_isAStarCalculated = false;
 	PERVec3 m_paths[PER_MAX_CELL * PER_MAX_CELL / 10];
 	int m_numPath = 0;

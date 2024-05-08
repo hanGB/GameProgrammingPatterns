@@ -5,24 +5,24 @@ public:
 	PERRenderer(HWND hWnd);
 	~PERRenderer();
 
-	// ÇöÀç À©µµ¿ì »çÀÌÁî¿Í ¸Ş¸ğ¸®DC ¼³Á¤
+	// í˜„ì¬ ìœˆë„ìš° ì‚¬ì´ì¦ˆì™€ ë©”ëª¨ë¦¬DC ì„¤ì •
 	void MatchWindowSize(HWND hWnd);
 
 	void SetCameraPosition(PERVec2 pos);
 	void SetCameraSightWidth(double width);
 	
-	// ¸Ş¸ğ¸®DC ÃÊ±âÈ­, ºñÆ®¸Ê »ı¼º
+	// ë©”ëª¨ë¦¬DC ì´ˆê¸°í™”, ë¹„íŠ¸ë§µ ìƒì„±
 	void ResetMemoryDC(HWND hWnd);
 	void ResetUIMemoryDC(HWND hWnd);
-	// ½ÇÁ¦ HDC·Î ÀÌµ¿
+	// ì‹¤ì œ HDCë¡œ ì´ë™
 	void FillHDCWithMemoryDCs(HWND hWnd);
 
-	// ¿ùµå ÁÂÇ¥°è ·»´õ¸µ
+	// ì›”ë“œ ì¢Œí‘œê³„ ë Œë”ë§
 	void RenderShapeInWorldCoordinate(PERShapeType type, PERVec3 pos, PERVec3 size, PERColor color, 
 		bool border = true, int borderWidth = 1, PERColor borderColor = PERColor(0, 0, 0));
 	void RenderFontInWorldCoordinate(const wchar_t* text, int textSize, double size, PERVec2 pos, PERColor color);
 
-	// ½ºÅ©¸° ÁÂÇ¥°è ·»´õ¸µ(UI ¿ë)
+	// ìŠ¤í¬ë¦° ì¢Œí‘œê³„ ë Œë”ë§(UI ìš©)
 	void RenderShapeInScreenCoordinate(PERShapeType type, PERVec2 pos, PERVec2 size, PERColor color,
 		bool border = true, int borderWidth = 1, PERColor borderColor = PERColor(0, 0, 0));
 	void RenderFontInScreenCoordinate(const wchar_t* text, int textSize, double size, PERVec2 posWithRate, PERColor color);
@@ -32,23 +32,23 @@ private:
 		bool border, int borderWidth, PERColor borderColor, HDC memDC);
 	void RenderFont(const wchar_t* text, int textSize, double size, PERVec2 pos, PERColor color, HDC memDC);
 
-	// °¢Á¾ ¸ğ¾ç ·»´õ¸µ
+	// ê°ì¢… ëª¨ì–‘ ë Œë”ë§
 	void RenderEllipse(PERVec2 pos, PERVec2 size, HDC memDC);
 	void RenderRectangle(PERVec2 pos, PERVec2 size, HDC memDC);
 	void RenderRoundRectangle(PERVec2 pos, PERVec2 size, int widthAngle, int heightAngle, HDC memDC);
 	void RenderTriangle(PERVec2 pos, PERVec2 size, HDC memDC);
-	// ¿ŞÂÊ, À§ ¾ŞÄ¿ Æ÷ÀÎÆ®
+	// ì™¼ìª½, ìœ„ ì•µì»¤ í¬ì¸íŠ¸
 	void RenderEllipseWithLeftTopAnchor(PERVec2 pos, PERVec2 size, HDC memDC);
 	void RenderRectangleWithLeftTopAnchor(PERVec2 pos, PERVec2 size, HDC memDC);
 	void RenderRoundRectangleWithLeftTopAnchor(PERVec2 pos, PERVec2 size, int widthAngle, int heightAngle, HDC memDC);
 	void RenderTriangleWithLeftTopAnchor(PERVec2 pos, PERVec2 size, HDC memDC);
 
-	// openGL°ú À©µµ¿ìÁî ÁÂÇ¥°è°£ º¯È¯
-	// ¿ùµå ÁÂÇ¥°è¿¡¼­ º¯È¯(-Ä«¸Ş¶ó ½Ã¾ß Å©Å° + Ä«¸Ş¶ó ÁÂÇ¥ ~ Ä«¸Ş¶ó ½Ã¾ß Å©Å° + Ä«¸Ş¶ó ÁÂÇ¥)
+	// openGLê³¼ ìœˆë„ìš°ì¦ˆ ì¢Œí‘œê³„ê°„ ë³€í™˜
+	// ì›”ë“œ ì¢Œí‘œê³„ì—ì„œ ë³€í™˜(-ì¹´ë©”ë¼ ì‹œì•¼ í¬í‚¤ + ì¹´ë©”ë¼ ì¢Œí‘œ ~ ì¹´ë©”ë¼ ì‹œì•¼ í¬í‚¤ + ì¹´ë©”ë¼ ì¢Œí‘œ)
 	PERVec2 ConvertWorldCoordinateOpenGLToWindows(PERVec2 pos);
 	PERVec2 MatchSizeWithWorldCoordinate(PERVec2 size);
 	double MatchSizeWithWorldCoordinate(double size);
-	// ½ºÅ©¸° ÁÂÇ¥°è¿¡¼­ º¯È¯(-1.0 ~ 1.0)
+	// ìŠ¤í¬ë¦° ì¢Œí‘œê³„ì—ì„œ ë³€í™˜(-1.0 ~ 1.0)
 	PERVec2 ConvertScreenCoordinateOpenGLToWindows(PERVec2 pos);
 	PERVec2 MatchSizeWithScreenCoordinate(PERVec2 size);
 	double MatchSizeWithScreenCoordinate(double size);
@@ -56,10 +56,10 @@ private:
 	PERVec2 m_cameraPosition = PERVec2(0.0, 0.0);
 	double m_cameraSightWidth = 20.0;
 
-	// À©µµ¿ì Å©±â
+	// ìœˆë„ìš° í¬ê¸°
 	RECT m_windowSizeRect;
 
-	// ¸Ş¸ğ¸® DC
+	// ë©”ëª¨ë¦¬ DC
 	HDC m_memoryDC;
 	HDC m_uiMemoryDC;
 	HBITMAP m_newBitmap, m_oldBitmap;

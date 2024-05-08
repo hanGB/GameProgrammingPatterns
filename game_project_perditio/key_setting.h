@@ -7,17 +7,17 @@ struct PERKeyboardData {
 
 class KeySetting {
 public:
-	// ÀÌµ¿
+	// ì´ë™
 	static PERKeyboardData MoveUpwards;
 	static PERKeyboardData MoveDownwards;
 	static PERKeyboardData MoveLeftwards;
 	static PERKeyboardData MoveRightwards;
 
-	// Á¤º¸
+	// ì •ë³´
 	static PERKeyboardData ShowInformation;
-	// »óÈ£ÀÛ¿ë
+	// ìƒí˜¸ì‘ìš©
 	static PERKeyboardData Use;
-	// °ø°İ
+	// ê³µê²©
 	static PERKeyboardData BulletAttack;
 	static PERKeyboardData BladeAttack;
 };

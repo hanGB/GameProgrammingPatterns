@@ -43,7 +43,7 @@ void TestWorld::Resume()
 
 void TestWorld::AddFixedAndPhysicalObjects()
 {
-	// «√∑ß∆˚
+	// ÌîåÎû´Ìèº
 	PERObject* platform;
 	platform = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
 	platform->SetPosition(PERVec3(0.0, 0.0, -1.0));
@@ -59,7 +59,7 @@ void TestWorld::AddFixedAndPhysicalObjects()
 		AddObject(platform);
 	}
 
-	// ∫Æ
+	// Î≤Ω
 	PERObject* wall;
 	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
 	wall->SetPosition(PERVec3(1.0, 0.0, 1.0));
@@ -112,7 +112,7 @@ void TestWorld::AddFixedAndPhysicalObjects()
 
 void TestWorld::AddOtherObjects()
 {
-	// ∏ÛΩ∫≈Õ ª˝º∫±‚
+	// Î™¨Ïä§ÌÑ∞ ÏÉùÏÑ±Í∏∞
 	for (double x = -3.0; x <= 3.0; x += 6.0) {
 		for (double y = -3.0; y <= 3.0; y += 6.0) {
 			PERObject* monsterSpanwer;
@@ -123,7 +123,7 @@ void TestWorld::AddOtherObjects()
 		}
 	}
 
-	// øÚ¡˜¿Ã¥¬ ∫Æµπ(√Êµπ √≥∏Æ πÆ¡¶ «ÿ∞· ∫“∞°¥…Ω√ ¡¶∞≈)
+	// ÏõÄÏßÅÏù¥Îäî Î≤ΩÎèå(Ï∂©Îèå Ï≤òÎ¶¨ Î¨∏Ï†ú Ìï¥Í≤∞ Î∂àÍ∞ÄÎä•Ïãú Ï†úÍ±∞)
 	PERObject* block;
 	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(3.0, 1.0, 0.1));
@@ -145,24 +145,24 @@ void TestWorld::AddOtherObjects()
 	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
 	AddObject(block);
 
-	// πÆ
+	// Î¨∏
 	PERObject* door;
 	door = m_objectStorage->PopObject(PERObjectType::DOOR);
 	door->SetPosition(PERVec3(9.0, 0.0, 0.0));
 	door->SetSize(PERVec3(1.0, 3.0, 0.1));
 	dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi())->SetExcuteFunc([](ResponeseToSignalAiComponent* component) {
-		// πÆ¿ª ≈Î∞˙ ∞°¥…«œ∞‘ ∫Ø∞Ê
+		// Î¨∏ÏùÑ ÌÜµÍ≥º Í∞ÄÎä•ÌïòÍ≤å Î≥ÄÍ≤Ω
 		component->GetOwner()->SetSize(PERVec3(1.0, 1.0, 0.0));
 		component->GetOwner()->SetPosition(PERVec3(9.0, -1.0, 0.1));
 		});
 	dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi())->SetRevokeFunc([](ResponeseToSignalAiComponent* component) {
-		// πÆ¿ª ≈Î∞˙ ∞°¥…«œ∞‘ ∫Ø∞Ê
+		// Î¨∏ÏùÑ ÌÜµÍ≥º Í∞ÄÎä•ÌïòÍ≤å Î≥ÄÍ≤Ω
 		component->GetOwner()->SetSize(PERVec3(1.0, 3.0, 0.0));
 		component->GetOwner()->SetPosition(PERVec3(9.0, 0.0, 0.0));
 		});
 	AddObject(door);
 
-	// πˆ∆∞
+	// Î≤ÑÌäº
 	PERObject* button;
 	button = m_objectStorage->PopObject(PERObjectType::BUTTON);
 	button->SetPosition(PERVec3(7.0, 0.0, 0.0));
@@ -178,7 +178,7 @@ void TestWorld::AddOtherObjects()
 	dynamic_cast<MakingSignalAiComponent*>(&button->GetAi())->SetOnOffGraphicsData(onData, offData);
 	AddObject(button);
 
-	// æ–∑¬
+	// ÏïïÎ†•
 	PERObject* pressure;
 	pressure = m_objectStorage->PopObject(PERObjectType::PRESSURE);
 	pressure->SetPosition(PERVec3(7.0, 1.5, 0.0));

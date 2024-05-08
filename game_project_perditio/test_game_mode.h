@@ -13,8 +13,8 @@ public:
 	virtual void UpdateCamera(PERRenderer& renderer, double frameGap);
 
 private:
-	// ÇÃ·¹ÀÌ¾î ÆÑÅä¸® »ı¼º
+	// í”Œë ˆì´ì–´ íŒ©í† ë¦¬ ìƒì„±
 	virtual void CreatePlayerFactory();
-	// hud »ı¼º
+	// hud ìƒì„±
 	virtual PERHud* CreateHud();
 };

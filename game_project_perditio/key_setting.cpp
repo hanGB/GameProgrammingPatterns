@@ -1,16 +1,16 @@
 #include "stdafx.h"
 #include "key_setting.h"
 
-// ¿Ãµø
-PERKeyboardData KeySetting::MoveUpwards = { PERKeyboardValue::UP, L"°Ë"};
-PERKeyboardData KeySetting::MoveDownwards = { PERKeyboardValue::DOWN, L"°È" };
-PERKeyboardData KeySetting::MoveLeftwards = { PERKeyboardValue::LEFT, L"°Á" };
-PERKeyboardData KeySetting::MoveRightwards = { PERKeyboardValue::RIGHT, L"°Ê" };
+// Ïù¥Îèô
+PERKeyboardData KeySetting::MoveUpwards = { PERKeyboardValue::UP, L"‚Üë"};
+PERKeyboardData KeySetting::MoveDownwards = { PERKeyboardValue::DOWN, L"‚Üì" };
+PERKeyboardData KeySetting::MoveLeftwards = { PERKeyboardValue::LEFT, L"‚Üê" };
+PERKeyboardData KeySetting::MoveRightwards = { PERKeyboardValue::RIGHT, L"‚Üí" };
 
-// ¡§∫∏
+// Ï†ïÎ≥¥
 PERKeyboardData KeySetting::ShowInformation = { PERKeyboardValue::Q, L"Q" };
-// ªÛ»£¿€øÎ
+// ÏÉÅÌò∏ÏûëÏö©
 PERKeyboardData KeySetting::Use = { PERKeyboardValue::F, L"F" };
-// ∞¯∞›
+// Í≥µÍ≤©
 PERKeyboardData KeySetting::BulletAttack = { PERKeyboardValue::S, L"S" };
 PERKeyboardData KeySetting::BladeAttack = { PERKeyboardValue::D, L"D" };

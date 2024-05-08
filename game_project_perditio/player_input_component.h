@@ -16,14 +16,14 @@ private:
 
 	const int c_DEFAULT_XY_FORCE = 150000;
 
-	// ÀÌµ¿ °ü·Ã
+	// ì´ë™ ê´€ë ¨
 	int m_XYForce = c_DEFAULT_XY_FORCE;
 
-	// ÃÑ¾Ë ¹ß»ç °ü·Ã
+	// ì´ì•Œ ë°œì‚¬ ê´€ë ¨
 	double m_shootingCoolTime = 0.0;
-	// °Ë ÈÖµÎ¸£±â °ü·Ã
+	// ê²€ íœ˜ë‘ë¥´ê¸° ê´€ë ¨
 	double m_swingCoolTime = 0.0;
-	// °ø°Ý ¹æÇâ
+	// ê³µê²© ë°©í–¥
 	int m_dirX = 0;
 	int m_dirY = 1;
 };

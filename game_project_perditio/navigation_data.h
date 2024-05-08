@@ -10,13 +10,13 @@ public:
 
 	void InitCells();
 	void SetCells(std::vector<PERObject*>& objects, int numObject);
-	// Å×½ºÆ®¿ë ÅØ½ºÆ® ÆÄÀÏ·Î Ãâ·Â
+	// í…ŒìŠ¤íŠ¸ìš© í…ìŠ¤íŠ¸ íŒŒì¼ë¡œ ì¶œë ¥
 	void TextOutData();
-	// Å×½ºÆ®¿ë È­¸é¿¡ Ç¥½Ã
+	// í…ŒìŠ¤íŠ¸ìš© í™”ë©´ì— í‘œì‹œ
 	void RenderOutData(PERRenderer& renderer);
 
 	int GetCellInfo(int x, int y) const;
-	// ¼¿À» ¿ùµå ÁÂÇ¥·Î º¯°æ
+	// ì…€ì„ ì›”ë“œ ì¢Œí‘œë¡œ ë³€ê²½
 	PERVec3 ChangeCellToWorldPosition(int cellX, int cellY);
 
 private:

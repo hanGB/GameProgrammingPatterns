@@ -4,7 +4,7 @@
 
 class MonsterState : public ObjectState {
 public:
-	// ÃÊ±âÈ­
+	// ì´ˆê¸°í™”
 	virtual void Initialize();
 
 	virtual bool GiveDamage(PERObject& opponent, short physical, short mind);
@@ -21,13 +21,13 @@ public:
 	double GetWanderDistanceSquare() const;
 
 private:
-	// ±âº» ½Ã¾ßÀÇ Á¦°ö°ª
+	// ê¸°ë³¸ ì‹œì•¼ì˜ ì œê³±ê°’
 	const double c_DEFAULT_SIGHT = 5.0;
-	// ±âº» ¹èÈ¸ °Å¸®ÀÇ Á¦°ö°ª
+	// ê¸°ë³¸ ë°°íšŒ ê±°ë¦¬ì˜ ì œê³±ê°’
 	const double c_DEFAULT_WANDER_DISTANCE = 1.0;
 
-	// ½Ã¾ßÀÇ Á¦°ö
+	// ì‹œì•¼ì˜ ì œê³±
 	double m_sight = c_DEFAULT_SIGHT;
-	// ¹èÈ¸ °Å¸®ÀÇ Á¦°ö
+	// ë°°íšŒ ê±°ë¦¬ì˜ ì œê³±
 	double m_wanderDistance = c_DEFAULT_WANDER_DISTANCE;
 };

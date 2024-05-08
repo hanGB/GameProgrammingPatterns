@@ -23,14 +23,14 @@ private:
 	bool m_isInUse;
 	double m_lifeTime;
 
-	// ¹°¸®°ª
+	// ë¬¼ë¦¬ê°’
 	PERVec3 m_position;
 	PERVec3 m_size;
 	PERVec3 m_force;
 	PERVec3 m_velocity;
 	double m_mass;
 
-	// ¿ÜÇü
+	// ì™¸í˜•
 	PERShapeType m_shapeType;
 	PERColor m_color;
 	bool m_isBorderOn;

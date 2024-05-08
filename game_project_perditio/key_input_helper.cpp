@@ -25,7 +25,7 @@ void KeyInputHelper::Init(PERVec2 pos, PERVec2 size, PERColor defaultColor, PERC
 
 void KeyInputHelper::MatchWithData(PERVec2 pos)
 {
-	// ´ëºÎºĞÀÇ °æ¿ì Å° ÀÔ·Â µµ¿ì¹Ì´Â Ã³À½ Á¤ÇÑ À§Ä¡¸¦ º¯°æÇÒ ÀÏ ¾øÀ½
+	// ëŒ€ë¶€ë¶„ì˜ ê²½ìš° í‚¤ ì…ë ¥ ë„ìš°ë¯¸ëŠ” ì²˜ìŒ ì •í•œ ìœ„ì¹˜ë¥¼ ë³€ê²½í•  ì¼ ì—†ìŒ
 	SetPosition(pos);
 }
 
@@ -53,10 +53,10 @@ void KeyInputHelper::RenderOnScreen(PERRenderer& renderer, PERDatabase& database
 		textColor = m_pressedTextColor;
 	}
 
-	// ¹è°æ
+	// ë°°ê²½
 	renderer.RenderShapeInScreenCoordinate(
 		PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR, pos, size, background, false);
-	// Å°
+	// í‚¤
 	renderer.RenderFontInScreenCoordinate(m_key.show.c_str(), (int)m_key.show.size(), m_fontSize, PERVec2(pos.x - size.x * 0.2, pos.y), textColor);
 }
 
@@ -75,10 +75,10 @@ void KeyInputHelper::RenderInWorld(PERRenderer& renderer, PERDatabase& database)
 		textColor = m_pressedTextColor;
 	}
 
-	// ¹è°æ
+	// ë°°ê²½
 	renderer.RenderShapeInWorldCoordinate(
 		PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR, PERVec3(pos.x - size.x * 0.5, pos.y, 0.0), PERVec3(size.x, size.y, 0.0), background, false);
-	// Å°
+	// í‚¤
 	renderer.RenderFontInWorldCoordinate(m_key.show.c_str(), (int)m_key.show.size(), m_fontSize,
 		PERVec2(pos.x - size.x * 0.2, pos.y), textColor);
 

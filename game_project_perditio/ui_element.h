@@ -10,7 +10,7 @@ public:
 	UiElement();
 	~UiElement();
 
-	// pool°ü·Ã ÇÔ¼ö
+	// poolê´€ë ¨ í•¨ìˆ˜
 	UiElement* GetNext() const;
 	void SetNext(UiElement* next);
 	bool GetIsInUse() const;
@@ -46,15 +46,15 @@ private:
 	PERVec2	m_position;
 	PERVec2	m_size;
 
-	// ¸ğ¾ç Á¤º¸
+	// ëª¨ì–‘ ì •ë³´
 	PERColor	m_backgroundColor = PERColor(200, 200, 200);
 	bool		m_border = true;
 	int			m_borderWidth = 1;
 	PERColor	m_borderColor = PERColor(0, 0, 0);
 
-	// ¶óÀÌÇÁ Å¸ÀÓ
+	// ë¼ì´í”„ íƒ€ì„
 	double m_lifeTime = PER_MAXIMUM_LIFE_TIME;
 
-	// ´ÙÀ½
+	// ë‹¤ìŒ
 	UiElement* m_next;
 };

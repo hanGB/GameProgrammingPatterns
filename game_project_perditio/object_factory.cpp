@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "object_factory.h"
 
-// °¢Á¾ ÄÁÆ÷³ÍÆ®
+// ê°ì¢… ì»¨í¬ë„ŒíŠ¸
 // input
 #include "player_input_component.h"
 #include "interact_input_component.h"
@@ -27,7 +27,7 @@
 #include "button_graphics_component.h"
 #include "hidden_graphics_component.h"
 
-// ¿ÀºêÁ§Æ® ½ºÅ×ÀÌÆ®
+// ì˜¤ë¸Œì íŠ¸ ìŠ¤í…Œì´íŠ¸
 #include "player_state.h"
 #include "monster_state.h"
 
@@ -38,7 +38,7 @@ ObjectFactory::ObjectFactory(
     PERComponentType physics, PERComponentType graphics
     )
 {
-    PERLog::Logger().InfoWithFormat("¿ÀºêÁ§Æ® ÆÑÅä¸® object type(%d) »ı¼º", (int)objectType);
+    PERLog::Logger().InfoWithFormat("ì˜¤ë¸Œì íŠ¸ íŒ©í† ë¦¬ object type(%d) ìƒì„±", (int)objectType);
 
     m_objectType = objectType;
     m_objectStateType = objectStateType;
@@ -52,7 +52,7 @@ ObjectFactory::ObjectFactory(PERObjectType objectType, PERObjectStateType object
     PERComponent::InputData& inputData, PERComponent::AiData& aiData, 
     PERComponent::PhysicsData& physicsData, PERComponent::GraphicsData& graphicsData)
 {
-    PERLog::Logger().InfoWithFormat("¿ÀºêÁ§Æ® ÆÑÅä¸® object type(%d) »ı¼º", (int)objectType);
+    PERLog::Logger().InfoWithFormat("ì˜¤ë¸Œì íŠ¸ íŒ©í† ë¦¬ object type(%d) ìƒì„±", (int)objectType);
 
     m_objectType = objectType;
     m_objectStateType = objectStateType;
@@ -64,16 +64,16 @@ ObjectFactory::ObjectFactory(PERObjectType objectType, PERObjectStateType object
 
 ObjectFactory::~ObjectFactory()
 {
-    PERLog::Logger().InfoWithFormat("¿ÀºêÁ§Æ® ÆÑÅä¸® object type(%d) »èÁ¦", (int)m_objectType);
+    PERLog::Logger().InfoWithFormat("ì˜¤ë¸Œì íŠ¸ íŒ©í† ë¦¬ object type(%d) ì‚­ì œ", (int)m_objectType);
 }
 
 
 PERObject* ObjectFactory::CreateObject()
 {
-    // ¿ÀºêÁ§Æ® ½ºÅ×ÀÌÆ® »ı¼º
+    // ì˜¤ë¸Œì íŠ¸ ìŠ¤í…Œì´íŠ¸ ìƒì„±
     ObjectState* objectState = CreateObjectState();
 
-    // °¢ ÄÄÆ÷³ÍÆ® Å¸ÀÔ º°·Î »ı¼º
+    // ê° ì»´í¬ë„ŒíŠ¸ íƒ€ì… ë³„ë¡œ ìƒì„±
     InputComponent* inputComponent = nullptr;
     switch (m_componentTypes.input) {
     case PERComponentType::PLAYER_INPUT:

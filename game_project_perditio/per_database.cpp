@@ -28,8 +28,8 @@ MonsterData* PERDatabase::GetMonsterData(const char* id) const
 	auto it = m_monsterDatas.find(id);
 	
 	if (it == m_monsterDatas.end()) {
-		PERLog::Logger().ErrorWithFormat("Àß¸øµÈ ¸ó½ºÅÍ ¾ÆÀÌµð·Î µ¥ÀÌÅÍ¸¦ ºÒ·¯¿Ô½À´Ï´Ù: %s", id);
-		// Ã³À½¿¡ ÀÖ´Â ¸ó½ºÅÍ µ¥ÀÌÅÍ¸¦ ÀÓ½Ã·Î ³Ñ±è
+		PERLog::Logger().ErrorWithFormat("ìž˜ëª»ëœ ëª¬ìŠ¤í„° ì•„ì´ë””ë¡œ ë°ì´í„°ë¥¼ ë¶ˆëŸ¬ì™”ìŠµë‹ˆë‹¤: %s", id);
+		// ì²˜ìŒì— ìžˆëŠ” ëª¬ìŠ¤í„° ë°ì´í„°ë¥¼ ìž„ì‹œë¡œ ë„˜ê¹€
 		return m_monsterDatas.begin()->second;
 	}
 
@@ -41,8 +41,8 @@ VisualData* PERDatabase::GetVisualData(const char* id) const
 	auto it = m_visualDatas.find(id);
 
 	if (it == m_visualDatas.cend()) {
-		PERLog::Logger().ErrorWithFormat("Àß¸øµÈ ºñÁÖ¾ó ¾ÆÀÌµð·Î µ¥ÀÌÅÍ¸¦ ºÒ·¯¿Ô½À´Ï´Ù: %s", id);
-		// Ã³À½¿¡ ÀÖ´Â ºñÁÖ¾ó µ¥ÀÌÅÍ¸¦ ÀÓ½Ã·Î ³Ñ±è
+		PERLog::Logger().ErrorWithFormat("ìž˜ëª»ëœ ë¹„ì£¼ì–¼ ì•„ì´ë””ë¡œ ë°ì´í„°ë¥¼ ë¶ˆëŸ¬ì™”ìŠµë‹ˆë‹¤: %s", id);
+		// ì²˜ìŒì— ìžˆëŠ” ë¹„ì£¼ì–¼ ë°ì´í„°ë¥¼ ìž„ì‹œë¡œ ë„˜ê¹€
 		return m_visualDatas.begin()->second;
 	}
 
@@ -54,8 +54,8 @@ TranslateData* PERDatabase::GetTranslateData(const char* id) const
 	auto it = m_translateDatas.find(id);
 
 	if (it == m_translateDatas.end()) {
-		PERLog::Logger().ErrorWithFormat("Àß¸øµÈ ¹ø¿ª ¾ÆÀÌµð·Î µ¥ÀÌÅÍ¸¦ ºÒ·¯¿Ô½À´Ï´Ù: %s", id);
-		// Ã³À½¿¡ ÀÖ´Â ºñÁÖ¾ó µ¥ÀÌÅÍ¸¦ ÀÓ½Ã·Î ³Ñ±è
+		PERLog::Logger().ErrorWithFormat("ìž˜ëª»ëœ ë²ˆì—­ ì•„ì´ë””ë¡œ ë°ì´í„°ë¥¼ ë¶ˆëŸ¬ì™”ìŠµë‹ˆë‹¤: %s", id);
+		// ì²˜ìŒì— ìžˆëŠ” ë¹„ì£¼ì–¼ ë°ì´í„°ë¥¼ ìž„ì‹œë¡œ ë„˜ê¹€
 		return m_translateDatas.begin()->second;
 	}
 

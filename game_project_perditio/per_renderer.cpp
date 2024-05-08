@@ -3,7 +3,7 @@
 
 PERRenderer::PERRenderer(HWND hWnd)
 {
-	PERLog::Logger().Info("·»´õ·¯ »ı¼º");
+	PERLog::Logger().Info("ë Œë”ëŸ¬ ìƒì„±");
 
 	m_windowSizeRect.left = 0;
 	m_windowSizeRect.right = PER_DEFAULT_WINDOW_WIDTH - PER_DEFAULT_WINDOW_BORDER_WIDTH;
@@ -13,7 +13,7 @@ PERRenderer::PERRenderer(HWND hWnd)
 	HDC hDC;
 	hDC = GetDC(hWnd);
 
-	// ´õºí ¹öÆÛ¸µ °ü·Ã ¼³Á¤
+	// ë”ë¸” ë²„í¼ë§ ê´€ë ¨ ì„¤ì •
 	m_memoryDC = CreateCompatibleDC(hDC);
 	m_uiMemoryDC = CreateCompatibleDC(hDC);
 
@@ -22,7 +22,7 @@ PERRenderer::PERRenderer(HWND hWnd)
 
 PERRenderer::~PERRenderer()
 {
-	PERLog::Logger().Info("·»´õ·¯ »èÁ¦");
+	PERLog::Logger().Info("ë Œë”ëŸ¬ ì‚­ì œ");
 
 	DeleteDC(m_memoryDC);
 	DeleteDC(m_uiMemoryDC);
@@ -49,14 +49,14 @@ void PERRenderer::ResetMemoryDC(HWND hWnd)
 	HDC hDC;
 	hDC = GetDC(hWnd);
 
-	// ¸Ş¸ğ¸® dc ¼³Á¤
+	// ë©”ëª¨ë¦¬ dc ì„¤ì •
 	m_newBitmap = CreateCompatibleBitmap(hDC, m_windowSizeRect.right, m_windowSizeRect.bottom);
 	m_oldBitmap = (HBITMAP)SelectObject(m_memoryDC, m_newBitmap);
 
-	// ÀüÃ¼ Èò»ö ÃÊ±âÈ­
+	// ì „ì²´ í°ìƒ‰ ì´ˆê¸°í™”
 	Rectangle(m_memoryDC, -1, -1, m_windowSizeRect.right + 1, m_windowSizeRect.bottom + 1);
 
-	// ¿ÀºêÁ§Æ® »èÁ¦
+	// ì˜¤ë¸Œì íŠ¸ ì‚­ì œ
 	DeleteObject(hDC);
 }
 
@@ -65,7 +65,7 @@ void PERRenderer::ResetUIMemoryDC(HWND hWnd)
 	HDC hDC;
 	hDC = GetDC(hWnd);
 
-	// ¸Ş¸ğ¸® dc ¼³Á¤
+	// ë©”ëª¨ë¦¬ dc ì„¤ì •
 	m_uiNewBitmap = CreateCompatibleBitmap(hDC, m_windowSizeRect.right, m_windowSizeRect.bottom);
 	m_uiOldBitmap = (HBITMAP)SelectObject(m_uiMemoryDC, m_uiNewBitmap);
 
@@ -73,14 +73,14 @@ void PERRenderer::ResetUIMemoryDC(HWND hWnd)
 	newBrush = CreateSolidBrush(PER_TRANSPARENT_COLOR);
 	oldBrush = (HBRUSH)SelectObject(m_uiMemoryDC, newBrush);
 
-	// ÀüÃ¼ Èò»ö ÃÊ±âÈ­
+	// ì „ì²´ í°ìƒ‰ ì´ˆê¸°í™”
 	Rectangle(m_uiMemoryDC, -1, -1, m_windowSizeRect.right + 1, m_windowSizeRect.bottom + 1);
 
 	SelectObject(m_uiMemoryDC, oldBrush);
 	DeleteObject(newBrush);
 	DeleteObject(oldBrush);
 
-	// ¿ÀºêÁ§Æ® »èÁ¦
+	// ì˜¤ë¸Œì íŠ¸ ì‚­ì œ
 	DeleteObject(hDC);
 }
 
@@ -107,7 +107,7 @@ void PERRenderer::FillHDCWithMemoryDCs(HWND hWnd)
 void PERRenderer::RenderShapeInWorldCoordinate(PERShapeType type, PERVec3 pos, PERVec3 size, PERColor color, 
 	bool border, int borderWidth, PERColor borderColor)
 {
-	// À§Ä¡ ÁÂÇ¥ º¯È¯, Å©±â È­¸é¿¡ ¸ÂÃß¾î º¯°æ
+	// ìœ„ì¹˜ ì¢Œí‘œ ë³€í™˜, í¬ê¸° í™”ë©´ì— ë§ì¶”ì–´ ë³€ê²½
 	PERVec2 posInVec2 = ConvertWorldCoordinateOpenGLToWindows(PERVec2(pos.x, pos.y));
 	PERVec2 sizeInVec2 = MatchSizeWithWorldCoordinate(PERVec2(size.x, size.y));
 
@@ -165,7 +165,7 @@ void PERRenderer::RenderShape(PERShapeType type, PERVec2 pos, PERVec2 size, PERC
 		RenderTriangle(pos, size, memDC);
 		break;
 
-	// ¿ŞÂÊ À§ ¾ŞÄ¿ ¿ë
+	// ì™¼ìª½ ìœ„ ì•µì»¤ ìš©
 	case PERShapeType::ELLIPSE_WITH_LEFT_TOP_ANCHOR:
 		RenderEllipseWithLeftTopAnchor(pos, size, memDC);
 		break;
@@ -194,10 +194,10 @@ void PERRenderer::RenderFont(const wchar_t* text, int textSize, double size, PER
 	HPEN newPen, oldPen;
 	HFONT newFont, oldFont;
 
-	newPen = (HPEN)GetStockObject(NULL_PEN);  // Åõ¸í¼±
+	newPen = (HPEN)GetStockObject(NULL_PEN);  // íˆ¬ëª…ì„ 
 	oldPen = (HPEN)SelectObject(m_memoryDC, newPen);
 	newFont = CreateFont((int)size, 0, 0, 0,
-		FW_BOLD, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, L"¸¼Àº °íµñ");
+		FW_BOLD, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, L"ë§‘ì€ ê³ ë”•");
 	SetTextColor(memDC, RGB(color.r, color.g, color.b));
 	SetBkMode(memDC, TRANSPARENT);
 	oldFont = (HFONT)SelectObject(memDC, newFont);

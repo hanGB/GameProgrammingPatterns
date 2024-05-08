@@ -18,11 +18,11 @@ MonsterAiComponent::~MonsterAiComponent()
 
 void MonsterAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
-	// ´ë¹ÌÁö ¹«½Ã ½Ã°£
+	// ëŒ€ë¯¸ì§€ ë¬´ì‹œ ì‹œê°„
 	GetOwner()->GetObjectState().UseIgnoreDamageTime(dTime);
-	// ½Ã°£ ´ç È¸º¹
+	// ì‹œê°„ ë‹¹ íšŒë³µ
 	GetOwner()->GetObjectState().RecoverPerTime(dTime);
-	// Çàµ¿ Æ®¸® ½ÇÇà
+	// í–‰ë™ íŠ¸ë¦¬ ì‹¤í–‰
 	m_behaviorTree->Run(dTime);
 }
 
@@ -41,48 +41,48 @@ void MonsterAiComponent::Initialize(PERComponent::AiData data)
 
 void MonsterAiComponent::InitBehaviorTree()
 {
-	// ¸®ÇÁ ³ëµå »ı¼º
+	// ë¦¬í”„ ë…¸ë“œ ìƒì„±
 	LeafNode<MonsterAiComponent>* findPlayerPositionNode 
-		= new LeafNode<MonsterAiComponent>("ÇÃ·¹ÀÌ¾î Ã£±â", &MonsterAiComponent::FindPlayerPositionAndSetDestination, *this);
+		= new LeafNode<MonsterAiComponent>("í”Œë ˆì´ì–´ ì°¾ê¸°", &MonsterAiComponent::FindPlayerPositionAndSetDestination, *this);
 	LeafNode<MonsterAiComponent>* calculatePathNode
-		= new LeafNode<MonsterAiComponent>("±æ °è»ê", &MonsterAiComponent::CalculatePath, *this);
+		= new LeafNode<MonsterAiComponent>("ê¸¸ ê³„ì‚°", &MonsterAiComponent::CalculatePath, *this);
 	LeafNode<MonsterAiComponent>* moveToLastPlayerPositionNode 
-		= new LeafNode<MonsterAiComponent>("¼³Á¤µÈ µµÂøÁö·Î ÀÌµ¿", &MonsterAiComponent::MoveToDestination, *this);
+		= new LeafNode<MonsterAiComponent>("ì„¤ì •ëœ ë„ì°©ì§€ë¡œ ì´ë™", &MonsterAiComponent::MoveToDestination, *this);
 	LeafNode<MonsterAiComponent>* doNothingNode 
-		= new LeafNode<MonsterAiComponent>("¾Æ¹«°Íµµ ¾ÈÇÏ±â", &MonsterAiComponent::DoNothing, *this);
+		= new LeafNode<MonsterAiComponent>("ì•„ë¬´ê²ƒë„ ì•ˆí•˜ê¸°", &MonsterAiComponent::DoNothing, *this);
 	LeafNode<MonsterAiComponent>* setDestinationToSpawnPositionNode
-		= new LeafNode<MonsterAiComponent>("½ºÆù À§Ä¡·Î µµÂøÁö ¼³Á¤", &MonsterAiComponent::SetDestinationToSpawnPosition, *this);
-	SequencerNode* MoveToSpawnSequnce = new SequencerNode("½ºÆù À§Ä¡ ÀÌµ¿");
+		= new LeafNode<MonsterAiComponent>("ìŠ¤í° ìœ„ì¹˜ë¡œ ë„ì°©ì§€ ì„¤ì •", &MonsterAiComponent::SetDestinationToSpawnPosition, *this);
+	SequencerNode* MoveToSpawnSequnce = new SequencerNode("ìŠ¤í° ìœ„ì¹˜ ì´ë™");
 	LeafNode<MonsterAiComponent>* moveToWanderPositionNode
-		= new LeafNode<MonsterAiComponent>("¹èÈ¸ À§Ä¡·Î ÀÌµ¿", &MonsterAiComponent::MoveToWanderPosition, *this);
+		= new LeafNode<MonsterAiComponent>("ë°°íšŒ ìœ„ì¹˜ë¡œ ì´ë™", &MonsterAiComponent::MoveToWanderPosition, *this);
 	LeafNode<MonsterAiComponent>* setWanderPositionNode
-		= new LeafNode<MonsterAiComponent>("¹èÈ¸ À§Ä¡ ¼³Á¤", &MonsterAiComponent::SetWanderPosition, *this);
+		= new LeafNode<MonsterAiComponent>("ë°°íšŒ ìœ„ì¹˜ ì„¤ì •", &MonsterAiComponent::SetWanderPosition, *this);
 	
-	// ÇÃ·¹ÀÌ¾î·Î ÀÌµ¿
-	SequencerNode* MoveToPlayerSequnce = new SequencerNode("ÇÃ·¹ÀÌ¾î·Î ÀÌµ¿");
+	// í”Œë ˆì´ì–´ë¡œ ì´ë™
+	SequencerNode* MoveToPlayerSequnce = new SequencerNode("í”Œë ˆì´ì–´ë¡œ ì´ë™");
 	MoveToPlayerSequnce->AddChild(findPlayerPositionNode);
 	MoveToPlayerSequnce->AddChild(calculatePathNode);
 	MoveToPlayerSequnce->AddChild(moveToLastPlayerPositionNode);
 	MoveToPlayerSequnce->AddChild(doNothingNode);
 
-	// ½ºÆù À§Ä¡·Î ÀÌµ¿
+	// ìŠ¤í° ìœ„ì¹˜ë¡œ ì´ë™
 	MoveToSpawnSequnce->AddChild(setDestinationToSpawnPositionNode);
 	MoveToSpawnSequnce->AddChild(calculatePathNode);
 	MoveToSpawnSequnce->AddChild(moveToLastPlayerPositionNode);
 	MoveToSpawnSequnce->AddChild(setWanderPositionNode);
 
-	// ½ºÆù À§Ä¡ ÁÖº¯ ¹èÈ¸
-	SequencerNode* WanderAroundSpawnPosition = new SequencerNode("½ºÆù À§Ä¡ ÁÖº¯ ¹èÈ¸");
+	// ìŠ¤í° ìœ„ì¹˜ ì£¼ë³€ ë°°íšŒ
+	SequencerNode* WanderAroundSpawnPosition = new SequencerNode("ìŠ¤í° ìœ„ì¹˜ ì£¼ë³€ ë°°íšŒ");
 	WanderAroundSpawnPosition->AddChild(moveToWanderPositionNode);
 	WanderAroundSpawnPosition->AddChild(setWanderPositionNode);
 
-	// ÇÃ·¹ÀÌ¾î¸¦ ¸ø Ã£À» °æ¿ì ½ºÆù À§Ä¡¿¡¼­ ¹èÈ¸
-	SelectorNode* MoveToPlayerOrWanderAroundSpawnSelector = new SelectorNode("ÇÃ·¹ÀÌ¾î¿¡°Ô ÀÌµ¿ ¾Æ´Ï¸é ½ºÆù À§Ä¡ ÀÌµ¿ ÈÄ ¹èÈ¸");
+	// í”Œë ˆì´ì–´ë¥¼ ëª» ì°¾ì„ ê²½ìš° ìŠ¤í° ìœ„ì¹˜ì—ì„œ ë°°íšŒ
+	SelectorNode* MoveToPlayerOrWanderAroundSpawnSelector = new SelectorNode("í”Œë ˆì´ì–´ì—ê²Œ ì´ë™ ì•„ë‹ˆë©´ ìŠ¤í° ìœ„ì¹˜ ì´ë™ í›„ ë°°íšŒ");
 	MoveToPlayerOrWanderAroundSpawnSelector->AddChild(MoveToPlayerSequnce);
 	MoveToPlayerOrWanderAroundSpawnSelector->AddChild(MoveToSpawnSequnce);
 	MoveToPlayerOrWanderAroundSpawnSelector->AddChild(WanderAroundSpawnPosition);
 
-	m_behaviorTree = new BehaviorTree("¸ó½ºÅÍ Çàµ¿ Æ®¸®", MoveToPlayerOrWanderAroundSpawnSelector);
+	m_behaviorTree = new BehaviorTree("ëª¬ìŠ¤í„° í–‰ë™ íŠ¸ë¦¬", MoveToPlayerOrWanderAroundSpawnSelector);
 }
 
 PERBehaviorResult MonsterAiComponent::FindPlayerPositionAndSetDestination(double dTime)
@@ -90,7 +90,7 @@ PERBehaviorResult MonsterAiComponent::FindPlayerPositionAndSetDestination(double
 	PERVec3 playerPos = BlackBoard::GetPlayerPos();
 	MonsterState& state = dynamic_cast<MonsterState&>(GetOwner()->GetObjectState());
 
-	// ½ÇÁ¦·Î´Â ÇÃ·¹ÀÌ¾î°¡ º¼ ¼ö ÀÖ´Â À§Ä¡¿¡ ÀÖ´Â Áö È®ÀÎÇÏ´Â ÀıÂ÷ ÇÊ¿ä
+	// ì‹¤ì œë¡œëŠ” í”Œë ˆì´ì–´ê°€ ë³¼ ìˆ˜ ìˆëŠ” ìœ„ì¹˜ì— ìˆëŠ” ì§€ í™•ì¸í•˜ëŠ” ì ˆì°¨ í•„ìš”
 	if (DistanceSquareAandB(GetOwner()->GetPosition(), playerPos) > state.GetSightSquare()) return PERBehaviorResult::FAIL;
 
 	m_destination = playerPos;
@@ -109,14 +109,14 @@ PERBehaviorResult MonsterAiComponent::CalculatePath(double dTime)
 
 PERBehaviorResult MonsterAiComponent::MoveToDestination(double dTime)
 {
-	// µµÂøÇßÀ» °æ¿ì ¼º°øÀ¸·Î
+	// ë„ì°©í–ˆì„ ê²½ìš° ì„±ê³µìœ¼ë¡œ
 	if (m_currentPathIndex >= m_numPath) return PERBehaviorResult::SUCCESS;
 
 
 	PERVec3 pos = GetOwner()->GetPosition(); 
 	PERVec3 goal = m_paths[m_currentPathIndex]; goal.z = pos.z;
 
-	// ÇØ´ç ÁöÁ¡±îÁö ÀÌµ¿½Ã ´ÙÀ½ ÁöÁ¡·Î
+	// í•´ë‹¹ ì§€ì ê¹Œì§€ ì´ë™ì‹œ ë‹¤ìŒ ì§€ì ë¡œ
 	if (DistanceSquareAandB(pos, goal) < c_PATH_GAP_2)
 	{
 		m_currentPathIndex++;
@@ -124,7 +124,7 @@ PERBehaviorResult MonsterAiComponent::MoveToDestination(double dTime)
 		return PERBehaviorResult::RUNNING;
 	}
 
-	// ÇØ´ç ÁöÁ¡ ¹æÇâÀ¸·Î ÀÌµ¿À» À§ÇÑ ¼Óµµ °è»ê
+	// í•´ë‹¹ ì§€ì  ë°©í–¥ìœ¼ë¡œ ì´ë™ì„ ìœ„í•œ ì†ë„ ê³„ì‚°
 	PERVec3 vel = GetOwner()->GetVelocity();
 	double angle = atan2(goal.y - pos.y, goal.x - pos.x);
 
@@ -146,7 +146,7 @@ PERBehaviorResult MonsterAiComponent::SetDestinationToSpawnPosition(double dTime
 	PERVec3 spawnPos = GetOwner()->GetObjectState().GetSpawnPosition();
 	MonsterState& state = dynamic_cast<MonsterState&>(GetOwner()->GetObjectState());
 
-	// ¹èÈ¸ °Å¸® º¸´Ù ½ºÆù À§Ä¡±îÁöÀÇ °Å¸®°¡ ÂªÀ» °æ¿ì ÀÌµ¿ÇÏÁö ¾ÊÀ½
+	// ë°°íšŒ ê±°ë¦¬ ë³´ë‹¤ ìŠ¤í° ìœ„ì¹˜ê¹Œì§€ì˜ ê±°ë¦¬ê°€ ì§§ì„ ê²½ìš° ì´ë™í•˜ì§€ ì•ŠìŒ
 	if (DistanceSquareAandB(GetOwner()->GetPosition(), spawnPos) < state.GetWanderDistanceSquare()) return PERBehaviorResult::FAIL;
 
 	m_destination = spawnPos;
@@ -159,10 +159,10 @@ PERBehaviorResult MonsterAiComponent::MoveToWanderPosition(double dTime)
 	PERVec3 pos = GetOwner()->GetPosition();
 	PERVec3 goal = m_wanderPosition; goal.z = pos.z;
 
-	// µµÂø½Ã ¼º°øÀ¸·Î
+	// ë„ì°©ì‹œ ì„±ê³µìœ¼ë¡œ
 	if (DistanceSquareAandB(pos, goal) < c_PATH_GAP_2) return PERBehaviorResult::SUCCESS;
 
-	// ÇØ´ç ÁöÁ¡ ¹æÇâÀ¸·Î ÀÌµ¿À» À§ÇÑ ¼Óµµ °è»ê
+	// í•´ë‹¹ ì§€ì  ë°©í–¥ìœ¼ë¡œ ì´ë™ì„ ìœ„í•œ ì†ë„ ê³„ì‚°
 	PERVec3 vel = GetOwner()->GetVelocity();
 	double angle = atan2(goal.y - pos.y, goal.x - pos.x);
 

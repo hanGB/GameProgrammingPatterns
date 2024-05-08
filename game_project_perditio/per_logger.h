@@ -50,7 +50,7 @@ protected:
 
 	CSProvider m_csProvider;
 
-	// 출력 대기
+	//  
 	char m_textOutputbuffer[c_LOG_WAIT_SIZE][c_LOG_BUFFER_SIZE];
 	char m_timeOutputbuffer[c_LOG_WAIT_SIZE][c_LOG_BUFFER_SIZE];
 

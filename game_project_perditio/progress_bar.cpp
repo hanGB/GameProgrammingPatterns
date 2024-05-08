@@ -44,10 +44,10 @@ void ProgressBar::RenderOnScreen(PERRenderer& renderer, PERDatabase& database)
 
 	PERVec2 pos = GetPosition();
 	PERVec2 size = GetSize();
-	// ¹Ù
+	// ë°”
 	renderer.RenderShapeInScreenCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 		pos, size, GetBackgroundColor(), GetBorder(), GetBorderWidth(), GetBorderColor());
-	// ÁøÇà »óÅÂ
+	// ì§„í–‰ ìƒíƒœ
 	renderer.RenderShapeInScreenCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 		pos, PERVec2(size.x * m_showing / (double)m_max, size.y), m_valueColor, false);
 }
@@ -58,11 +58,11 @@ void ProgressBar::RenderInWorld(PERRenderer& renderer, PERDatabase& database)
 
 	PERVec2 pos = GetPosition();
 	PERVec2 size = GetSize();
-	// ¹Ù
+	// ë°”
 	renderer.RenderShapeInWorldCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 		PERVec3(pos.x - size.x / 2.0, pos.y, 0.0), PERVec3(size.x, size.y, 0.0),
 		GetBackgroundColor(), GetBorder(), GetBorderWidth(), GetBorderColor());
-	// ÁøÇà »óÅÂ
+	// ì§„í–‰ ìƒíƒœ
 	renderer.RenderShapeInWorldCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 		PERVec3(pos.x - size.x / 2.0, pos.y, 0.0), PERVec3(size.x * m_showing / (double)m_max, size.y, 0.0),
 		m_valueColor, false);
@@ -93,7 +93,7 @@ void ProgressBar::UpateShowingValueImmediately()
 
 void ProgressBar::UpdateShowingValue(PERAudio& audio, double dTime)
 {
-	// ÇöÀç °ªÀÌ¶û º¸ÀÌ´Â °ªÀÌ °°¾ÆÁöµµ·Ï Áõ°¨
+	// í˜„ì¬ ê°’ì´ë‘ ë³´ì´ëŠ” ê°’ì´ ê°™ì•„ì§€ë„ë¡ ì¦ê°
 	if (m_updateSpeed > 0.0) {
 		if (m_current < m_showing) {
 			m_showing = m_current;
