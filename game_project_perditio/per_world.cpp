@@ -91,6 +91,7 @@ void PERWorld::UIRender(PERRenderer& renderer)
 void PERWorld::Enter()
 {
 	AddObject(&m_gameMode->GetPlayer());
+	BlackBoard::SetIsPlayerLiving(true);
 
 	InitWorldObject();
 

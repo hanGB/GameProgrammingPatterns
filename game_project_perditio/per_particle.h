@@ -20,12 +20,16 @@ public:
 	void SetNext(PERParticle* next);
 
 private:
+	bool MoveNormally(double dTime);
+	bool MoveConsideringPlayer(double dTime);
+
 	static const int c_COLLECT_DISTANCE_2 = 100;
 	static const int c_COLLETED_SPEED = 10;
 	const double c_EATEN_DISTANCE_2 = 0.09;
 
+	std::function<bool(PERParticle&, double)> m_Move;
+
 	bool m_isInUse;
-	bool m_isColletedByPlayer = false;
 	double m_lifeTime;
 
 	double m_halfSettingLifeTime;

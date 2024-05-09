@@ -3,6 +3,7 @@
 #include "event_dispatcher.h"
 #include "per_world.h"
 #include "per_object.h"
+#include "black_board.h"
 
 void PlayerState::Initialize()
 {
@@ -32,6 +33,9 @@ bool PlayerState::GiveDamage(PERObject& opponent, PERWorld& world, short physica
 
     if ( m_currentBody <= 0 ) 
     {   
+        // 주인공 죽은 걸로 설정
+        BlackBoard::SetIsPlayerLiving(false);
+
         PERStat stat;
         // 레벨을 이펙트 타입으로 사용
         stat.level = (short)PERParticleEffectType::CIRCLE_BOMB;

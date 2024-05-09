@@ -90,6 +90,8 @@ PERBehaviorResult MonsterAiComponent::FindPlayerPositionAndSetDestination(double
 	PERVec3 playerPos = BlackBoard::GetPlayerPos();
 	MonsterState& state = dynamic_cast<MonsterState&>(GetOwner()->GetObjectState());
 
+	// 플레이어가 죽은 경우
+	if ( !BlackBoard::GetIsPlayerLiving() ) return PERBehaviorResult::FAIL;
 	// 실제로는 플레이어가 볼 수 있는 위치에 있는 지 확인하는 절차 필요
 	if (DistanceSquareAandB(GetOwner()->GetPosition(), playerPos) > state.GetSightSquare()) return PERBehaviorResult::FAIL;
 
