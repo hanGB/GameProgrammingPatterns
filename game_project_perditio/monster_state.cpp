@@ -21,13 +21,12 @@ bool MonsterState::GiveDamage(PERObject& opponent, PERWorld& world, short physic
     {
         PERStat stat;
         // 레벨을 이펙트 타입으로 사용
-        stat.level = 0;
+        stat.level = (short)PERParticleEffectType::CIRCLE_BOMB;
         // 바디를 흡수 여부로 사용
-        stat.body = 1;
-        // accel의 x을 파티클 딜레이로 y을 파티클 수명으로
-        PERVec3 accel = PERVec3(5.0, 2.0, 1.5);
-        // 사망 이펙트 추가 요청
-        world.RequestAddObject(GetOwner(), PERObjectType::PARTICLE_EFFECTER, "PARTICLE_EFFECT_DEATH_VISUAL", true, stat, GetOwner()->GetPosition(), 1.0, accel);
+        stat.body = (short)true;
+
+        world.RequestAddObject(GetOwner(), PERObjectType::PARTICLE_EFFECTER, "PARTICLE_EFFECT_BASIC_MONSTER_DEATH_VISUAL", PERDatabaseType::EFFECT,
+            stat, GetOwner()->GetPosition(), 1.0, PERVec3(0.0, 0.0, 0.0));
     }
 
     return true;

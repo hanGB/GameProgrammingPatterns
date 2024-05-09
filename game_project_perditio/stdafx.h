@@ -215,6 +215,14 @@ enum class PERParticleEffectType {
 	NUM_PARTICLE_EFFECT_TYPE
 };
 
+enum class PERDatabaseType {
+	MONSTER,
+	TRANSLATE,
+	VISUAL,
+	EFFECT,
+	NUM_DATABASE_TYPE
+};
+
 
 namespace std {
 	int clamp(int value, int min, int max);

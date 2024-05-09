@@ -25,7 +25,7 @@ struct PERWorldMessage {
 	PERObject* object;
 	PERObjectType type;
 	std::string databaseId;
-	bool isVisualId;
+	PERDatabaseType databaseType;
 	PERVec3 position;
 	PERVec3 currentAccel;
 	PERStat stat;
@@ -58,7 +58,7 @@ public:
 
 	// 요청을 받는 함수
 	void RequestAddObject(
-		PERObject* parent, PERObjectType type, const char* databaseId, bool isVisualId, PERStat stat,
+		PERObject* parent, PERObjectType type, const char* databaseId, PERDatabaseType databaseType, PERStat stat,
 		PERVec3 position, double lifeTime = PER_MAXIMUM_LIFE_TIME, PERVec3 currentAccel = PERVec3(0.0, 0.0, 0.0));
 	void RequestDeleteObject(PERObject* object);
 
@@ -102,7 +102,7 @@ private:
 	// 메세지 처리
 	void ProcessAddMessage(PERWorldMessage& message);
 	void SetBaseOfAddMessage(PERWorldMessage& message, PERObject* newObject, VisualData* vData);
-	void SetForAddParticleEffecterMessage(PERWorldMessage& message, PERObject* newObject, VisualData* vData);
+	void SetForAddParticleEffecterMessage(PERWorldMessage& message, PERObject* newObject, EffectData* eData);
 	void SetForAddBladeMessage(PERWorldMessage& message, PERObject* newObject);
 	void SetForAddBySpawnerMessage(PERWorldMessage& message, PERObject* newObject);
 

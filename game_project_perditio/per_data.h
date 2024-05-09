@@ -35,3 +35,16 @@ struct VisualData {
 	PERColor borderColor;
 	PERBoundingType boundingType;
 };
+
+struct EffectData {
+	PERShapeType shape;
+	PERVec3 size;
+	int amount;
+	double speedRate;
+	double spawnDelay;
+	double particleLifeTime;
+	PERColor color;
+	bool borderOn;
+	int borderWidth;
+	PERColor borderColor;
+};

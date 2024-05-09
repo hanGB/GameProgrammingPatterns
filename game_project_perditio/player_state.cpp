@@ -34,12 +34,12 @@ bool PlayerState::GiveDamage(PERObject& opponent, PERWorld& world, short physica
     {   
         PERStat stat;
         // 레벨을 이펙트 타입으로 사용
-        stat.level = 0;
+        stat.level = (short)PERParticleEffectType::CIRCLE_BOMB;
         // 바디를 흡수 여부로 사용
-        stat.body = 0;
-        // accel의 x을 파티클 딜레이로 y을 파티클 수명으로
-        PERVec3 accel = PERVec3(5.0, 1.0, 2.5);
-        world.RequestAddObject(GetOwner(), PERObjectType::PARTICLE_EFFECTER, "PARTICLE_EFFECT_DEATH_VISUAL", true, stat, GetOwner()->GetPosition(), 1.0, accel);
+        stat.body = (short)false;
+
+        world.RequestAddObject(GetOwner(), PERObjectType::PARTICLE_EFFECTER, "PARTICLE_EFFECT_PLAYPER_DEATH_VISUAL", PERDatabaseType::EFFECT, 
+            stat, GetOwner()->GetPosition(), 1.0, PERVec3(0.0, 0.0, 0.0));
     }
     EventDispatcher::Send(PEREvent::UPDATE_BD, PERVec3(m_currentBody, 0.0, 0.0));
     return true;

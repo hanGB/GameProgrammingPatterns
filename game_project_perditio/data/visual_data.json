@@ -62,21 +62,5 @@
     "BORDER_COLOR_G": 50,
     "BORDER_COLOR_B": 50,
     "BOUNDING_TYPE": "rectangle"
-  },
-  "PARTICLE_EFFECT_DEATH_VISUAL": {
-    "SHAPE": "ellipse",
-    "SIZE_X": 0.25,
-    "SIZE_Y": 0.25,
-    "SIZE_Z": 0,
-    "MASS": 5,
-    "COLOR_R": 100,
-    "COLOR_G": 0,
-    "COLOR_B": 0,
-    "BORDER_ON": 0,
-    "BORDER_WIDTH": 0,
-    "BORDER_COLOR_R": 0,
-    "BORDER_COLOR_G": 0,
-    "BORDER_COLOR_B": 0,
-    "BOUNDING_TYPE": "rectangle"
   }
 }

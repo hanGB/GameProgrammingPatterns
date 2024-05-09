@@ -104,6 +104,6 @@ void SpawnerAiComponent::RequsetSpawnObjcet(PERWorld& world)
 
     // 월드에 추가 요청
     world.RequestAddObject(
-        GetOwner(), m_type, m_objectId.c_str(), false,
+        GetOwner(), m_type, m_objectId.c_str(), PERDatabaseType::MONSTER,
         data->stat, pos, m_lifeTime);
 }

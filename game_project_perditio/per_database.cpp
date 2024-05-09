@@ -8,6 +8,7 @@ PERDatabase::PERDatabase()
 	reader.ReadMonsterData("./data/monster_data.json", m_monsterDatas);
 	reader.ReadTranslateData("./data/translate_data.json", m_translateDatas);
 	reader.ReadVisualData("./data/visual_data.json", m_visualDatas);
+	reader.ReadEffectData("./data/effect_data.json", m_effectDatas);
 }
 
 PERDatabase::~PERDatabase()
@@ -55,8 +56,21 @@ TranslateData* PERDatabase::GetTranslateData(const char* id) const
 
 	if (it == m_translateDatas.end()) {
 		PERLog::Logger().ErrorWithFormat("잘못된 번역 아이디로 데이터를 불러왔습니다: %s", id);
-		// 처음에 있는 비주얼 데이터를 임시로 넘김
+		// 처음에 있는 번역 데이터를 임시로 넘김
 		return m_translateDatas.begin()->second;
+	}
+
+	return it->second;
+}
+
+EffectData* PERDatabase::GetEffectData(const char* id) const
+{
+	auto it = m_effectDatas.find(id);
+
+	if ( it == m_effectDatas.end() ) {
+		PERLog::Logger().ErrorWithFormat("잘못된 이펙트 아이디로 데이터를 불러왔습니다: %s", id);
+		// 처음에 있는 이펙트 데이터를 임시로 넘김
+		return m_effectDatas.begin()->second;
 	}
 
 	return it->second;

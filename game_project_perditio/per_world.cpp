@@ -110,8 +110,8 @@ void PERWorld::Resume()
 {
 }
 
-void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, const char* databaseId, bool isVisualId, PERStat stat,
-	PERVec3 position, double lifeTime, PERVec3 currentAccel)
+void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, const char* databaseId, PERDatabaseType databaseType, 
+	PERStat stat, PERVec3 position, double lifeTime, PERVec3 currentAccel)
 {
 	if (m_maxPending == m_numPending) ResizePedingArray();
 
@@ -119,7 +119,7 @@ void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, const cha
 	m_pending[m_numPending].object = parent;
 	m_pending[m_numPending].type = type;
 	m_pending[m_numPending].databaseId = databaseId;
-	m_pending[m_numPending].isVisualId = isVisualId;
+	m_pending[m_numPending].databaseType = databaseType;
 	m_pending[m_numPending].position = position;
 	m_pending[m_numPending].currentAccel = currentAccel;
 	m_pending[m_numPending].lifeTime = lifeTime;
@@ -277,21 +277,27 @@ void PERWorld::ProcessAddMessage(PERWorldMessage& message)
 {
 	PERObject* newObject = AddAndGetObject(message.type);
 
-	// databaseId가 비주얼 아이디가 아닐 경우 몬스터 아이디(오브젝트 아이디)이므로 데이터베이스에서 비주얼 아이디를 얻음
-	if ( !message.isVisualId ) {
+	// 데이터베이스 id가 이펙트 id인 경우
+	if ( message.databaseType == PERDatabaseType::EFFECT )
+	{
+		EffectData* eData = m_database->GetEffectData(message.databaseId.c_str());
+		SetForAddParticleEffecterMessage(message, newObject, eData);
+		return;
+	}
+	// 데이터베이스 id가 몬스터 id인 경우
+	else if ( message.databaseType == PERDatabaseType::MONSTER )
+	{
 		newObject->GetObjectState().SetNameId(m_database->GetMonsterData(message.databaseId.c_str())->nameId);
 		message.databaseId = m_database->GetMonsterData(message.databaseId.c_str())->visualId;
 	}
+	// 데이터베이스 id가 비주얼 id인 경우로 취급(아닐 경우 무조건 오류)
 	VisualData* vData = m_database->GetVisualData(message.databaseId.c_str());
-	
 	// 기본
 	SetBaseOfAddMessage(message, newObject, vData);
-	// 파티클 이펙터일 경우
-	if ( message.type == PERObjectType::PARTICLE_EFFECTER ) SetForAddParticleEffecterMessage(message, newObject, vData);
 	// 칼날일 경우
-	else if ( message.type == PERObjectType::BLADE ) SetForAddBladeMessage(message, newObject);
+	if ( message.type == PERObjectType::BLADE ) SetForAddBladeMessage(message, newObject);
 	// 스포너가 소환 요청한 오브젝트인 경우
-	else if ( message.object->GetObjectType() == PERObjectType::SPAWNER ) SetForAddBySpawnerMessage(message, newObject);
+	if ( message.object->GetObjectType() == PERObjectType::SPAWNER ) SetForAddBySpawnerMessage(message, newObject);
 }
 
 void PERWorld::SetBaseOfAddMessage(PERWorldMessage& message, PERObject* newObject, VisualData* vData)
@@ -313,28 +319,27 @@ void PERWorld::SetBaseOfAddMessage(PERWorldMessage& message, PERObject* newObjec
 	newObject->GetObjectState().SetStat(message.stat);
 }
 
-void PERWorld::SetForAddParticleEffecterMessage(PERWorldMessage& message, PERObject* newObject, VisualData* vData)
+void PERWorld::SetForAddParticleEffecterMessage(PERWorldMessage& message, PERObject* newObject, EffectData* eData)
 {
-	dynamic_cast< CreatingParticlesAiComponent* >( &newObject->GetAi() )->SetParticle(vData->shape, vData->size, vData->mass, vData->color,
-			vData->borderOn, vData->borderWidth, vData->borderColor);
+	// 스탯의 레벨을 이펙트 타입으로 사용
+	AiData data;
+	data.particleEffectType = ( PERParticleEffectType ) message.stat.level;
+	newObject->GetAi().SetData(data);
 
-	PERComponent::AiData aData;
-	// 레벨을 이펙트 타입으로 대신 사용
-	aData.particleEffectType = ( PERParticleEffectType ) message.stat.level;
-	// 바디를 흡수 여부로 사용
-	aData.isCollectedByPlayerParticle = ( bool ) message.stat.body;
-	// 가속도 x 값을 파티클 소환 딜레이로 사용
-	aData.particleDelay = message.currentAccel.x;
-	// 가속도 y 값을 파티클 수명으로 사용
-	aData.particleLifeTime = message.currentAccel.y;
-	// 가속도 z값을 파티클 속도로 사용
-	aData.particleSpeed = message.currentAccel.z;
+	// 스탯의 바디값을 플레이어의 흡수 여부 설정
+	bool isColletedByPlayer = (bool)message.stat.body;
 
-	newObject->GetAi().SetData(aData);
+	dynamic_cast< CreatingParticlesAiComponent* >( &newObject->GetAi() )->SetParticle(
+		eData->shape, eData->size, eData->amount,
+		eData->speedRate, eData->spawnDelay, eData->particleLifeTime,
+		isColletedByPlayer,
+		eData->color,
+		eData->borderOn, eData->borderWidth, eData->borderColor
+	);
 
-	// 가속도 삭제
-	newObject->SetCurrentAccel(PERVec3(0.0, 0.0, 0.0));
-	// 부모 삭제
+	// 메세지로 받은 데이터 설정
+	newObject->SetPosition(message.position);
+	newObject->SetLifeTime(message.lifeTime);
 	newObject->SetParent(nullptr);
 }
 

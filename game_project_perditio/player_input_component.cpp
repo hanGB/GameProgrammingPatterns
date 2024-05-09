@@ -93,7 +93,7 @@ void PlayerInputComponent::ShootBullet(PERWorld& world, PERController& controlle
 			PERVec3 speed((double)m_dirX * state.c_BULLET_XY_FORCE, (double)m_dirY * state.c_BULLET_XY_FORCE, 0.0);
 			PERStat stat = { 1, 0, 0, 20, 0, 0, 0 };
 			world.RequestAddObject(
-				GetOwner(), PERObjectType::BULLET, state.GetBulletVisualId().c_str(), true,
+				GetOwner(), PERObjectType::BULLET, state.GetBulletVisualId().c_str(), PERDatabaseType::VISUAL, 
 				stat, position, 3.0, speed);
 
 			m_shootingCoolTime = state.GetShootCoolTime();
@@ -116,7 +116,7 @@ void PlayerInputComponent::SwingBlade(PERWorld& world, PERController& controller
 		PERVec3 stuckPosition = PERVec3((double)m_dirX * data->size.x * 0.8, (double)m_dirY * data->size.y * 0.8, 0.0);
 		PERStat stat = { 1, 0, 0, 20, 0, 0, 0 };
 		world.RequestAddObject(
-			GetOwner(), PERObjectType::BLADE, state.GetBladeVisualId().c_str(), true,
+			GetOwner(), PERObjectType::BLADE, state.GetBladeVisualId().c_str(), PERDatabaseType::VISUAL,
 			stat, stuckPosition, 0.1);
 
 		m_swingCoolTime = state.GetSwingCoolTime();
