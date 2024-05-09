@@ -7,6 +7,9 @@ public:
 	// 초기화
 	virtual void Initialize();
 
+	// 이벤트 처리
+	virtual void Recive(PEREvent event, PERVec3 data);
+
 	virtual bool GiveDamage(PERObject& opponent, PERWorld& world, short physical, short mind);
 	virtual bool UseMind(int mind);
 	virtual void RecoverPerTime(double dTime);

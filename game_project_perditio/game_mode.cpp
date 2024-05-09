@@ -25,11 +25,13 @@ GameMode::~GameMode()
 void GameMode::StartUse()
 {
     EventDispatcher::AddReciver(m_hud);
+	EventDispatcher::AddReciver(&m_player->GetObjectState());
 }
 
 void GameMode::EndUse()
 {
     EventDispatcher::RemoveReciver(m_hud);
+	EventDispatcher::RemoveReciver(&m_player->GetObjectState());
 }
 
 PERHud& GameMode::GetHud()

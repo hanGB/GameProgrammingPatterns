@@ -4,16 +4,20 @@
 * 
 *	오브젝트가 소유하도록 구현
 */
+#include "event_reciver.h"
 
 class PERObject;
 class PERHud;
 class UiElement;
 class PERWorld;
 
-class ObjectState {
+class ObjectState : public EventReciver {
 public:
 	ObjectState();
 	~ObjectState();
+
+	// 이벤트 처리
+	virtual void Recive(PEREvent event, PERVec3 data);
 
 	// 대미지 무시
 	void UseIgnoreDamageTime(double dTime);

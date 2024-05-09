@@ -2,6 +2,7 @@
 #include "per_particle.h"
 #include "per_renderer.h"
 #include "black_board.h"
+#include "event_dispatcher.h"
 
 PERParticle::PERParticle()
 {
@@ -54,6 +55,11 @@ bool PERParticle::Update(double dTime)
 			if ( c_COLLECT_DISTANCE_2 > distance ) 
 			{
 				// 충분히 가까워 졌을 경우 삭제
+				if ( c_EATEN_DISTANCE_2 > distance ) 
+				{
+					EventDispatcher::Send(PEREvent::ADD_BD_TO_PLAYER, PERVec3(1.0, 0.0, 0.0));
+					return false;
+				}
 				double rDistance = std::sqrt(distance);
 				m_velocity = PERVec3(( pos.x - m_position.x ) / rDistance, ( pos.y - m_position.y ) / rDistance, 0.0) * c_COLLETED_SPEED;
 			}

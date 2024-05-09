@@ -22,6 +22,7 @@ public:
 private:
 	static const int c_COLLECT_DISTANCE_2 = 100;
 	static const int c_COLLETED_SPEED = 10;
+	const double c_EATEN_DISTANCE_2 = 0.09;
 
 	bool m_isInUse;
 	bool m_isColletedByPlayer = false;

@@ -12,6 +12,10 @@ ObjectState::~ObjectState()
 {
 }
 
+void ObjectState::Recive(PEREvent event, PERVec3 data)
+{
+}
+
 void ObjectState::UseIgnoreDamageTime(double dTime)
 {
 	m_damageDelay -= dTime;
