@@ -77,8 +77,11 @@ void JSONDataReader::ReadJson(const char* fileName)
 
 void JSONDataReader::UTF8TextToWString(const char* utf8Text, std::wstring& result)
 {
-	int nLen = MultiByteToWideChar(CP_UTF8, 0, utf8Text, sizeof(utf8Text), NULL, NULL);
-	MultiByteToWideChar(CP_UTF8, 0, utf8Text, sizeof(utf8Text), &result[0], nLen);
+	// UTF-8인 텍스트를 정상적인 문자열로 인식하지 못해 크기를 알 수 없어 크기가 고정된 임시 배열을 대신 사용
+	strcpy_s(m_textTempMemory, utf8Text);
+	int nLen = MultiByteToWideChar(CP_UTF8, 0, m_textTempMemory, sizeof(m_textTempMemory), NULL, NULL);
+	MultiByteToWideChar(CP_UTF8, 0, m_textTempMemory, sizeof(m_textTempMemory), m_wTextTempMemory, nLen);
+	result = m_wTextTempMemory;
 }
 
 MonsterData* JSONDataReader::MakeMonsterData(const char* id)

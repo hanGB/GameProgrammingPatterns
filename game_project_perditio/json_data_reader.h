@@ -24,4 +24,7 @@ private:
 	EffectData* MakeEffectData(const char* id);
 
 	rapidjson::Document m_document;
+	
+	char m_textTempMemory[PER_MAXIMUM_TEXT_SIZE];
+	wchar_t m_wTextTempMemory[PER_MAXIMUM_TEXT_SIZE];
 };
