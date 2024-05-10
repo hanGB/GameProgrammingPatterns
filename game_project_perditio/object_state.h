@@ -56,14 +56,14 @@ protected:
 	const double c_DEFAULT_BODY_RECOVER_PERCENT = 0.025;
 	const double c_DEFAULT_MIND_RECOVER_PERCENT = 0.1;
 	const double c_DEFAULT_IGNORE_DAMAGE_TIME = 0.1;
-	const int	 c_DEFAULT_LEVEL_EXP_GAP = 2;
+	const int	 c_DEFAULT_LEVEL_EXP_GAP = 10;
 
 	// 스탯
 	std::string m_nameId;
 	PERStat m_stat;
 	int m_currentBody;
 	int m_currentMind;
-	int m_exp;
+	int m_exp = 0;
 
 	// 대미지 무시
 	double m_damageDelay = 0.0;

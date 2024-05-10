@@ -220,6 +220,7 @@ enum class PERUiElementType {
 
 enum class PERParticleEffectType {
 	CIRCLE_BOMB,
+	POWER_ABSORPTION,
 	NUM_PARTICLE_EFFECT_TYPE
 };
 

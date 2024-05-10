@@ -59,8 +59,24 @@ void PlayerState::RecoverPerTime(double dTime)
 
 void PlayerState::GiveExp(PERWorld& world, int exp)
 {
+    //PERLog::Logger().InfoWithFormat("플레이어가 경험치 %d를 획득", exp);
+
+    int level = m_stat.level;
     ObjectState::GiveExp(world, exp);
-    PERLog::Logger().InfoWithFormat("플레이어가 경험치 %d를 획득", exp);
+
+    if ( m_stat.level > level)
+    {
+        //PERLog::Logger().Info("플레이어가 레벨업");
+
+        PERStat stat;
+        // 레벨을 이펙트 타입으로 사용
+        stat.level = (short)PERParticleEffectType::POWER_ABSORPTION;
+        // 바디를 흡수 여부로 사용
+        stat.body = (short)true;
+
+        world.RequestAddObject(GetOwner(), PERObjectType::PARTICLE_EFFECTER, "PARTICLE_EFFECT_LEVEL_UP_VISUAL", PERDatabaseType::EFFECT,
+            stat, GetOwner()->GetPosition(), 5.0, PERVec3(0.0, 0.0, 0.0));
+    } 
 }
 
 void PlayerState::KillSelf(PERWorld& world)

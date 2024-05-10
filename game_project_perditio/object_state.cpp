@@ -85,6 +85,7 @@ void ObjectState::SetStat(PERStat stat)
 	m_stat = stat;
 	m_currentBody = m_stat.body;
 	m_currentMind = m_stat.mind;
+	m_exp = 0;
 }
 
 void ObjectState::SetIsHasCollisionDamage(bool damage)

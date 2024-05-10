@@ -4,9 +4,12 @@
 #include "per_world.h"
 #include "per_particle_pool.h"
 
+short CreatingParticlesAiComponent::m_powerAbsorptionSpawnOrder[9] 
+	= { (short)280, (short)40, (short)200, (short)120, (short)240, (short)80, (short)0, (short)160, (short)320 };
+
 void CreatingParticlesAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
-	CreateParticlesForCircleBombEffect(world, audio, dTime);
+	m_CreateParticles(*this, world, audio, dTime);
 }
 
 void CreatingParticlesAiComponent::SetData(PERComponent::AiData data)
@@ -15,6 +18,9 @@ void CreatingParticlesAiComponent::SetData(PERComponent::AiData data)
 	{
 	case PERParticleEffectType::CIRCLE_BOMB:
 		m_CreateParticles = &CreatingParticlesAiComponent::CreateParticlesForCircleBombEffect;
+		break;
+	case PERParticleEffectType::POWER_ABSORPTION:
+		m_CreateParticles = &CreatingParticlesAiComponent::CreateParticlesForPowerAbsorptionEffect;
 		break;
 	}
 }
@@ -36,6 +42,7 @@ void CreatingParticlesAiComponent::Initialize(PERComponent::AiData data)
 
 	m_isCollectedByPlayer = false;
 	m_time = m_particleDelay;
+	m_order = 0;
 }
 
 void CreatingParticlesAiComponent::SetParticle(PERShapeType type, PERVec3 size, int amount, 
@@ -59,17 +66,37 @@ void CreatingParticlesAiComponent::SetParticle(PERShapeType type, PERVec3 size, 
 
 void CreatingParticlesAiComponent::CreateParticlesForCircleBombEffect(PERWorld& world, PERAudio& audio, double dTime)
 {
-	PERVec3 pos = GetOwner()->GetPosition();
-
-	if (m_time > m_particleDelay) {
+	if (m_time > m_particleDelay) 
+	{
+		PERVec3 pos = GetOwner()->GetPosition();
 
 		for (int i = 0; i != 360; i += (int)((double)360 / (double)m_particleAmount)) {
-			PERVec3 vel = PERVec3(std::cos(i * ONE_DEGREE_IN_RADIAN) * 5.0, std::sin(i * ONE_DEGREE_IN_RADIAN) * 5.0, 0.1);
+			PERVec3 vel = PERVec3(std::cos(i * ONE_DEGREE_IN_RADIAN) * 5.0, std::sin(i * ONE_DEGREE_IN_RADIAN) * 5.0, 0.0);
 
 			world.GetParticlePool().Create(m_particleShapeType, pos, m_particleSize, 10.0, PERVec3(0.0, 0.0, 0.0), vel * m_particleSpeedRate,
 				m_particleColor, m_particleLifeTime, m_isCollectedByPlayer, m_isParticleBorderOn, m_particleBorderWidth, m_particleBorderColor);
 		}
 		m_time = 0.0;
+		return;
+	}
+
+	m_time += dTime;
+}
+
+void CreatingParticlesAiComponent::CreateParticlesForPowerAbsorptionEffect(PERWorld& world, PERAudio& audio, double dTime)
+{
+	if (m_time > m_particleDelay && m_order < m_particleAmount)
+	{
+		PERVec3 pos = GetOwner()->GetPosition();
+
+		PERVec3 finalPos = PERVec3(pos.x + std::cos((int)m_powerAbsorptionSpawnOrder[m_order] * ONE_DEGREE_IN_RADIAN) * 1.5,
+		pos.y + std::sin((int)m_powerAbsorptionSpawnOrder[m_order] * ONE_DEGREE_IN_RADIAN) * 1.5, 0.1);
+
+		world.GetParticlePool().Create(m_particleShapeType, finalPos, m_particleSize, 10.0, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0),
+			m_particleColor, m_particleLifeTime, m_isCollectedByPlayer, m_isParticleBorderOn, m_particleBorderWidth, m_particleBorderColor);
+
+		m_time = 0.0;
+		m_order++;
 		return;
 	}
 

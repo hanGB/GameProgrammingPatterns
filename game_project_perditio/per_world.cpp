@@ -371,7 +371,7 @@ void PERWorld::SetForAddParticleEffecterMessage(PERWorldMessage& message, PERObj
 {
 	// 스탯의 레벨을 이펙트 타입으로 사용
 	AiData data;
-	data.particleEffectType = ( PERParticleEffectType ) message.stat.level;
+	data.particleEffectType = (PERParticleEffectType) message.stat.level;
 	newObject->GetAi().SetData(data);
 
 	// 스탯의 바디값을 플레이어의 흡수 여부 설정

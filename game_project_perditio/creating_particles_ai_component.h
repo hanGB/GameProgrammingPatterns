@@ -14,22 +14,27 @@ public:
 
 private:
 	void CreateParticlesForCircleBombEffect(PERWorld& world, PERAudio& audio, double dTime);
+	void CreateParticlesForPowerAbsorptionEffect(PERWorld& world, PERAudio& audio, double dTime);
+
+	// Power Absorption 변수
+	static short m_powerAbsorptionSpawnOrder[9];
+	int m_order = 0;
 
 	std::function<void(CreatingParticlesAiComponent&, PERWorld&, PERAudio&, double)> m_CreateParticles;
 
 	// 플레이어가 모으는 여부
-	bool m_isCollectedByPlayer = false;
-	double m_time = 0.0;
+	bool m_isCollectedByPlayer	= false;
+	double m_time				= 0.0;
 
 	// 소환 파티클 모양
-	PERShapeType	m_particleShapeType = PERShapeType::RECTANGLE;
-	PERVec3			m_particleSize = PERVec3(0.25, 0.25, 0.25);
-	int				m_particleAmount = 36;
-	double			m_particleSpeedRate = 1.0;
-	double			m_particleDelay = 1.0;
-	double			m_particleLifeTime = 3.0;
-	PERColor		m_particleColor = PERColor(200, 200, 200);
-	bool			m_isParticleBorderOn = true;
-	int				m_particleBorderWidth = 1;
-	PERColor		m_particleBorderColor = PERColor(0, 0, 0);
+	PERShapeType m_particleShapeType	= PERShapeType::RECTANGLE;
+	PERVec3	m_particleSize				= PERVec3(0.25, 0.25, 0.25);
+	int	m_particleAmount				= 36;
+	double m_particleSpeedRate			= 1.0;
+	double m_particleDelay				= 1.0;
+	double m_particleLifeTime			= 3.0;
+	PERColor m_particleColor			= PERColor(200, 200, 200);
+	bool m_isParticleBorderOn			= true;
+	int m_particleBorderWidth			= 1;
+	PERColor m_particleBorderColor		= PERColor(0, 0, 0);
 };
