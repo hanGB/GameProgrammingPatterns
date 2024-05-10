@@ -30,6 +30,7 @@ public:
 	virtual bool UseMind(int mind);
 	virtual void RecoverPerTime(double dTime);
 	virtual void GiveExp(PERWorld& world, int exp);
+	virtual void KillSelf(PERWorld& world);
 
 	std::string GetNameId() const;
 	PERStat GetStat() const;

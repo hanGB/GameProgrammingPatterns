@@ -132,8 +132,7 @@ bool ObjectState::GiveDamage(PERObject& opponent, PERWorld& world, short physica
 	m_damageDelay = c_DEFAULT_IGNORE_DAMAGE_TIME;
 
 	if (m_currentBody <= 0) {
-		GetOwner()->SetLifeTime(-1.0);
-		GetOwner()->GetGraphics().RemoveFloatingUi();
+		KillSelf(world);
 
 		// 부모가 있을 경우 총알이나 칼날이므로 부모에게 경험치를 줌
 		if (opponent.GetParent()) {
@@ -166,4 +165,11 @@ void ObjectState::GiveExp(PERWorld& world, int exp)
 		m_exp -= m_stat.level * c_DEFAULT_LEVEL_EXP_GAP;
 		m_stat.level++;
 	}
+}
+
+void ObjectState::KillSelf(PERWorld& world)
+{
+	if (m_isImmortal) return;
+	GetOwner()->SetLifeTime(-1.0);
+	GetOwner()->GetGraphics().RemoveFloatingUi();
 }

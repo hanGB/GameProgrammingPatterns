@@ -223,7 +223,7 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 	// 플랫폼 위에 있지 않을 경우 떨어져 죽음
 	if (!isOnPlatform) {
 		// 임시로 라이프 타임이 0보다 작도록 설정해 단순히 오브젝트 제거
-		object.SetLifeTime(-1.0);
+		object.GetObjectState().KillSelf(*this);
 	}
 
 	return collided;

@@ -9,6 +9,7 @@ public:
 
 	virtual bool GiveDamage(PERObject& opponent, PERWorld& world, short physical, short mind);
 	virtual bool UseMind(int mind);
+	virtual void KillSelf(PERWorld& world);
 
 	// setter
 	void SetSight(double sight);
