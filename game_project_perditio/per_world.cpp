@@ -346,6 +346,14 @@ void PERWorld::ProcessAddMessage(PERWorldMessage& message)
 	SetBaseOfAddMessage(message, newObject, vData);
 	// 칼날일 경우
 	if ( message.type == PERObjectType::BLADE ) SetForAddBladeMessage(message, newObject);
+	// 소환기로 인해 소환된 오브젝트인 경우
+	if (newObject->GetParent())
+	{
+		if (newObject->GetParent()->GetObjectType() == PERObjectType::SPAWNER )
+		{
+			SetForAddByObjectMessage(message, newObject);
+		}
+	}
 }
 
 void PERWorld::SetBaseOfAddMessage(PERWorldMessage& message, PERObject* newObject, VisualData* vData)
@@ -401,6 +409,12 @@ void PERWorld::SetForAddBladeMessage(PERWorldMessage& message, PERObject* newObj
 	// 바로 슬립되는 것을 방지하기 위해 위치를 플레이어 위치로 임시 설정
 	PERVec3 pos = BlackBoard::GetPlayerPos();
 	newObject->SetPosition(pos);
+}
+
+void PERWorld::SetForAddByObjectMessage(PERWorldMessage& message, PERObject* newObject)
+{
+	// 소환된 오브젝트의 스폰 위치를 현재 위치로 함
+	newObject->SetCurrentPositionToSpawnPosition();
 }
 
 void PERWorld::SleepObject(PERObject* object)
