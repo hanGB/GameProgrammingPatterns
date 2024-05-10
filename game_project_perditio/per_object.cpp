@@ -61,6 +61,9 @@ void PERObject::Initialize()
 	// 월드 내 정보
 	m_idInWorld = -1;
 	m_lifeTime = PER_MAXIMUM_LIFE_TIME;
+
+	// 슬립 거리 설정
+	SetSleepDistance();
 }
 
 bool PERObject::IsLifeTimeEnd(double dTime)
@@ -195,7 +198,28 @@ void PERObject::SetPosition(PERVec3 pos)
 
 void PERObject::SetSize(PERVec3 size)
 {
-	m_size = size;;
+	m_size = size;
+
+	SetSleepDistance();
+}
+
+void PERObject::SetSleepDistance()
+{
+	if (GetObjectType() == PERObjectType::BULLET)
+	{
+		m_sleepDistance = PER_BULLET_OBJECT_SLEEP_DISTANCE;
+		return;
+	}
+
+	// 크기에 따른 슬립 거리 설정
+	if ( m_size.x > PER_SMALL_OBJECT_SIZE_LIMIT || m_size.y > PER_SMALL_OBJECT_SIZE_LIMIT )
+	{
+		m_sleepDistance = PER_BIG_OBJECT_SLEEP_DISTANCE;
+	}
+	else
+	{
+		m_sleepDistance = PER_SMALL_OBJECT_SLEEP_DISTANCE;
+	}
 }
 
 void PERObject::SetVelocity(PERVec3 vel)
@@ -243,4 +267,9 @@ void PERObject::SetCollidedObject(PERObject* object, PERVec3 collidedMomentVel)
 void PERObject::SetCurrentPositionToSpawnPosition()
 {
 	m_objectState->SetSpawnPosition(m_position);
+}
+
+bool PERObject::IsHaveToSleep(const PERVec3& playerPos)
+{
+	return DistanceSquareAandBIgnoringZValue(playerPos, m_position) > m_sleepDistance;
 }

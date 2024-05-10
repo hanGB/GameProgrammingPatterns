@@ -17,6 +17,8 @@ class GraphicsComponent;
 enum class PERWorldMessageId {
 	ADD_OBJECT,
 	DELETE_OBJECT,
+	SLEEP_OBJECT,
+	WAKE_UP_OBJECT,
 	NUM_WROLD_MESSAGE_ID
 };
 
@@ -97,14 +99,22 @@ private:
 	virtual void AddOtherObjects() = 0;
 
 	void DoGarbegeCollection(double dTime);
+	void SleepAndWakeupObjects();
 	void ProcessPendingMessage();
 
-	// 메세지 처리
+	void RequestSimpleDoObject(PERObject* object, const PERWorldMessageId& message);
+
+	// Add Message  처리
 	void ProcessAddMessage(PERWorldMessage& message);
 	void SetBaseOfAddMessage(PERWorldMessage& message, PERObject* newObject, VisualData* vData);
 	void SetForAddParticleEffecterMessage(PERWorldMessage& message, PERObject* newObject, EffectData* eData);
 	void SetForAddBladeMessage(PERWorldMessage& message, PERObject* newObject);
 	void SetForAddBySpawnerMessage(PERWorldMessage& message, PERObject* newObject);
+
+	// 오브젝트 잠들게 함
+	void SleepObject(PERObject* object);
+	// 오브젝트 깨움
+	void WakeUpObject(PERObject* object);
 
 	void ResizePedingArray();
 
@@ -135,6 +145,11 @@ private:
 	// 렌더링용 z좌표로 정렬된 그래픽스 컨포넌트
 	std::vector<GraphicsComponent*> m_sortedGraphicsComponents;
 	bool m_isUpdateSortedGraphicsComponent = false;
+
+	// 슬립 오브젝트 보관
+	std::vector<PERObject*> m_sleepObjects;
+	int m_maxSleepObject = PER_DEFAULT_MAX_OBJECTS;
+	int m_numSleepObject = 0;
 
 	// 이펙트용 파티클 풀
 	PERParticlePool* m_particlePool;

@@ -67,11 +67,16 @@ public:
 	// 현재 위치를 스폰 위치로 설정
 	void SetCurrentPositionToSpawnPosition();
 
+	// 잠들어야 할 
+	bool IsHaveToSleep(const PERVec3& playerPos);
+
 	static const int c_MAXIMUM_XY_VELOCITY = 3;
 
 private:
 	PERObject(ObjectFactory& factory, ObjectState* m_objectState,
 		InputComponent* input, AiComponent* ai, PhysicsComponent* physics, GraphicsComponent* graphics);
+
+	void SetSleepDistance();
 
 	// 팩토리
 	ObjectFactory& m_factory;
@@ -105,4 +110,7 @@ private:
 	// 월드 내 정보
 	int m_idInWorld = -1;
 	double m_lifeTime = PER_MAXIMUM_LIFE_TIME;
+
+	// 잠드는 거리
+	double m_sleepDistance = PER_SMALL_OBJECT_SLEEP_DISTANCE;
 };

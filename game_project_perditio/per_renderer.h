@@ -54,7 +54,7 @@ private:
 	double MatchSizeWithScreenCoordinate(double size);
 
 	PERVec2 m_cameraPosition = PERVec2(0.0, 0.0);
-	double m_cameraSightWidth = 20.0;
+	double m_cameraSightWidth = PER_DEFAULT_CAMERA_SIGHT_WIDTH;
 
 	// 윈도우 크기
 	RECT m_windowSizeRect;

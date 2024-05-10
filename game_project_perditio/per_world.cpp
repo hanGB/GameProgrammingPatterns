@@ -30,6 +30,7 @@ PERWorld::~PERWorld()
 void PERWorld::Update(PERAudio& audio, double dTime)
 {
 	DoGarbegeCollection(dTime);
+	SleepAndWakeupObjects();
 
 	ProcessPendingMessage();
 
@@ -131,11 +132,7 @@ void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, const cha
 
 void PERWorld::RequestDeleteObject(PERObject* object)
 {
-	if (m_maxPending == m_numPending) ResizePedingArray();
-
-	m_pending[m_numPending].id = PERWorldMessageId::DELETE_OBJECT;
-	m_pending[m_numPending].object = object;
-	m_numPending++;
+	RequestSimpleDoObject(object, PERWorldMessageId::DELETE_OBJECT);
 }
 
 bool PERWorld::CheckCollision(PERObject& object, double dTime)
@@ -203,7 +200,7 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 					isOnPlatform = true;  
 					continue;
 				}
-				// 충돌榮鳴 설정
+				// 충돌로 설정
 				collided = true;
 
 				// 물리적 처리 항목
@@ -256,22 +253,58 @@ void PERWorld::DoGarbegeCollection(double dTime)
 	}
 }
 
+void PERWorld::SleepAndWakeupObjects()
+{
+	PERVec3 playerPos = BlackBoard::GetPlayerPos();
+
+	// sleep
+	for (int i = 0; i < m_numObject; ++i) {
+		if (m_objects[i]->IsHaveToSleep(playerPos)) {
+			RequestSimpleDoObject(m_objects[i], PERWorldMessageId::SLEEP_OBJECT);
+		}
+	}
+	// wake up
+	for (int i = 0; i < m_numSleepObject; ++i) {
+		if (!m_sleepObjects[i]->IsHaveToSleep(playerPos)) {
+			RequestSimpleDoObject(m_sleepObjects[i], PERWorldMessageId::WAKE_UP_OBJECT);
+		}
+	}
+}
+
 void PERWorld::ProcessPendingMessage()
 {
-	for (int i = 0; i < m_numPending; ++i) {
-		PERWorldMessage message = m_pending[i];
+	for ( int i = 0; i < m_numPending; ++i ) {
+		PERWorldMessage message = m_pending[ i ];
 
-		switch (message.id) {
+		switch ( message.id ) {
 		case PERWorldMessageId::ADD_OBJECT: {
 			ProcessAddMessage(message);
 			break;
 		}
-		case PERWorldMessageId::DELETE_OBJECT: 
+		case PERWorldMessageId::DELETE_OBJECT: {
 			DeleteObject(message.object);
 			break;
 		}
+		case PERWorldMessageId::SLEEP_OBJECT: {
+			SleepObject(message.object);
+			break;
+		}
+		case PERWorldMessageId::WAKE_UP_OBJECT: {
+			WakeUpObject(message.object);
+			break;
+		}
+		}
 	}
 	m_numPending = 0;
+}
+
+void PERWorld::RequestSimpleDoObject(PERObject* object, const PERWorldMessageId& message)
+{
+	if ( m_maxPending == m_numPending ) ResizePedingArray();
+
+	m_pending[ m_numPending ].id = message;
+	m_pending[ m_numPending ].object = object;
+	m_numPending++;
 }
 
 void PERWorld::ProcessAddMessage(PERWorldMessage& message)
@@ -350,6 +383,10 @@ void PERWorld::SetForAddBladeMessage(PERWorldMessage& message, PERObject* newObj
 	PERComponent::PhysicsData pData;
 	pData.stuckPosition = message.position;
 	newObject->GetPhysics().SetData(pData);
+
+	// 바로 슬립되는 것을 방지하기 위해 위치를 플레이어 위치로 임시 설정
+	PERVec3 pos = BlackBoard::GetPlayerPos();
+	newObject->SetPosition(pos);
 }
 
 void PERWorld::SetForAddBySpawnerMessage(PERWorldMessage& message, PERObject* newObject)
@@ -357,6 +394,46 @@ void PERWorld::SetForAddBySpawnerMessage(PERWorldMessage& message, PERObject* ne
 	// 스포너의 ai 컨포넌트에 추가된 오브젝트 연동 및 스폰된 위치 설정
 	dynamic_cast< SpawnerAiComponent* >( &message.object->GetAi() )->SetSpawnedObject(newObject);
 	newObject->SetCurrentPositionToSpawnPosition();
+}
+
+void PERWorld::SleepObject(PERObject* object)
+{
+	// 오브젝트 제거
+	m_numObject--;
+	int id = object->GetIDInWorld();
+	// 맨 뒤 컨포넌트 이동
+	m_inputComponents[id] = m_inputComponents[m_numObject];
+	m_aiComponents[id] = m_aiComponents[m_numObject];
+	m_physicsComponents[id] = m_physicsComponents[m_numObject];
+	m_graphicsComponents[id] = m_graphicsComponents[m_numObject];
+	// 맨 뒤 오브젝트 이동 및 아이디 변경
+	m_objects[id] = m_objects[m_numObject];
+	m_objects[id]->SetIDInWorld(id);
+
+	m_isUpdateSortedGraphicsComponent = false;
+
+	// 슬립 오브젝트 벡터에 추가
+	if (m_sleepObjects.size() == m_numSleepObject) {
+		m_maxSleepObject *= 2;
+		m_sleepObjects.reserve(m_maxSleepObject);
+		m_sleepObjects.resize(m_maxSleepObject);
+	}
+	m_sleepObjects[m_numSleepObject] = object;
+	object->SetIDInWorld(m_numSleepObject);
+	m_numSleepObject++;
+}
+
+void PERWorld::WakeUpObject(PERObject* object)
+{
+	// 슬립 오브젝트 벡터에서 제거
+	m_numSleepObject--;
+	int id = object->GetIDInWorld();
+	// 맨 뒤 오브젝트 이동 및 아이디 변경
+	m_sleepObjects[id] = m_sleepObjects[m_numSleepObject];
+	m_sleepObjects[id]->SetIDInWorld(id);
+
+	// 오브젝트 추가
+	AddObject(object);
 }
 
 void PERWorld::AddObject(PERObject* object)

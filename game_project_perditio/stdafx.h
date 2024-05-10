@@ -69,6 +69,7 @@
 
 // 화면 설정
 #define PER_PIXEL_PER_METER 100
+#define PER_DEFAULT_CAMERA_SIGHT_WIDTH 20.0
 // 컨트롤러 설정
 #define PER_KEYBOARD_LONG_PRESS_TIME 0.5
 
@@ -96,6 +97,12 @@
 
 // 이벤트
 #define PER_DEFAULT_MAX_EVENT_PENDING  512
+
+// 크기별 슬립 거리(업데이트 및 렌더링을 하지 않는 거리) 설정
+#define PER_SMALL_OBJECT_SLEEP_DISTANCE 300
+#define PER_BIG_OBJECT_SLEEP_DISTANCE 500
+#define PER_BULLET_OBJECT_SLEEP_DISTANCE 100'000'000
+#define PER_SMALL_OBJECT_SIZE_LIMIT 5.0
 
 // 네비게이션 데이터
 #define PER_NON_CELL			0
