@@ -7,6 +7,9 @@
 
 void SpawnerAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
+    // 스폰 오브젝트 수가 0이 되면 더이상 스폰 금지
+    if (m_numSpawnObject < 0) return;
+
     m_SpawnFuc(*this, world, dTime);
 }
 
@@ -20,15 +23,19 @@ void SpawnerAiComponent::Initialize(PERComponent::AiData data)
     m_time = 0.0;
     m_distance2 = 4.0;
     m_lifeTime = PER_MAXIMUM_LIFE_TIME;
-    m_spawnedObject = nullptr;
-    m_isSettingSpawnedObject = true;
+    m_numSpawnObject = PER_DEFAULT_MAX_OBJECTS;
+    m_isSpawnedObjectDead = true;
     SetData(data);
 }
 
-void SpawnerAiComponent::SetSpawner(std::string objectId, PERObjectType type, PERSpawnType spawnType, double timeGap, double distance, double lifeTime)
+void SpawnerAiComponent::SetSpawner(
+std::string objectId, PERObjectType type, PERSpawnType spawnType, int numSpawnObject, 
+double timeGap, double distance, double lifeTime
+)
 {
     m_objectId = objectId;
     m_type = type;
+    m_numSpawnObject = numSpawnObject;
     m_timeGap = timeGap;
     m_distance2 = distance * distance;
     m_lifeTime = lifeTime;
@@ -47,10 +54,10 @@ void SpawnerAiComponent::SetSpawner(std::string objectId, PERObjectType type, PE
     }
 }
 
-void SpawnerAiComponent::SetSpawnedObject(PERObject* spawnedObject)
+void SpawnerAiComponent::InformSpawnedObjectIsDead()
 {
-    m_spawnedObject = spawnedObject;
-    m_isSettingSpawnedObject = true;
+    PERLog::Logger().Info("소환한 오브젝트가 죽음");
+    m_isSpawnedObjectDead = true;
 }
 
 void SpawnerAiComponent::SpawnWithTimer(PERWorld& world, double dTime)
@@ -60,25 +67,18 @@ void SpawnerAiComponent::SpawnWithTimer(PERWorld& world, double dTime)
     if (m_time < m_timeGap) return;
 
     m_time = 0.0;
+    m_numSpawnObject--;
 
 	RequsetSpawnObjcet(world);
 }
 
 void SpawnerAiComponent::SpawnWithLiving(PERWorld& world, double dTime)
 {
-    if (!m_isSettingSpawnedObject) return;
+    if (!m_isSpawnedObjectDead) return;
 
-    if (!m_spawnedObject) 
-    {
-        m_isSettingSpawnedObject = false;
-       RequsetSpawnObjcet(world);
-    }
-
-    if (m_spawnedObject && m_spawnedObject->GetLifeTime() <= 0.0) 
-    {
-        m_isSettingSpawnedObject = false;
-        RequsetSpawnObjcet(world);
-    }
+    m_isSpawnedObjectDead = false;
+    m_numSpawnObject--;
+    RequsetSpawnObjcet(world);
 }
 
 void SpawnerAiComponent::SpawnWithDistance(PERWorld& world, double dTime)
@@ -86,13 +86,12 @@ void SpawnerAiComponent::SpawnWithDistance(PERWorld& world, double dTime)
     PERVec3 playerPos = BlackBoard::GetPlayerPos();
     PERVec3 pos = GetOwner()->GetPosition();
 
-    if (!m_isSettingSpawnedObject) return;
-
-    if (m_spawnedObject) return;
+    if (!m_isSpawnedObjectDead) return;
 
     if (m_distance2 > DistanceSquareAandB(playerPos, pos))
     {
-        m_isSettingSpawnedObject = false;
+        m_isSpawnedObjectDead = false;
+        m_numSpawnObject--;
         RequsetSpawnObjcet(world);
     }
 }

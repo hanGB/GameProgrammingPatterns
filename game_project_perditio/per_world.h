@@ -99,6 +99,7 @@ private:
 	virtual void AddOtherObjects() = 0;
 
 	void DoGarbegeCollection(double dTime);
+	void InformObjectDeadToSpawner(PERObject* object);
 	void SleepAndWakeupObjects();
 	void ProcessPendingMessage();
 
@@ -109,7 +110,6 @@ private:
 	void SetBaseOfAddMessage(PERWorldMessage& message, PERObject* newObject, VisualData* vData);
 	void SetForAddParticleEffecterMessage(PERWorldMessage& message, PERObject* newObject, EffectData* eData);
 	void SetForAddBladeMessage(PERWorldMessage& message, PERObject* newObject);
-	void SetForAddBySpawnerMessage(PERWorldMessage& message, PERObject* newObject);
 
 	// 오브젝트 잠들게 함
 	void SleepObject(PERObject* object);

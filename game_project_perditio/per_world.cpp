@@ -187,6 +187,7 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		if (otherType == PERObjectType::DOOR) otherType = PERObjectType::FIXED_BLOCK;
 		else if (otherType == PERObjectType::BUTTON) continue;
 		else if (otherType == PERObjectType::PARTICLE_EFFECTER) continue;
+		else if (otherType == PERObjectType::SPAWNER) continue;
 
 		// 충돌 처리 무시 항목
 		if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::MOVABLE_BLOCK) continue;
@@ -247,8 +248,23 @@ PERParticlePool& PERWorld::GetParticlePool()
 void PERWorld::DoGarbegeCollection(double dTime)
 {
 	for (int i = 0; i < m_numObject; ++i) {
-		if (m_objects[i]->IsLifeTimeEnd(dTime)) {
+		if (m_objects[i]->IsLifeTimeEnd(dTime)) 
+		{
+			InformObjectDeadToSpawner(m_objects[i]);
 			RequestDeleteObject(m_objects[i]);
+		}
+	}
+}
+
+void PERWorld::InformObjectDeadToSpawner(PERObject* object)
+{
+	PERObject* parent = object->GetParent();
+	// 부모가 있을 경우
+	if (parent)
+	{	// 부모가 스포너인 경우 스포너에게 알림
+		if ( parent->GetObjectType() == PERObjectType::SPAWNER)
+		{
+			dynamic_cast<SpawnerAiComponent*>(&parent->GetAi())->InformSpawnedObjectIsDead();
 		}
 	}
 }
@@ -330,8 +346,6 @@ void PERWorld::ProcessAddMessage(PERWorldMessage& message)
 	SetBaseOfAddMessage(message, newObject, vData);
 	// 칼날일 경우
 	if ( message.type == PERObjectType::BLADE ) SetForAddBladeMessage(message, newObject);
-	// 스포너가 소환 요청한 오브젝트인 경우
-	if ( message.object->GetObjectType() == PERObjectType::SPAWNER ) SetForAddBySpawnerMessage(message, newObject);
 }
 
 void PERWorld::SetBaseOfAddMessage(PERWorldMessage& message, PERObject* newObject, VisualData* vData)
@@ -387,13 +401,6 @@ void PERWorld::SetForAddBladeMessage(PERWorldMessage& message, PERObject* newObj
 	// 바로 슬립되는 것을 방지하기 위해 위치를 플레이어 위치로 임시 설정
 	PERVec3 pos = BlackBoard::GetPlayerPos();
 	newObject->SetPosition(pos);
-}
-
-void PERWorld::SetForAddBySpawnerMessage(PERWorldMessage& message, PERObject* newObject)
-{
-	// 스포너의 ai 컨포넌트에 추가된 오브젝트 연동 및 스폰된 위치 설정
-	dynamic_cast< SpawnerAiComponent* >( &message.object->GetAi() )->SetSpawnedObject(newObject);
-	newObject->SetCurrentPositionToSpawnPosition();
 }
 
 void PERWorld::SleepObject(PERObject* object)

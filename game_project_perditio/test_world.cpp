@@ -118,7 +118,9 @@ void TestWorld::AddOtherObjects()
 			PERObject* monsterSpanwer;
 			monsterSpanwer = m_objectStorage->PopObject(PERObjectType::SPAWNER);
 			monsterSpanwer->SetPosition(PERVec3(x, y, 0.1));
-			dynamic_cast<SpawnerAiComponent*>(&monsterSpanwer->GetAi())->SetSpawner("MONSTER_KOPPER", PERObjectType::MONSTER, PERSpawnType::LIVE);
+			dynamic_cast<SpawnerAiComponent*>(&monsterSpanwer->GetAi())->SetSpawner(
+			"MONSTER_KOPPER", PERObjectType::MONSTER, PERSpawnType::LIVE
+			);
 			AddObject(monsterSpanwer);
 		}
 	}

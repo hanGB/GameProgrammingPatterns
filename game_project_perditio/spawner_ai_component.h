@@ -14,10 +14,10 @@ public:
 	virtual void SetData(PERComponent::AiData data);
 	virtual void Initialize(PERComponent::AiData data);
 
-	void SetSpawner(std::string objectId, PERObjectType type, PERSpawnType spawnType, 
+	void SetSpawner(std::string objectId, PERObjectType type, PERSpawnType spawnType, int numSpawnObject = PER_DEFAULT_MAX_OBJECTS,
 		double timeGap = 0.0, double distance = 0.0, double lifeTime = PER_MAXIMUM_LIFE_TIME);
 
-	void SetSpawnedObject(PERObject* spawnedObject);
+	void InformSpawnedObjectIsDead();
 
 private:
 	void SpawnWithTimer(PERWorld& world, double dTime);
@@ -29,6 +29,8 @@ private:
 	// 오브젝트 설정
 	std::string m_objectId;
 	PERObjectType m_type;
+	// 스폰할 오브젝트 수
+	int m_numSpawnObject = PER_DEFAULT_MAX_OBJECTS;
 
 	// 스폰 간격
 	double m_timeGap = 5.0;
@@ -42,8 +44,7 @@ private:
 	double m_lifeTime = PER_MAXIMUM_LIFE_TIME;
 
 	// 스폰된 오브젝트
-	PERObject* m_spawnedObject = nullptr;
-	bool m_isSettingSpawnedObject = true;
+	bool m_isSpawnedObjectDead = true;
 
 	std::function<void(SpawnerAiComponent&, PERWorld&, double)> m_SpawnFuc;
 };
