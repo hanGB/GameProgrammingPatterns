@@ -10,6 +10,8 @@ short CreatingParticlesAiComponent::m_powerAbsorptionSpawnOrder[9]
 void CreatingParticlesAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
 	m_CreateParticles(*this, world, audio, dTime);
+
+	AiComponent::Update(world, audio, dTime);
 }
 
 void CreatingParticlesAiComponent::SetData(PERComponent::AiData data)
@@ -23,12 +25,12 @@ void CreatingParticlesAiComponent::SetData(PERComponent::AiData data)
 		m_CreateParticles = &CreatingParticlesAiComponent::CreateParticlesForPowerAbsorptionEffect;
 		break;
 	}
+
+	AiComponent::SetData(data);
 }
 
-void CreatingParticlesAiComponent::Initialize(PERComponent::AiData data)
+void CreatingParticlesAiComponent::Initialize()
 {
-	SetData(data);
-
 	m_particleShapeType = PERShapeType::RECTANGLE;
 	m_particleSize = PERVec3(0.25, 0.25, 0.25);
 	m_particleAmount = 36;
@@ -43,6 +45,8 @@ void CreatingParticlesAiComponent::Initialize(PERComponent::AiData data)
 	m_isCollectedByPlayer = false;
 	m_time = m_particleDelay;
 	m_order = 0;
+
+	AiComponent::Initialize();
 }
 
 void CreatingParticlesAiComponent::SetParticle(PERShapeType type, PERVec3 size, int amount, 

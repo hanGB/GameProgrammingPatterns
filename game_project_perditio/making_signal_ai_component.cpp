@@ -9,21 +9,26 @@ void MakingSignalAiComponent::Update(PERWorld& world, PERAudio& audio, double dT
 	if (m_isDisposable && m_isOn) return;
 
 	MakeSignal(audio, dTime);
+
+	AiComponent::Update(world, audio, dTime);
 }
 
 void MakingSignalAiComponent::SetData(PERComponent::AiData data)
 {
 	m_isSwitch = data.isSwitch;
 	m_isDisposable = data.isDisposable;
+
+	AiComponent::SetData(data);
 }
 
-void MakingSignalAiComponent::Initialize(PERComponent::AiData data)
+void MakingSignalAiComponent::Initialize()
 {
 	m_isGetInput = false;
 	m_isSwitch = false;
 	m_isOn = false;
 	m_isDisposable = false;
-	SetData(data);
+
+	AiComponent::Initialize();
 }
 
 void MakingSignalAiComponent::SetIsGetInput(bool input)

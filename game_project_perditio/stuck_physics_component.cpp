@@ -17,24 +17,29 @@ void StuckPhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dTim
 		GetOwner()->SetPosition(parentPos + m_stuckPosition);
 		world.CheckCollision(*GetOwner(), dTime);
 	}
+
+	PhysicsComponent::Update(world, audio, dTime);
 }
 
 void StuckPhysicsComponent::SetData(PERComponent::PhysicsData data)
 {
 	m_stuckPosition = data.stuckPosition;
+	PhysicsComponent::SetData(data);
 }
 
-void StuckPhysicsComponent::Initialize(PERComponent::PhysicsData data)
+void StuckPhysicsComponent::Initialize()
 {
-	SetData(data);
+	PhysicsComponent::Initialize();
 }
 
 void StuckPhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
 {
+	PhysicsComponent::ProcessCollision(collidedObject, collisionVelocity, changedVelocity, collisionTime);
 }
 
 void StuckPhysicsComponent::GiveForce(PERWorld& world, PERVec3 force, double dTime)
 {
+	PhysicsComponent::GiveForce(world, force, dTime);
 }
 
 PERVec3 StuckPhysicsComponent::GetStuckPosition() const

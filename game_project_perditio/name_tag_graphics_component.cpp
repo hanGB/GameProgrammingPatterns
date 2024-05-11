@@ -1,39 +1,44 @@
 #include "stdafx.h"
-#include "visible_with_information_graphics_componenet.h"
+#include "name_tag_graphics_component.h"
 #include "black_board.h"
 #include "per_hud.h"
 #include "per_object.h"
 
-void VisibleWithInformationGraphicsComponent::Update(PERHud& hud, PERAudio& audio, double dTime)
+void NameTagGraphicsComponent::Update(PERHud& hud, PERAudio& audio, double dTime)
 {
-	VisibleGraphicsComponent::Update(hud, audio, dTime);
+	m_position = GetOwner()->GetPosition();
+
 	UpdateNameTag(hud);
+
+	GraphicsComponent::Update(hud, audio, dTime);
 }
 
-void VisibleWithInformationGraphicsComponent::Render(PERRenderer& renderer, double frameGap)
+void NameTagGraphicsComponent::Render(PERRenderer& renderer, double frameGap)
 {
-	VisibleGraphicsComponent::Render(renderer, frameGap);
+	GraphicsComponent::Render(renderer, frameGap);
 }
 
-void VisibleWithInformationGraphicsComponent::SetData(PERComponent::GraphicsData data)
+void NameTagGraphicsComponent::SetData(PERComponent::GraphicsData data)
 {
-	VisibleGraphicsComponent::SetData(data);
+	GraphicsComponent::SetData(data);
 }
 
-void VisibleWithInformationGraphicsComponent::Initialize(PERComponent::GraphicsData data)
+void NameTagGraphicsComponent::Initialize()
 {
 	m_isShowingNameTag = false;
 	m_nameTag = nullptr;
-	SetData(data);
+
+	GraphicsComponent::Initialize();
 }
 
-void VisibleWithInformationGraphicsComponent::RemoveFloatingUi()
+void NameTagGraphicsComponent::RemoveFloatingUi()
 {
-	VisibleGraphicsComponent::RemoveFloatingUi();
-	if (m_nameTag)m_nameTag->SetLifeTime(-1.0);
+	if (m_nameTag) m_nameTag->SetLifeTime(-1.0);
+
+	GraphicsComponent::RemoveFloatingUi();
 }
 
-void VisibleWithInformationGraphicsComponent::UpdateNameTag(PERHud& hud)
+void NameTagGraphicsComponent::UpdateNameTag(PERHud& hud)
 {
 	if (!m_isShowingNameTag)
 	{
@@ -66,7 +71,7 @@ void VisibleWithInformationGraphicsComponent::UpdateNameTag(PERHud& hud)
 	}
 }
 
-bool VisibleWithInformationGraphicsComponent::ShowNameTag(PERHud& hud)
+bool NameTagGraphicsComponent::ShowNameTag(PERHud& hud)
 {
 	m_nameTag = dynamic_cast<NameTag*>(hud.GetNewUiElementInWorld(PERUiElementType::NAME_TAG));
 	if (!m_nameTag) return false;
@@ -76,14 +81,14 @@ bool VisibleWithInformationGraphicsComponent::ShowNameTag(PERHud& hud)
 	return true;
 }
 
-void VisibleWithInformationGraphicsComponent::MatchNameTagWithData()
+void NameTagGraphicsComponent::MatchNameTagWithData()
 {
 	PERVec2 pos = PERVec2(m_position.x - 0.2, m_position.y + 0.2);
 	PERVec2 textPos = PERVec2(m_position.x - 0.2, m_position.y + 0.25);
 	m_nameTag->MatchWithData(pos, textPos);
 }
 
-void VisibleWithInformationGraphicsComponent::HideNameTag()
+void NameTagGraphicsComponent::HideNameTag()
 {
 	m_nameTag->SetLifeTime(-1.0);
 	m_nameTag = nullptr;

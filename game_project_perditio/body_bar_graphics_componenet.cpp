@@ -1,39 +1,45 @@
 #include "stdafx.h"
-#include "monster_graphics_componenet.h"
+#include "body_bar_graphics_componenet.h"
 #include "black_board.h"
 #include "per_hud.h"
 #include "per_object.h"
 
-void MonsterGraphicsComponent::Update(PERHud& hud, PERAudio& audio, double dTime)
+void BodyBarGraphicsComponent::Update(PERHud& hud, PERAudio& audio, double dTime)
 {
-	VisibleWithInformationGraphicsComponent::Update(hud, audio, dTime);
+	m_position = GetOwner()->GetPosition();
+	m_size = GetOwner()->GetSize();
+
 	UpdateBodyBar(hud);
+
+	GraphicsComponent::Update(hud, audio, dTime);
 }
 
-void MonsterGraphicsComponent::Render(PERRenderer& renderer, double frameGap)
+void BodyBarGraphicsComponent::Render(PERRenderer& renderer, double frameGap)
 {
-	VisibleWithInformationGraphicsComponent::Render(renderer, frameGap);
+	GraphicsComponent::Render(renderer, frameGap);
 }
 
-void MonsterGraphicsComponent::SetData(PERComponent::GraphicsData data)
+void BodyBarGraphicsComponent::SetData(PERComponent::GraphicsData data)
 {
-	VisibleWithInformationGraphicsComponent::SetData(data);
+	GraphicsComponent::SetData(data);
 }
 
-void MonsterGraphicsComponent::Initialize(PERComponent::GraphicsData data)
+void BodyBarGraphicsComponent::Initialize()
 {
 	m_isShowingBodyBar = false;
 	m_bodyBar = nullptr;
-	SetData(data);
+
+	GraphicsComponent::Initialize();
 }
 
-void MonsterGraphicsComponent::RemoveFloatingUi()
+void BodyBarGraphicsComponent::RemoveFloatingUi()
 {
-	VisibleWithInformationGraphicsComponent::RemoveFloatingUi();
 	if (m_bodyBar)m_bodyBar->SetLifeTime(-1.0);
+
+	GraphicsComponent::RemoveFloatingUi();
 }
 
-void MonsterGraphicsComponent::UpdateBodyBar(PERHud& hud)
+void BodyBarGraphicsComponent::UpdateBodyBar(PERHud& hud)
 {
 	PERVec3 playerPos = BlackBoard::GetPlayerPos();
 
@@ -58,7 +64,7 @@ void MonsterGraphicsComponent::UpdateBodyBar(PERHud& hud)
 	}
 }
 
-bool MonsterGraphicsComponent::ShowBodyBar(PERHud& hud)
+bool BodyBarGraphicsComponent::ShowBodyBar(PERHud& hud)
 {
 	m_bodyBar = dynamic_cast<ProgressBar*>(hud.GetNewUiElementInWorld(PERUiElementType::PROGRESS_BAR));
 	if (!m_bodyBar) return false;
@@ -67,13 +73,13 @@ bool MonsterGraphicsComponent::ShowBodyBar(PERHud& hud)
 	return true;
 }
 
-void MonsterGraphicsComponent::MatchBodyBarWithData()
+void BodyBarGraphicsComponent::MatchBodyBarWithData()
 {
 	PERVec2 pos = PERVec2(m_position.x, m_position.y + m_size.y * 1.5);
 	m_bodyBar->MatchWithData(pos, GetOwner()->GetObjectState().GetStat().body, GetOwner()->GetObjectState().GetCurrentBody());
 }
 
-void MonsterGraphicsComponent::HideBodyBar()
+void BodyBarGraphicsComponent::HideBodyBar()
 {
 	m_bodyBar->SetLifeTime(-1.0);
 	m_bodyBar = nullptr;

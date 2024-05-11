@@ -1,15 +1,18 @@
 #pragma once
-#include "visible_graphics_component.h"
+#include "graphics_component.h"
 #include "name_tag.h"
 
-class VisibleWithInformationGraphicsComponent : public VisibleGraphicsComponent {
+class NameTagGraphicsComponent : public GraphicsComponent {
 public:
 	virtual void Update(PERHud& hud, PERAudio& audio, double dTime);
 	virtual void Render(PERRenderer& renderer, double frameGap);
 	virtual void SetData(PERComponent::GraphicsData data);
-	virtual void Initialize(PERComponent::GraphicsData data);
+	virtual void Initialize();
 
 	virtual void RemoveFloatingUi();
+
+protected:
+	PERVec3 m_position;
 
 private:
 	const double c_SHOWING_NAME_TAG_DISTANCE_2 = 10.0 * 10.0;
@@ -22,4 +25,5 @@ private:
 
 	bool m_isShowingNameTag = false;
 	NameTag* m_nameTag = nullptr;
+
 };

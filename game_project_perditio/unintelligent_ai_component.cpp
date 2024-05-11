@@ -8,13 +8,16 @@ void UnintelligentAiComponent::Update(PERWorld& world, PERAudio& audio, double d
 	GetOwner()->GetObjectState().UseIgnoreDamageTime(dTime);
 	// 시간 당 회복
 	GetOwner()->GetObjectState().RecoverPerTime(dTime);
+
+	AiComponent::Update(world, audio, dTime);
 }
 
 void UnintelligentAiComponent::SetData(PERComponent::AiData data)
 {
+	AiComponent::SetData(data);
 }
 
-void UnintelligentAiComponent::Initialize(PERComponent::AiData data)
+void UnintelligentAiComponent::Initialize()
 {
-	SetData(data);
+	AiComponent::Initialize();
 }

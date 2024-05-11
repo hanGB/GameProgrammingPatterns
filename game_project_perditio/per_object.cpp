@@ -30,10 +30,14 @@ PERObject::~PERObject()
 void PERObject::Initialize()
 {
 	// 컨포넌트 초기화
-	m_input->Initialize(m_factory.GetInputData());
-	m_ai->Initialize(m_factory.GetAiData());
-	m_physics->Initialize(m_factory.GetPhysicsData());
-	m_graphics->Initialize(m_factory.GetGraphicsData());
+	m_input->Initialize();
+	m_input->SetData(m_factory.GetInputData());
+	m_ai->Initialize();
+	m_ai->SetData(m_factory.GetAiData());
+	m_physics->Initialize();
+	m_physics->SetData(m_factory.GetPhysicsData());
+	m_graphics->Initialize();
+	m_graphics->SetData(m_factory.GetGraphicsData());
 
 	// 오브젝트 스테이트 초기화
 	m_factory.InitializeObjectState(m_objectState);

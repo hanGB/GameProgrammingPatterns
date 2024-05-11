@@ -1,39 +1,47 @@
 #include "stdafx.h"
-#include "button_graphics_component.h"
+#include "key_input_helper_graphics_component.h"
 #include "black_board.h"
 #include "key_input_helper.h"
 #include "per_hud.h"
 #include "key_setting.h"
+#include "per_object.h"
 
-void ButtonGraphicsComponent::Update(PERHud& hud, PERAudio& audio, double dTime)
+void KeyInputHelperGraphicsComponent::Update(PERHud& hud, PERAudio& audio, double dTime)
 {
-	VisibleWithInformationGraphicsComponent::Update(hud, audio, dTime);
+	m_position = GetOwner()->GetPosition();
+	m_size = GetOwner()->GetSize();
+
 	UpdateHelper(hud);
+
+	GraphicsComponent::Update(hud, audio, dTime);
 }
 
-void ButtonGraphicsComponent::Render(PERRenderer& renderer, double frameGap)
+void KeyInputHelperGraphicsComponent::Render(PERRenderer& renderer, double frameGap)
 {
-	VisibleWithInformationGraphicsComponent::Render(renderer, frameGap);
+	GraphicsComponent::Render(renderer, frameGap);
 }
 
-void ButtonGraphicsComponent::SetData(PERComponent::GraphicsData data)
+void KeyInputHelperGraphicsComponent::SetData(PERComponent::GraphicsData data)
 {
-	VisibleWithInformationGraphicsComponent::SetData(data);
+	GraphicsComponent::SetData(data);
 }
 
-void ButtonGraphicsComponent::Initialize(PERComponent::GraphicsData data)
+void KeyInputHelperGraphicsComponent::Initialize()
 {
 	m_isShowingHelper = false;
 	m_Helper = nullptr;
-	SetData(data);
+
+	GraphicsComponent::Initialize();
 }
 
-void ButtonGraphicsComponent::RemoveFloatingUi()
+void KeyInputHelperGraphicsComponent::RemoveFloatingUi()
 {
 	if (m_Helper) m_Helper->SetLifeTime(-1.0);
+
+	GraphicsComponent::RemoveFloatingUi();
 }
 
-void ButtonGraphicsComponent::UpdateHelper(PERHud& hud)
+void KeyInputHelperGraphicsComponent::UpdateHelper(PERHud& hud)
 {
 	PERVec3 playerPos = BlackBoard::GetPlayerPos();
 
@@ -58,7 +66,7 @@ void ButtonGraphicsComponent::UpdateHelper(PERHud& hud)
 	}
 }
 
-bool ButtonGraphicsComponent::ShowHelper(PERHud& hud)
+bool KeyInputHelperGraphicsComponent::ShowHelper(PERHud& hud)
 {
 	m_Helper = dynamic_cast<KeyInputHelper*>(hud.GetNewUiElementInWorld(PERUiElementType::KEY_INPUT_HELPER));
 	if (!m_Helper) return false;
@@ -68,14 +76,13 @@ bool ButtonGraphicsComponent::ShowHelper(PERHud& hud)
 	return true;
 }
 
-void ButtonGraphicsComponent::MatchHelperWithData()
+void KeyInputHelperGraphicsComponent::MatchHelperWithData()
 {
-	// button은 고정되어 있기 때문에 위치를 변경할 필요 없음
-	// PERVec2 pos = PERVec2(m_position.x, m_position.y + m_size.y * 1.5);
-	// m_Helper->MatchWithData(pos);
+	PERVec2 pos = PERVec2(m_position.x, m_position.y + m_size.y * 1.5);
+	m_Helper->MatchWithData(pos);
 }
 
-void ButtonGraphicsComponent::HideHelper()
+void KeyInputHelperGraphicsComponent::HideHelper()
 {
 	m_Helper->SetLifeTime(-1.0);
 	m_Helper = nullptr;

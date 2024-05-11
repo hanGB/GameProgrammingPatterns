@@ -9,7 +9,9 @@ void VisibleGraphicsComponent::Update(PERHud& hud, PERAudio& audio, double dTime
 	m_size = GetOwner()->GetSize();
 	m_currentVelocity = GetOwner()->GetVelocity();
 	
-	SetZValue(m_position.z);
+	SetPositionZValue(m_position.z);
+
+	GraphicsComponent::Update(hud, audio, dTime);
 }
 
 void VisibleGraphicsComponent::Render(PERRenderer& renderer, double frameGap)
@@ -18,6 +20,8 @@ void VisibleGraphicsComponent::Render(PERRenderer& renderer, double frameGap)
 	PERVec3 gap = m_currentVelocity * frameGap * ((double)PER_MICROSEC_PER_UPDATE / 1'000'000.0);
 	renderPos = PERVec3(renderPos.x + gap.x, renderPos.y + gap.y, renderPos.z + gap.z);
 	renderer.RenderShapeInWorldCoordinate(m_shapeType, renderPos, m_size, m_color, m_border, m_borderWidth, m_borderColor);
+
+	GraphicsComponent::Render(renderer, frameGap);
 }
 
 void VisibleGraphicsComponent::SetData(PERComponent::GraphicsData data)
@@ -28,13 +32,16 @@ void VisibleGraphicsComponent::SetData(PERComponent::GraphicsData data)
 	m_border = data.border;
 	m_borderWidth = data.borderWidth;
 	m_borderColor = data.borderColor;
+
+	GraphicsComponent::SetData(data);
 }
 
-void VisibleGraphicsComponent::Initialize(PERComponent::GraphicsData data)
+void VisibleGraphicsComponent::Initialize()
 {
-	SetData(data);
+	GraphicsComponent::Initialize();
 }
 
 void VisibleGraphicsComponent::RemoveFloatingUi()
 {
+	GraphicsComponent::RemoveFloatingUi();
 }

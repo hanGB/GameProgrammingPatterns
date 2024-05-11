@@ -4,13 +4,12 @@
 
 class ObjectFactory {
 public:
-	ObjectFactory();
 	ObjectFactory(PERObjectType objectType, PERObjectStateType objectStateType,
-		PERComponentType input, PERComponentType ai, 
-		PERComponentType physics, PERComponentType graphics);
+		std::vector<PERComponentType>& input, std::vector<PERComponentType>& ai,
+		std::vector<PERComponentType>& physics, std::vector<PERComponentType>& graphics);
 	ObjectFactory(PERObjectType objectType, PERObjectStateType objectStateType,
-		PERComponentType input, PERComponentType ai,
-		PERComponentType physics, PERComponentType graphics, 
+		std::vector<PERComponentType>& input, std::vector<PERComponentType>& ai,
+		std::vector<PERComponentType>& physics, std::vector<PERComponentType>& graphics,
 		PERComponent::InputData& inputData, PERComponent::AiData& aiData, 
 		PERComponent::PhysicsData& physicsData, PERComponent::GraphicsData& graphicsData);
 	~ObjectFactory();
@@ -18,7 +17,7 @@ public:
 	PERObject* CreateObject();
 
 	PERObjectType GetObjectType() const;
-	PERComponent::ComponentTypes GetComponentTypes() const;
+	PERComponent::ComponentTypeVectors& GetComponentTypeVectors();
 
 	// 스태틱 함수(object storage에서도 컨포넌트 데이터들 초기화하기 위함)
 	static void InitComponentDatas(PERComponent::InputData& input, PERComponent::AiData& ai,
@@ -49,11 +48,21 @@ private:
 	void InitData();
 	// 오브젝트 스테이트 생성
 	ObjectState* CreateObjectState();
+
+	InputComponent* CreateInputComponent(std::vector<PERComponentType>& types);
+	AiComponent* CreateAiComponent(std::vector<PERComponentType>& types);
+	PhysicsComponent* CreatePhysicsComponent(std::vector<PERComponentType>& types);
+	GraphicsComponent* CreateGraphicsComponent(std::vector<PERComponentType>& types);
+
+	InputComponent* CreateInputComponent(PERComponentType type);
+	AiComponent* CreateAiComponent(PERComponentType type);
+	PhysicsComponent* CreatePhysicsComponent(PERComponentType type);
+	GraphicsComponent* CreateGraphicsComponent(PERComponentType type);
 	
 	PERObjectType m_objectType;
 	PERObjectStateType m_objectStateType;
 
-	PERComponent::ComponentTypes m_componentTypes;
+	PERComponent::ComponentTypeVectors m_componentTypeVectors;
 
 	struct ComponentData {
 		PERComponent::InputData input;

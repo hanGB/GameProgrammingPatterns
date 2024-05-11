@@ -7,17 +7,21 @@ void MovablePhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dT
 	m_MoveFunc(*this, dTime);
 	if (!world.CheckCollision(*GetOwner(), dTime)) GetOwner()->SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
 	//else PERLog::Logger().Info("충돌됨");
+
+	PhysicsComponent::Update(world, audio, dTime);
 }
 
 void MovablePhysicsComponent::SetData(PERComponent::PhysicsData data)
 {
 	if (data.friction) m_MoveFunc = &MovablePhysicsComponent::Move;
 	else m_MoveFunc = &MovablePhysicsComponent::MoveWithoutFriction;
+
+	PhysicsComponent::SetData(data);
 }
 
-void MovablePhysicsComponent::Initialize(PERComponent::PhysicsData data)
+void MovablePhysicsComponent::Initialize()
 {
-	SetData(data);
+	PhysicsComponent::Initialize();
 }
 
 void MovablePhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
@@ -33,6 +37,8 @@ void MovablePhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVec
 	GetOwner()->SetVelocity(changedVelocity);
 
 	GetOwner()->SetCollidedObject(&collidedObject, collisionVelocity);
+
+	PhysicsComponent::ProcessCollision(collidedObject, collisionVelocity, changedVelocity, collisionTime);
 }
 
 void MovablePhysicsComponent::GiveForce(PERWorld& world, PERVec3 force, double dTime)
@@ -47,6 +53,8 @@ void MovablePhysicsComponent::GiveForce(PERWorld& world, PERVec3 force, double d
 	if (!world.CheckCollision(*GetOwner(), dTime)) GetOwner()->SetCollidedObject(nullptr, PERVec3(0.0, 0.0, 0.0));
 
 	GetOwner()->SetVelocity(PERVec3(0.0, 0.0, 0.0));
+
+	PhysicsComponent::GiveForce(world, force, dTime);
 }
 
 void MovablePhysicsComponent::Move(double dTime)

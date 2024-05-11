@@ -8,21 +8,18 @@ class PERAudio;
 
 class InputComponent {
 public:
-	virtual ~InputComponent() {}
+	virtual ~InputComponent();
 
-	virtual void Update(PERWorld& world, PERController& controller, PERAudio& audio, double dTime) = 0;
-	virtual void SetData(PERComponent::InputData data) = 0;
-	virtual void Initialize(PERComponent::InputData data) = 0;
+	virtual void Update(PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
+	virtual void SetData(PERComponent::InputData data);
+	virtual void Initialize();
 
-	void SetOwner(PERObject* object)
-	{
-		m_owner = object;
-	}
-	PERObject* GetOwner()
-	{
-		return m_owner;
-	}
+	void SetOwner(PERObject* object);
+	void SetNextComponent(InputComponent* component);
+	PERObject* GetOwner();
+	InputComponent* GetNextComponent();
 
 private:
 	PERObject* m_owner;
+	InputComponent* m_nextComponent = nullptr;
 };

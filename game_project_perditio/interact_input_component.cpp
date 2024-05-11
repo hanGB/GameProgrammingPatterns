@@ -6,16 +6,20 @@
 void InteractInputComponent::Update(PERWorld& world, PERController& controller, PERAudio& audio, double dTime)
 {
 	Move(controller, audio, dTime);
+
+	InputComponent::Update(world, controller, audio, dTime);
 }
 
 void InteractInputComponent::SetData(PERComponent::InputData data)
 {
+	InputComponent::SetData(data);
 }
 
-void InteractInputComponent::Initialize(PERComponent::InputData data)
+void InteractInputComponent::Initialize()
 {
 	m_XYForce = c_DEFAULT_XY_FORCE;
-	SetData(data);
+
+	InputComponent::Initialize();
 }
 
 void InteractInputComponent::Move(PERController& controller, PERAudio& audio, double dTime)

@@ -41,37 +41,61 @@ void ObjectStorage::PushObject(PERObjectType type, PERObject* object)
 void ObjectStorage::CreateObjectFactories()
 {
     ObjectFactory* factory;
+    std::vector<PERComponentType> inputTypes;
+    std::vector<PERComponentType> aiTypes;
+    std::vector<PERComponentType> physicsTypes;
+    std::vector<PERComponentType> graphicsTypes;
     InputData input; AiData ai; PhysicsData physics; GraphicsData graphics;
-   
+
     // fixed block
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
 
-    factory = CreateObjectFactory(PERObjectType::FIXED_BLOCK, PERObjectStateType::NON,
-        PERComponentType::NO_INTERACT, PERComponentType::UNINTELLIGENT, PERComponentType::FIXED, PERComponentType::VISIBLE,
-        input, ai, physics, graphics);
+    inputTypes = { PERComponentType::NO_INTERACT };
+    aiTypes = { PERComponentType::UNINTELLIGENT };
+    physicsTypes = { PERComponentType::FIXED };
+    graphicsTypes = { PERComponentType::VISIBLE };
 
+    factory = CreateObjectFactory(PERObjectType::FIXED_BLOCK, PERObjectStateType::NON,
+       inputTypes, aiTypes, physicsTypes, graphicsTypes,
+        input, ai, physics, graphics);
     factory->SetSize(PERVec3(1.0, 1.0, 1.0));  factory->SetMass(100'000);
+
+    ClearVectors(inputTypes, aiTypes, physicsTypes, graphicsTypes);
 
     // movable block
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
     graphics.borderColor = PERColor(0, 255, 0);
-    
+
+    inputTypes = { PERComponentType::NO_INTERACT };
+    aiTypes = { PERComponentType::UNINTELLIGENT };
+    physicsTypes = { PERComponentType::MOVABLE };
+    graphicsTypes = { PERComponentType::VISIBLE, PERComponentType::NAME_TAG_GRAPHICS };
+
     factory = CreateObjectFactory(PERObjectType::MOVABLE_BLOCK, PERObjectStateType::NON,
-        PERComponentType::NO_INTERACT, PERComponentType::UNINTELLIGENT, PERComponentType::MOVABLE, PERComponentType::VISIBLE_WITH_INFORMATION,
+        inputTypes, aiTypes, physicsTypes, graphicsTypes,
         input, ai, physics, graphics);
     
     factory->SetSize(PERVec3(1.0, 1.0, 1.0));  factory->SetMass(50);
+
+    ClearVectors(inputTypes, aiTypes, physicsTypes, graphicsTypes);
 
     // monster
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
     graphics.shape = PERShapeType::TRIANGLE; graphics.color = PERColor(255, 0, 0);
     graphics.borderColor = PERColor(127, 0, 0);
 
+    inputTypes = { PERComponentType::NO_INTERACT };
+    aiTypes = { PERComponentType::MONSTER_AI };
+    physicsTypes = { PERComponentType::MOVABLE };
+    graphicsTypes = { PERComponentType::VISIBLE, PERComponentType::NAME_TAG_GRAPHICS, PERComponentType::BODY_BAR_GRAPHICS };
+
     factory = CreateObjectFactory(PERObjectType::MONSTER, PERObjectStateType::MONSTER,
-        PERComponentType::NO_INTERACT, PERComponentType::MONSTER_AI, PERComponentType::MOVABLE, PERComponentType::MONSTER_GRAPHICS,
+        inputTypes, aiTypes, physicsTypes, graphicsTypes,
         input, ai, physics, graphics);
 
     factory->SetSize(PERVec3(0.25, 0.25, 0.25)); factory->SetMass(30);
+
+    ClearVectors(inputTypes, aiTypes, physicsTypes, graphicsTypes);
 
     // bullet
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
@@ -79,11 +103,18 @@ void ObjectStorage::CreateObjectFactories()
     graphics.shape = PERShapeType::ELLIPSE; graphics.color = PERColor(100, 100, 100);
     graphics.borderColor = PERColor(50, 50, 50);
    
+    inputTypes = { PERComponentType::NO_INTERACT };
+    aiTypes = { PERComponentType::UNINTELLIGENT };
+    physicsTypes = { PERComponentType::MOVABLE };
+    graphicsTypes = { PERComponentType::VISIBLE };
+
     factory = CreateObjectFactory(PERObjectType::BULLET, PERObjectStateType::NON,
-        PERComponentType::NO_INTERACT, PERComponentType::UNINTELLIGENT, PERComponentType::MOVABLE, PERComponentType::VISIBLE,
+        inputTypes, aiTypes, physicsTypes, graphicsTypes,
         input, ai, physics, graphics);
 
     factory->SetSize(PERVec3(0.2, 0.2, 0.2));     factory->SetMass(5);
+
+    ClearVectors(inputTypes, aiTypes, physicsTypes, graphicsTypes);
 
     // blade
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics); 
@@ -91,32 +122,53 @@ void ObjectStorage::CreateObjectFactories()
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(200, 200, 200);
     graphics.borderColor = PERColor(50, 50, 50);
   
+    inputTypes = { PERComponentType::NO_INTERACT };
+    aiTypes = { PERComponentType::UNINTELLIGENT };
+    physicsTypes = { PERComponentType::STUCK };
+    graphicsTypes = { PERComponentType::VISIBLE };
+
     factory = CreateObjectFactory(PERObjectType::BLADE, PERObjectStateType::NON,
-        PERComponentType::NO_INTERACT, PERComponentType::UNINTELLIGENT, PERComponentType::STUCK, PERComponentType::VISIBLE,
+        inputTypes, aiTypes, physicsTypes, graphicsTypes,
         input, ai, physics, graphics);
 
     factory->SetSize(PERVec3(0.5, 0.5, 0.5));    factory->SetMass(10);
+
+    ClearVectors(inputTypes, aiTypes, physicsTypes, graphicsTypes);
 
     // spawner
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
     physics.isOccupySpace = false;
 
+    inputTypes = { PERComponentType::NO_INTERACT };
+    aiTypes = { PERComponentType::SPAWNER_AI };
+    physicsTypes = { PERComponentType::FIXED };
+    graphicsTypes = { PERComponentType::HIDDEN };
+
     factory = CreateObjectFactory(PERObjectType::SPAWNER, PERObjectStateType::NON,
-        PERComponentType::NO_INTERACT, PERComponentType::SPAWNER_AI, PERComponentType::FIXED, PERComponentType::HIDDEN,
+        inputTypes, aiTypes, physicsTypes, graphicsTypes,
         input, ai, physics, graphics);
 
     factory->SetSize(PERVec3(1.0, 1.0, 1.0));    factory->SetMass(100);
+
+    ClearVectors(inputTypes, aiTypes, physicsTypes, graphicsTypes);
 
     // button
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
     physics.isOccupySpace = false;
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(100, 100, 100);
 
+    inputTypes = { PERComponentType::BUTTON_INPUT };
+    aiTypes = { PERComponentType::MAKING_SIGNAL };
+    physicsTypes = { PERComponentType::FIXED };
+    graphicsTypes = { PERComponentType::VISIBLE, PERComponentType::NAME_TAG_GRAPHICS, PERComponentType::KEY_INPUT_HELPER_GRAPHICS };
+
     factory = CreateObjectFactory(PERObjectType::BUTTON, PERObjectStateType::NON,
-        PERComponentType::BUTTON_INPUT, PERComponentType::MAKING_SIGNAL, PERComponentType::FIXED, PERComponentType::BUTTON_GRAPHICS,
+        inputTypes, aiTypes, physicsTypes, graphicsTypes,
         input, ai, physics, graphics);
 
     factory->SetSize(PERVec3(0.4, 0.8, 0.5));    factory->SetMass(50);
+
+    ClearVectors(inputTypes, aiTypes, physicsTypes, graphicsTypes);
 
     // pressure
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
@@ -124,18 +176,30 @@ void ObjectStorage::CreateObjectFactories()
     physics.isOccupySpace = false;
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(150, 150, 150);
 
+    inputTypes = { PERComponentType::NO_INTERACT };
+    aiTypes = { PERComponentType::MAKING_SIGNAL };
+    physicsTypes = { PERComponentType::PRESSURE_PHYSICS };
+    graphicsTypes = { PERComponentType::VISIBLE, PERComponentType::NAME_TAG_GRAPHICS };
+
     factory = CreateObjectFactory(PERObjectType::PRESSURE, PERObjectStateType::NON,
-        PERComponentType::NO_INTERACT, PERComponentType::MAKING_SIGNAL, PERComponentType::PRESSURE_PHYSICS, PERComponentType::VISIBLE_WITH_INFORMATION,
+        inputTypes, aiTypes, physicsTypes, graphicsTypes,
         input, ai, physics, graphics);
 
     factory->SetSize(PERVec3(1.0, 1.0, 1.0));    factory->SetMass(100);
+
+    ClearVectors(inputTypes, aiTypes, physicsTypes, graphicsTypes);
 
     // door
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
     graphics.shape = PERShapeType::RECTANGLE; graphics.color = PERColor(100, 50, 50);
 
+    inputTypes = { PERComponentType::NO_INTERACT };
+    aiTypes = { PERComponentType::RESPONSE_TO_SIGNAL };
+    physicsTypes = { PERComponentType::FIXED };
+    graphicsTypes = { PERComponentType::VISIBLE, PERComponentType::NAME_TAG_GRAPHICS };
+
     factory = CreateObjectFactory(PERObjectType::DOOR, PERObjectStateType::NON,
-        PERComponentType::NO_INTERACT, PERComponentType::RESPONSE_TO_SIGNAL, PERComponentType::FIXED, PERComponentType::VISIBLE_WITH_INFORMATION,
+        inputTypes, aiTypes, physicsTypes, graphicsTypes,
         input, ai, physics, graphics);
 
     factory->SetSize(PERVec3(2.0, 1.0, 1.0));    factory->SetMass(100);
@@ -143,20 +207,27 @@ void ObjectStorage::CreateObjectFactories()
     // particle effecter
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
 
+    inputTypes = { PERComponentType::NO_INTERACT };
+    aiTypes = { PERComponentType::CREATING_PARTICLE };
+    physicsTypes = { PERComponentType::FIXED };
+    graphicsTypes = { PERComponentType::HIDDEN };
+
     factory = CreateObjectFactory(PERObjectType::PARTICLE_EFFECTER, PERObjectStateType::NON,
-        PERComponentType::NO_INTERACT, PERComponentType::CREATING_PARTICLE, PERComponentType::FIXED, PERComponentType::HIDDEN,
+        inputTypes, aiTypes, physicsTypes, graphicsTypes,
         input, ai, physics, graphics);
+
+    ClearVectors(inputTypes, aiTypes, physicsTypes, graphicsTypes);
 }
 
 ObjectFactory* ObjectStorage::CreateObjectFactory(
     PERObjectType objectType, PERObjectStateType objectStateType, 
-    PERComponentType inputComponentType, PERComponentType aiComponenentType, 
-    PERComponentType physicsComponenentType, PERComponentType graphicsComponenentType, 
+    std::vector<PERComponentType> inputComponentTypes, std::vector<PERComponentType> aiComponenentTypes,
+    std::vector<PERComponentType> physicsComponenentTypes, std::vector<PERComponentType> graphicsComponenentTypes,
     InputData& inputData, AiData& aiData, PhysicsData& physicsData, GraphicsData& graphicsData)
 {
     ObjectFactory* factory
         = new ObjectFactory(objectType,  objectStateType,
-            inputComponentType, aiComponenentType, physicsComponenentType, graphicsComponenentType,
+            inputComponentTypes, aiComponenentTypes, physicsComponenentTypes, graphicsComponenentTypes,
             inputData, aiData, physicsData, graphicsData
         );
     
@@ -218,4 +289,13 @@ void ObjectStorage::ClearObjectQueues()
             delete object;
         }
     }
+}
+
+void ObjectStorage::ClearVectors(std::vector<PERComponentType>& input, std::vector<PERComponentType>& ai, 
+    std::vector<PERComponentType>& physics, std::vector<PERComponentType>& graphics)
+{
+    input.clear();
+    ai.clear();
+    physics.clear();
+    graphics.clear();
 }

@@ -24,19 +24,23 @@ void MonsterAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 	GetOwner()->GetObjectState().RecoverPerTime(dTime);
 	// 행동 트리 실행
 	m_behaviorTree->Run(dTime);
+
+	AiComponent::Update(world, audio, dTime);
 }
 
 void MonsterAiComponent::SetData(PERComponent::AiData data)
 {
+	AiComponent::SetData(data);
 }
 
-void MonsterAiComponent::Initialize(PERComponent::AiData data)
+void MonsterAiComponent::Initialize()
 {
 	m_wanderAngle = 0.0;
 	m_isAStarCalculated = false;
 	m_numPath = 0;
 	m_currentPathIndex = 0;
-	SetData(data);
+
+	AiComponent::Initialize();
 }
 
 void MonsterAiComponent::InitBehaviorTree()

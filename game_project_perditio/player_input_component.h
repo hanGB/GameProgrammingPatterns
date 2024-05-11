@@ -5,7 +5,7 @@ class PlayerInputComponent : public InputComponent {
 public:
 	virtual void Update(PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
 	virtual void SetData(PERComponent::InputData data);
-	virtual void Initialize(PERComponent::InputData data);
+	virtual void Initialize();
 
 private:
 	void Move(PERController& controller, PERAudio& audio, double dTime);

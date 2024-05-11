@@ -15,13 +15,16 @@ void ButtonInputComponent::Update(PERWorld& world, PERController& controller, PE
 			dynamic_cast<MakingSignalAiComponent*>(&GetOwner()->GetAi())->SetIsGetInput(true);
 		}
 	}
+
+	InputComponent::Update(world, controller, audio, dTime);
 }
 
 void ButtonInputComponent::SetData(PERComponent::InputData data)
 {
+	InputComponent::SetData(data);
 }
 
-void ButtonInputComponent::Initialize(PERComponent::InputData data)
+void ButtonInputComponent::Initialize()
 {
-	SetData(data);
+	InputComponent::Initialize();
 }

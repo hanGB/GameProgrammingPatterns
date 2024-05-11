@@ -8,21 +8,18 @@ class PERObject;
 
 class AiComponent {
 public:
-	virtual ~AiComponent() {}
+	virtual ~AiComponent();
 
-	virtual void Update(PERWorld& world, PERAudio& audio, double dTime) = 0;
-	virtual void SetData(PERComponent::AiData data) = 0;
-	virtual void Initialize(PERComponent::AiData data) = 0;
+	virtual void Update(PERWorld& world, PERAudio& audio, double dTime);
+	virtual void SetData(PERComponent::AiData data);
+	virtual void Initialize();
 
-	void SetOwner(PERObject* object)
-	{
-		m_owner = object;
-	}
-	PERObject* GetOwner()
-	{
-		return m_owner;
-	}
+	void SetOwner(PERObject* object);
+	void SetNextComponent(AiComponent* component);
+	PERObject* GetOwner();
+	AiComponent* GetNextComponent();
 
 private:
 	PERObject* m_owner;
+	AiComponent* m_nextComponent = nullptr;
 };

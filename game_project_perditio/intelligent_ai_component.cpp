@@ -24,14 +24,16 @@ void IntelligentAiComponent::Update(PERWorld& world, PERAudio& audio, double dTi
 	cAcc.y += sin(angle) * m_XYForce / mass * dTime;
 
 	GetOwner()->SetCurrentAccel(cAcc);
+
+	AiComponent::Update(world, audio, dTime);
 }
 
 void IntelligentAiComponent::SetData(PERComponent::AiData data)
 {
+	AiComponent::SetData(data);
 }
 
-void IntelligentAiComponent::Initialize(PERComponent::AiData data)
+void IntelligentAiComponent::Initialize()
 {
-	m_XYForce = c_DEFAULT_XY_FORCE;
-	SetData(data);
+	AiComponent::Initialize();
 }

@@ -3,21 +3,25 @@
 
 void FixedPhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
+	PhysicsComponent::Update(world, audio, dTime);
 }
 
 void FixedPhysicsComponent::SetData(PERComponent::PhysicsData data)
 {
+	PhysicsComponent::SetData(data);
 }
 
-void FixedPhysicsComponent::Initialize(PERComponent::PhysicsData data)
+void FixedPhysicsComponent::Initialize()
 {
-	SetData(data);
+	PhysicsComponent::Initialize();
 }
 
 void FixedPhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime)
 {
+	PhysicsComponent::ProcessCollision(collidedObject, collisionVelocity, changedVelocity, collisionTime);
 }
 
 void FixedPhysicsComponent::GiveForce(PERWorld& world, PERVec3 force, double dTime)
 {
+	PhysicsComponent::GiveForce(world, force, dTime);
 }

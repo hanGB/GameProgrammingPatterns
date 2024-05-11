@@ -6,7 +6,7 @@ public:
 	virtual void Update(PERHud& hud, PERAudio& audio, double dTime);
 	virtual void Render(PERRenderer& renderer, double frameGap);
 	virtual void SetData(PERComponent::GraphicsData data);
-	virtual void Initialize(PERComponent::GraphicsData data);
+	virtual void Initialize();
 
 	// 오브젝트 사망시 제거용
 	virtual void RemoveFloatingUi();

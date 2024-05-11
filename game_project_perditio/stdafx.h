@@ -114,6 +114,9 @@
 // 최대 라이프 타임(100년)
 #define PER_MAXIMUM_LIFE_TIME 3'153'600'000.0
 
+// 게임 
+#define PER_MAX_STAT 9999
+
 
 enum class PERShapeType {
 	// 중앙 앵커
@@ -180,9 +183,9 @@ enum class PERComponentType {
 
 	// graphics
 	VISIBLE,
-	VISIBLE_WITH_INFORMATION,
-	MONSTER_GRAPHICS,
-	BUTTON_GRAPHICS,
+	NAME_TAG_GRAPHICS,
+	BODY_BAR_GRAPHICS,
+	KEY_INPUT_HELPER_GRAPHICS,
 	HIDDEN,
 
 	NUM_COMPONENT_TYPE

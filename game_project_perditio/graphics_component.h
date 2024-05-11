@@ -8,34 +8,25 @@ class PERRenderer;
 
 class GraphicsComponent {
 public:
-	virtual ~GraphicsComponent() {}
+	virtual ~GraphicsComponent();
 
-	virtual void Update(PERHud& hud, PERAudio& audio, double dTime) = 0;
-	virtual void Render(PERRenderer& renderer, double frameGap) = 0;
-	virtual void SetData(PERComponent::GraphicsData data) = 0;
-	virtual void Initialize(PERComponent::GraphicsData data) = 0;
+	virtual void Update(PERHud& hud, PERAudio& audio, double dTime);
+	virtual void Render(PERRenderer& renderer, double frameGap);
+	virtual void SetData(PERComponent::GraphicsData data);
+	virtual void Initialize();
 
-	virtual void RemoveFloatingUi() = 0;
+	virtual void RemoveFloatingUi();
 
-	void SetOwner(PERObject* object)
-	{
-		m_owner = object;
-	}
-	PERObject* GetOwner()
-	{
-		return m_owner;
-	}
-	void SetZValue(double z)
-	{
-		m_zValue = z;
-	}
-	double GetZValue() const
-	{
-		return m_zValue;
-	}
+	void SetOwner(PERObject* object);
+	void SetNextComponent(GraphicsComponent* component);
+	void SetPositionZValue(double z);
+	PERObject* GetOwner();
+	GraphicsComponent* GetNextComponent();
+	double GetPositionZValue() const;
 
 private:
-	double m_zValue = PER_LOWEST_Z_VALUE;
-
 	PERObject* m_owner;
+	GraphicsComponent* m_nextComponent = nullptr;
+
+	double m_positionZValue = PER_LOWEST_Z_VALUE;
 };

@@ -567,7 +567,7 @@ void PERWorld::UpdateSortedGraphicsComponents()
 	m_sortedGraphicsComponents.resize((size_t)m_numObject);
 	std::copy(m_graphicsComponents.begin(), m_graphicsComponents.begin() + m_numObject, m_sortedGraphicsComponents.begin());
 	std::sort(m_sortedGraphicsComponents.begin(), m_sortedGraphicsComponents.end(), [](GraphicsComponent* a, GraphicsComponent* b) {
-		return a->GetZValue() < b->GetZValue();
+		return a->GetPositionZValue() < b->GetPositionZValue();
 		});
 
 	m_isUpdateSortedGraphicsComponent = true;

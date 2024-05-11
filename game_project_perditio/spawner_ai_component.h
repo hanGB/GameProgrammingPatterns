@@ -12,7 +12,7 @@ class SpawnerAiComponent : public AiComponent {
 public:
 	virtual void Update(PERWorld& world, PERAudio& audio, double dTime);
 	virtual void SetData(PERComponent::AiData data);
-	virtual void Initialize(PERComponent::AiData data);
+	virtual void Initialize();
 
 	void SetSpawner(std::string objectId, PERObjectType type, PERSpawnType spawnType, int numSpawnObject = PER_DEFAULT_MAX_OBJECTS,
 		double timeGap = 0.0, double distance = 0.0, double lifeTime = PER_MAXIMUM_LIFE_TIME);

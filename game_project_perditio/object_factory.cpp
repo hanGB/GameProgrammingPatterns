@@ -22,9 +22,9 @@
 #include "pressure_physics_componenet.h"
 // graphics
 #include "visible_graphics_component.h"
-#include "visible_with_information_graphics_componenet.h"
-#include "monster_graphics_componenet.h"
-#include "button_graphics_component.h"
+#include "name_tag_graphics_component.h"
+#include "body_bar_graphics_componenet.h"
+#include "key_input_helper_graphics_component.h"
 #include "hidden_graphics_component.h"
 
 // 오브젝트 스테이트
@@ -32,31 +32,30 @@
 #include "monster_state.h"
 
 
-ObjectFactory::ObjectFactory(
-    PERObjectType objectType, PERObjectStateType objectStateType,
-    PERComponentType input, PERComponentType ai, 
-    PERComponentType physics, PERComponentType graphics
-    )
+ObjectFactory::ObjectFactory(PERObjectType objectType, PERObjectStateType objectStateType, 
+    std::vector<PERComponentType>& input, std::vector<PERComponentType>& ai, 
+    std::vector<PERComponentType>& physics, std::vector<PERComponentType>& graphics)
 {
-    PERLog::Logger().InfoWithFormat("오브젝트 팩토리 object type(%d) 생성", (int)objectType);
+    PERLog::Logger().InfoWithFormat("오브젝트 팩토리 object type(%d) 생성", ( int ) objectType);
 
     m_objectType = objectType;
     m_objectStateType = objectStateType;
-    m_componentTypes = { input, ai, physics, graphics };
+    m_componentTypeVectors = { input, ai, physics, graphics };
 
     InitData();
 }
 
-ObjectFactory::ObjectFactory(PERObjectType objectType, PERObjectStateType objectStateType,
-    PERComponentType input, PERComponentType ai, PERComponentType physics, PERComponentType graphics, 
+ObjectFactory::ObjectFactory(PERObjectType objectType, PERObjectStateType objectStateType, 
+    std::vector<PERComponentType>& input, std::vector<PERComponentType>& ai, 
+    std::vector<PERComponentType>& physics, std::vector<PERComponentType>& graphics, 
     PERComponent::InputData& inputData, PERComponent::AiData& aiData, 
     PERComponent::PhysicsData& physicsData, PERComponent::GraphicsData& graphicsData)
 {
-    PERLog::Logger().InfoWithFormat("오브젝트 팩토리 object type(%d) 생성", (int)objectType);
+    PERLog::Logger().InfoWithFormat("오브젝트 팩토리 object type(%d) 생성", ( int ) objectType);
 
     m_objectType = objectType;
     m_objectStateType = objectStateType;
-    m_componentTypes = { input, ai, physics, graphics };
+    m_componentTypeVectors = { input, ai, physics, graphics };
     m_componentData = { inputData, aiData, physicsData, graphicsData };
 
     m_size = PERVec3(1.0, 1.0, 1.0); m_mass = 50.0;
@@ -74,80 +73,10 @@ PERObject* ObjectFactory::CreateObject()
     ObjectState* objectState = CreateObjectState();
 
     // 각 컴포넌트 타입 별로 생성
-    InputComponent* inputComponent = nullptr;
-    switch (m_componentTypes.input) {
-    case PERComponentType::PLAYER_INPUT:
-        inputComponent = new PlayerInputComponent();
-        break;
-    case PERComponentType::INTERACT:
-        inputComponent = new InteractInputComponent();
-        break;
-    case PERComponentType::NO_INTERACT:
-        inputComponent = new NoInteractInputComponent();
-        break;
-    case PERComponentType::BUTTON_INPUT:
-        inputComponent = new ButtonInputComponent();
-        break;
-    }
-
-    AiComponent* aiComponent = nullptr;
-    switch (m_componentTypes.ai) {
-    case PERComponentType::UNINTELLIGENT:
-        aiComponent = new UnintelligentAiComponent();
-        break;
-    case PERComponentType::INTELLIGENT:
-        aiComponent = new IntelligentAiComponent();
-        break;
-    case PERComponentType::MONSTER_AI:
-        aiComponent = new MonsterAiComponent();
-        break;
-    case PERComponentType::SPAWNER_AI:
-        aiComponent = new SpawnerAiComponent();
-        break;
-    case PERComponentType::MAKING_SIGNAL:
-        aiComponent = new MakingSignalAiComponent();
-        break;
-    case PERComponentType::RESPONSE_TO_SIGNAL:
-        aiComponent = new ResponeseToSignalAiComponent();
-        break;
-    case PERComponentType::CREATING_PARTICLE:
-        aiComponent = new CreatingParticlesAiComponent();
-    }
-
-    PhysicsComponent* physicsComponent = nullptr;
-    switch (m_componentTypes.physics) {
-    case PERComponentType::MOVABLE:
-        physicsComponent = new MovablePhysicsComponent();
-        break;
-    case PERComponentType::FIXED:
-        physicsComponent = new FixedPhysicsComponent();
-        break;
-    case PERComponentType::STUCK:
-        physicsComponent = new StuckPhysicsComponent();
-        break;
-    case PERComponentType::PRESSURE_PHYSICS:
-        physicsComponent = new PressurePhysicsComponent();
-        break;
-    }
-
-    GraphicsComponent* graphicsComponent = nullptr;
-    switch (m_componentTypes.graphics) {
-    case PERComponentType::VISIBLE:
-        graphicsComponent = new VisibleGraphicsComponent();
-        break;
-    case PERComponentType::VISIBLE_WITH_INFORMATION:
-        graphicsComponent = new VisibleWithInformationGraphicsComponent();
-        break;
-    case PERComponentType::MONSTER_GRAPHICS:
-        graphicsComponent = new MonsterGraphicsComponent();
-        break;
-    case PERComponentType::BUTTON_GRAPHICS:
-        graphicsComponent = new ButtonGraphicsComponent();
-        break;
-    case PERComponentType::HIDDEN:
-        graphicsComponent = new HiddenGraphicsComponent();
-        break;
-    }
+    InputComponent* inputComponent = CreateInputComponent(m_componentTypeVectors.input);
+    AiComponent* aiComponent = CreateAiComponent(m_componentTypeVectors.ai);
+    PhysicsComponent* physicsComponent = CreatePhysicsComponent(m_componentTypeVectors.physics);
+    GraphicsComponent* graphicsComponent = CreateGraphicsComponent(m_componentTypeVectors.graphics);
 
     return new PERObject(*this, objectState, inputComponent, aiComponent, physicsComponent, graphicsComponent);
 }
@@ -158,9 +87,9 @@ PERObjectType ObjectFactory::GetObjectType() const
     return m_objectType;
 }
 
-PERComponent::ComponentTypes ObjectFactory::GetComponentTypes() const
+PERComponent::ComponentTypeVectors& ObjectFactory::GetComponentTypeVectors()
 {
-    return m_componentTypes;
+    return m_componentTypeVectors;
 }
 
 void ObjectFactory::InitComponentDatas(
@@ -272,8 +201,17 @@ void ObjectFactory::InitializeObjectState(ObjectState* objectState)
     }
     case PERObjectStateType::NON: {
         objectState->SetIsImmortal(true);
+        if ( m_objectType == PERObjectType::MOVABLE_BLOCK ) {
+            objectState->SetNameId("OBJECT_BLOCK_NAME");
+            objectState->SetIsImmortal(false);
+            // 스텟을 최대 값으로 설정해 공격에 대해서는 웬만해서는 죽지 않도록 설정
+            m_stat = {
+                  PER_MAX_STAT, PER_MAX_STAT, PER_MAX_STAT,
+                  PER_MAX_STAT, PER_MAX_STAT, PER_MAX_STAT, PER_MAX_STAT
+            };
+            objectState->SetStat(m_stat);
 
-        if (m_objectType == PERObjectType::MOVABLE_BLOCK)  objectState->SetNameId("OBJECT_BLOCK_NAME");
+        }
         else if (m_objectType == PERObjectType::BUTTON)  objectState->SetNameId("OBJECT_BUTTON_NAME");
         else if (m_objectType == PERObjectType::PRESSURE)  objectState->SetNameId("OBJECT_PRESSURE_PLATE_NAME");
         else if (m_objectType == PERObjectType::DOOR)  objectState->SetNameId("OBJECT_DOOR_NAME");
@@ -312,4 +250,176 @@ ObjectState* ObjectFactory::CreateObjectState()
     InitializeObjectState(objectState);
 
     return objectState;
+}
+
+InputComponent* ObjectFactory::CreateInputComponent(std::vector<PERComponentType>& types)
+{
+    if ( types.size() == 0 ) return nullptr;
+
+    InputComponent* component = CreateInputComponent(*types.cbegin());
+
+    if ( types.size() == 1 ) return component;
+
+    InputComponent* frontComponent = component;
+    for ( auto it = types.cbegin(); it < types.cend(); ++it )
+    {
+        InputComponent* nextComponent = CreateInputComponent(*it);
+        frontComponent->SetNextComponent(nextComponent);
+        frontComponent = nextComponent;
+    }
+
+    return component;
+}
+
+AiComponent* ObjectFactory::CreateAiComponent(std::vector<PERComponentType>& types)
+{
+    if ( types.size() == 0 ) return nullptr;
+
+    AiComponent* component = CreateAiComponent(*types.cbegin());
+
+    if ( types.size() == 1 ) return component;
+
+    AiComponent* frontComponent = component;
+    for ( auto it = types.cbegin(); it < types.cend(); ++it )
+    {
+        AiComponent* nextComponent = CreateAiComponent(*it);
+        frontComponent->SetNextComponent(nextComponent);
+        frontComponent = nextComponent;
+    }
+
+    return component;
+}
+
+PhysicsComponent* ObjectFactory::CreatePhysicsComponent(std::vector<PERComponentType>& types)
+{
+    if ( types.size() == 0 ) return nullptr;
+
+    PhysicsComponent* component = CreatePhysicsComponent(*types.cbegin());
+
+    if ( types.size() == 1 ) return component;
+
+    PhysicsComponent* frontComponent = component;
+    for ( auto it = types.cbegin(); it < types.cend(); ++it )
+    {
+        PhysicsComponent* nextComponent = CreatePhysicsComponent(*it);
+        frontComponent->SetNextComponent(nextComponent);
+        frontComponent = nextComponent;
+    }
+
+    return component;
+}
+
+GraphicsComponent* ObjectFactory::CreateGraphicsComponent(std::vector<PERComponentType>& types)
+{
+    if ( types.size() == 0 ) return nullptr;
+
+    GraphicsComponent* component = CreateGraphicsComponent(*types.cbegin());
+
+    if ( types.size() == 1 ) return component;
+
+    GraphicsComponent* frontComponent = component;
+    for ( auto it = types.cbegin(); it < types.cend(); ++it )
+    {
+        GraphicsComponent* nextComponent = CreateGraphicsComponent(*it);
+        frontComponent->SetNextComponent(nextComponent);
+        frontComponent = nextComponent;
+    }
+
+    return component;
+}
+
+InputComponent* ObjectFactory::CreateInputComponent(PERComponentType type)
+{
+    InputComponent* inputComponent = nullptr;
+    switch ( type ) {
+    case PERComponentType::PLAYER_INPUT:
+        inputComponent = new PlayerInputComponent();
+        break;
+    case PERComponentType::INTERACT:
+        inputComponent = new InteractInputComponent();
+        break;
+    case PERComponentType::NO_INTERACT:
+        inputComponent = new NoInteractInputComponent();
+        break;
+    case PERComponentType::BUTTON_INPUT:
+        inputComponent = new ButtonInputComponent();
+        break;
+    }
+
+    return inputComponent;
+}
+
+AiComponent* ObjectFactory::CreateAiComponent(PERComponentType type)
+{
+    AiComponent* aiComponent = nullptr;
+    switch ( type ) {
+    case PERComponentType::UNINTELLIGENT:
+        aiComponent = new UnintelligentAiComponent();
+        break;
+    case PERComponentType::INTELLIGENT:
+        aiComponent = new IntelligentAiComponent();
+        break;
+    case PERComponentType::MONSTER_AI:
+        aiComponent = new MonsterAiComponent();
+        break;
+    case PERComponentType::SPAWNER_AI:
+        aiComponent = new SpawnerAiComponent();
+        break;
+    case PERComponentType::MAKING_SIGNAL:
+        aiComponent = new MakingSignalAiComponent();
+        break;
+    case PERComponentType::RESPONSE_TO_SIGNAL:
+        aiComponent = new ResponeseToSignalAiComponent();
+        break;
+    case PERComponentType::CREATING_PARTICLE:
+        aiComponent = new CreatingParticlesAiComponent();
+        break;
+    }
+
+    return aiComponent;
+}
+
+PhysicsComponent* ObjectFactory::CreatePhysicsComponent(PERComponentType type)
+{
+    PhysicsComponent* physicsComponent = nullptr;
+    switch ( type ) {
+    case PERComponentType::MOVABLE:
+        physicsComponent = new MovablePhysicsComponent();
+        break;
+    case PERComponentType::FIXED:
+        physicsComponent = new FixedPhysicsComponent();
+        break;
+    case PERComponentType::STUCK:
+        physicsComponent = new StuckPhysicsComponent();
+        break;
+    case PERComponentType::PRESSURE_PHYSICS:
+        physicsComponent = new PressurePhysicsComponent();
+        break;
+    }
+
+    return physicsComponent;
+}
+
+GraphicsComponent* ObjectFactory::CreateGraphicsComponent(PERComponentType type)
+{
+    GraphicsComponent* graphicsComponent = nullptr;
+    switch ( type ) {
+    case PERComponentType::VISIBLE:
+        graphicsComponent = new VisibleGraphicsComponent();
+        break;
+    case PERComponentType::NAME_TAG_GRAPHICS:
+        graphicsComponent = new NameTagGraphicsComponent();
+        break;
+    case PERComponentType::BODY_BAR_GRAPHICS:
+        graphicsComponent = new BodyBarGraphicsComponent();
+        break;
+    case PERComponentType::KEY_INPUT_HELPER_GRAPHICS:
+        graphicsComponent = new KeyInputHelperGraphicsComponent();
+        break;
+    case PERComponentType::HIDDEN:
+        graphicsComponent = new HiddenGraphicsComponent();
+        break;
+    }
+
+    return graphicsComponent;
 }

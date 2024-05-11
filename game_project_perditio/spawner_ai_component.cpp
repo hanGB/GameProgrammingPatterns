@@ -11,13 +11,16 @@ void SpawnerAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
     if (m_numSpawnObject < 0) return;
 
     m_SpawnFuc(*this, world, dTime);
+
+    AiComponent::Update(world, audio, dTime);
 }
 
 void SpawnerAiComponent::SetData(PERComponent::AiData data)
 {
+    AiComponent::SetData(data);
 }
 
-void SpawnerAiComponent::Initialize(PERComponent::AiData data)
+void SpawnerAiComponent::Initialize()
 {
     m_timeGap = 5.0;
     m_time = 0.0;
@@ -25,7 +28,8 @@ void SpawnerAiComponent::Initialize(PERComponent::AiData data)
     m_lifeTime = PER_MAXIMUM_LIFE_TIME;
     m_numSpawnObject = PER_DEFAULT_MAX_OBJECTS;
     m_isSpawnedObjectDead = true;
-    SetData(data);
+
+    AiComponent::Initialize();
 }
 
 void SpawnerAiComponent::SetSpawner(

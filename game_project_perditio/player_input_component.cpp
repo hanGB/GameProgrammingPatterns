@@ -15,13 +15,16 @@ void PlayerInputComponent::Update(PERWorld& world, PERController& controller, PE
 	ShootBullet(world, controller, audio, dTime);
 	SwingBlade(world, controller, audio, dTime);
 	ShowObjectName(controller, audio, dTime);
+
+	InputComponent::Update(world, controller, audio, dTime);
 }
 
 void PlayerInputComponent::SetData(PERComponent::InputData data)
 {
+	InputComponent::SetData(data);
 }
 
-void PlayerInputComponent::Initialize(PERComponent::InputData data)
+void PlayerInputComponent::Initialize()
 {
 	m_XYForce = c_DEFAULT_XY_FORCE;
 	m_shootingCoolTime = 0.0;
@@ -29,7 +32,7 @@ void PlayerInputComponent::Initialize(PERComponent::InputData data)
 	m_dirX = 0;
 	m_dirY = 1;
 
-	SetData(data);
+	InputComponent::Initialize();
 }
 
 void PlayerInputComponent::Move(PERController& controller, PERAudio& audio, double dTime)

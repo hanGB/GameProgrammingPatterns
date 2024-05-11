@@ -3,15 +3,17 @@
 
 void ResponeseToSignalAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
+	AiComponent::Update(world, audio, dTime);
 }
 
 void ResponeseToSignalAiComponent::SetData(PERComponent::AiData data)
 {
+	AiComponent::SetData(data);
 }
 
-void ResponeseToSignalAiComponent::Initialize(PERComponent::AiData data)
+void ResponeseToSignalAiComponent::Initialize()
 {
-	SetData(data);
+	AiComponent::Initialize();
 }
 
 void ResponeseToSignalAiComponent::Execute()
