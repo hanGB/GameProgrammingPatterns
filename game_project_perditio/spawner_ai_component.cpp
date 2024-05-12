@@ -8,7 +8,7 @@
 void SpawnerAiComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
     // 스폰 오브젝트 수가 0이 되면 더이상 스폰 금지
-    if (m_numSpawnObject < 0) return;
+    if (m_numSpawnObject <= 0) return;
 
     m_SpawnFuc(*this, world, dTime);
 

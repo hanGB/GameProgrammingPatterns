@@ -4,10 +4,10 @@
 
 class ObjectSpawner;
 
-class TestWorld : public PERWorld {
+class TestWorld2 : public PERWorld {
 public:
-	TestWorld(ObjectStorage* objectStorage, PERDatabase* database);
-	~TestWorld();
+	TestWorld2(ObjectStorage* objectStorage, PERDatabase* database);
+	~TestWorld2();
 
 	// 해당 월드에 들어오고 나갈 때 처리
 	virtual void Enter();

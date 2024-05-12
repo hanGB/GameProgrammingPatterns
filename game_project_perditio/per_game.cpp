@@ -3,6 +3,7 @@
 #include "null_audio.h"
 #include "black_board.h"
 #include "test_world.h"
+#include "test_world2.h"
 #include "test_game_mode.h"
 #include "test_game_state.h"
 
@@ -34,13 +35,21 @@ PERGame::~PERGame()
 void PERGame::Recive(PEREvent event, PERVec3 data)
 {
 	switch (event) {
-	case PEREvent::RUN_DEFAULT_WORLD_AND_GAME_MODE: {
-		GameMode* gameMode = new TestGameMode(new TestGameState());
-		PERWorld* world = new TestWorld(m_objectStorage, m_database, gameMode);
-		Run(world, gameMode);
+	case PEREvent::RUN_DEFAULT_WORLD: {
+		PERWorld* world = new TestWorld(m_objectStorage, m_database);
+		Run(world);
 		break; 
 	}
-
+	case PEREvent::PUSH_CURRENT_WORLD_AND_RUN_TEST2_WORLD: {
+		if ( m_currentWorld ) PushWorld();
+		PERWorld* world = new TestWorld2(m_objectStorage, m_database);
+		Run(world);
+		break;
+	}
+	// 테스트용 이벤트
+	case PEREvent::NOTING_TO_DO:
+		int i = 0;
+		break;
 	}
 }
 
@@ -162,30 +171,58 @@ void PERGame::MatchWindowHWND(HWND hWnd)
 	m_renderer->MatchWindowSize(hWnd);
 }
 
-void PERGame::Run(PERWorld* world, GameMode* gameMode)
+void PERGame::Run(PERWorld* world)
 {
 	PERLog::Logger().Info("월드 최초 실행");
 
 	world->Enter();
 
 	m_currentWorld = world;
-	m_currentGameMode = gameMode;
 }
 
-void PERGame::ChangeWorld(PERWorld* world, GameMode* gameMode)
+void PERGame::PushWorld()
 {
+	PERLog::Logger().Info("기존 월드 저장");
 
-}
+	m_currentWorld->Pause();
 
-void PERGame::PushWorld(PERWorld* world, GameMode* gameMode)
-{
+	m_worldQueue.push(m_currentWorld);
 }
 
 void PERGame::PopWorld()
 {
+	PERLog::Logger().Info("저장된 기존 월드를 꺼냄");
+
+	PERWorld* world = m_worldQueue.front();
+	m_worldQueue.pop();
+
+	world->Resume();
+
+	m_currentWorld = world;
+}
+
+void PERGame::ChangeWorld()
+{
+	PERLog::Logger().Info("저장된 기존 월드를 꺼내고 현재 월드를 저장");
+
+	m_currentWorld->Pause();
+
+	PERWorld* world = m_worldQueue.front();
+	m_worldQueue.pop();
+
+	m_worldQueue.push(m_currentWorld);
+
+	world->Resume();
+
+	m_currentWorld = world;
 }
 
 void PERGame::Quit()
 {
+	PERLog::Logger().Info("현재 월드 종료");
+
+	m_currentWorld->Exit();
+
+	delete m_currentWorld;
 }
 

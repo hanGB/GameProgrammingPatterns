@@ -4,7 +4,7 @@
 
 class TestGameMode : public GameMode {
 public:
-	TestGameMode(GameState* gameState);
+	TestGameMode();
 	~TestGameMode();
 
 	virtual void StartUse();

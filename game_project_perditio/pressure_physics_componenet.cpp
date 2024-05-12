@@ -6,8 +6,6 @@
 
 void PressurePhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
-	world.CheckCollision(*GetOwner(), dTime);
-
 	if (!m_isKeepPressed && m_isOn)
 	{
 		dynamic_cast<MakingSignalAiComponent*>(&GetOwner()->GetAi())->SetIsGetInput(true);
@@ -25,6 +23,8 @@ void PressurePhysicsComponent::SetData(PERComponent::PhysicsData data)
 
 void PressurePhysicsComponent::Initialize()
 {
+	m_isKeepPressed = false;
+	m_isOn = false;
 	PhysicsComponent::Initialize();
 }
 

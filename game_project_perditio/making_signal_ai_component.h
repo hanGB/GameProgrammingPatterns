@@ -1,6 +1,7 @@
 #pragma once
 #include "ai_component.h"
 
+class ResponeseToSignalAiComponent;
 
 class MakingSignalAiComponent : public AiComponent {
 public:
@@ -10,6 +11,7 @@ public:
 
 	void SetIsGetInput(bool input);
 	void SetOnOffGraphicsData(PERComponent::GraphicsData onGraphicsData, PERComponent::GraphicsData offGraphicsData);
+	void SetResponseAi(ResponeseToSignalAiComponent* responseAi);
 
 private:
 	void MakeSignal(PERAudio& audio, double dTime);
@@ -27,4 +29,6 @@ private:
 	// 켜짐, 꺼짐 그래픽 데이터
 	PERComponent::GraphicsData m_onGraphicsData;
 	PERComponent::GraphicsData m_offGraphicsData;
+
+	ResponeseToSignalAiComponent* m_responseAi;
 };

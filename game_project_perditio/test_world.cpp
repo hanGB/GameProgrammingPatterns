@@ -7,10 +7,12 @@
 #include "response_to_signal_ai_component.h"
 #include "making_signal_ai_component.h"
 #include "creating_particles_ai_component.h"
+#include "test_game_mode.h"
+#include "event_dispatcher.h"
 
-TestWorld::TestWorld(ObjectStorage* objectStorage, PERDatabase* database, GameMode* mode)
+TestWorld::TestWorld(ObjectStorage* objectStorage, PERDatabase* database)
 {
-	InitSettingForWorld(objectStorage, database, mode);
+	InitSettingForWorld(objectStorage, database, new TestGameMode());
 }
 
 TestWorld::~TestWorld()
@@ -33,11 +35,13 @@ void TestWorld::Exit()
 
 void TestWorld::Pause()
 {
+	m_playerPosBeforePause = m_gameMode->GetPlayer().GetPosition();
 	PERWorld::Pause();
 }
 
 void TestWorld::Resume()
 {
+	m_gameMode->GetPlayer().SetPosition(m_playerPosBeforePause);
 	PERWorld::Resume();
 }
 
@@ -128,22 +132,7 @@ void TestWorld::AddOtherObjects()
 	// 움직이는 벽돌(충돌 처리 문제 해결 불가능시 제거)
 	PERObject* block;
 	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
-	block->SetPosition(PERVec3(3.0, 1.0, 0.1));
-	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
-	AddObject(block);
-
-	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
-	block->SetPosition(PERVec3(-3.0, 1.0, 0.1));
-	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
-	AddObject(block);
-
-	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(7.0, 3.0, 0.1));
-	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
-	AddObject(block);
-
-	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
-	block->SetPosition(PERVec3(1.0, -3.0, 0.1));
 	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
 	AddObject(block);
 
@@ -158,7 +147,7 @@ void TestWorld::AddOtherObjects()
 		component->GetOwner()->SetPosition(PERVec3(9.0, -1.0, 0.1));
 		});
 	dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi())->SetRevokeFunc([](ResponeseToSignalAiComponent* component) {
-		// 문을 통과 가능하게 변경
+		// 문을 통과 불가능하게 변경
 		component->GetOwner()->SetSize(PERVec3(1.0, 3.0, 0.0));
 		component->GetOwner()->SetPosition(PERVec3(9.0, 0.0, 0.0));
 		});
@@ -168,7 +157,6 @@ void TestWorld::AddOtherObjects()
 	PERObject* button;
 	button = m_objectStorage->PopObject(PERObjectType::BUTTON);
 	button->SetPosition(PERVec3(7.0, 0.0, 0.0));
-	button->SetParent(door);
 	PERComponent::AiData aiData;
 	aiData.isSwitch = true;
 	button->GetAi().SetData(aiData);
@@ -178,16 +166,32 @@ void TestWorld::AddOtherObjects()
 	offData.color = PERColor(100, 100, 100);
 	button->GetGraphics().SetData(offData);
 	dynamic_cast<MakingSignalAiComponent*>(&button->GetAi())->SetOnOffGraphicsData(onData, offData);
+	dynamic_cast<MakingSignalAiComponent*>(&button->GetAi())->SetResponseAi(dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi()));
 	AddObject(button);
 
 	// 압력
 	PERObject* pressure;
 	pressure = m_objectStorage->PopObject(PERObjectType::PRESSURE);
 	pressure->SetPosition(PERVec3(7.0, 1.5, 0.0));
-	pressure->SetParent(door);
 	onData.color = PERColor(150, 150, 200);
 	offData.color = PERColor(200, 200, 200);
 	pressure->GetGraphics().SetData(offData);
 	dynamic_cast<MakingSignalAiComponent*>(&pressure->GetAi())->SetOnOffGraphicsData(onData, offData);
+	dynamic_cast<MakingSignalAiComponent*>(&pressure->GetAi())->SetResponseAi(dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi()));
 	AddObject(pressure);
+
+	// 트리거
+	PERObject* trigger;
+	trigger = m_objectStorage->PopObject(PERObjectType::TRIGGER);
+	trigger->SetPosition(PERVec3(12.0, 0, 0.2));
+	trigger->SetSize(PERVec3(1.0, 5.0, 0.0));
+	ResponeseToSignalAiComponent* triggerAI = dynamic_cast<ResponeseToSignalAiComponent*>(trigger->GetAi().GetNextComponent());
+	triggerAI->SetExcuteFunc([](ResponeseToSignalAiComponent* component) {
+		EventDispatcher::Send(PEREvent::NOTING_TO_DO, PERVec3());
+		});
+	triggerAI->SetRevokeFunc([](ResponeseToSignalAiComponent* component) {
+		
+		});
+	dynamic_cast<MakingSignalAiComponent*>(&trigger->GetAi())->SetResponseAi(triggerAI);
+	AddObject(trigger);
 }

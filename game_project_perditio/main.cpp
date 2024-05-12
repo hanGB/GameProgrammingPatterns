@@ -84,7 +84,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		g_game = new PERGame(g_hWnd);
 		EventDispatcher::SetGame(dynamic_cast<EventReciver*>(g_game));
 		// 월드 실행
-		g_game->Recive(PEREvent::RUN_DEFAULT_WORLD_AND_GAME_MODE, PERVec3());
+		g_game->Recive(PEREvent::RUN_DEFAULT_WORLD, PERVec3());
+		//EventDispatcher::Send(PEREvent::RUN_DEFAULT_WORLD, PERVec3());
 
 		g_isGameEnd = false;
 		// 게임 루프 스레드 생성
@@ -95,6 +96,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		g_hWorkerThreads[4] = CreateThread(NULL, 0, AudioTheadFunc, NULL, 0, &threadID);
 		g_hWorkerThreads[5] = CreateThread(NULL, 0, EventDispatchterTheadFunc, NULL, 0, &threadID);
 		g_hWorkerThreads[6] = CreateThread(NULL, 0, LogTheadFunc, NULL, 0, &threadID);
+
+
 		break;
 	
 	case WM_GETMINMAXINFO:

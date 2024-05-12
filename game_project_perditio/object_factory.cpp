@@ -20,12 +20,14 @@
 #include "fixed_physics_component.h"
 #include "stuck_physics_component.h"
 #include "pressure_physics_componenet.h"
+#include "trigger_physics_component.h"
 // graphics
 #include "visible_graphics_component.h"
 #include "name_tag_graphics_component.h"
 #include "body_bar_graphics_componenet.h"
 #include "key_input_helper_graphics_component.h"
 #include "hidden_graphics_component.h"
+#include "hidden_debug_graphics_component.h"
 
 // 오브젝트 스테이트
 #include "player_state.h"
@@ -261,7 +263,7 @@ InputComponent* ObjectFactory::CreateInputComponent(std::vector<PERComponentType
     if ( types.size() == 1 ) return component;
 
     InputComponent* frontComponent = component;
-    for ( auto it = types.cbegin(); it < types.cend(); ++it )
+    for ( auto it = types.cbegin() + 1; it < types.cend(); ++it )
     {
         InputComponent* nextComponent = CreateInputComponent(*it);
         frontComponent->SetNextComponent(nextComponent);
@@ -280,7 +282,7 @@ AiComponent* ObjectFactory::CreateAiComponent(std::vector<PERComponentType>& typ
     if ( types.size() == 1 ) return component;
 
     AiComponent* frontComponent = component;
-    for ( auto it = types.cbegin(); it < types.cend(); ++it )
+    for ( auto it = types.cbegin() + 1; it < types.cend(); ++it )
     {
         AiComponent* nextComponent = CreateAiComponent(*it);
         frontComponent->SetNextComponent(nextComponent);
@@ -299,7 +301,7 @@ PhysicsComponent* ObjectFactory::CreatePhysicsComponent(std::vector<PERComponent
     if ( types.size() == 1 ) return component;
 
     PhysicsComponent* frontComponent = component;
-    for ( auto it = types.cbegin(); it < types.cend(); ++it )
+    for ( auto it = types.cbegin() + 1; it < types.cend(); ++it )
     {
         PhysicsComponent* nextComponent = CreatePhysicsComponent(*it);
         frontComponent->SetNextComponent(nextComponent);
@@ -318,7 +320,7 @@ GraphicsComponent* ObjectFactory::CreateGraphicsComponent(std::vector<PERCompone
     if ( types.size() == 1 ) return component;
 
     GraphicsComponent* frontComponent = component;
-    for ( auto it = types.cbegin(); it < types.cend(); ++it )
+    for ( auto it = types.cbegin() + 1; it < types.cend(); ++it )
     {
         GraphicsComponent* nextComponent = CreateGraphicsComponent(*it);
         frontComponent->SetNextComponent(nextComponent);
@@ -395,6 +397,9 @@ PhysicsComponent* ObjectFactory::CreatePhysicsComponent(PERComponentType type)
     case PERComponentType::PRESSURE_PHYSICS:
         physicsComponent = new PressurePhysicsComponent();
         break;
+    case PERComponentType::TRIGGER_PHYSICS:
+        physicsComponent = new TriggerPhysicsComponent();
+        break;
     }
 
     return physicsComponent;
@@ -418,6 +423,9 @@ GraphicsComponent* ObjectFactory::CreateGraphicsComponent(PERComponentType type)
         break;
     case PERComponentType::HIDDEN:
         graphicsComponent = new HiddenGraphicsComponent();
+        break;
+    case PERComponentType::HIDDEN_DEBUG:
+        graphicsComponent = new HiddenDebugGraphicsComponent();
         break;
     }
 

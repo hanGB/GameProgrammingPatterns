@@ -208,6 +208,12 @@
     <Filter Include="00. game\object\component\child class\physics\pressure">
       <UniqueIdentifier>{a78d688e-6a64-4f6a-b3fa-8900500ec65f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\object\component\child class\graphics\hidden_debug">
+      <UniqueIdentifier>{de16367e-af7e-4301-b6ca-b7be3f92595b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\object\component\child class\physics\trigger">
+      <UniqueIdentifier>{2176267b-813e-42d7-8a2d-72723f12c17f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -420,6 +426,15 @@
     <ClInclude Include="creating_particles_ai_component.h">
       <Filter>00. game\object\component\child class\ai\creating_particles</Filter>
     </ClInclude>
+    <ClInclude Include="test_world2.h">
+      <Filter>00. game\world\test_world</Filter>
+    </ClInclude>
+    <ClInclude Include="hidden_debug_graphics_component.h">
+      <Filter>00. game\object\component\child class\graphics\hidden_debug</Filter>
+    </ClInclude>
+    <ClInclude Include="trigger_physics_component.h">
+      <Filter>00. game\object\component\child class\physics\trigger</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -607,6 +622,15 @@
     </ClCompile>
     <ClCompile Include="ai_component.cpp">
       <Filter>00. game\object\component\parents class</Filter>
+    </ClCompile>
+    <ClCompile Include="test_world2.cpp">
+      <Filter>00. game\world\test_world</Filter>
+    </ClCompile>
+    <ClCompile Include="hidden_debug_graphics_component.cpp">
+      <Filter>00. game\object\component\child class\graphics\hidden_debug</Filter>
+    </ClCompile>
+    <ClCompile Include="trigger_physics_component.cpp">
+      <Filter>00. game\object\component\child class\physics\trigger</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

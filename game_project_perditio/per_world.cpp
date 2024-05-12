@@ -25,6 +25,15 @@ PERWorld::~PERWorld()
 {
 	PERLog::Logger().Info("월드 삭제");
 	delete m_particlePool;
+	delete m_pending;
+
+	// 가져온 오브젝트 전부 반환
+	for ( auto& object : m_objects ) {
+		m_objectStorage->PushObject(object->GetObjectType(), object);
+	}
+	for ( auto& object : m_sleepObjects ) {
+		m_objectStorage->PushObject(object->GetObjectType(), object);
+	}
 }
 
 void PERWorld::Update(PERAudio& audio, double dTime)
@@ -106,10 +115,12 @@ void PERWorld::Exit()
 
 void PERWorld::Pause()
 {
+	m_gameMode->EndUse();
 }
 
 void PERWorld::Resume()
 {
+	m_gameMode->StartUse();
 }
 
 void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, const char* databaseId, PERDatabaseType databaseType, 
@@ -188,11 +199,14 @@ bool PERWorld::CheckCollision(PERObject& object, double dTime)
 		else if (otherType == PERObjectType::BUTTON) continue;
 		else if (otherType == PERObjectType::PARTICLE_EFFECTER) continue;
 		else if (otherType == PERObjectType::SPAWNER) continue;
+		// 트리거는 본인만 검사하도록 other object인 상태에서는 넘김
+		else if (otherType == PERObjectType::TRIGGER) continue;
 
 		// 충돌 처리 무시 항목
 		if (type == PERObjectType::MOVABLE_BLOCK && otherType == PERObjectType::MOVABLE_BLOCK) continue;
 		else if ((type == PERObjectType::BULLET || type == PERObjectType::BLADE) && otherType == PERObjectType::PRESSURE) continue;
-		else if ((otherType == PERObjectType::BULLET || otherType == PERObjectType::BLADE) && type == PERObjectType::PRESSURE) continue;
+		else if ((otherType == PERObjectType::BULLET || otherType == PERObjectType::BLADE || otherType == PERObjectType::FIXED_BLOCK) 
+			&& type == PERObjectType::TRIGGER) continue;
 
 		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE) {
 			if (CheckAABBCollision(position, size, otherPos, otherSize)) {
@@ -726,6 +740,15 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 		bObject.GetPhysics().ProcessCollision(aObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
 	}
 	else if ((bType == PERObjectType::PLAYER || bType == PERObjectType::MONSTER || bType == PERObjectType::MOVABLE_BLOCK) && aType == PERObjectType::PRESSURE) {
+		aObject.GetPhysics().ProcessCollision(bObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
+	}
+	// 트리거와 플레이어간
+	else if (aType == PERObjectType::PLAYER && bType == PERObjectType::TRIGGER) {
+		// 충돌 처리
+		bObject.GetPhysics().ProcessCollision(aObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
+	}
+	else if ( aType == PERObjectType::TRIGGER && bType == PERObjectType::PLAYER ) {
+		// 충돌 처리
 		aObject.GetPhysics().ProcessCollision(bObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
 	}
 }

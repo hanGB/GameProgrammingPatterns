@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="hidden_debug_graphics_component.h" />
     <ClInclude Include="key_input_helper_graphics_component.h" />
     <ClInclude Include="key_input_helper.h" />
     <ClInclude Include="key_setting.h" />
@@ -190,6 +191,8 @@
     <ClInclude Include="test_game_mode.h" />
     <ClInclude Include="test_game_state.h" />
     <ClInclude Include="test_world.h" />
+    <ClInclude Include="test_world2.h" />
+    <ClInclude Include="trigger_physics_component.h" />
     <ClInclude Include="ui_element_pool_group.h" />
     <ClInclude Include="unintelligent_ai_component.h" />
     <ClInclude Include="fixed_physics_component.h" />
@@ -218,6 +221,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ai_component.cpp" />
+    <ClCompile Include="hidden_debug_graphics_component.cpp" />
     <ClCompile Include="key_input_helper_graphics_component.cpp" />
     <ClCompile Include="graphics_component.cpp" />
     <ClCompile Include="input_component.cpp" />
@@ -259,6 +263,8 @@
     <ClCompile Include="test_game_mode.cpp" />
     <ClCompile Include="test_game_state.cpp" />
     <ClCompile Include="test_world.cpp" />
+    <ClCompile Include="test_world2.cpp" />
+    <ClCompile Include="trigger_physics_component.cpp" />
     <ClCompile Include="ui_element_pool_group.cpp" />
     <ClCompile Include="unintelligent_ai_component.cpp" />
     <ClCompile Include="fixed_physics_component.cpp" />

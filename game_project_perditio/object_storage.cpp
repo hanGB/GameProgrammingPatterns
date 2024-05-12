@@ -217,6 +217,22 @@ void ObjectStorage::CreateObjectFactories()
         input, ai, physics, graphics);
 
     ClearVectors(inputTypes, aiTypes, physicsTypes, graphicsTypes);
+
+    // Trigger
+    ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
+
+    inputTypes = { PERComponentType::NO_INTERACT };
+    aiTypes = { PERComponentType::MAKING_SIGNAL, PERComponentType::RESPONSE_TO_SIGNAL };
+    physicsTypes = { PERComponentType::TRIGGER_PHYSICS };
+    graphicsTypes = { PERComponentType::HIDDEN_DEBUG };
+
+    factory = CreateObjectFactory(PERObjectType::TRIGGER, PERObjectStateType::NON,
+        inputTypes, aiTypes, physicsTypes, graphicsTypes,
+        input, ai, physics, graphics);
+
+    factory->SetSize(PERVec3(1.0, 1.0, 1.0));
+
+    ClearVectors(inputTypes, aiTypes, physicsTypes, graphicsTypes);
 }
 
 ObjectFactory* ObjectStorage::CreateObjectFactory(

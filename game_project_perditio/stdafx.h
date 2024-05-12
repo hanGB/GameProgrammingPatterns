@@ -180,6 +180,7 @@ enum class PERComponentType {
 	MOVABLE,
 	STUCK,
 	PRESSURE_PHYSICS,
+	TRIGGER_PHYSICS,
 
 	// graphics
 	VISIBLE,
@@ -187,6 +188,7 @@ enum class PERComponentType {
 	BODY_BAR_GRAPHICS,
 	KEY_INPUT_HELPER_GRAPHICS,
 	HIDDEN,
+	HIDDEN_DEBUG,
 
 	NUM_COMPONENT_TYPE
 };
@@ -203,6 +205,7 @@ enum class PERObjectType {
 	PRESSURE,
 	DOOR,
 	PARTICLE_EFFECTER,
+	TRIGGER,
 	NUM_OBJECT_TYPE
 };
 

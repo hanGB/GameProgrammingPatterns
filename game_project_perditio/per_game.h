@@ -30,10 +30,10 @@ public:
 
 private:
 	// 게임 월드, 모드 변경
-	void Run(PERWorld* world, GameMode* gameMode);
-	void ChangeWorld(PERWorld* world, GameMode* gameMode);
-	void PushWorld(PERWorld* world, GameMode* gameMode);
+	void Run(PERWorld* world);
+	void PushWorld();
 	void PopWorld();
+	void ChangeWorld();
 	void Quit();
 
 	const double c_FPS_UPDATE_GAP = 0.5;
@@ -53,7 +53,7 @@ private:
 	PERDatabase*	m_database;
 
 	PERWorld*	m_currentWorld;
-	GameMode*   m_currentGameMode;
+	std::queue<PERWorld*> m_worldQueue;
 
 	// 프레임 측정 관련
 	double m_fpsUpdateTime = 0.0;

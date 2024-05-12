@@ -3,16 +3,16 @@
 #include "test_field_hud.h"
 #include "event_dispatcher.h"
 #include "per_game.h"
-#include "game_state.h"
 #include "object_factory.h"
 #include "per_object.h"
 #include "object_state.h"
 #include "black_board.h"
 #include "ui_element_pool.h"
+#include "test_game_state.h"
 
-TestGameMode::TestGameMode(GameState* gameState)
+TestGameMode::TestGameMode()
 {
-    SetGameState(gameState);
+    SetGameState(new TestGameState());
     InitGameMode();
 }
 
