@@ -36,6 +36,10 @@ private:
 	void ChangeWorld();
 	void Quit();
 
+	// world관련 일 종료(월드를 변경하기 위해)
+	void StopWorldJob();
+	void RestartWorldJob();
+
 	const double c_FPS_UPDATE_GAP = 0.5;
 
 	int m_updateLag = 0;
@@ -54,6 +58,12 @@ private:
 
 	PERWorld*	m_currentWorld;
 	std::queue<PERWorld*> m_worldQueue;
+	// 월드 변경을 위해 업데이트, 렌더링을 잠시 중시 시키는 변수
+	std::atomic<bool> m_isStopWorldJob = false;
+	std::atomic<bool>  m_isStopUpdate = false;
+	std::atomic<bool>  m_isStopUIUpdate = false;
+	std::atomic<bool>  m_isStopRender = false;
+	std::atomic<bool>  m_isStopUIRender = false;
 
 	// 프레임 측정 관련
 	double m_fpsUpdateTime = 0.0;

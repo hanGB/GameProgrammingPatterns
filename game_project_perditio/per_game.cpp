@@ -36,19 +36,41 @@ void PERGame::Recive(PEREvent event, PERVec3 data)
 {
 	switch (event) {
 	case PEREvent::RUN_DEFAULT_WORLD: {
+		PERLog::Logger().Info("기본 월드 실행");
 		PERWorld* world = new TestWorld(m_objectStorage, m_database);
 		Run(world);
 		break; 
 	}
 	case PEREvent::PUSH_CURRENT_WORLD_AND_RUN_TEST2_WORLD: {
-		if ( m_currentWorld ) PushWorld();
+		StopWorldJob();
+		PERLog::Logger().Info("현재 월드를 넣고 Test2 월드 실행");
+		if (m_currentWorld) PushWorld();
 		PERWorld* world = new TestWorld2(m_objectStorage, m_database);
 		Run(world);
+		RestartWorldJob();
+		break;
+	}
+	case PEREvent::CHANGE_WORLD: {
+		StopWorldJob();
+		PERLog::Logger().Info("이전 월드를 꺼내 실행, 현재 월드는 넣어둠");
+		ChangeWorld();
+		RestartWorldJob();
+		break;
+	}
+	case PEREvent::QUIT_WORLD: {
+		StopWorldJob();
+		PERLog::Logger().Info("현재 월드 종료");
+		Quit();
+		if (!m_worldQueue.empty())
+		{
+			PopWorld();
+			RestartWorldJob();
+		}
 		break;
 	}
 	// 테스트용 이벤트
 	case PEREvent::NOTING_TO_DO:
-		int i = 0;
+		PERLog::Logger().Info("게임이 이벤트를 받았습니다.");
 		break;
 	}
 }
@@ -70,6 +92,12 @@ void PERGame::HandleInput(WPARAM wParam, bool isDown)
 
 void PERGame::Update(int time)
 {
+	if (m_isStopWorldJob) 
+	{
+		m_isStopUpdate = true;
+		return;
+	}
+
 	double dTime = time / 1'000'000.0;
 
 	m_fpsUpdateTime -= dTime;
@@ -113,6 +141,12 @@ void PERGame::Update(int time)
 
 void PERGame::UIUpdate(int time)
 {
+	if (m_isStopWorldJob)
+	{
+		m_isStopUIUpdate = true;
+		return;
+	}
+
 	if (m_isUpdateUIEnd) return;
 
 	int fps = m_fps;
@@ -123,6 +157,12 @@ void PERGame::UIUpdate(int time)
 
 void PERGame::Render(HWND hWnd)
 {
+	if (m_isStopWorldJob)
+	{
+		m_isStopRender = true;
+		return;
+	}
+
 	// 렌더링 준비가 되지 않은 경우 리턴
 	if (!m_isUpdateEnd) return;
 
@@ -149,6 +189,12 @@ void PERGame::Render(HWND hWnd)
 
 void PERGame::UIRender(HWND hWnd)
 {
+	if (m_isStopWorldJob)
+	{
+		m_isStopUIRender = true;
+		return;
+	}
+
 	if (!m_isUpdateUIEnd || m_isRenderUIEnd) return;
 
 	m_renderer->ResetUIMemoryDC(hWnd);
@@ -224,5 +270,25 @@ void PERGame::Quit()
 	m_currentWorld->Exit();
 
 	delete m_currentWorld;
+}
+
+void PERGame::StopWorldJob()
+{
+	m_isStopWorldJob = true;
+
+	// 모두 종료될 때까지 대기
+	while (true) {
+		Sleep(1);
+		if (m_isStopUpdate && m_isStopUIUpdate && m_isStopRender && m_isStopUIRender) break;
+	}
+}
+
+void PERGame::RestartWorldJob()
+{
+	m_isStopWorldJob = false;
+	m_isStopUpdate = false;
+	m_isStopUIUpdate = false;
+	m_isStopRender = false;
+	m_isStopUIRender = false;
 }
 

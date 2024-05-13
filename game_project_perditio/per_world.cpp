@@ -25,14 +25,14 @@ PERWorld::~PERWorld()
 {
 	PERLog::Logger().Info("월드 삭제");
 	delete m_particlePool;
-	delete m_pending;
+	delete[] m_pending;
 
 	// 가져온 오브젝트 전부 반환
-	for ( auto& object : m_objects ) {
-		m_objectStorage->PushObject(object->GetObjectType(), object);
+	for ( int i = 0; i < m_numObject; ++i) {
+		m_objectStorage->PushObject(m_objects[i]->GetObjectType(), m_objects[i]);
 	}
-	for ( auto& object : m_sleepObjects ) {
-		m_objectStorage->PushObject(object->GetObjectType(), object);
+	for ( int i = 0; i < m_numSleepObject; ++i ) {
+		m_objectStorage->PushObject(m_sleepObjects[i]->GetObjectType(), m_sleepObjects[i]);
 	}
 }
 

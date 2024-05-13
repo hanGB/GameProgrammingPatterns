@@ -183,11 +183,11 @@ void TestWorld::AddOtherObjects()
 	// 트리거
 	PERObject* trigger;
 	trigger = m_objectStorage->PopObject(PERObjectType::TRIGGER);
-	trigger->SetPosition(PERVec3(12.0, 0, 0.2));
+	trigger->SetPosition(PERVec3(12.0, 0, 0.05));
 	trigger->SetSize(PERVec3(1.0, 5.0, 0.0));
 	ResponeseToSignalAiComponent* triggerAI = dynamic_cast<ResponeseToSignalAiComponent*>(trigger->GetAi().GetNextComponent());
 	triggerAI->SetExcuteFunc([](ResponeseToSignalAiComponent* component) {
-		EventDispatcher::Send(PEREvent::NOTING_TO_DO, PERVec3());
+		EventDispatcher::Send(PEREvent::PUSH_CURRENT_WORLD_AND_RUN_TEST2_WORLD, PERVec3());
 		});
 	triggerAI->SetRevokeFunc([](ResponeseToSignalAiComponent* component) {
 		

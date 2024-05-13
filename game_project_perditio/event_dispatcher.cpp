@@ -44,9 +44,6 @@ void EventDispatcher::RemoveReciver(EventReciver* reciver)
 		it++;
 	}
 
-	// 무조건 게임 클래스는 이벤트를 받아야 함
-	AddReciver(m_game);
-
 	m_csProvider.Unlock();
 }
 
@@ -56,6 +53,9 @@ void EventDispatcher::RemoveAllRecivers()
 
 	m_recivers.clear();
 	m_recivers.resize(0);
+
+	// 무조건 게임 클래스는 이벤트를 받아야 함
+	AddReciver(m_game);
 
 	m_csProvider.Unlock();
 }
