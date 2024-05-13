@@ -14,6 +14,7 @@ class AiComponent;
 class PhysicsComponent;
 class GraphicsComponent;
 enum class PERObjectType;
+enum class PERCollisionType;
 
 enum class PERWorldMessageId {
 	ADD_OBJECT,
@@ -128,20 +129,28 @@ private:
 
 	void ResizePedingArray();
 
+	// 충돌 무시 검사
+	bool IsCollisionIgnoreWithId(PERObject& myObject, int myId, PERObject& otherObject, int otherId) const;
+	bool IsCollisionIgnoreWithCollisionType(PERObject& myObject, PERCollisionType myType, PERObject& otherObject, PERCollisionType otherType) const;
+	bool IsCollisionIgnoreWithPosition(PERObject& myObject, PERVec3 myPos, PERObject& otherObject, PERVec3 otherPos) const;
+
 	// AABB 충돌 관련
 	bool CheckAABBCollision(
 		PERVec3 aPos, PERVec3 aSize, 
 		PERVec3 bPos, PERVec3 bSize);
-
-	// AABB 충돌 처리
-	// 위치 적용
-	void AdjustPositionWithObjects(PERObject& aObject, PERVec3 aPos, PERVec3 aSize,
-		PERObject& bObject, PERVec3 bPos, PERVec3 bSize, double dTime);
 	void ProcessCollisionBetweenFixedAndMovable(
 		PERObject& fixedObject, PERVec3 fixedPos, PERVec3 fixedSize, PERVec3 fixedVel,
 		PERObject& movableObject, PERVec3 movablePos, PERVec3 movableSize, PERVec3 movableVel, double dTime);
+	
+	// AABB 충돌 처리
+	void ProcessCollision(PERObject& aObject, PERCollisionType aType, PERObjectType aObjectType, PERVec3 aPos, PERVec3 aSize,
+		PERObject& bObject, PERCollisionType bType, PERObjectType bObjectType, PERVec3 bPos, PERVec3 bSize, double dTime);
+	// 위치 적용
+	void AdjustPositionWithObjects(PERObject& aObject, PERVec3 aPos, PERVec3 aSize,
+		PERObject& bObject, PERVec3 bPos, PERVec3 bSize, double dTime);
 	// 위치 이동 제외 충돌 처리
-	void ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType aType, PERObject& bObject, PERObjectType bType, double dTime);
+	void ProcessCollisionWithoutMoving(PERObject& aObject, PERCollisionType aType, PERObjectType aObjectType, 
+		PERObject& bObject, PERCollisionType bType, PERObjectType bObjectType, double dTime);
 
 	// 반환
 	void ReturnObejctToStorage();

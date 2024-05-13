@@ -158,7 +158,7 @@ PERVec3 PERObject::GetBoundingBoxPosition() const
 
 PERCollisionType PERObject::GetCollisionType() const
 {
-	return m_collisionType;
+	return m_factory.GetCollisionType();
 }
 
 PERVec3 PERObject::GetCollidedVelocity() const
