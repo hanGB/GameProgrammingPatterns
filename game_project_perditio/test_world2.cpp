@@ -58,7 +58,7 @@ void TestWorld2::AddFixedAndPhysicalObjects()
 	platform->SetSize(PERVec3(5.0, 5.0, 1.0));
 	SetObjectShapeAndColor(platform, PERShapeType::ROUND_RECTANGLE, PERColor(250, 230, 210));
 	AddObject(platform);
-	
+
 	// 벽
 	PERObject* wall;
 	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
@@ -98,8 +98,8 @@ void TestWorld2::AddOtherObjects()
 	PERObject* monsterSpanwer;
 	monsterSpanwer = m_objectStorage->PopObject(PERObjectType::SPAWNER);
 	monsterSpanwer->SetPosition(PERVec3(0.0, 0.0, 0.1));
-	dynamic_cast<SpawnerAiComponent*>( &monsterSpanwer->GetAi() )->SetSpawner(
-	"MONSTER_NIKKEL", PERObjectType::MONSTER, PERSpawnType::LIVE, 1
+	dynamic_cast<SpawnerAiComponent*>(&monsterSpanwer->GetAi())->SetSpawner(
+		"MONSTER_NIKKEL", PERObjectType::MONSTER, PERSpawnType::LIVE, 1
 	);
 	AddObject(monsterSpanwer);
 
@@ -108,14 +108,14 @@ void TestWorld2::AddOtherObjects()
 	trigger = m_objectStorage->PopObject(PERObjectType::TRIGGER);
 	trigger->SetPosition(PERVec3(-10.0, 0, 0.05));
 	trigger->SetSize(PERVec3(1.0, 5.0, 0.0));
-	ResponeseToSignalAiComponent* triggerAI = dynamic_cast< ResponeseToSignalAiComponent* >( trigger->GetAi().GetNextComponent() );
-	triggerAI->SetExcuteFunc([ ] (ResponeseToSignalAiComponent* component) {
+	ResponeseToSignalAiComponent* triggerAI = dynamic_cast<ResponeseToSignalAiComponent*>(trigger->GetAi().GetNextComponent());
+	triggerAI->SetExcuteFunc([](ResponeseToSignalAiComponent* component) {
 		EventDispatcher::Send(PEREvent::QUIT_WORLD, PERVec3());
 		});
-	triggerAI->SetRevokeFunc([ ] (ResponeseToSignalAiComponent* component) {
+	triggerAI->SetRevokeFunc([](ResponeseToSignalAiComponent* component) {
 
 		});
-	dynamic_cast< MakingSignalAiComponent* >( &trigger->GetAi() )->SetResponseAi(triggerAI);
+	dynamic_cast<MakingSignalAiComponent*>(&trigger->GetAi())->SetResponseAi(triggerAI);
 	AddObject(trigger);
 
 	// 문
@@ -123,12 +123,12 @@ void TestWorld2::AddOtherObjects()
 	door = m_objectStorage->PopObject(PERObjectType::DOOR);
 	door->SetPosition(PERVec3(-5.0, 0.0, 0.0));
 	door->SetSize(PERVec3(0.75, 2.0, 0.1));
-	dynamic_cast< ResponeseToSignalAiComponent* >( &door->GetAi() )->SetExcuteFunc([ ] (ResponeseToSignalAiComponent* component) {
+	dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi())->SetExcuteFunc([](ResponeseToSignalAiComponent* component) {
 		// 문을 통과 가능하게 변경
 		component->GetOwner()->SetSize(PERVec3(0.75, 0.5, 0.0));
 		component->GetOwner()->SetPosition(PERVec3(-5.0, -0.85, 0.1));
 		});
-	dynamic_cast< ResponeseToSignalAiComponent* >( &door->GetAi() )->SetRevokeFunc([ ] (ResponeseToSignalAiComponent* component) {
+	dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi())->SetRevokeFunc([](ResponeseToSignalAiComponent* component) {
 		// 문을 통과 불가능하게 변경
 		component->GetOwner()->SetSize(PERVec3(0.75, 2.0, 0.0));
 		component->GetOwner()->SetPosition(PERVec3(-5.0, 0.0, 0.0));
@@ -147,7 +147,7 @@ void TestWorld2::AddOtherObjects()
 	onData.color = PERColor(200, 50, 50);
 	offData.color = PERColor(100, 100, 100);
 	button->GetGraphics().SetData(offData);
-	dynamic_cast< MakingSignalAiComponent* >( &button->GetAi() )->SetOnOffGraphicsData(onData, offData);
-	dynamic_cast< MakingSignalAiComponent* >( &button->GetAi() )->SetResponseAi(dynamic_cast< ResponeseToSignalAiComponent* >( &door->GetAi() ));
+	dynamic_cast<MakingSignalAiComponent*>(&button->GetAi())->SetOnOffGraphicsData(onData, offData);
+	dynamic_cast<MakingSignalAiComponent*>(&button->GetAi())->SetResponseAi(dynamic_cast<ResponeseToSignalAiComponent*>(&door->GetAi()));
 	AddObject(button);
 }
