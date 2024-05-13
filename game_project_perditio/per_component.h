@@ -1,5 +1,46 @@
 #pragma once
 #include "stdafx.h"
+#include "per_renderer.h"
+
+enum class PERComponentType {
+	// input
+	PLAYER_INPUT,
+	INTERACT,
+	NO_INTERACT,
+	BUTTON_INPUT,
+
+	// ai
+	UNINTELLIGENT,
+	INTELLIGENT,
+	MONSTER_AI,
+	SPAWNER_AI,
+	RESPONSE_TO_SIGNAL,
+	MAKING_SIGNAL,
+	CREATING_PARTICLE,
+
+	// physics
+	FIXED,
+	MOVABLE,
+	STUCK,
+	PRESSURE_PHYSICS,
+	TRIGGER_PHYSICS,
+
+	// graphics
+	VISIBLE,
+	NAME_TAG_GRAPHICS,
+	BODY_BAR_GRAPHICS,
+	KEY_INPUT_HELPER_GRAPHICS,
+	HIDDEN,
+	HIDDEN_DEBUG,
+
+	NUM_COMPONENT_TYPE
+};
+
+enum class PERParticleEffectType {
+	CIRCLE_BOMB,
+	POWER_ABSORPTION,
+	NUM_PARTICLE_EFFECT_TYPE
+};
 
 namespace PERComponent {
 

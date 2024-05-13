@@ -1,7 +1,6 @@
 #pragma once
 #include "ai_component.h"
 
-
 class CreatingParticlesAiComponent : public AiComponent {
 public:
 	virtual void Update(PERWorld& world, PERAudio& audio, double dTime);

@@ -10,6 +10,30 @@
 
 class ObjectFactory;
 
+enum class PERObjectType {
+	PLAYER,
+	FIXED_BLOCK,
+	MOVABLE_BLOCK,
+	MONSTER,
+	BULLET,
+	BLADE,
+	SPAWNER,
+	BUTTON,
+	PRESSURE,
+	DOOR,
+	PARTICLE_EFFECTER,
+	TRIGGER,
+	NUM_OBJECT_TYPE
+};
+
+enum class PERBoundingType {
+	RECTANGLE,
+	CIRCLE,
+	TRIANGLE,
+
+	NUM_BOUNDING_TYPE
+};
+
 class PERObject {
 	friend class ObjectFactory;
 

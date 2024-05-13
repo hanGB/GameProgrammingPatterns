@@ -48,3 +48,11 @@ struct EffectData {
 	int borderWidth;
 	PERColor borderColor;
 };
+
+enum class PERDatabaseType {
+	MONSTER,
+	TRANSLATE,
+	VISUAL,
+	EFFECT,
+	NUM_DATABASE_TYPE
+};

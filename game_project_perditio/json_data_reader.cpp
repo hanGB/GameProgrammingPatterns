@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "json_data_reader.h"
+#include "per_renderer.h"
+#include "per_object.h"
 
 JSONDataReader::JSONDataReader()
 {

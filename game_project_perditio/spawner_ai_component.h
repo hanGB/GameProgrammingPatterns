@@ -1,5 +1,6 @@
 #pragma once
 #include "ai_component.h"
+#include "per_object.h"
 
 enum class PERSpawnType {
 	TIME,

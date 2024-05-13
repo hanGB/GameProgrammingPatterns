@@ -13,6 +13,7 @@ class InputComponent;
 class AiComponent;
 class PhysicsComponent;
 class GraphicsComponent;
+enum class PERObjectType;
 
 enum class PERWorldMessageId {
 	ADD_OBJECT,
@@ -28,6 +29,7 @@ enum class PERWorldType {
 	TEST_WORLD2,
 	NUM_WORLD_TYPE
 };
+
 
 struct PERWorldMessage {
 	PERWorldMessageId id;

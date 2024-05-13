@@ -5,6 +5,14 @@ class PERRenderer;
 class PERAudio;
 class PERDatabase;
 
+enum class PERUiElementType {
+	NON,
+	PROGRESS_BAR,
+	NAME_TAG,
+	KEY_INPUT_HELPER,
+	NUM_UI_ELEMENT_TYPE
+};
+
 class UiElement {
 public:
 	UiElement();

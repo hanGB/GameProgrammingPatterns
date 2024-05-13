@@ -11,6 +11,13 @@ class PERHud;
 class UiElement;
 class PERWorld;
 
+enum class PERObjectStateType {
+	PLAYER,
+	MONSTER,
+	NON,
+	NUM_OBJECT_STATE_TYPE
+};
+
 class ObjectState : public EventReciver {
 public:
 	ObjectState();

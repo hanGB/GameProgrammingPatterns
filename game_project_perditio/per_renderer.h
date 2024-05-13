@@ -1,5 +1,20 @@
 #pragma once
 
+enum class PERShapeType {
+	// 중앙 앵커
+	ELLIPSE,
+	RECTANGLE,
+	ROUND_RECTANGLE,
+	TRIANGLE,
+	// left, top 앵커
+	ELLIPSE_WITH_LEFT_TOP_ANCHOR,
+	RECTANGLE_WITH_LEFT_TOP_ANCHOR,
+	ROUND_RECTANGLE_WITH_LEFT_TOP_ANCHOR,
+	TRIANGLE_WITH_LEFT_TOP_ANCHOR,
+	// 수
+	NUM_SHAPE_TYPE
+};
+
 class PERRenderer {
 public:
 	PERRenderer(HWND hWnd);

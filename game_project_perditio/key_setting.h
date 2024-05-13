@@ -1,5 +1,24 @@
 #pragma once
 
+enum class PERKeyboardValue {
+	// special
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	SPACE,
+
+	// alphabet
+	A,
+	S,
+	D,
+	F,
+	Q,
+
+	NUM_KEYBOARD_VALUE
+};
+
+
 struct PERKeyboardData {
 	PERKeyboardValue value;
 	std::wstring show;
