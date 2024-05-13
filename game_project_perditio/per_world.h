@@ -30,7 +30,6 @@ enum class PERWorldType {
 	NUM_WORLD_TYPE
 };
 
-
 struct PERWorldMessage {
 	PERWorldMessageId id;
 	PERObject* object;

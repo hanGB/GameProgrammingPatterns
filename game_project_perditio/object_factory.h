@@ -17,6 +17,7 @@ public:
 	PERObject* CreateObject();
 
 	PERObjectType GetObjectType() const;
+	PERCollisionType GetCollisionType() const;
 	PERComponent::ComponentTypeVectors& GetComponentTypeVectors();
 
 	// 스태틱 함수(object storage에서도 컨포넌트 데이터들 초기화하기 위함)
@@ -59,8 +60,11 @@ private:
 	PhysicsComponent* CreatePhysicsComponent(PERComponentType type);
 	GraphicsComponent* CreateGraphicsComponent(PERComponentType type);
 	
+	void MatchCollisionType();
+	
 	PERObjectType m_objectType;
 	PERObjectStateType m_objectStateType;
+	PERCollisionType m_collisionType;
 
 	PERComponent::ComponentTypeVectors m_componentTypeVectors;
 

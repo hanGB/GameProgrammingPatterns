@@ -26,6 +26,16 @@ enum class PERObjectType {
 	NUM_OBJECT_TYPE
 };
 
+enum class PERCollisionType {
+	NONE,
+	FIXED,
+	MOVABLE,
+	ACTOR,
+	TRIGGER,
+	BULLET,
+	NUM_COLLISION_TYPE
+};
+
 enum class PERBoundingType {
 	RECTANGLE,
 	CIRCLE,
@@ -63,6 +73,7 @@ public:
 	PERBoundingType GetBoundingType() const;
 	PERVec3 GetBoundingBoxSize() const;
 	PERVec3 GetBoundingBoxPosition() const;
+	PERCollisionType GetCollisionType() const;
 
 	PERVec3 GetCollidedVelocity() const;
 	double GetCollidedMass() const;

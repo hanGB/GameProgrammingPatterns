@@ -156,6 +156,11 @@ PERVec3 PERObject::GetBoundingBoxPosition() const
 		m_position.z + m_boundingBoxRelativePosition.z);
 }
 
+PERCollisionType PERObject::GetCollisionType() const
+{
+	return m_collisionType;
+}
+
 PERVec3 PERObject::GetCollidedVelocity() const
 {
 	if (m_collidedObject) 

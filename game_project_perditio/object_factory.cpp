@@ -43,7 +43,8 @@ ObjectFactory::ObjectFactory(PERObjectType objectType, PERObjectStateType object
     m_objectType = objectType;
     m_objectStateType = objectStateType;
     m_componentTypeVectors = { input, ai, physics, graphics };
-
+    
+    MatchCollisionType();
     InitData();
 }
 
@@ -61,6 +62,7 @@ ObjectFactory::ObjectFactory(PERObjectType objectType, PERObjectStateType object
     m_componentData = { inputData, aiData, physicsData, graphicsData };
 
     m_size = PERVec3(1.0, 1.0, 1.0); m_mass = 50.0;
+    MatchCollisionType();
 }
 
 ObjectFactory::~ObjectFactory()
@@ -87,6 +89,11 @@ PERObject* ObjectFactory::CreateObject()
 PERObjectType ObjectFactory::GetObjectType() const
 {
     return m_objectType;
+}
+
+PERCollisionType ObjectFactory::GetCollisionType() const
+{
+    return m_collisionType;
 }
 
 PERComponent::ComponentTypeVectors& ObjectFactory::GetComponentTypeVectors()
@@ -430,4 +437,34 @@ GraphicsComponent* ObjectFactory::CreateGraphicsComponent(PERComponentType type)
     }
 
     return graphicsComponent;
+}
+
+void ObjectFactory::MatchCollisionType()
+{
+    switch (m_objectType) {
+    case PERObjectType::PLAYER: m_collisionType = PERCollisionType::ACTOR;
+        break;
+    case PERObjectType::FIXED_BLOCK: m_collisionType = PERCollisionType::FIXED;
+        break;
+    case PERObjectType::MOVABLE_BLOCK: m_collisionType = PERCollisionType::MOVABLE;
+        break;
+    case PERObjectType::MONSTER: m_collisionType = PERCollisionType::ACTOR;
+        break;
+    case PERObjectType::BULLET: m_collisionType = PERCollisionType::BULLET;
+        break;
+    case PERObjectType::BLADE: m_collisionType = PERCollisionType::BULLET;
+        break;
+    case PERObjectType::SPAWNER: m_collisionType = PERCollisionType::NONE;
+        break;
+    case PERObjectType::BUTTON: m_collisionType = PERCollisionType::NONE;
+        break;
+    case PERObjectType::PRESSURE: m_collisionType = PERCollisionType::TRIGGER;
+        break;
+    case PERObjectType::DOOR: m_collisionType = PERCollisionType::FIXED;
+        break;
+    case PERObjectType::PARTICLE_EFFECTER: m_collisionType = PERCollisionType::NONE;
+        break;
+    case PERObjectType::TRIGGER: m_collisionType = PERCollisionType::TRIGGER;
+        break;
+    }
 }
