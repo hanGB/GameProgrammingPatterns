@@ -4,7 +4,7 @@ class ObjectFactory;
 class PERHud;
 class GameState;
 class PERObject;
-class ObjectState;
+class PlayerState;
 class PERRenderer;
 
 class GameMode {
@@ -20,8 +20,10 @@ public:
 	PERHud& GetHud();
 	GameState& GetGameState();
 	PERObject& GetPlayer();
+	PlayerState& GetPlayerState();
 
 	void SetGameState(GameState* gameState);
+	void UpdatePlayerState(PlayerState* updatedState);
 
 protected:
 	void InitGameMode();

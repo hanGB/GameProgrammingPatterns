@@ -115,3 +115,39 @@ std::string& PlayerState::GetBladeVisualId()
 {
     return m_bladeVisualId;
 }
+
+PERWorldType PlayerState::GetCurrentWorldType() const
+{
+    return m_currentWorldType;
+}
+
+void PlayerState::SetCurrentWorldType(PERWorldType type)
+{
+    m_currentWorldType = type;
+}
+
+void PlayerState::CopyData(PlayerState* updatedState)
+{
+    // 스탯
+    m_stat = updatedState->m_stat;
+    m_currentBody = updatedState->m_currentBody;
+    m_currentMind = updatedState->m_currentMind;
+    m_exp = updatedState->m_exp;
+
+    // 대미지 무시
+    m_damageDelay = 0.0;
+    // 자동 회복
+    m_recoverDelay = updatedState->m_recoverDelay;
+    m_recoverTime = updatedState->m_recoverTime;
+    m_bodyRecoverPercent = updatedState->m_bodyRecoverPercent;
+    m_mindRecoverPercent = updatedState->m_mindRecoverPercent;
+
+    // 현재 월드 타입
+    m_currentWorldType = updatedState->m_currentWorldType;
+}
+
+void PlayerState::MatchDataAndHud()
+{
+    EventDispatcher::Send(PEREvent::UPDATE_BD, PERVec3(m_currentBody, 1.0, 0.0));
+    EventDispatcher::Send(PEREvent::UPDATE_MD, PERVec3(m_currentMind, 1.0, 0.0));
+}

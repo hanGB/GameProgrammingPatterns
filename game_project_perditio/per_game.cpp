@@ -4,8 +4,6 @@
 #include "black_board.h"
 #include "test_world.h"
 #include "test_world2.h"
-#include "test_game_mode.h"
-#include "test_game_state.h"
 
 PERGame::PERGame(HWND hWnd)
 {
@@ -35,43 +33,19 @@ PERGame::~PERGame()
 void PERGame::Recive(PEREvent event, PERVec3 data)
 {
 	switch (event) {
-	case PEREvent::RUN_DEFAULT_WORLD: {
-		PERLog::Logger().Info("기본 월드 실행");
-		PERWorld* world = new TestWorld(m_objectStorage, m_database);
-		Run(world);
-		break; 
-	}
-	case PEREvent::PUSH_CURRENT_WORLD_AND_RUN_TEST2_WORLD: {
-		StopWorldJob();
-		PERLog::Logger().Info("현재 월드를 넣고 Test2 월드 실행");
-		if (m_currentWorld) PushWorld();
-		PERWorld* world = new TestWorld2(m_objectStorage, m_database);
-		Run(world);
-		RestartWorldJob();
+	case PEREvent::EXECUTE_GAME: {
+		PERLog::Logger().Info("게임 실행");
+		Run(new TestWorld(m_objectStorage, m_database));
 		break;
 	}
-	case PEREvent::CHANGE_WORLD: {
-		StopWorldJob();
-		PERLog::Logger().Info("이전 월드를 꺼내 실행, 현재 월드는 넣어둠");
-		ChangeWorld();
-		RestartWorldJob();
+	case PEREvent::RUN_TEST_WORLD: {
+		ProgressRunEvent<TestWorld>("Test");
 		break;
 	}
-	case PEREvent::QUIT_WORLD: {
-		StopWorldJob();
-		PERLog::Logger().Info("현재 월드 종료");
-		Quit();
-		if (!m_worldQueue.empty())
-		{
-			PopWorld();
-			RestartWorldJob();
-		}
+	case PEREvent::RUN_TEST2_WORLD: {
+		ProgressRunEvent<TestWorld2>("Test2");
 		break;
 	}
-	// 테스트용 이벤트
-	case PEREvent::NOTING_TO_DO:
-		PERLog::Logger().Info("게임이 이벤트를 받았습니다.");
-		break;
 	}
 }
 
@@ -219,7 +193,7 @@ void PERGame::MatchWindowHWND(HWND hWnd)
 
 void PERGame::Run(PERWorld* world)
 {
-	PERLog::Logger().Info("월드 최초 실행");
+	PERLog::Logger().Info("월드 실행");
 
 	world->Enter();
 
@@ -247,24 +221,10 @@ void PERGame::PopWorld()
 	m_currentWorld = world;
 }
 
-void PERGame::ChangeWorld()
-{
-	PERLog::Logger().Info("저장된 기존 월드를 꺼내고 현재 월드를 저장");
-
-	m_currentWorld->Pause();
-
-	PERWorld* world = m_worldQueue.front();
-	m_worldQueue.pop();
-
-	m_worldQueue.push(m_currentWorld);
-
-	world->Resume();
-
-	m_currentWorld = world;
-}
-
 void PERGame::Quit()
 {
+	if (!m_currentWorld) return;
+
 	PERLog::Logger().Info("현재 월드 종료");
 
 	m_currentWorld->Exit();
@@ -290,5 +250,14 @@ void PERGame::RestartWorldJob()
 	m_isStopUIUpdate = false;
 	m_isStopRender = false;
 	m_isStopUIRender = false;
+}
+
+void PERGame::GivePlayStateToNextWorld(PERWorld* nextWorld)
+{
+	if (m_currentWorld)
+	{
+		PlayerState* playerState = &m_currentWorld->GetGameMode().GetPlayerState();
+		nextWorld->GetGameMode().UpdatePlayerState(playerState);
+	}
 }
 

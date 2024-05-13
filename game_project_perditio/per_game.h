@@ -8,6 +8,7 @@
 #include "per_object.h"
 #include "event_reciver.h"
 #include "per_database.h"
+#include "player_state.h"
 
 class PERGame : public EventReciver {
 public:
@@ -29,16 +30,35 @@ public:
 	void MatchWindowHWND(HWND hWnd);
 
 private:
+	// 이벤트 처리
+	template <class T>
+	void ProgressRunEvent(const char* worldName)
+	{
+		PERLog::Logger().InfoWithFormat("%s 월드 실행", worldName);
+
+		StopWorldJob();
+
+		PERWorld* world = new T(m_objectStorage, m_database);
+		GivePlayStateToNextWorld(world);
+	
+		Quit();
+		Run(world);
+
+		RestartWorldJob();
+	}
+
 	// 게임 월드, 모드 변경
 	void Run(PERWorld* world);
 	void PushWorld();
 	void PopWorld();
-	void ChangeWorld();
 	void Quit();
 
 	// world관련 일 종료(월드를 변경하기 위해)
 	void StopWorldJob();
 	void RestartWorldJob();
+
+	// 다음 월드에 기존 플레이어 스테이트를 넘김(플레이어의 상태를 동일하게 맞추기 위해)
+	void GivePlayStateToNextWorld(PERWorld* nextWorld);
 
 	const double c_FPS_UPDATE_GAP = 0.5;
 

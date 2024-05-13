@@ -26,10 +26,7 @@ TestFieldHud::TestFieldHud()
 
 TestFieldHud::~TestFieldHud()
 {
-	//if (m_bodyBar) m_bodyBar->SetLifeTime(-1.0);
-	//if (m_mindBar) m_mindBar->SetLifeTime(-1.0);
 
-	//PERHud::~PERHud();
 }
 
 void TestFieldHud::Recive(PEREvent event, PERVec3 data)
@@ -37,9 +34,11 @@ void TestFieldHud::Recive(PEREvent event, PERVec3 data)
 	switch (event) {
 	case PEREvent::UPDATE_BD:
 		m_bodyBar->SetCurrent((int)data.x);
+		if ((bool)data.y) m_bodyBar->UpateShowingValueImmediately();
 		break;
 	case PEREvent::UPDATE_MD:
 		m_mindBar->SetCurrent((int)data.x);
+		if ((bool)data.y) m_mindBar->UpateShowingValueImmediately();
 		break;
 	}
 }

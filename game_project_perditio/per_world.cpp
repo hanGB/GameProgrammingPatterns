@@ -24,16 +24,17 @@ PERWorld::PERWorld()
 PERWorld::~PERWorld()
 {
 	PERLog::Logger().Info("월드 삭제");
-	delete m_particlePool;
-	delete[] m_pending;
 
 	// 가져온 오브젝트 전부 반환
-	for ( int i = 0; i < m_numObject; ++i) {
-		m_objectStorage->PushObject(m_objects[i]->GetObjectType(), m_objects[i]);
-	}
-	for ( int i = 0; i < m_numSleepObject; ++i ) {
-		m_objectStorage->PushObject(m_sleepObjects[i]->GetObjectType(), m_sleepObjects[i]);
-	}
+	ReturnObejctToStorage();
+	ClearObejctVector();
+
+	// 객체 삭제
+	delete m_gameMode;
+	delete m_particlePool;
+
+	// 이벤트 큐 삭제
+	delete[] m_pending;
 }
 
 void PERWorld::Update(PERAudio& audio, double dTime)
@@ -101,7 +102,6 @@ void PERWorld::UIRender(PERRenderer& renderer)
 void PERWorld::Enter()
 {
 	AddObject(&m_gameMode->GetPlayer());
-	BlackBoard::SetIsPlayerLiving(true);
 
 	InitWorldObject();
 
@@ -257,6 +257,11 @@ PERDatabase& PERWorld::GetDatabase()
 PERParticlePool& PERWorld::GetParticlePool()
 {
 	return *m_particlePool;
+}
+
+GameMode& PERWorld::GetGameMode()
+{
+	return *m_gameMode;
 }
 
 void PERWorld::DoGarbegeCollection(double dTime)
@@ -751,4 +756,37 @@ void PERWorld::ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType a
 		// 충돌 처리
 		aObject.GetPhysics().ProcessCollision(bObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
 	}
+}
+
+void PERWorld::ReturnObejctToStorage()
+{
+	for (int i = 0; i < m_numObject; ++i) {
+		m_objectStorage->PushObject(m_objects[i]->GetObjectType(), m_objects[i]);
+	}
+	for (int i = 0; i < m_numSleepObject; ++i) {
+		m_objectStorage->PushObject(m_sleepObjects[i]->GetObjectType(), m_sleepObjects[i]);
+	}
+}
+
+void PERWorld::ClearObejctVector()
+{
+	// 모든 오브젝트 제거 
+	m_objects.clear();
+	m_sleepObjects.clear();
+
+	m_inputComponents.clear();
+	m_aiComponents.clear();
+	m_physicsComponents.clear();
+	m_graphicsComponents.clear();
+	m_sortedGraphicsComponents.clear();
+
+	// 메모리 재할당
+	m_objects.shrink_to_fit();
+	m_sleepObjects.shrink_to_fit();
+
+	m_inputComponents.shrink_to_fit();
+	m_aiComponents.shrink_to_fit();
+	m_physicsComponents.shrink_to_fit();
+	m_graphicsComponents.shrink_to_fit();
+	m_sortedGraphicsComponents.shrink_to_fit();
 }

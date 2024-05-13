@@ -84,7 +84,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		g_game = new PERGame(g_hWnd);
 		EventDispatcher::SetGame(dynamic_cast<EventReciver*>(g_game));
 		// 월드 실행
-		g_game->Recive(PEREvent::RUN_DEFAULT_WORLD, PERVec3());
+		g_game->Recive(PEREvent::EXECUTE_GAME, PERVec3());
 		//EventDispatcher::Send(PEREvent::RUN_DEFAULT_WORLD, PERVec3());
 
 		g_isGameEnd = false;

@@ -22,6 +22,13 @@ enum class PERWorldMessageId {
 	NUM_WROLD_MESSAGE_ID
 };
 
+enum class PERWorldType {
+	MAIN_MENU,
+	TEST_WORLD,
+	TEST_WORLD2,
+	NUM_WORLD_TYPE
+};
+
 struct PERWorldMessage {
 	PERWorldMessageId id;
 	PERObject* object;
@@ -70,6 +77,7 @@ public:
 	PERHud& GetHud();
 	PERDatabase& GetDatabase();
 	PERParticlePool& GetParticlePool();
+	GameMode& GetGameMode();
 	
 protected:
 	// 자식이 접근해서 사용할 함수
@@ -133,6 +141,10 @@ private:
 		PERObject& movableObject, PERVec3 movablePos, PERVec3 movableSize, PERVec3 movableVel, double dTime);
 	// 위치 이동 제외 충돌 처리
 	void ProcessCollisionWithoutMoving(PERObject& aObject, PERObjectType aType, PERObject& bObject, PERObjectType bType, double dTime);
+
+	// 반환
+	void ReturnObejctToStorage();
+	void ClearObejctVector();
 
 	std::vector<PERObject*> m_objects;
 	int m_maxObject = PER_DEFAULT_MAX_OBJECTS;

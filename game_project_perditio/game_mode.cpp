@@ -6,7 +6,7 @@
 #include "game_state.h"
 #include "object_factory.h"
 #include "per_object.h"
-#include "object_state.h"
+#include "player_state.h"
 #include "black_board.h"
 
 GameMode::GameMode()
@@ -25,13 +25,15 @@ GameMode::~GameMode()
 void GameMode::StartUse()
 {
     EventDispatcher::AddReciver(m_hud);
-	EventDispatcher::AddReciver(&m_player->GetObjectState());
+	EventDispatcher::AddReciver(&GetPlayerState());
+	GetPlayerState().MatchDataAndHud();
+	BlackBoard::SetIsPlayerLiving(true);
 }
 
 void GameMode::EndUse()
 {
     EventDispatcher::RemoveReciver(m_hud);
-	EventDispatcher::RemoveReciver(&m_player->GetObjectState());
+	EventDispatcher::RemoveReciver(&GetPlayerState());
 }
 
 PERHud& GameMode::GetHud()
@@ -49,9 +51,20 @@ PERObject& GameMode::GetPlayer()
 	return *m_player;
 }
 
+PlayerState& GameMode::GetPlayerState()
+{
+	return dynamic_cast<PlayerState&>(m_player->GetObjectState());
+}
+
 void GameMode::SetGameState(GameState* gameState)
 {
 	m_gameState = gameState;
+}
+
+void GameMode::UpdatePlayerState(PlayerState* updatedState)
+{
+	PlayerState* state = dynamic_cast<PlayerState*>(&m_player->GetObjectState());
+	state->CopyData(updatedState);
 }
 
 void GameMode::InitGameMode()

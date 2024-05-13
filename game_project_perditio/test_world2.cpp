@@ -8,6 +8,7 @@
 #include "making_signal_ai_component.h"
 #include "response_to_signal_ai_component.h"
 #include "event_dispatcher.h"
+#include "player_state.h"
 
 TestWorld2::TestWorld2(ObjectStorage* objectStorage, PERDatabase* database)
 {
@@ -20,7 +21,8 @@ TestWorld2::~TestWorld2()
 
 void TestWorld2::Enter()
 {
-	m_gameMode->GetPlayer().SetPosition(PERVec3(-8.0, 0.0, 0.1));
+	m_gameMode->GetPlayer().SetPosition(PERVec3(-9.0, 0.0, 0.1));
+	m_gameMode->GetPlayerState().SetCurrentWorldType(PERWorldType::TEST_WORLD2);
 	m_gameMode->GetPlayer().SetCurrentPositionToSpawnPosition();
 
 	PERWorld::Enter();
@@ -33,6 +35,7 @@ void TestWorld2::Exit()
 
 void TestWorld2::Pause()
 {
+	m_gameMode->GetPlayerState().SetCurrentWorldType(PERWorldType::TEST_WORLD2);
 	m_playerPosBeforePause = m_gameMode->GetPlayer().GetPosition();
 	PERWorld::Pause();
 }
@@ -110,7 +113,7 @@ void TestWorld2::AddOtherObjects()
 	trigger->SetSize(PERVec3(1.0, 5.0, 0.0));
 	ResponeseToSignalAiComponent* triggerAI = dynamic_cast<ResponeseToSignalAiComponent*>(trigger->GetAi().GetNextComponent());
 	triggerAI->SetExcuteFunc([](ResponeseToSignalAiComponent* component) {
-		EventDispatcher::Send(PEREvent::QUIT_WORLD, PERVec3());
+		EventDispatcher::Send(PEREvent::RUN_TEST_WORLD, PERVec3());
 		});
 	triggerAI->SetRevokeFunc([](ResponeseToSignalAiComponent* component) {
 

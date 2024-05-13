@@ -238,7 +238,6 @@ enum class PERDatabaseType {
 	NUM_DATABASE_TYPE
 };
 
-
 namespace std {
 	int clamp(int value, int min, int max);
 }
