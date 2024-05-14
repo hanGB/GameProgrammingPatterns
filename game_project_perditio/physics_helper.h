@@ -5,10 +5,9 @@ class PERObject;
 enum class PERObjectType;
 
 enum class PERCollisionType {
-	NONE,
-	FIXED,
+	NONE,	
+	FIXED,	
 	MOVABLE,
-	ACTOR,
 	TRIGGER,
 	BULLET,
 	NUM_COLLISION_TYPE
@@ -17,7 +16,8 @@ enum class PERCollisionType {
 class PhysicsHelper {
 public:
 	// 월드 내 다른 오브젝트들과의 충돌 검사 
-	static bool CheckCollisionBetweenOtherObjects(PERWorld& world, PERObject& myObject, std::vector<PERObject*>& otherObjects, int numOtherObject, double dTime);
+	static bool CheckCollisionBetweenOtherObjects(PERWorld& world, PERObject& myObject, std::vector<PERObject*>& otherObjects, int numOtherObject, 
+		PERObject* exceptObject, double dTime);
 
 	// 어떠한 외부 힘 없이 이동 계산
 	static void CaculateMovementWithoutExternalForce(PERObject& object, PERVec3 currentAccel, double dTime);
@@ -39,16 +39,22 @@ private:
 	static bool CheckAABBCollision(
 		PERVec3 aPos, PERVec3 aSize,
 		PERVec3 bPos, PERVec3 bSize);
-	static void ProcessCollisionBetweenFixedAndMovable(
-		PERWorld& world, PERObject& fixedObject, PERVec3 fixedPos, PERVec3 fixedSize, PERVec3 fixedVel,
-		PERObject& movableObject, PERVec3 movablePos, PERVec3 movableSize, PERVec3 movableVel, double dTime);
 
 	// AABB 충돌 처리
 	static void ProcessCollision(PERWorld& world, PERObject& aObject, PERCollisionType aType, PERObjectType aObjectType, PERVec3 aPos, PERVec3 aSize,
-		PERObject& bObject, PERCollisionType bType, PERObjectType bObjectType, PERVec3 bPos, PERVec3 bSize, double dTime);
+		PERObject& bObject, PERCollisionType bType, PERObjectType bObjectType, PERVec3 bPos, PERVec3 bSize, 
+		std::vector<PERObject*>& otherObjects, int numOtherObject, double dTime);
+	
 	// 위치 적용
-	static void AdjustPositionWithObjects(PERWorld& world, PERObject& aObject, PERVec3 aPos, PERVec3 aSize,
+	static void AdjustPositionBetweenObjects(PERWorld& world, PERObject& aObject, PERVec3 aPos, PERVec3 aSize,
 		PERObject& bObject, PERVec3 bPos, PERVec3 bSize, double dTime);
+	// Fixed와 Movable 사이 충돌 처리
+	static void ProcessCollisionBetweenFixedAndMovable(
+		PERWorld& world, PERObject& fixedObject, PERVec3 fixedPos, PERVec3 fixedSize, PERVec3 fixedVel,
+		PERObject& movableObject, PERVec3 movablePos, PERVec3 movableSize, PERVec3 movableVel, double dTime);
+	// Actor와 Movable 사이의 충돌 처리
+	static void ProcessCollisionBetweenMovables(PERWorld& world, PERObject& fastObject, PERVec3 fastPos, PERVec3 fastSize,
+		PERObject& slowObject, PERVec3 slowPos, PERVec3 slowSize, std::vector<PERObject*>& otherObjects, int numOtherObject, double dTime);
 	// 위치 이동 제외 충돌 처리
 	static void ProcessCollisionWithoutMoving(PERWorld& world, PERObject& aObject, PERCollisionType aType, PERObjectType aObjectType,
 		PERObject& bObject, PERCollisionType bType, PERObjectType bObjectType, double dTime);

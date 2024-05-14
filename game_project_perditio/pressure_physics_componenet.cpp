@@ -41,8 +41,8 @@ void PressurePhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVe
 	PhysicsComponent::ProcessCollision(collidedObject, collisionVelocity, changedVelocity, collisionTime);
 }
 
-void PressurePhysicsComponent::GiveForce(PERWorld& world, PERVec3 force, double dTime)
+void PressurePhysicsComponent::GiveForce(PERWorld& world, PERObject& opponentObject, PERVec3 force, double dTime)
 {
-	PhysicsComponent::GiveForce(world, force, dTime);
+	PhysicsComponent::GiveForce(world, opponentObject, force, dTime);
 }
 

@@ -148,7 +148,13 @@ void PERWorld::RequestDeleteObject(PERObject* object)
 
 bool PERWorld::CheckCollision(PERObject& object, double dTime)
 {
-	return PhysicsHelper::CheckCollisionBetweenOtherObjects(*this, object, m_objects, m_numObject, dTime);
+	return PhysicsHelper::CheckCollisionBetweenOtherObjects(*this, object, m_objects, m_numObject, nullptr, dTime);
+}
+
+bool PERWorld::CheckCollisionWithoutSpecificObject(PERObject& object, PERObject& exceptObject, double dTime)
+{
+	return false;
+	PhysicsHelper::CheckCollisionBetweenOtherObjects(*this, object, m_objects, m_numObject, &exceptObject, dTime);
 }
 
 PERHud& PERWorld::GetHud()

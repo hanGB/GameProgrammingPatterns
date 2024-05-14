@@ -58,10 +58,6 @@ void PERObject::Initialize()
 	m_boundingBoxRelativeSize = PERVec3(1.0, 1.0, 1.0);
 	m_boundingBoxRelativePosition = PERVec3(0.0, 0.0, 0.0);
 
-	// 충돌 정보
-	m_collidedObject = nullptr;
-	m_collidedMomentVelocity = PERVec3(0.0, 0.0, 0.0);
-
 	// 월드 내 정보
 	m_idInWorld = -1;
 	m_lifeTime = PER_MAXIMUM_LIFE_TIME;
@@ -161,30 +157,6 @@ PERCollisionType PERObject::GetCollisionType() const
 	return m_factory.GetCollisionType();
 }
 
-PERVec3 PERObject::GetCollidedVelocity() const
-{
-	if (m_collidedObject) 
-		return PERVec3(
-			m_velocity.x + m_collidedMomentVelocity.x,
-			m_velocity.y + m_collidedMomentVelocity.y,
-			m_velocity.z + m_collidedMomentVelocity.z
-		);
-
-	return m_velocity;
-}
-
-double PERObject::GetCollidedMass() const
-{
-	if (m_collidedObject) return m_mass + m_collidedObject->GetMass();
-
-	return m_mass;
-}
-
-PERObject* PERObject::GetCollidedObject()
-{
-	return m_collidedObject;
-}
-
 int PERObject::GetIDInWorld() const
 {
 	return m_idInWorld;
@@ -265,12 +237,6 @@ void PERObject::SetIDInWorld(int id)
 void PERObject::SetLifeTime(double time)
 {
 	m_lifeTime = time;
-}
-
-void PERObject::SetCollidedObject(PERObject* object, PERVec3 collidedMomentVel)
-{
-	m_collidedObject = object;
-	m_collidedMomentVelocity = collidedMomentVel;
 }
 
 void PERObject::SetCurrentPositionToSpawnPosition()

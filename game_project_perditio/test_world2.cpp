@@ -106,6 +106,17 @@ void TestWorld2::AddOtherObjects()
 	);
 	AddObject(monsterSpanwer);
 
+	PERObject* block;
+	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block->SetPosition(PERVec3(-7.5, 1.0, 0.1));
+	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
+	AddObject(block);
+
+	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
+	block->SetPosition(PERVec3(-7.5, -1.0, 0.1));
+	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
+	AddObject(block);
+
 	// 트리거
 	PERObject* trigger;
 	trigger = m_objectStorage->PopObject(PERObjectType::TRIGGER);

@@ -66,11 +66,6 @@ public:
 	PERVec3 GetBoundingBoxPosition() const;
 	PERCollisionType GetCollisionType() const;
 
-	PERVec3 GetCollidedVelocity() const;
-	double GetCollidedMass() const;
-
-	PERObject* GetCollidedObject();
-
 	int GetIDInWorld() const;
 	double GetLifeTime() const;
 
@@ -87,8 +82,6 @@ public:
 
 	void SetIDInWorld(int id);
 	void SetLifeTime(double time);
-
-	void SetCollidedObject(PERObject* object, PERVec3 collidedMomentVel);
 
 	// 현재 위치를 스폰 위치로 설정
 	void SetCurrentPositionToSpawnPosition();
@@ -130,9 +123,6 @@ private:
 	PERVec3			m_boundingBoxRelativeSize		= PERVec3(1.0, 1.0, 1.0);
 	PERVec3			m_boundingBoxRelativePosition	= PERVec3(0.0, 0.0, 0.0);
 
-	// 충돌된 오브젝트
-	PERObject* m_collidedObject = nullptr;
-	PERVec3 m_collidedMomentVelocity;
 	// 월드 내 정보
 	int m_idInWorld = -1;
 	double m_lifeTime = PER_MAXIMUM_LIFE_TIME;

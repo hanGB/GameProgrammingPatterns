@@ -442,13 +442,13 @@ GraphicsComponent* ObjectFactory::CreateGraphicsComponent(PERComponentType type)
 void ObjectFactory::MatchCollisionType()
 {
     switch (m_objectType) {
-    case PERObjectType::PLAYER: m_collisionType = PERCollisionType::ACTOR;
+    case PERObjectType::PLAYER: m_collisionType = PERCollisionType::MOVABLE;
         break;
     case PERObjectType::FIXED_BLOCK: m_collisionType = PERCollisionType::FIXED;
         break;
     case PERObjectType::MOVABLE_BLOCK: m_collisionType = PERCollisionType::MOVABLE;
         break;
-    case PERObjectType::MONSTER: m_collisionType = PERCollisionType::ACTOR;
+    case PERObjectType::MONSTER: m_collisionType = PERCollisionType::MOVABLE;
         break;
     case PERObjectType::BULLET: m_collisionType = PERCollisionType::BULLET;
         break;

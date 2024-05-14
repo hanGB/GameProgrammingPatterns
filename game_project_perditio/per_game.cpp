@@ -36,7 +36,7 @@ void PERGame::Recive(PEREvent event, PERVec3 data)
 	switch (event) {
 	case PEREvent::EXECUTE_GAME: {
 		PERLog::Logger().Info("게임 실행");
-		Run(new TestWorld(m_objectStorage, m_database));
+		Run(new TestWorld2(m_objectStorage, m_database));
 		break;
 	}
 	case PEREvent::RUN_TEST_WORLD: {

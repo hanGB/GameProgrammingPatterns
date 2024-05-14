@@ -33,7 +33,7 @@ void TriggerPhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVec
 	PhysicsComponent::ProcessCollision(collidedObject, collisionVelocity, changedVelocity, collisionTime);
 }
 
-void TriggerPhysicsComponent::GiveForce(PERWorld& world, PERVec3 force, double dTime)
+void TriggerPhysicsComponent::GiveForce(PERWorld& world, PERObject& collidedObject, PERVec3 force, double dTime)
 {
-	PhysicsComponent::GiveForce(world, force, dTime);
+	PhysicsComponent::GiveForce(world, collidedObject, force, dTime);
 }

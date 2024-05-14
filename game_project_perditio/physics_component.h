@@ -13,7 +13,7 @@ public:
 	virtual void SetData(PERComponent::PhysicsData data);
 	virtual void Initialize();
 	virtual void ProcessCollision(PERObject& collidedObject, PERVec3 collisionVelocity, PERVec3 changedVelocity, double collisionTime);
-	virtual void GiveForce(PERWorld& world, PERVec3 force, double dTime);
+	virtual void GiveForce(PERWorld& world, PERObject& opponentObject, PERVec3 force, double dTime);
 
 	void SetOwner(PERObject* object);
 	void SetNextComponent(PhysicsComponent* component);

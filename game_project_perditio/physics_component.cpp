@@ -30,10 +30,10 @@ void PhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVec3 colli
 	if ( m_nextComponent ) m_nextComponent->ProcessCollision(collidedObject, collisionVelocity, changedVelocity, collisionTime);
 }
 
-void PhysicsComponent::GiveForce(PERWorld& world, PERVec3 force, double dTime)
+void PhysicsComponent::GiveForce(PERWorld& world, PERObject& opponentObject, PERVec3 force, double dTime)
 {
 	// 다음 컨포넌트 초기화
-	if ( m_nextComponent ) m_nextComponent->GiveForce(world, force, dTime);
+	if ( m_nextComponent ) m_nextComponent->GiveForce(world, opponentObject, force, dTime);
 }
 
 void PhysicsComponent::SetOwner(PERObject* object)

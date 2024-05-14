@@ -36,6 +36,19 @@ struct PERVec3 {
 
 		return res;
 	}
+	bool operator==(const PERVec3& rhs) {
+		if (this->x == rhs.x) return false;
+		if (this->y == rhs.y) return false;
+		if (this->z == rhs.z) return false;
+		return true;
+	}
+	bool operator!=(const PERVec3& rhs) {
+		if (this->x != rhs.x) return true;
+		if (this->y != rhs.y) return true;
+		if (this->z != rhs.z) return true;
+		return false;
+	}
+
 
 };
 struct PERVec2 {
