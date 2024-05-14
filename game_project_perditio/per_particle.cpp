@@ -3,6 +3,7 @@
 #include "per_renderer.h"
 #include "black_board.h"
 #include "event_dispatcher.h"
+#include "physics_helper.h"
 
 PERParticle::PERParticle()
 {
@@ -83,8 +84,8 @@ bool PERParticle::MoveNormally(double dTime)
 {
 	// 힘에 의한 속도 변화 계산
 	PERVec3 acc = m_force * ( 1.0 / m_mass );
-	m_velocity = m_velocity + acc * dTime;
-	m_position = m_position + m_velocity * dTime + acc * 0.5 * dTime * dTime;
+	m_velocity = PhysicsHelper::CaculateVelocityWithoutExternalForce(m_velocity, acc, dTime);
+	m_position = PhysicsHelper::CaculatePosition(m_position, m_velocity, acc, dTime);
 
 	m_force = PERVec3(0, 0, 0);
 

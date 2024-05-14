@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "movable_physics_component.h"
 #include "per_object.h"
+#include "physics_helper.h"
 
 void MovablePhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
@@ -60,78 +61,25 @@ void MovablePhysicsComponent::GiveForce(PERWorld& world, PERVec3 force, double d
 void MovablePhysicsComponent::Move(double dTime)
 {
 	// 필요 정보 얻기
-	PERVec3 pos = GetOwner()->GetPosition();
-	PERVec3 vel = GetOwner()->GetVelocity();
-	PERVec3 cAcc = GetOwner()->GetCurrentAccel();
-	double mass = GetOwner()->GetMass();
+	PERVec3 currentAccel = GetOwner()->GetCurrentAccel();
 
-	// 마찰력 계산
-	if (std::abs(vel.x) > 0.0) {
-		cAcc.x += vel.x / std::abs(vel.x) * PER_FRICTION * (-PER_GRAVITY);
-
-		double tempVelX = vel.x + cAcc.x * dTime;
-
-		// 마찰력으로 인해 반대 방향으로 움직이지 않도록 확인
-		if (tempVelX * vel.x < 0.0) {
-			vel.x = 0.0;
-		}
-		else {
-			vel.x = tempVelX;
-		}
-	}
-	else {
-		vel.x = vel.x + cAcc.x * dTime;
-	}
-	if (std::abs(vel.y) > 0.0) {
-		cAcc.y += vel.y / std::abs(vel.y) * PER_FRICTION * (-PER_GRAVITY);
-
-		double tempVelY = vel.y + cAcc.y * dTime;
-
-		// 마찰력으로 인해 반대 방향으로 움직이지 않도록 확인
-		if (tempVelY * vel.y < 0.0) {
-			vel.y = 0.0;
-		}
-		else {
-			vel.y = tempVelY;
-		}
-	}
-	else {
-		vel.y = vel.y + cAcc.y * dTime;
-	}
-
-	// 현재 위치 계산
-	pos.x = pos.x + vel.x * dTime + 0.5 * cAcc.x * dTime * dTime;
-	pos.y = pos.y + vel.y * dTime + 0.5 * cAcc.y * dTime * dTime;
-
-	// 계산 결과 적용
-	GetOwner()->SetPosition(pos);
-	GetOwner()->SetVelocity(vel);
+	// 계산
+	PhysicsHelper::CaculateMovementWithFriction(*GetOwner(), currentAccel, dTime);
 
 	// 현재 가속도 초기화
-	cAcc = PERVec3(0.0, 0.0, 0.0);
-	GetOwner()->SetCurrentAccel(cAcc);
+	currentAccel = PERVec3(0.0, 0.0, 0.0);
+	GetOwner()->SetCurrentAccel(currentAccel);
 }
 
 void MovablePhysicsComponent::MoveWithoutFriction(double dTime)
 {
 	// 필요 정보 얻기
-	PERVec3 pos = GetOwner()->GetPosition();
-	PERVec3 vel = GetOwner()->GetVelocity();
-	PERVec3 cAcc = GetOwner()->GetCurrentAccel();
-	double mass = GetOwner()->GetMass();
+	PERVec3 currentAccel = GetOwner()->GetCurrentAccel();
 
-	vel.x = vel.x + cAcc.x * dTime;
-	vel.y = vel.y + cAcc.y * dTime;
-
-	// 현재 위치 계산
-	pos.x = pos.x + vel.x * dTime + 0.5 * cAcc.x * dTime * dTime;
-	pos.y = pos.y + vel.y * dTime + 0.5 * cAcc.y * dTime * dTime;
-
-	// 계산 결과 적용
-	GetOwner()->SetPosition(pos);
-	GetOwner()->SetVelocity(vel);
+	// 계산
+	PhysicsHelper::CaculateMovementWithoutExternalForce(*GetOwner(), currentAccel, dTime);
 
 	// 현재 가속도 초기화
-	cAcc = PERVec3(0.0, 0.0, 0.0);
-	GetOwner()->SetCurrentAccel(cAcc);
+	currentAccel = PERVec3(0.0, 0.0, 0.0);
+	GetOwner()->SetCurrentAccel(currentAccel);
 }

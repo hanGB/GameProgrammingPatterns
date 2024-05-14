@@ -7,6 +7,7 @@
 #include "ai_component.h"
 #include "physics_component.h"
 #include "graphics_component.h"
+#include "physics_helper.h"
 
 class ObjectFactory;
 
@@ -24,16 +25,6 @@ enum class PERObjectType {
 	PARTICLE_EFFECTER,
 	TRIGGER,
 	NUM_OBJECT_TYPE
-};
-
-enum class PERCollisionType {
-	NONE,
-	FIXED,
-	MOVABLE,
-	ACTOR,
-	TRIGGER,
-	BULLET,
-	NUM_COLLISION_TYPE
 };
 
 enum class PERBoundingType {

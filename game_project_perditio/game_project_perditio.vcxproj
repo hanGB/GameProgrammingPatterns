@@ -154,6 +154,7 @@
     <ClInclude Include="creating_particles_ai_component.h" />
     <ClInclude Include="per_particle_pool.h" />
     <ClInclude Include="per_particle.h" />
+    <ClInclude Include="physics_helper.h" />
     <ClInclude Include="response_to_signal_ai_component.h" />
     <ClInclude Include="a_star_calculator.h" />
     <ClInclude Include="behavior_tree.h" />
@@ -233,6 +234,7 @@
     <ClCompile Include="per_particle_pool.cpp" />
     <ClCompile Include="per_particle.cpp" />
     <ClCompile Include="physics_component.cpp" />
+    <ClCompile Include="physics_helper.cpp" />
     <ClCompile Include="response_to_signal_ai_component.cpp" />
     <ClCompile Include="a_star_calculator.cpp" />
     <ClCompile Include="behavior_tree.cpp" />

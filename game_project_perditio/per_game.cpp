@@ -4,6 +4,7 @@
 #include "black_board.h"
 #include "test_world.h"
 #include "test_world2.h"
+#include "physics_helper.h"
 
 PERGame::PERGame(HWND hWnd)
 {
