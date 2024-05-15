@@ -10,6 +10,7 @@
 #include "test_game_mode.h"
 #include "event_dispatcher.h"
 #include "player_state.h"
+#include "per_audio.h"
 
 TestWorld::TestWorld(ObjectStorage* objectStorage, PERDatabase* database)
 {
@@ -21,7 +22,7 @@ TestWorld::~TestWorld()
 	
 }
 
-void TestWorld::Enter()
+void TestWorld::Enter(PERAudio& audio)
 {
 	PERWorldType type = m_gameMode->GetPlayerState().GetCurrentWorldType();
 	
@@ -31,25 +32,27 @@ void TestWorld::Enter()
 	m_gameMode->GetPlayerState().SetCurrentWorldType(PERWorldType::TEST_WORLD);
 	m_gameMode->GetPlayer().SetCurrentPositionToSpawnPosition();
 
-	PERWorld::Enter();
+	audio.RequestHandleSound(PERAudioMessageId::SET_BGM, PERSoundId::BATTLE_BGM, 0.75);
+
+	PERWorld::Enter(audio);
 }
 
-void TestWorld::Exit()
+void TestWorld::Exit(PERAudio& audio)
 {
-	PERWorld::Exit();
+	PERWorld::Exit(audio);
 }
 
-void TestWorld::Pause()
+void TestWorld::Pause(PERAudio& audio)
 {
 	m_gameMode->GetPlayerState().SetCurrentWorldType(PERWorldType::TEST_WORLD);
 	m_playerPosBeforePause = m_gameMode->GetPlayer().GetPosition();
-	PERWorld::Pause();
+	PERWorld::Pause(audio);
 }
 
-void TestWorld::Resume()
+void TestWorld::Resume(PERAudio& audio)
 {
 	m_gameMode->GetPlayer().SetPosition(m_playerPosBeforePause);
-	PERWorld::Resume();
+	PERWorld::Resume(audio);
 }
 
 void TestWorld::AddFixedAndPhysicalObjects()

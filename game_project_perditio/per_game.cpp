@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "per_game.h"
-#include "null_audio.h"
+#include "irr_audio.h"
 #include "black_board.h"
 #include "test_world.h"
 #include "test_world2.h"
@@ -12,7 +12,7 @@ PERGame::PERGame(HWND hWnd)
 
 	m_renderer = new PERRenderer(hWnd);
 	m_controller = new PERController();
-	m_audio = new NullAudio();
+	m_audio = new IRRAudio();
 	m_objectStorage = new ObjectStorage();
 	m_database = new PERDatabase();
 
@@ -27,6 +27,7 @@ PERGame::~PERGame()
 	delete m_renderer;
 	delete m_currentWorld;
 	delete m_objectStorage;
+	delete m_audio;
 
 	PERLog::Logger().Info("게임 클래스 삭제 완료");
 }
@@ -196,7 +197,7 @@ void PERGame::Run(PERWorld* world)
 {
 	PERLog::Logger().Info("월드 실행");
 
-	world->Enter();
+	world->Enter(*m_audio);
 
 	m_currentWorld = world;
 }
@@ -205,7 +206,7 @@ void PERGame::PushWorld()
 {
 	PERLog::Logger().Info("기존 월드 저장");
 
-	m_currentWorld->Pause();
+	m_currentWorld->Pause(*m_audio);
 
 	m_worldQueue.push(m_currentWorld);
 }
@@ -217,7 +218,7 @@ void PERGame::PopWorld()
 	PERWorld* world = m_worldQueue.front();
 	m_worldQueue.pop();
 
-	world->Resume();
+	world->Resume(*m_audio);
 
 	m_currentWorld = world;
 }
@@ -228,7 +229,7 @@ void PERGame::Quit()
 
 	PERLog::Logger().Info("현재 월드 종료");
 
-	m_currentWorld->Exit();
+	m_currentWorld->Exit(*m_audio);
 
 	delete m_currentWorld;
 }

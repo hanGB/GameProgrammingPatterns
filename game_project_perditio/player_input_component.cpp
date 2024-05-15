@@ -7,6 +7,7 @@
 #include "player_state.h"
 #include "black_board.h"
 #include "per_database.h"
+#include "per_audio.h"
 
 void PlayerInputComponent::Update(PERWorld& world, PERController& controller, PERAudio& audio, double dTime)
 {
@@ -100,6 +101,9 @@ void PlayerInputComponent::ShootBullet(PERWorld& world, PERController& controlle
 				stat, position, 3.0, speed);
 
 			m_shootingCoolTime = state.GetShootCoolTime();
+
+			// 사운드 재생
+			audio.RequestHandleSound(PERAudioMessageId::PLAY_SOUND, PERSoundId::BULLET_SHOOTING, 1.0);
 		}
 	}
 }
@@ -121,6 +125,9 @@ void PlayerInputComponent::SwingBlade(PERWorld& world, PERController& controller
 			stat, position, 0.1, speed);
 
 		m_swingCoolTime = state.GetSwingCoolTime();
+
+		// 사운드 재생
+		audio.RequestHandleSound(PERAudioMessageId::PLAY_SOUND, PERSoundId::BLADE_SWING, 1.0);
 	}
 }
 

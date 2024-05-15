@@ -19,31 +19,31 @@ TestWorld2::~TestWorld2()
 {
 }
 
-void TestWorld2::Enter()
+void TestWorld2::Enter(PERAudio& audio)
 {
 	m_gameMode->GetPlayer().SetPosition(PERVec3(-9.0, 0.0, 0.1));
 	m_gameMode->GetPlayerState().SetCurrentWorldType(PERWorldType::TEST_WORLD2);
 	m_gameMode->GetPlayer().SetCurrentPositionToSpawnPosition();
 
-	PERWorld::Enter();
+	PERWorld::Enter(audio);
 }
 
-void TestWorld2::Exit()
+void TestWorld2::Exit(PERAudio& audio)
 {
-	PERWorld::Exit();
+	PERWorld::Exit(audio);
 }
 
-void TestWorld2::Pause()
+void TestWorld2::Pause(PERAudio& audio)
 {
 	m_gameMode->GetPlayerState().SetCurrentWorldType(PERWorldType::TEST_WORLD2);
 	m_playerPosBeforePause = m_gameMode->GetPlayer().GetPosition();
-	PERWorld::Pause();
+	PERWorld::Pause(audio);
 }
 
-void TestWorld2::Resume()
+void TestWorld2::Resume(PERAudio& audio)
 {
 	m_gameMode->GetPlayer().SetPosition(m_playerPosBeforePause);
-	PERWorld::Resume();
+	PERWorld::Resume(audio);
 }
 
 void TestWorld2::AddFixedAndPhysicalObjects()

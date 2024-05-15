@@ -3,6 +3,7 @@
 
 // 투명 관련 라이브러리
 #pragma comment(lib, "Msimg32.lib")
+#pragma comment(lib, "irrKlang.lib")
 
 // 윈도우즈 API 
 #define WIN32_LEAN_AND_MEAN
@@ -40,6 +41,9 @@
 // json
 #include "./rapidjson/document.h"
 #include "./rapidjson/filereadstream.h"
+
+// sound
+#include "./irrKlang/irrKlang.h"
 
 // 로그
 #include "per_log.h"

@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="hidden_debug_graphics_component.h" />
+    <ClInclude Include="irr_audio.h" />
     <ClInclude Include="key_input_helper_graphics_component.h" />
     <ClInclude Include="key_input_helper.h" />
     <ClInclude Include="key_setting.h" />
@@ -224,6 +225,7 @@
   <ItemGroup>
     <ClCompile Include="ai_component.cpp" />
     <ClCompile Include="hidden_debug_graphics_component.cpp" />
+    <ClCompile Include="irr_audio.cpp" />
     <ClCompile Include="key_input_helper_graphics_component.cpp" />
     <ClCompile Include="graphics_component.cpp" />
     <ClCompile Include="input_component.cpp" />
@@ -231,6 +233,7 @@
     <ClCompile Include="making_signal_ai_component.cpp" />
     <ClCompile Include="key_setting.cpp" />
     <ClCompile Include="creating_particles_ai_component.cpp" />
+    <ClCompile Include="per_audio.cpp" />
     <ClCompile Include="per_particle_pool.cpp" />
     <ClCompile Include="per_particle.cpp" />
     <ClCompile Include="physics_component.cpp" />

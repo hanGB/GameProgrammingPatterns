@@ -44,7 +44,7 @@ void NameTag::RenderOnScreen(PERRenderer& renderer, PERDatabase& database)
 	// 이름 텍스트
 	TranslateData* data = database.GetTranslateData(m_nameId.c_str());
 	m_textMemory = data->korKR.c_str();
-	renderer.RenderFontInScreenCoordinate(m_textMemory.c_str(), m_textMemory.size(), m_fontSize, m_textPosition, m_textColor);
+	renderer.RenderFontInScreenCoordinate(m_textMemory.c_str(), (int)m_textMemory.size(), m_fontSize, m_textPosition, m_textColor);
 }
 
 void NameTag::RenderInWorld(PERRenderer& renderer, PERDatabase& database)

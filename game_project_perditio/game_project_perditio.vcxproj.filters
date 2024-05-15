@@ -217,6 +217,9 @@
     <Filter Include="03. physics">
       <UniqueIdentifier>{56821f13-6b3c-4cb6-9dd0-faa3134e2f57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. audio\irrKlang">
+      <UniqueIdentifier>{06e86990-f052-4d31-8add-2fe4479f9655}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -441,6 +444,9 @@
     <ClInclude Include="physics_helper.h">
       <Filter>03. physics</Filter>
     </ClInclude>
+    <ClInclude Include="irr_audio.h">
+      <Filter>05. audio\irrKlang</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -640,6 +646,12 @@
     </ClCompile>
     <ClCompile Include="physics_helper.cpp">
       <Filter>03. physics</Filter>
+    </ClCompile>
+    <ClCompile Include="irr_audio.cpp">
+      <Filter>05. audio\irrKlang</Filter>
+    </ClCompile>
+    <ClCompile Include="per_audio.cpp">
+      <Filter>05. audio</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

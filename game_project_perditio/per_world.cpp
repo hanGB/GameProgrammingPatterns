@@ -98,28 +98,41 @@ void PERWorld::UIRender(PERRenderer& renderer)
 	GetHud().Renderer(renderer, *m_database);
 }
 
-void PERWorld::Enter()
+void PERWorld::Enter(PERAudio& audio)
 {
 	AddObject(&m_gameMode->GetPlayer());
 
 	InitWorldObject();
 
 	m_gameMode->StartUse();
+
+	// bgm 재생
+	audio.RequestHandleSound(PERAudioMessageId::PLAY_CURRENT_BGM, PERSoundId::NUM_SOUND_ID, 0.0);
 }
 
-void PERWorld::Exit()
+void PERWorld::Exit(PERAudio& audio)
 {
 	m_gameMode->EndUse();
+
+	// bgm 종료
+	audio.RequestHandleSound(PERAudioMessageId::STOP_CURRENT_BGM, PERSoundId::NUM_SOUND_ID, 0.0);
 }
 
-void PERWorld::Pause()
+void PERWorld::Pause(PERAudio& audio)
 {
 	m_gameMode->EndUse();
+
+	// bgm 멈춤
+	audio.RequestHandleSound(PERAudioMessageId::PAUSE_CURRENT_BGM, PERSoundId::NUM_SOUND_ID, 0.0);
 }
 
-void PERWorld::Resume()
+void PERWorld::Resume(PERAudio& audio)
 {
 	m_gameMode->StartUse();
+
+	// bgm 다시 재생
+	audio.RequestHandleSound(PERAudioMessageId::RESUME_CURRENT_BGM, PERSoundId::NUM_SOUND_ID, 0.0);
+
 }
 
 void PERWorld::RequestAddObject(PERObject* parent, PERObjectType type, const char* databaseId, PERDatabaseType databaseType, 
@@ -221,9 +234,9 @@ void PERWorld::SleepAndWakeupObjects()
 void PERWorld::ProcessPendingMessage()
 {
 	for ( int i = 0; i < m_numPending; ++i ) {
-		PERWorldMessage message = m_pending[ i ];
+		PERWorldMessage& message = m_pending[i];
 
-		switch ( message.id ) {
+		switch (message.id) {
 		case PERWorldMessageId::ADD_OBJECT: {
 			ProcessAddMessage(message);
 			break;
@@ -247,10 +260,10 @@ void PERWorld::ProcessPendingMessage()
 
 void PERWorld::RequestSimpleDoObject(PERObject* object, const PERWorldMessageId& message)
 {
-	if ( m_maxPending == m_numPending ) ResizePedingArray();
+	if (m_maxPending == m_numPending) ResizePedingArray();
 
-	m_pending[ m_numPending ].id = message;
-	m_pending[ m_numPending ].object = object;
+	m_pending[m_numPending].id = message;
+	m_pending[m_numPending].object = object;
 	m_numPending++;
 }
 

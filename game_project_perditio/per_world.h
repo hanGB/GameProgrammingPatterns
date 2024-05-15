@@ -62,10 +62,10 @@ public:
 	void Render(PERRenderer& renderer, double frameGap);
 	void UIRender(PERRenderer& renderer);
 
-	virtual void Enter();
-	virtual void Exit();
-	virtual void Pause();
-	virtual void Resume();
+	virtual void Enter(PERAudio& audio);
+	virtual void Exit(PERAudio& audio);
+	virtual void Pause(PERAudio& audio);
+	virtual void Resume(PERAudio& audio);
 
 	// 요청을 받는 함수
 	void RequestAddObject(
