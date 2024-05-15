@@ -8,6 +8,7 @@ PERAudio::PERAudio()
 PERAudio::~PERAudio()
 {
 	delete[] m_pending;
+	delete[] m_copyPending;
 }
 
 void PERAudio::Update()
@@ -17,18 +18,33 @@ void PERAudio::Update()
 
 void PERAudio::RequestHandleSound(PERAudioMessageId messageId, PERSoundId soundId, double volume)
 {
+	m_csProvider.Lock();
+
 	if (m_maxPending == m_numPending) ResizePedingArray();
 
 	m_pending[m_numPending].messageId = messageId;
 	m_pending[m_numPending].soundId = soundId;
 	m_pending[m_numPending].volume = volume;
 	m_numPending++;
+
+	m_csProvider.Unlock();
 }
 
 void PERAudio::ProcessPendingMessage()
 {
-	for (int i = 0; i < m_numPending; ++i) {
-		PERAudioMessage& message = m_pending[i];
+	if (m_numPending == 0) return;
+
+	m_csProvider.Lock();
+
+	// 메세지 페딩의 카피본을 만들어 작업 -> 사운드를 재생시키는 와중에도 메세지를 받는 게 가능해짐 
+	m_numCopyPending = m_numPending;
+	memcpy_s(m_copyPending, m_numPending * sizeof(PERAudioMessage), m_pending, m_numPending * sizeof(PERAudioMessage));
+	m_numPending = 0;
+
+	m_csProvider.Unlock();
+
+	for (int i = 0; i < m_numCopyPending; ++i) {
+		PERAudioMessage& message = m_copyPending[i];
 
 		switch (message.messageId) {
 		// sound
@@ -65,7 +81,6 @@ void PERAudio::ProcessPendingMessage()
 			break;
 		}
 	}
-	m_numPending = 0;
 }
 
 void PERAudio::ResizePedingArray()
@@ -77,4 +92,7 @@ void PERAudio::ResizePedingArray()
 
 	delete[] m_pending;
 	m_pending = newArray;
+
+	delete[] m_copyPending;
+	m_copyPending = new PERAudioMessage[m_maxPending];
 }

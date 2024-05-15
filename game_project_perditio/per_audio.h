@@ -62,4 +62,10 @@ private:
 	int m_maxPending = PER_DEFAULT_MAX_EVENT_PENDING;
 	PERAudioMessage* m_pending = new PERAudioMessage[PER_DEFAULT_MAX_EVENT_PENDING];
 	int m_numPending = 0;
+	// 사운드 처리 중에도 받을 수 있도록 복사해서 쓴다.
+	PERAudioMessage* m_copyPending = new PERAudioMessage[PER_DEFAULT_MAX_EVENT_PENDING];
+	int m_numCopyPending = 0;
+
+
+	CSProvider m_csProvider;
 };

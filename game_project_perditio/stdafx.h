@@ -100,7 +100,7 @@
 #define PER_MAXIMUM_TEXT_SIZE 32
 
 // 이벤트
-#define PER_DEFAULT_MAX_EVENT_PENDING  512
+#define PER_DEFAULT_MAX_EVENT_PENDING  256
 
 // 크기별 슬립 거리(업데이트 및 렌더링을 하지 않는 거리) 설정
 #define PER_SMALL_OBJECT_SLEEP_DISTANCE 300
