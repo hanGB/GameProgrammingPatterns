@@ -10,7 +10,6 @@
 #include "event_dispatcher.h"
 #include "black_board.h"
 #include "per_component.h"
-#include "stuck_physics_component.h"
 #include "spawner_ai_component.h"
 #include "per_particle_pool.h"
 #include "graphics_component.h"
@@ -266,8 +265,9 @@ void PERWorld::ProcessAddMessage(PERWorldMessage& message)
 		SetForAddParticleEffecterMessage(message, newObject, eData);
 		return;
 	}
+
 	// 데이터베이스 id가 몬스터 id인 경우
-	else if ( message.databaseType == PERDatabaseType::MONSTER )
+	if ( message.databaseType == PERDatabaseType::MONSTER )
 	{
 		newObject->GetObjectState().SetNameId(m_database->GetMonsterData(message.databaseId.c_str())->nameId);
 		message.databaseId = m_database->GetMonsterData(message.databaseId.c_str())->visualId;
@@ -276,8 +276,6 @@ void PERWorld::ProcessAddMessage(PERWorldMessage& message)
 	VisualData* vData = m_database->GetVisualData(message.databaseId.c_str());
 	// 기본
 	SetBaseOfAddMessage(message, newObject, vData);
-	// 칼날일 경우
-	if ( message.type == PERObjectType::BLADE ) SetForAddBladeMessage(message, newObject);
 	// 소환기로 인해 소환된 오브젝트인 경우
 	if (newObject->GetParent())
 	{
@@ -329,18 +327,6 @@ void PERWorld::SetForAddParticleEffecterMessage(PERWorldMessage& message, PERObj
 	newObject->SetPosition(message.position);
 	newObject->SetLifeTime(message.lifeTime);
 	newObject->SetParent(nullptr);
-}
-
-void PERWorld::SetForAddBladeMessage(PERWorldMessage& message, PERObject* newObject)
-{
-	// 위치값을 붙여진 위치로 설정
-	PERComponent::PhysicsData pData;
-	pData.stuckPosition = message.position;
-	newObject->GetPhysics().SetData(pData);
-
-	// 바로 슬립되는 것을 방지하기 위해 위치를 플레이어 위치로 임시 설정
-	PERVec3 pos = BlackBoard::GetPlayerPos();
-	newObject->SetPosition(pos);
 }
 
 void PERWorld::SetForAddByObjectMessage(PERWorldMessage& message, PERObject* newObject)

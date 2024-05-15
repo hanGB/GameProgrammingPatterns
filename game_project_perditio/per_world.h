@@ -121,7 +121,6 @@ private:
 	void ProcessAddMessage(PERWorldMessage& message);
 	void SetBaseOfAddMessage(PERWorldMessage& message, PERObject* newObject, VisualData* vData);
 	void SetForAddParticleEffecterMessage(PERWorldMessage& message, PERObject* newObject, EffectData* eData);
-	void SetForAddBladeMessage(PERWorldMessage& message, PERObject* newObject);
 	void SetForAddByObjectMessage(PERWorldMessage& message, PERObject* newObject);
 
 	// 오브젝트 잠들게 함

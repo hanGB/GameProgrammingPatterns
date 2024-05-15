@@ -9,7 +9,6 @@ enum class PERCollisionType {
 	FIXED,	
 	MOVABLE,
 	TRIGGER,
-	BULLET,
 	NUM_COLLISION_TYPE
 };
 
@@ -32,8 +31,9 @@ public:
 private:
 	// 충돌 무시 검사
 	static bool IsCollisionIgnoreWithId(PERObject& myObject, int myId, PERObject& otherObject, int otherId);
-	static bool IsCollisionIgnoreWithCollisionType(PERObject& myObject, PERCollisionType myType, PERObject& otherObject, PERCollisionType otherType);
-	static bool IsCollisionIgnoreWithPosition(PERObject& myObject, PERVec3 myPos, PERObject& otherObject, PERVec3 otherPos);
+	static bool IsCollisionIgnoreWithCollisionType(PERCollisionType myType, PERCollisionType otherType);
+	static bool IsCollisionIgnoreWithObjectType(PERObjectType myObjectType, PERObjectType otherObjectType);
+	static bool IsCollisionIgnoreWithPosition(PERVec3 myPos, PERVec3 otherPos);
 
 	// AABB 충돌 관련
 	static bool CheckAABBCollision(

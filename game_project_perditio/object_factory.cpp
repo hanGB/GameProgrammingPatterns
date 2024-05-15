@@ -450,9 +450,9 @@ void ObjectFactory::MatchCollisionType()
         break;
     case PERObjectType::MONSTER: m_collisionType = PERCollisionType::MOVABLE;
         break;
-    case PERObjectType::BULLET: m_collisionType = PERCollisionType::BULLET;
+    case PERObjectType::BULLET: m_collisionType = PERCollisionType::MOVABLE;
         break;
-    case PERObjectType::BLADE: m_collisionType = PERCollisionType::BULLET;
+    case PERObjectType::BLADE: m_collisionType = PERCollisionType::MOVABLE;
         break;
     case PERObjectType::SPAWNER: m_collisionType = PERCollisionType::NONE;
         break;

@@ -37,11 +37,6 @@ void StuckPhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVec3 
 	PhysicsComponent::ProcessCollision(collidedObject, collisionVelocity, changedVelocity, collisionTime);
 }
 
-void StuckPhysicsComponent::GiveForce(PERWorld& world, PERObject& opponentObject, PERVec3 force, double dTime)
-{
-	PhysicsComponent::GiveForce(world, opponentObject, force, dTime);
-}
-
 PERVec3 StuckPhysicsComponent::GetStuckPosition() const
 {
 	return m_stuckPosition;

@@ -214,7 +214,7 @@
     <Filter Include="06. event">
       <UniqueIdentifier>{9ef77057-07ea-4293-b26c-77d01042ba4b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.physics">
+    <Filter Include="03. physics">
       <UniqueIdentifier>{56821f13-6b3c-4cb6-9dd0-faa3134e2f57}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -439,7 +439,7 @@
       <Filter>00. game\object\component\child class\physics\trigger</Filter>
     </ClInclude>
     <ClInclude Include="physics_helper.h">
-      <Filter>03.physics</Filter>
+      <Filter>03. physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -639,7 +639,7 @@
       <Filter>00. game\object\component\child class\physics\trigger</Filter>
     </ClCompile>
     <ClCompile Include="physics_helper.cpp">
-      <Filter>03.physics</Filter>
+      <Filter>03. physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -124,7 +124,7 @@ void ObjectStorage::CreateObjectFactories()
   
     inputTypes = { PERComponentType::NO_INTERACT };
     aiTypes = { PERComponentType::UNINTELLIGENT };
-    physicsTypes = { PERComponentType::STUCK };
+    physicsTypes = { PERComponentType::MOVABLE };
     graphicsTypes = { PERComponentType::VISIBLE };
 
     factory = CreateObjectFactory(PERObjectType::BLADE, PERObjectStateType::NON,

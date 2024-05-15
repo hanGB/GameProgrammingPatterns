@@ -30,6 +30,7 @@ public:
 	void MatchDataAndHud();
 
 	const int c_BULLET_XY_FORCE = 1000;
+	const int c_BLADE_XY_FORCE = 500;
 
 private:
 	const double c_DEFAULT_SHOOT_BULLET_COOL_TIME	= 0.5;

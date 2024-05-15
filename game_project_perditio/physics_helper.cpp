@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "physics_helper.h"
-#include "stuck_physics_component.h"
 #include "per_object.h"
 #include "per_world.h"
 
@@ -11,10 +10,8 @@ bool PhysicsHelper::CheckCollisionBetweenOtherObjects(PERWorld& world, PERObject
 	// ALL && TRIGGER == 완전 무시(TRIGGER가 체크를 요청 했을 때만 처리)
 	// movable && movable == 처리
 	// movable && FIXED == 처리
-	// movable && BULLET = 물리 무시
 	// TRIGGER && movable == 물리 무시
 	// TRIGGER && FIXED  == 완전 무시
-	// TRIGGER && BULLET  == 완전 무시
 
 	bool collided = false;
 	bool isOnPlatform = false;
@@ -40,17 +37,17 @@ bool PhysicsHelper::CheckCollisionBetweenOtherObjects(PERWorld& world, PERObject
 		// 상대 콜리션 타입 정보 얻기
 		PERCollisionType otherType = otherObjects[i]->GetCollisionType();
 		// 충돌 타입을 검사해서 건너뜀
-		if (IsCollisionIgnoreWithCollisionType(myObject, type, otherObject, otherType)) continue;
+		if (IsCollisionIgnoreWithCollisionType(type, otherType)) continue;
 
 		// 상대 오브젝트 정보 얻기
 		PERVec3 otherPos = otherObjects[i]->GetBoundingBoxPosition(), otherSize = otherObject.GetBoundingBoxSize();
 		PERBoundingType otherBoundingType = otherObjects[i]->GetBoundingType();
 		PERObjectType otherObjectType = otherObjects[i]->GetObjectType();
 
-		// 몬스터끼리 충돌 무시
-		if (objectType == PERObjectType::MONSTER && otherObjectType == PERObjectType::MONSTER) continue;
+		// 오브젝트 타입을 검사해서 건너뜀
+		if (IsCollisionIgnoreWithObjectType(objectType, otherObjectType)) continue;
 		// 위치를 검사해서 건너뜀
-		if (IsCollisionIgnoreWithPosition(myObject, position, otherObject, otherPos)) continue;
+		if (IsCollisionIgnoreWithPosition(position, otherPos)) continue;
 
 		if (otherBoundingType == PERBoundingType::RECTANGLE && boundingtype == PERBoundingType::RECTANGLE)
 		{
@@ -188,16 +185,25 @@ bool PhysicsHelper::IsCollisionIgnoreWithId(PERObject& myObject, int myId, PEROb
 	return false;
 }
 
-bool PhysicsHelper::IsCollisionIgnoreWithCollisionType(PERObject& myObject, PERCollisionType myType, PERObject& otherObject, PERCollisionType otherType)
+bool PhysicsHelper::IsCollisionIgnoreWithCollisionType(PERCollisionType myType, PERCollisionType otherType)
 {
 	if (otherType == PERCollisionType::NONE) return true;
 	else if (otherType == PERCollisionType::TRIGGER) return true;
-	else if (myType == PERCollisionType::TRIGGER && (otherType == PERCollisionType::BULLET || otherType == PERCollisionType::FIXED)) return true;
+	else if (myType == PERCollisionType::TRIGGER && otherType == PERCollisionType::FIXED) return true;
 
 	return false;
 }
 
-bool PhysicsHelper::IsCollisionIgnoreWithPosition(PERObject& myObject, PERVec3 myPos, PERObject& otherObject, PERVec3 otherPos)
+bool PhysicsHelper::IsCollisionIgnoreWithObjectType(PERObjectType myObjectType, PERObjectType otherObjectType)
+{
+	if (myObjectType == PERObjectType::MONSTER && otherObjectType == PERObjectType::MONSTER) return true;
+	else if (myObjectType == PERObjectType::TRIGGER && otherObjectType == PERObjectType::BULLET) return true;
+	else if (myObjectType == PERObjectType::TRIGGER && otherObjectType == PERObjectType::BLADE) return true;
+	
+	return false;
+}
+
+bool PhysicsHelper::IsCollisionIgnoreWithPosition(PERVec3 myPos, PERVec3 otherPos)
 {
 	// 상대의 z값이 나보다 높으면 건너뜀
 	if ((int)(floor(otherPos.z)) > (int)floor(myPos.z)) return true;
@@ -241,7 +247,7 @@ void PhysicsHelper::ProcessCollision(
 	}
 
 	// 물리적 처리 없이 다른 상호 작용
-	else ProcessCollisionWithoutMoving(world, aObject, aType, aObjectType, bObject, bType, bObjectType, dTime);
+	ProcessCollisionWithoutMoving(world, aObject, aType, aObjectType, bObject, bType, bObjectType, dTime);
 }
 
 void PhysicsHelper::AdjustPositionBetweenObjects(PERWorld& world, PERObject& aObject, PERVec3 aPos, PERVec3 aSize,
@@ -314,7 +320,7 @@ void PhysicsHelper::ProcessCollisionBetweenMovables(PERWorld& world, PERObject& 
 	ProcessCollisionBetweenFixedAndMovable(world, fastObject, fastPos, fastSize, fastVel, slowObject, slowPos, slowSize, slowVel, dTime);
 	// 느린 오브젝트의 속도를 빠른 오브젝트의 속도로 변경
 	slowObject.SetVelocity(fastVel);
-	// 느린 오브젝트를 다시 충돌 처리	
+	// 느린 오브젝트를 다시 충돌 처리(현재 충돌된 오브젝트(빠른 오브젝트) 제외하고 나머지 오브젝트들)
 	bool IsSlowObjectCollidedOtherObjects = CheckCollisionBetweenOtherObjects(world, slowObject, otherObjects, numOtherObject, &fastObject, dTime);
 
 	// 느린 오브젝트 속도를 기존값으로 되돌림(왠만해서는 기존 값이 PERVec3(0.0, 0.0, 0.0)일 가능성이 높음)
@@ -337,46 +343,25 @@ void PhysicsHelper::ProcessCollisionBetweenMovables(PERWorld& world, PERObject& 
 void PhysicsHelper::ProcessCollisionWithoutMoving(PERWorld& world, PERObject& aObject, PERCollisionType aType, PERObjectType aObjectType,
 	PERObject& bObject, PERCollisionType bType, PERObjectType bObjectType, double dTime)
 {
-	// bullet && bullet == 물리적 처리만 무시, bullet 삭제
-	// bullet && fixed == 물리적 처리만 무시, bullet 삭제
-	// bullet && movable == 물리적 처리만 무시, bullet 삭제
-	// bullet && actor == 물리적 처리만 무시, bullet 삭제, 데미지 처리
-	// actor && actor == 물리적 처리만 무시, 데미지 처리		 
-	// trigger && (actor || movable) == 물리적 처리만 무시
-	// trigger && bullet == 완전 무시
-
 	// 총알간 상쇄
-	if (aType == PERCollisionType::BULLET && bType == PERCollisionType::BULLET) {
+	if ((aObjectType == PERObjectType::BULLET || aObjectType == PERObjectType::BLADE) 
+		&& (bObjectType == PERObjectType::BULLET || bObjectType == PERObjectType::BLADE)) {
 		aObject.SetLifeTime(-1.0);
 		bObject.SetLifeTime(-1.0);
 	}
-	// 총알 데미지 처리
-	else if (aType == PERCollisionType::BULLET) {
+	// 총알, 칼날 데미지 처리
+	else if (aObjectType == PERObjectType::BULLET || aObjectType == PERObjectType::BLADE) {
 		bObject.GetObjectState().GiveDamage(aObject, world, aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
-
-		// 총알 속도 방향으로 약간 이동(넉백)
+		// 총알 삭제
 		if (aObjectType == PERObjectType::BULLET) {
 			aObject.SetLifeTime(-1.0);
-			bObject.GetPhysics().GiveForce(world, aObject, NormalizeVector(aObject.GetVelocity()) * PER_KNOCK_BACK_POWER, dTime);
-		}
-		// 칼날의 상대적 위치 방향으로 약간 이동(넉백)
-		else if (aObjectType == PERObjectType::BLADE) {
-			StuckPhysicsComponent& stuckPhysics = dynamic_cast<StuckPhysicsComponent&>(aObject.GetPhysics());
-			bObject.GetPhysics().GiveForce(world, aObject, NormalizeVector(stuckPhysics.GetStuckPosition()) * PER_KNOCK_BACK_POWER, dTime);
 		}
 	}
-	else if (bType == PERCollisionType::BULLET) {
-		aObject.GetObjectState().GiveDamage(bObject, world, bObject.GetObjectState().GetStat().physicalAttack, bObject.GetObjectState().GetStat().mindAttack);
-
-		// 총알 속도 방향으로 약간 이동(넉백)
+	else if (bObjectType == PERObjectType::BULLET || bObjectType == PERObjectType::BLADE) {
+		aObject.GetObjectState().GiveDamage(bObject, world, bObject.GetObjectState().GetStat().physicalAttack, bObject.GetObjectState().GetStat().mindAttack);	
+		// 총알 삭제
 		if (bObjectType == PERObjectType::BULLET) {
 			bObject.SetLifeTime(-1.0);
-			aObject.GetPhysics().GiveForce(world, bObject, NormalizeVector(bObject.GetVelocity()) * PER_KNOCK_BACK_POWER, dTime);
-		}
-		// 칼날의 상대적 위치 방향으로 약간 이동(넉백)
-		else if (bObjectType == PERObjectType::BLADE) {
-			StuckPhysicsComponent& stuckPhysics = dynamic_cast<StuckPhysicsComponent&>(bObject.GetPhysics());
-			aObject.GetPhysics().GiveForce(world, bObject, NormalizeVector(stuckPhysics.GetStuckPosition()) * PER_KNOCK_BACK_POWER, dTime);
 		}
 	}
 	// 나머지
@@ -393,6 +378,7 @@ void PhysicsHelper::ProcessCollisionWithoutMoving(PERWorld& world, PERObject& aO
 		// 충돌 처리(필요한 건 본인 오브젝트 뿐, 신호가 생긴 걸로 처리)
 		aObject.GetPhysics().ProcessCollision(bObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
 	}
+	// a 오브젝트가 충돌 체크을 요청한 오브젝트이기 때문에 사실상 없는 경우
 	else if (aType == PERCollisionType::MOVABLE && bType == PERCollisionType::TRIGGER) {
 		bObject.GetPhysics().ProcessCollision(aObject, PERVec3(0.0, 0.0, 0.0), PERVec3(0.0, 0.0, 0.0), dTime);
 	}

@@ -113,14 +113,12 @@ void PlayerInputComponent::SwingBlade(PERWorld& world, PERController& controller
 	if (controller.IsKeyboardPressed(KeySetting::BladeAttack.value)) {
 		PlayerState& state = dynamic_cast<PlayerState&>(GetOwner()->GetObjectState());
 
-		VisualData* data = world.GetDatabase().GetVisualData(state.GetBladeVisualId().c_str());
-
-		// 플레이어에 대한 상대적 위치를 위치값으로 넘김
-		PERVec3 stuckPosition = PERVec3((double)m_dirX * data->size.x * 0.8, (double)m_dirY * data->size.y * 0.8, 0.0);
-		PERStat stat = { 1, 0, 0, 20, 0, 0, 0 };
+		PERVec3 position(GetOwner()->GetPosition());
+		PERVec3 speed((double)m_dirX * state.c_BLADE_XY_FORCE, (double)m_dirY * state.c_BLADE_XY_FORCE, 0.0);
+		PERStat stat = { 1, 0, 10, 20, 0, 0, 0 };
 		world.RequestAddObject(
 			GetOwner(), PERObjectType::BLADE, state.GetBladeVisualId().c_str(), PERDatabaseType::VISUAL,
-			stat, stuckPosition, 0.1);
+			stat, position, 0.1, speed);
 
 		m_swingCoolTime = state.GetSwingCoolTime();
 	}

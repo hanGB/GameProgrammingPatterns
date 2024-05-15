@@ -21,7 +21,3 @@ void FixedPhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVec3 
 	PhysicsComponent::ProcessCollision(collidedObject, collisionVelocity, changedVelocity, collisionTime);
 }
 
-void FixedPhysicsComponent::GiveForce(PERWorld& world, PERObject& opponentObject, PERVec3 force, double dTime)
-{
-	PhysicsComponent::GiveForce(world, opponentObject, force, dTime);
-}

@@ -40,22 +40,6 @@ void MovablePhysicsComponent::ProcessCollision(PERObject& collidedObject, PERVec
 	PhysicsComponent::ProcessCollision(collidedObject, collisionVelocity, changedVelocity, collisionTime);
 }
 
-void MovablePhysicsComponent::GiveForce(PERWorld& world, PERObject& opponentObject, PERVec3 force, double dTime)
-{
-	double mass = GetOwner()->GetMass();
-
-	GetOwner()->SetVelocity(PERVec3(0.0, 0.0, 0.0));
-	GetOwner()->SetCurrentAccel(PERVec3(force.x / mass, force.y / mass, force.z / mass));
-
-	// 이동 시키고 다시 계산
-	m_MoveFunc(*this, dTime);
-	world.CheckCollisionWithoutSpecificObject(*GetOwner(), opponentObject, dTime);
-
-	GetOwner()->SetVelocity(PERVec3(0.0, 0.0, 0.0));
-
-	PhysicsComponent::GiveForce(world, opponentObject, force, dTime);
-}
-
 void MovablePhysicsComponent::Move(double dTime)
 {
 	// 필요 정보 얻기

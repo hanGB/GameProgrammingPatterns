@@ -123,22 +123,22 @@ void TestWorld::AddFixedAndPhysicalObjects()
 
 void TestWorld::AddOtherObjects()
 {
-	//// 몬스터 생성기
-	//for (double x = -3.0; x <= 3.0; x += 6.0) {
-	//	for (double y = -3.0; y <= 3.0; y += 6.0) {
-	//		PERObject* monsterSpanwer;
-	//		monsterSpanwer = m_objectStorage->PopObject(PERObjectType::SPAWNER);
-	//		monsterSpanwer->SetPosition(PERVec3(x, y, 0.1));
-	//		dynamic_cast<SpawnerAiComponent*>(&monsterSpanwer->GetAi())->SetSpawner(
-	//		"MONSTER_KOPPER", PERObjectType::MONSTER, PERSpawnType::LIVE
-	//		);
-	//		AddObject(monsterSpanwer);
-	//	}
-	//}
+	// 몬스터 생성기
+	for (double x = -3.0; x <= 3.0; x += 6.0) {
+		for (double y = -3.0; y <= 3.0; y += 6.0) {
+			PERObject* monsterSpanwer;
+			monsterSpanwer = m_objectStorage->PopObject(PERObjectType::SPAWNER);
+			monsterSpanwer->SetPosition(PERVec3(x, y, 0.1));
+			dynamic_cast<SpawnerAiComponent*>(&monsterSpanwer->GetAi())->SetSpawner(
+			"MONSTER_KOPPER", PERObjectType::MONSTER, PERSpawnType::LIVE
+			);
+			AddObject(monsterSpanwer);
+		}
+	}
 
 	// 움직이는 벽돌(충돌 처리 문제 해결 불가능시 제거)
 	PERObject* block;
-	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
+	/*block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(3.0, 3.0, 0.1));
 	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
 	AddObject(block);
@@ -157,7 +157,7 @@ void TestWorld::AddOtherObjects()
 	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(-3.0, 0.0, 0.1));
 	SetObjectShapeAndColor(block, PERShapeType::RECTANGLE, PERColor(150, 200, 150), true, 1, PERColor(0, 250, 0));
-	AddObject(block);
+	AddObject(block);*/
 
 	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);
 	block->SetPosition(PERVec3(7.0, 3.0, 0.1));
