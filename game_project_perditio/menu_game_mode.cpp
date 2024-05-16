@@ -14,6 +14,7 @@ MenuGameMode::~MenuGameMode()
 
 void MenuGameMode::Update()
 {
+
 }
 
 void MenuGameMode::UpdateCamera(PERRenderer& renderer, double frameGap)
@@ -22,7 +23,7 @@ void MenuGameMode::UpdateCamera(PERRenderer& renderer, double frameGap)
 
 void MenuGameMode::CreatePlayerFactory()
 {
-    std::vector<PERComponentType> inputTypes = { PERComponentType::NO_INTERACT};
+    std::vector<PERComponentType> inputTypes = { PERComponentType::MENU_SELECT};
     std::vector<PERComponentType> aiTypes = { PERComponentType::UNINTELLIGENT };
     std::vector<PERComponentType> physicsTypes = { PERComponentType::FIXED };
     std::vector<PERComponentType> graphicsTypes = { PERComponentType::HIDDEN };

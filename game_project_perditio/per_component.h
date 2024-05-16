@@ -8,6 +8,7 @@ enum class PERComponentType {
 	INTERACT,
 	NO_INTERACT,
 	BUTTON_INPUT,
+	MENU_SELECT,
 
 	// ai
 	UNINTELLIGENT,

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "title_hud.h"
+#include "player_state.h"
 
 TitleHud::TitleHud()
 {
@@ -26,14 +27,25 @@ TitleHud::~TitleHud()
 
 void TitleHud::Recive(PEREvent event, PERVec3 data)
 {
+	switch (event) {
+	case PEREvent::SET_SELECTED_MENU:
+		m_selectedMenu = (int)data.x;
+		ChangeSelectedMenu();
+		break;
+	}
 }
 
 void TitleHud::MatchWithPlayerState(PlayerState& state)
 {
+	ChangeSelectedMenu();
+}
+
+void TitleHud::ChangeSelectedMenu()
+{
 	for (int i = 0; i < 3; ++i)
-	{	
+	{
 		bool on = false;
-		if (i == 0) on = true;
+		if (i == m_selectedMenu) on = true;
 		m_menu[i]->MatchWithData(PERVec2(-0.8, -0.2 - i * 0.2), PERVec2(-0.79, -0.2 - i * 0.2), on);
 	}
 }

@@ -48,6 +48,10 @@ void PERGame::Recive(PEREvent event, PERVec3 data)
 	case PEREvent::RUN_TEST2_WORLD: {
 		ProgressRunEvent<TestWorld2>("Test2");
 		break;
+	case PEREvent::CHANGE_WINDOW_SIZE:
+		break;
+	case PEREvent::EXIT_GAME:
+		break;
 	}
 	}
 }

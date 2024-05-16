@@ -7,6 +7,7 @@
 #include "interact_input_component.h"
 #include "no_interact_input_component.h"
 #include "button_input_component.h"
+#include "menu_select_input_component.h"
 // ai
 #include "unintelligent_ai_component.h"
 #include "intelligent_ai_component.h"
@@ -352,6 +353,9 @@ InputComponent* ObjectFactory::CreateInputComponent(PERComponentType type)
         break;
     case PERComponentType::BUTTON_INPUT:
         inputComponent = new ButtonInputComponent();
+        break;
+    case PERComponentType::MENU_SELECT:
+        inputComponent = new MenuSelectInputComponent();
         break;
     }
 
