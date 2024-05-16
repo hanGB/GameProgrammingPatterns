@@ -198,6 +198,7 @@
     <ClInclude Include="test_game_state.h" />
     <ClInclude Include="test_world.h" />
     <ClInclude Include="test_world2.h" />
+    <ClInclude Include="text_viewer.h" />
     <ClInclude Include="trigger_physics_component.h" />
     <ClInclude Include="ui_element_pool_group.h" />
     <ClInclude Include="unintelligent_ai_component.h" />
@@ -276,6 +277,7 @@
     <ClCompile Include="test_game_state.cpp" />
     <ClCompile Include="test_world.cpp" />
     <ClCompile Include="test_world2.cpp" />
+    <ClCompile Include="text_viewer.cpp" />
     <ClCompile Include="trigger_physics_component.cpp" />
     <ClCompile Include="ui_element_pool_group.cpp" />
     <ClCompile Include="unintelligent_ai_component.cpp" />

@@ -10,5 +10,4 @@ public:
 	virtual void MatchWithPlayerState(PlayerState& state);
 
 private:
-
 };

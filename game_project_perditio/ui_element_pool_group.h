@@ -4,6 +4,7 @@
 #include "progress_bar.h"
 #include "name_tag.h"
 #include "key_input_helper.h"
+#include "text_viewer.h"
 
 class PERDatabase;
 
@@ -24,4 +25,5 @@ private:
 	UiElementPool<ProgressBar> m_progressBarPool;
 	UiElementPool<NameTag> m_nameTagPool;
 	UiElementPool<KeyInputHelper> m_keyInputHelperPool;
+	UiElementPool<TextViewer> m_textViewerPool;
 };

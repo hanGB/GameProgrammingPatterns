@@ -229,6 +229,9 @@
     <Filter Include="00. game\user_interface\hud\main_menu_hud">
       <UniqueIdentifier>{58b7f7d4-aaaa-4121-8054-51295ea9ea97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\user_interface\ui_element\text_viewer">
+      <UniqueIdentifier>{a3d718a6-6ccb-459a-b884-4671ee3173d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -465,6 +468,9 @@
     <ClInclude Include="main_menu_hud.h">
       <Filter>00. game\user_interface\hud\main_menu_hud</Filter>
     </ClInclude>
+    <ClInclude Include="text_viewer.h">
+      <Filter>00. game\user_interface\ui_element\text_viewer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -679,6 +685,9 @@
     </ClCompile>
     <ClCompile Include="main_menu_hud.cpp">
       <Filter>00. game\user_interface\hud\main_menu_hud</Filter>
+    </ClCompile>
+    <ClCompile Include="text_viewer.cpp">
+      <Filter>00. game\user_interface\ui_element\text_viewer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

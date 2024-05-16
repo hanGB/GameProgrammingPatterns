@@ -16,6 +16,7 @@ void UiElementPoolGroup::Update(PERController& controller, PERAudio& audio, doub
 	m_progressBarPool.Update(controller, audio, dTime);
 	m_nameTagPool.Update(controller, audio, dTime);
 	m_keyInputHelperPool.Update(controller, audio, dTime);
+	m_textViewerPool.Update(controller, audio, dTime);
 }
 
 void UiElementPoolGroup::Renderer(PERRenderer& renderer, PERDatabase& database)
@@ -23,6 +24,7 @@ void UiElementPoolGroup::Renderer(PERRenderer& renderer, PERDatabase& database)
 	m_progressBarPool.Renderer(renderer, database);
 	m_nameTagPool.Renderer(renderer, database);
 	m_keyInputHelperPool.Renderer(renderer, database);
+	m_textViewerPool.Renderer(renderer, database);
 }
 
 void UiElementPoolGroup::RendererInWorld(PERRenderer& renderer, PERDatabase& database)
@@ -30,6 +32,7 @@ void UiElementPoolGroup::RendererInWorld(PERRenderer& renderer, PERDatabase& dat
 	m_progressBarPool.RendererInWorld(renderer, database);
 	m_nameTagPool.RendererInWorld(renderer, database);
 	m_keyInputHelperPool.RendererInWorld(renderer, database);
+	m_textViewerPool.RendererInWorld(renderer, database);
 }
 
 UiElement* UiElementPoolGroup::Create(PERUiElementType type, bool inWorld)
@@ -43,6 +46,8 @@ UiElement* UiElementPoolGroup::Create(PERUiElementType type, bool inWorld)
 			break;
 		case PERUiElementType::KEY_INPUT_HELPER: return m_keyInputHelperPool.CreateElementInWorld();
 			break;
+		case PERUiElementType::TEXT_VIEWER: return m_textViewerPool.CreateElementInWorld();
+			break;
 		}
 	}
 	else
@@ -53,6 +58,8 @@ UiElement* UiElementPoolGroup::Create(PERUiElementType type, bool inWorld)
 		case PERUiElementType::NAME_TAG: return m_nameTagPool.CreateElementOnScreen();
 			break;
 		case PERUiElementType::KEY_INPUT_HELPER: return m_keyInputHelperPool.CreateElementOnScreen();
+			break;
+		case PERUiElementType::TEXT_VIEWER: return m_textViewerPool.CreateElementOnScreen();
 			break;
 		}
 	}
@@ -65,4 +72,5 @@ void UiElementPoolGroup::DoGarbegeCollection(double dTime)
 	m_progressBarPool.DoGarbegeCollection(dTime);
 	m_nameTagPool.DoGarbegeCollection(dTime);
 	m_keyInputHelperPool.DoGarbegeCollection(dTime);
+	m_textViewerPool.DoGarbegeCollection(dTime);
 }
