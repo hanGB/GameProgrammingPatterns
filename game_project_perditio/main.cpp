@@ -11,8 +11,6 @@ HWND g_hWnd;
 HANDLE g_hWorkerThreads[PER_NUM_WORKER_THREAD];
 PERGame* g_game;
 bool g_isGameEnd;
-int g_windowSizeW, g_windowSizeH;
-bool g_isMaxScreenSize;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 DWORD WINAPI GameTheadFunc(LPVOID temp);
@@ -77,15 +75,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 #else
 		PERLog::SetLogger(nullptr);
 #endif 
-		g_windowSizeW = PER_DEFAULT_WINDOW_WIDTH;
-		g_windowSizeH = PER_DEFAULT_WINDOW_HEIGHT;
-		
 		// 게임 초기화
 		g_game = new PERGame(g_hWnd);
 		EventDispatcher::SetGame(dynamic_cast<EventReciver*>(g_game));
 		// 월드 실행
 		g_game->Recive(PEREvent::EXECUTE_GAME, PERVec3());
-		//EventDispatcher::Send(PEREvent::RUN_DEFAULT_WORLD, PERVec3());
 
 		g_isGameEnd = false;
 		// 게임 루프 스레드 생성
@@ -96,36 +90,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		g_hWorkerThreads[4] = CreateThread(NULL, 0, AudioTheadFunc, NULL, 0, &threadID);
 		g_hWorkerThreads[5] = CreateThread(NULL, 0, EventDispatchterTheadFunc, NULL, 0, &threadID);
 		g_hWorkerThreads[6] = CreateThread(NULL, 0, LogTheadFunc, NULL, 0, &threadID);
-
-
 		break;
 	
 	case WM_GETMINMAXINFO:
-		((MINMAXINFO*)lParam)->ptMaxTrackSize.x = g_windowSizeW;
-		((MINMAXINFO*)lParam)->ptMaxTrackSize.y = g_windowSizeH;
-		((MINMAXINFO*)lParam)->ptMinTrackSize.x = g_windowSizeW;
-		((MINMAXINFO*)lParam)->ptMinTrackSize.y = g_windowSizeH;
+		int w, h;
+		if (g_game) 
+		{
+			g_game->GetWindowSize(&w, &h);
+			((MINMAXINFO*)lParam)->ptMaxTrackSize.x = w;
+			((MINMAXINFO*)lParam)->ptMaxTrackSize.y = h;
+			((MINMAXINFO*)lParam)->ptMinTrackSize.x = w;
+			((MINMAXINFO*)lParam)->ptMinTrackSize.y = h;
+		}
 		break;
 
 	case WM_KEYDOWN:
-		// esc를 누를 경우 종료
-		if (wParam == VK_ESCAPE) PostMessageW(hWnd, WM_DESTROY, 0, 0);
-		if (wParam == VK_RETURN) {
-			if (g_isMaxScreenSize) {
-				g_windowSizeW = PER_DEFAULT_WINDOW_WIDTH;
-				g_windowSizeH = PER_DEFAULT_WINDOW_HEIGHT;
-				g_isMaxScreenSize = false;
-				SetWindowPos(hWnd, nullptr, PER_DEFAULT_WINDOW_LOCATION_X, PER_DEFAULT_WINDOW_LOCATION_Y, g_windowSizeW, g_windowSizeH, 0);
-				g_game->MatchWindowHWND(hWnd);
-			}
-			else {
-				g_windowSizeW = PER_MAXIMUM_WINDOW_WIDTH;
-				g_windowSizeH = PER_MAXIMUM_WINDOW_HEIGHT;
-				g_isMaxScreenSize = true;
-				SetWindowPos(hWnd, nullptr, 0, 0, g_windowSizeW, g_windowSizeH, 0);
-				g_game->MatchWindowHWND(hWnd);
-			}
-		}
 		g_game->HandleInput(wParam, true);
 		break;
 
@@ -261,6 +240,7 @@ DWORD WINAPI EventDispatchterTheadFunc(LPVOID temp)
 	while (!g_isGameEnd) {
 		dTime = CalculateDeltaTime(&lastTime, &currentTime);
 		EventDispatcher::Update();
+		g_game->DoWindowJob(g_hWnd);
 		SleepForRestDevice(dTime);
 	}
 

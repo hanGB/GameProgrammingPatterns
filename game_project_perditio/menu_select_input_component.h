@@ -9,10 +9,9 @@ public:
 	virtual void SetData(PERComponent::InputData data);
 	virtual void Initialize();
 
-	void AddMenu(std::function<void(PERWorld&, PERController&, PERAudio&, double)> func);
+	void AddMenu(std::function<void(PERWorld&, PERAudio&, double)> func);
 
 private:
-	std::vector<std::function<void(PERWorld&, PERController&, PERAudio&, double)>> m_menus;
+	std::vector<std::function<void(PERWorld&, PERAudio&, double)>> m_menus;
 	int m_selectedMenu = 0;
-	bool m_isSelected = false;
 };

@@ -28,6 +28,12 @@ public:
 
 	// 윈도우 hwnd 재설정
 	void MatchWindowHWND(HWND hWnd);
+	// 윈도우 사이즈 얻기
+	void GetWindowSize(int* width, int* height);
+	// 윈도우 사이즈 변경
+	void ChangeWindowSize(HWND hWnd);
+	// 윈도우 관련 작업
+	void DoWindowJob(HWND hWnd);
 
 private:
 	// 이벤트 처리
@@ -89,4 +95,12 @@ private:
 	double m_fpsUpdateTime = 0.0;
 	wchar_t m_fpsText[10];
 	std::atomic<int> m_fps;
+
+	// 윈도우 관련 명령
+	bool m_changeWindowSize = false;
+	bool m_destroyWindow = false;
+	// 창 크기 변경 관련
+	bool m_isMaxScreenSize = false;
+	int m_windowSizeW = PER_DEFAULT_WINDOW_WIDTH;
+	int m_windowSizeH = PER_DEFAULT_WINDOW_HEIGHT;
 };

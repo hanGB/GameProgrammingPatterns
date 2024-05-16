@@ -11,8 +11,6 @@ MenuSelectInputComponent::~MenuSelectInputComponent()
 
 void MenuSelectInputComponent::Update(PERWorld& world, PERController& controller, PERAudio& audio, double dTime)
 {
-	if (m_isSelected) return;
-
 	int tempIndex = m_selectedMenu;
 
 	if (controller.IsKeyboardPressedRightNowOrMoreThanTime(PERKeyboardValue::UP)) {
@@ -24,8 +22,7 @@ void MenuSelectInputComponent::Update(PERWorld& world, PERController& controller
 		m_selectedMenu = std::clamp(m_selectedMenu, 0, (int)m_menus.size() - 1);
 	}
 	else if (controller.IsKeyboardPressedRightNow(PERKeyboardValue::SPACE)) {
-		m_menus[m_selectedMenu](world, controller, audio, dTime);
-		m_isSelected = true;
+		m_menus[m_selectedMenu](world, audio, dTime);
 	}
 
 	if (tempIndex != m_selectedMenu)
@@ -44,11 +41,10 @@ void MenuSelectInputComponent::SetData(PERComponent::InputData data)
 void MenuSelectInputComponent::Initialize()
 {
 	m_selectedMenu = 0;
-	m_isSelected = false;
 	InputComponent::Initialize();
 }
 
-void MenuSelectInputComponent::AddMenu(std::function<void(PERWorld&, PERController&, PERAudio&, double)> func)
+void MenuSelectInputComponent::AddMenu(std::function<void(PERWorld&, PERAudio&, double)> func)
 {
 	m_menus.push_back(func);
 }

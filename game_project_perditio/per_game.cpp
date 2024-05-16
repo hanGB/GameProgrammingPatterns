@@ -49,8 +49,10 @@ void PERGame::Recive(PEREvent event, PERVec3 data)
 		ProgressRunEvent<TestWorld2>("Test2");
 		break;
 	case PEREvent::CHANGE_WINDOW_SIZE:
+		m_changeWindowSize = true;
 		break;
 	case PEREvent::EXIT_GAME:
+		m_destroyWindow = true;
 		break;
 	}
 	}
@@ -198,6 +200,43 @@ void PERGame::MatchWindowHWND(HWND hWnd)
 	m_renderer->MatchWindowSize(hWnd);
 }
 
+void PERGame::GetWindowSize(int* width, int* height)
+{
+	*width = m_windowSizeW;
+	*height = m_windowSizeH;
+}
+
+void PERGame::ChangeWindowSize(HWND hWnd)
+{
+	if (m_isMaxScreenSize)
+	{
+		m_windowSizeW = PER_DEFAULT_WINDOW_WIDTH;
+		m_windowSizeH = PER_DEFAULT_WINDOW_HEIGHT;
+		m_isMaxScreenSize = false;
+		SetWindowPos(hWnd, nullptr, PER_DEFAULT_WINDOW_LOCATION_X, PER_DEFAULT_WINDOW_LOCATION_Y, m_windowSizeW, m_windowSizeH, 0);
+	}
+	else {
+		m_windowSizeW = PER_MAXIMUM_WINDOW_WIDTH;
+		m_windowSizeH = PER_MAXIMUM_WINDOW_HEIGHT;
+		m_isMaxScreenSize = true;
+		SetWindowPos(hWnd, nullptr, 0, 0, m_windowSizeW, m_windowSizeH, 0);
+	}
+}
+
+void PERGame::DoWindowJob(HWND hWnd)
+{
+	if (m_changeWindowSize)
+	{
+		ChangeWindowSize(hWnd);
+		MatchWindowHWND(hWnd);
+		m_changeWindowSize = false;
+	}
+	if (m_destroyWindow)
+	{
+		PostMessageW(hWnd, WM_DESTROY, 0, 0);
+		m_destroyWindow = false;
+	}
+}
 void PERGame::Run(PERWorld* world)
 {
 	PERLog::Logger().Info("월드 실행");

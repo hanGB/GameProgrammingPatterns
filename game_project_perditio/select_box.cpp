@@ -53,7 +53,7 @@ void SelectBox::RenderOnScreen(PERRenderer& renderer, PERDatabase& database)
 	// 박스
 	PERColor	color = GetBackgroundColor();
 	bool		border = GetBorder();
-	double		borderWidth = GetBorderWidth();
+	int		borderWidth = GetBorderWidth();
 	PERColor	borderColor = GetBorderColor();
 
 	if (m_isOn)
@@ -86,7 +86,7 @@ void SelectBox::RenderInWorld(PERRenderer& renderer, PERDatabase& database)
 	// 박스
 	PERColor	color = GetBackgroundColor();
 	bool		border = GetBorder();
-	double		borderWidth = GetBorderWidth();
+	int		borderWidth = GetBorderWidth();
 	PERColor	borderColor = GetBorderColor();
 
 	if (m_isOn)
