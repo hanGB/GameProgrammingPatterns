@@ -234,16 +234,23 @@ void PhysicsHelper::ProcessCollision(
 {
 	// 물리적 처리 항목
 	if (aType == PERCollisionType::MOVABLE && bType == PERCollisionType::FIXED)
+	{
 		AdjustPositionBetweenObjects(world, aObject, aPos, aSize, bObject, bPos, bSize, dTime);
+	}
 	else if (aType == PERCollisionType::MOVABLE && bType == PERCollisionType::MOVABLE)
 	{
-		PERVec3 aVel = aObject.GetVelocity();
-		PERVec3 bvel = bObject.GetVelocity();
+		// 플레이어와 몬스터가 아닌 경우에만 물리적 처리
+		if (!(aObjectType == PERObjectType::PLAYER && bObjectType == PERObjectType::MONSTER) &&
+			!(aObjectType == PERObjectType::MONSTER && bObjectType == PERObjectType::PLAYER)) 
+		{
+			PERVec3 aVel = aObject.GetVelocity();
+			PERVec3 bvel = bObject.GetVelocity();
 
-		if (aVel.GetSize() >= bvel.GetSize())
-			ProcessCollisionBetweenMovables(world, aObject, aPos, aSize, bObject, bPos, bSize, otherObjects, numOtherObject, dTime);
-		else
-			ProcessCollisionBetweenMovables(world, bObject, bPos, bSize, aObject, aPos, aSize, otherObjects, numOtherObject, dTime);
+			if (aVel.GetSize() >= bvel.GetSize())
+				ProcessCollisionBetweenMovables(world, aObject, aPos, aSize, bObject, bPos, bSize, otherObjects, numOtherObject, dTime);
+			else
+				ProcessCollisionBetweenMovables(world, bObject, bPos, bSize, aObject, aPos, aSize, otherObjects, numOtherObject, dTime);
+		}
 	}
 
 	// 물리적 처리 없이 다른 상호 작용

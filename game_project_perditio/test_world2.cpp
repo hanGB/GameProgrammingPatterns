@@ -100,7 +100,7 @@ void TestWorld2::AddOtherObjects()
 	// 몬스터 생성기
 	PERObject* monsterSpanwer;
 	monsterSpanwer = m_objectStorage->PopObject(PERObjectType::SPAWNER);
-	monsterSpanwer->SetPosition(PERVec3(0.0, 0.0, 0.1));
+	monsterSpanwer->SetPosition(PERVec3(0.0, 0.0, 0.2));
 	dynamic_cast<SpawnerAiComponent*>(&monsterSpanwer->GetAi())->SetSpawner(
 		"MONSTER_NIKKEL", PERObjectType::MONSTER, PERSpawnType::LIVE, 1
 	);

@@ -16,7 +16,7 @@ void PERAudio::Update()
 	ProcessPendingMessage();
 }
 
-void PERAudio::RequestHandleSound(PERAudioMessageId messageId, PERSoundId soundId, double volume)
+void PERAudio::RequestMakeSound(PERAudioMessageId messageId, PERSoundId soundId, double volume, int slot)
 {
 	m_csProvider.Lock();
 
@@ -25,6 +25,20 @@ void PERAudio::RequestHandleSound(PERAudioMessageId messageId, PERSoundId soundI
 	m_pending[m_numPending].messageId = messageId;
 	m_pending[m_numPending].soundId = soundId;
 	m_pending[m_numPending].volume = volume;
+	m_pending[m_numPending].slot = slot;
+	m_numPending++;
+
+	m_csProvider.Unlock();
+}
+
+void PERAudio::RequestHandleSound(PERAudioMessageId messageId, int slot)
+{
+	m_csProvider.Lock();
+
+	if (m_maxPending == m_numPending) ResizePedingArray();
+
+	m_pending[m_numPending].messageId = messageId;
+	m_pending[m_numPending].slot = slot;
 	m_numPending++;
 
 	m_csProvider.Unlock();
@@ -47,37 +61,56 @@ void PERAudio::ProcessPendingMessage()
 		PERAudioMessage& message = m_copyPending[i];
 
 		switch (message.messageId) {
-		// sound
-		case PERAudioMessageId::PLAY_SOUND: 
+			// sound
+		case PERAudioMessageId::PLAY_SOUND:
 			PlaySound(message.soundId, message.volume);
-			break;
-		case PERAudioMessageId::STOP_SOUND:
-			StopSound(message.soundId);
 			break;
 		case PERAudioMessageId::STOP_ALL_SOUNDS:
 			StopAllSounds();
 			break;
-		// bgm
+			// bgm
 		case PERAudioMessageId::SET_BGM:
 			SetBGM(message.soundId, message.volume);
 			break;
-		case PERAudioMessageId::ADD_BGM:
-			AddBGM(message.soundId, message.volume);
+		case PERAudioMessageId::PLAY_BGM:
+			PlayBGM();
 			break;
-		case PERAudioMessageId::PLAY_CURRENT_BGM:
-			PlayCurrentBGM();
+		case PERAudioMessageId::STOP_BGM:
+			StopBGM();
 			break;
-		case PERAudioMessageId::STOP_CURRENT_BGM:
-			StopCurrentBGM();
+		case PERAudioMessageId::PAUSE_BGM:
+			PauseBGM(true);
 			break;
-		case PERAudioMessageId::PAUSE_CURRENT_BGM:
-			PauseCurrentBGM(true);
+		case PERAudioMessageId::RESUME_BGM:
+			PauseBGM(false);
 			break;
-		case PERAudioMessageId::RESUME_CURRENT_BGM:
-			PauseCurrentBGM(false);
+			// ambient
+		case PERAudioMessageId::SET_AMBIENT_SOUND:
+			SetAmbientSound(message.soundId, message.volume, message.slot);
 			break;
-		case PERAudioMessageId::STOP_ALL_BGM:
-			StopAllBGMs();
+		case PERAudioMessageId::PLAY_AMBIENT_SOUND:
+			PlayAmbientSound(message.slot);
+			break;
+		case PERAudioMessageId::STOP_AMBIENT_SOUND:
+			StopAmbientSound(message.slot);
+			break;
+		case PERAudioMessageId::PAUSE_AMBIENT_SOUND:
+			PauseAmbientSound(true, message.slot);
+			break;
+		case PERAudioMessageId::RESUME_AMBIENT_SOUND:
+			PauseAmbientSound(false, message.slot);
+			break;
+		case PERAudioMessageId::PLAY_ALL_AMBIENT_SOUNDS:
+			PlayAllAmbientSounds();
+			break;
+		case PERAudioMessageId::STOP_ALL_AMBIENT_SOUNDS:
+			StopAllAmbientSounds();
+			break;
+		case PERAudioMessageId::PAUSE_ALL_AMBIENT_SOUNDS:
+			PauseAllAmbientSounds(true);
+			break;
+		case PERAudioMessageId::RESUME_ALL_AMBIENT_SOUNDS:
+			PauseAllAmbientSounds(false);
 			break;
 		}
 	}

@@ -32,7 +32,8 @@ void TestWorld::Enter(PERAudio& audio)
 	m_gameMode->GetPlayerState().SetCurrentWorldType(PERWorldType::TEST_WORLD);
 	m_gameMode->GetPlayer().SetCurrentPositionToSpawnPosition();
 
-	audio.RequestHandleSound(PERAudioMessageId::SET_BGM, PERSoundId::BATTLE_BGM, 0.75);
+	audio.RequestMakeSound(PERAudioMessageId::SET_BGM, PERSoundId::BATTLE_BGM, 0.25);
+	audio.RequestMakeSound(PERAudioMessageId::SET_AMBIENT_SOUND, PERSoundId::RAINNY_BGM, 1.0, 0);
 
 	PERWorld::Enter(audio);
 }
@@ -46,12 +47,14 @@ void TestWorld::Pause(PERAudio& audio)
 {
 	m_gameMode->GetPlayerState().SetCurrentWorldType(PERWorldType::TEST_WORLD);
 	m_playerPosBeforePause = m_gameMode->GetPlayer().GetPosition();
+
 	PERWorld::Pause(audio);
 }
 
 void TestWorld::Resume(PERAudio& audio)
 {
 	m_gameMode->GetPlayer().SetPosition(m_playerPosBeforePause);
+
 	PERWorld::Resume(audio);
 }
 
@@ -131,7 +134,7 @@ void TestWorld::AddOtherObjects()
 		for (double y = -3.0; y <= 3.0; y += 6.0) {
 			PERObject* monsterSpanwer;
 			monsterSpanwer = m_objectStorage->PopObject(PERObjectType::SPAWNER);
-			monsterSpanwer->SetPosition(PERVec3(x, y, 0.1));
+			monsterSpanwer->SetPosition(PERVec3(x, y, 0.2));
 			dynamic_cast<SpawnerAiComponent*>(&monsterSpanwer->GetAi())->SetSpawner(
 			"MONSTER_KOPPER", PERObjectType::MONSTER, PERSpawnType::LIVE
 			);

@@ -100,7 +100,7 @@
 #define PER_MAXIMUM_TEXT_SIZE 32
 
 // 이벤트
-#define PER_DEFAULT_MAX_EVENT_PENDING  256
+#define PER_DEFAULT_MAX_EVENT_PENDING  64
 
 // 크기별 슬립 거리(업데이트 및 렌더링을 하지 않는 거리) 설정
 #define PER_SMALL_OBJECT_SLEEP_DISTANCE 300
@@ -113,6 +113,9 @@
 #define PER_CELL_DATA_WEIGHT	5
 #define PER_CELL_DISTANCE		0.25
 #define PER_MAX_CELL			100
+
+// 사운드
+#define PER_MAXIMUM_AMBIEMNT_SOUND_SLOT 5
 
 // 시간
 // 최대 라이프 타임(100년)

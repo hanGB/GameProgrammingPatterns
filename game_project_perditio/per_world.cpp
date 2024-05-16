@@ -106,32 +106,36 @@ void PERWorld::Enter(PERAudio& audio)
 
 	m_gameMode->StartUse();
 
-	// bgm 재생
-	audio.RequestHandleSound(PERAudioMessageId::PLAY_CURRENT_BGM, PERSoundId::NUM_SOUND_ID, 0.0);
+	// 배경음 재생
+	audio.RequestHandleSound(PERAudioMessageId::PLAY_BGM);
+	audio.RequestHandleSound(PERAudioMessageId::PLAY_ALL_AMBIENT_SOUNDS);
 }
 
 void PERWorld::Exit(PERAudio& audio)
 {
 	m_gameMode->EndUse();
 
-	// bgm 종료
-	audio.RequestHandleSound(PERAudioMessageId::STOP_CURRENT_BGM, PERSoundId::NUM_SOUND_ID, 0.0);
+	// 배경음 종료
+	audio.RequestHandleSound(PERAudioMessageId::STOP_BGM);
+	audio.RequestHandleSound(PERAudioMessageId::STOP_ALL_AMBIENT_SOUNDS);
 }
 
 void PERWorld::Pause(PERAudio& audio)
 {
 	m_gameMode->EndUse();
 
-	// bgm 멈춤
-	audio.RequestHandleSound(PERAudioMessageId::PAUSE_CURRENT_BGM, PERSoundId::NUM_SOUND_ID, 0.0);
+	// 배경음 멈춤
+	audio.RequestHandleSound(PERAudioMessageId::PAUSE_BGM);
+	audio.RequestHandleSound(PERAudioMessageId::PAUSE_ALL_AMBIENT_SOUNDS);
 }
 
 void PERWorld::Resume(PERAudio& audio)
 {
 	m_gameMode->StartUse();
 
-	// bgm 다시 재생
-	audio.RequestHandleSound(PERAudioMessageId::RESUME_CURRENT_BGM, PERSoundId::NUM_SOUND_ID, 0.0);
+	// 배경음 다시 재생
+	audio.RequestHandleSound(PERAudioMessageId::RESUME_BGM);
+	audio.RequestHandleSound(PERAudioMessageId::RESUME_ALL_AMBIENT_SOUNDS);
 
 }
 

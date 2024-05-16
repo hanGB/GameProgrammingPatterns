@@ -103,7 +103,7 @@ void PlayerInputComponent::ShootBullet(PERWorld& world, PERController& controlle
 			m_shootingCoolTime = state.GetShootCoolTime();
 
 			// 사운드 재생
-			audio.RequestHandleSound(PERAudioMessageId::PLAY_SOUND, PERSoundId::BULLET_SHOOTING, 1.0);
+			audio.RequestMakeSound(PERAudioMessageId::PLAY_SOUND, PERSoundId::BULLET_SHOOTING, 1.0);
 		}
 	}
 }
@@ -127,7 +127,7 @@ void PlayerInputComponent::SwingBlade(PERWorld& world, PERController& controller
 		m_swingCoolTime = state.GetSwingCoolTime();
 
 		// 사운드 재생
-		audio.RequestHandleSound(PERAudioMessageId::PLAY_SOUND, PERSoundId::BLADE_SWING, 1.0);
+		audio.RequestMakeSound(PERAudioMessageId::PLAY_SOUND, PERSoundId::BLADE_SWING, 1.0);
 	}
 }
 
