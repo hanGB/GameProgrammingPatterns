@@ -1,10 +1,10 @@
 #pragma once
 #include "game_mode.h"
 
-class TestGameMode : public GameMode {
+class MenuGameMode : public GameMode {
 public:
-	TestGameMode();
-	~TestGameMode();
+	MenuGameMode();
+	~MenuGameMode();
 
 	virtual void Update();
 	virtual void UpdateCamera(PERRenderer& renderer, double frameGap);

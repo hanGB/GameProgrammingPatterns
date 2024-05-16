@@ -23,6 +23,7 @@ public:
 	PlayerState& GetPlayerState();
 
 	void SetGameState(GameState* gameState);
+	void SetHud(PERHud* hud);
 	void UpdatePlayerState(PlayerState* updatedState);
 
 protected:
@@ -34,8 +35,6 @@ protected:
 private:
 	// 플레이어 팩토리 생성
 	virtual void CreatePlayerFactory() = 0;
-	// hud 생성
-	virtual PERHud* CreateHud() = 0;
 
 	GameState* m_gameState;
 	PERHud* m_hud;

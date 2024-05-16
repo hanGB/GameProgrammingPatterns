@@ -12,22 +12,11 @@
 
 TestGameMode::TestGameMode()
 {
-    SetGameState(new TestGameState());
     InitGameMode();
 }
 
 TestGameMode::~TestGameMode()
 {
-}
-
-void TestGameMode::StartUse()
-{
-    GameMode::StartUse();
-}
-
-void TestGameMode::EndUse()
-{
-    GameMode::EndUse();
 }
 
 void TestGameMode::Update()
@@ -67,13 +56,3 @@ void TestGameMode::CreatePlayerFactory()
     m_playerFactory->SetSize(PERVec3(0.5, 0.5, 0.5)); m_playerFactory->SetMass(70);
 }
 
-PERHud* TestGameMode::CreateHud()
-{
-    TestFieldHud* hud = new TestFieldHud();
-
-    ObjectState playerState = m_player->GetObjectState();
-    hud->GetBodyBar()->MatchWithData(hud->GetBodyBar()->GetPosition(), playerState.GetStat().body, playerState.GetCurrentBody());
-    hud->GetMindBar()->MatchWithData(hud->GetMindBar()->GetPosition(), playerState.GetStat().mind, playerState.GetCurrentMind());
-
-    return hud;
-}

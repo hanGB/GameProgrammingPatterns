@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "per_game.h"
 #include "irr_audio.h"
+#include "null_audio.h"
 #include "black_board.h"
+#include "main_menu_world.h"
 #include "test_world.h"
 #include "test_world2.h"
-#include "physics_helper.h"
 
 PERGame::PERGame(HWND hWnd)
 {
@@ -12,7 +13,7 @@ PERGame::PERGame(HWND hWnd)
 
 	m_renderer = new PERRenderer(hWnd);
 	m_controller = new PERController();
-	m_audio = new IRRAudio();
+	m_audio = new NullAudio();
 	m_objectStorage = new ObjectStorage();
 	m_database = new PERDatabase();
 
@@ -37,7 +38,7 @@ void PERGame::Recive(PEREvent event, PERVec3 data)
 	switch (event) {
 	case PEREvent::EXECUTE_GAME: {
 		PERLog::Logger().Info("게임 실행");
-		Run(new TestWorld2(m_objectStorage, m_database));
+		Run(new MainMenuWorld(m_objectStorage, m_database));
 		break;
 	}
 	case PEREvent::RUN_TEST_WORLD: {

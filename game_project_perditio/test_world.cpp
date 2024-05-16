@@ -2,19 +2,26 @@
 #include "test_world.h"
 #include "spawner_ai_component.h"
 #include "per_object.h"
+#include "per_audio.h"
+#include "player_state.h"
+#include "event_dispatcher.h"
 #include "object_storage.h"
-#include "game_mode.h"
+#include "test_game_mode.h"
+#include "test_game_state.h"
+#include "test_field_hud.h"
 #include "response_to_signal_ai_component.h"
 #include "making_signal_ai_component.h"
 #include "creating_particles_ai_component.h"
-#include "test_game_mode.h"
-#include "event_dispatcher.h"
-#include "player_state.h"
-#include "per_audio.h"
+
+
 
 TestWorld::TestWorld(ObjectStorage* objectStorage, PERDatabase* database)
 {
-	InitSettingForWorld(objectStorage, database, new TestGameMode());
+	TestGameMode* gameMode = new TestGameMode();
+	gameMode->SetGameState(new TestGameState());
+	gameMode->SetHud(new TestFieldHud());
+
+	InitSettingForWorld(objectStorage, database, gameMode);
 }
 
 TestWorld::~TestWorld()

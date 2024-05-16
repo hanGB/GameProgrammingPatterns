@@ -220,6 +220,15 @@
     <Filter Include="05. audio\irrKlang">
       <UniqueIdentifier>{06e86990-f052-4d31-8add-2fe4479f9655}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\world\main_menu">
+      <UniqueIdentifier>{0359c178-8ce4-44c5-9146-e1e4ff6cc97c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\game_mode\menu_game_mode">
+      <UniqueIdentifier>{12d953ca-b8d4-47c8-acbc-c794f43a98e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\user_interface\hud\main_menu_hud">
+      <UniqueIdentifier>{58b7f7d4-aaaa-4121-8054-51295ea9ea97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -447,6 +456,15 @@
     <ClInclude Include="button_input_component.h">
       <Filter>00. game\object\component\child class\input\button</Filter>
     </ClInclude>
+    <ClInclude Include="main_menu_world.h">
+      <Filter>00. game\world\main_menu</Filter>
+    </ClInclude>
+    <ClInclude Include="menu_game_mode.h">
+      <Filter>00. game\game_mode\menu_game_mode</Filter>
+    </ClInclude>
+    <ClInclude Include="main_menu_hud.h">
+      <Filter>00. game\user_interface\hud\main_menu_hud</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -652,6 +670,15 @@
     </ClCompile>
     <ClCompile Include="per_audio.cpp">
       <Filter>05. audio</Filter>
+    </ClCompile>
+    <ClCompile Include="main_menu_world.cpp">
+      <Filter>00. game\world\main_menu</Filter>
+    </ClCompile>
+    <ClCompile Include="menu_game_mode.cpp">
+      <Filter>00. game\game_mode\menu_game_mode</Filter>
+    </ClCompile>
+    <ClCompile Include="main_menu_hud.cpp">
+      <Filter>00. game\user_interface\hud\main_menu_hud</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

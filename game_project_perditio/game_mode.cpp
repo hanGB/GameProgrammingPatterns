@@ -61,6 +61,12 @@ void GameMode::SetGameState(GameState* gameState)
 	m_gameState = gameState;
 }
 
+void GameMode::SetHud(PERHud* hud)
+{
+	m_hud = hud;
+	hud->MatchWithPlayerState(GetPlayerState());
+}
+
 void GameMode::UpdatePlayerState(PlayerState* updatedState)
 {
 	PlayerState* state = dynamic_cast<PlayerState*>(&m_player->GetObjectState());
@@ -71,5 +77,4 @@ void GameMode::InitGameMode()
 {
 	CreatePlayerFactory();
 	m_player = m_playerFactory->CreateObject();
-	m_hud = CreateHud();
 }

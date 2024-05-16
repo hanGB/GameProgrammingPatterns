@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "test_field_hud.h"
+#include "player_state.h"
 
 TestFieldHud::TestFieldHud()
 {
@@ -43,12 +44,8 @@ void TestFieldHud::Recive(PEREvent event, PERVec3 data)
 	}
 }
 
-ProgressBar* TestFieldHud::GetBodyBar()
+void TestFieldHud::MatchWithPlayerState(PlayerState& state)
 {
-	return m_bodyBar;
-}
-
-ProgressBar* TestFieldHud::GetMindBar()
-{
-	return m_mindBar;
+	m_bodyBar->MatchWithData(m_bodyBar->GetPosition(), state.GetStat().body, state.GetCurrentBody());
+	m_mindBar->MatchWithData(m_mindBar->GetPosition(), state.GetStat().mind, state.GetCurrentMind());
 }

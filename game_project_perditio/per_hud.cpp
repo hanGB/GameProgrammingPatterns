@@ -28,11 +28,6 @@ void PERHud::RendererInWorld(PERRenderer& renderer, PERDatabase& database)
 	m_uiElementPool->RendererInWorld(renderer, database);
 }
 
-void PERHud::Recive(PEREvent event, PERVec3 data)
-{
-	
-}
-
 UiElement* PERHud::GetNewUiElementInWorld(PERUiElementType type)
 {
 	return m_uiElementPool->Create(type, true);

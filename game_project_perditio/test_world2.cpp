@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "test_world2.h"
-#include "game_mode.h"
+#include "test_game_mode.h"
+#include "test_game_state.h"
+#include "test_field_hud.h"
 #include "per_object.h"
 #include "object_storage.h"
 #include "spawner_ai_component.h"
@@ -12,7 +14,11 @@
 
 TestWorld2::TestWorld2(ObjectStorage* objectStorage, PERDatabase* database)
 {
-	InitSettingForWorld(objectStorage, database, new TestGameMode());
+	TestGameMode* gameMode = new TestGameMode();
+	gameMode->SetGameState(new TestGameState());
+	gameMode->SetHud(new TestFieldHud());
+
+	InitSettingForWorld(objectStorage, database, gameMode);
 }
 
 TestWorld2::~TestWorld2()
