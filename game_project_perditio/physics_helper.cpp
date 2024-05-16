@@ -3,7 +3,8 @@
 #include "per_object.h"
 #include "per_world.h"
 
-bool PhysicsHelper::CheckCollisionBetweenOtherObjects(PERWorld& world, PERObject& myObject, std::vector<PERObject*>& otherObjects, int numOtherObject, PERObject* exceptObject, double dTime)
+bool PhysicsHelper::CheckCollisionBetweenOtherObjects(PERWorld& world, PERAudio& audio, PERObject& myObject, 
+	std::vector<PERObject*>& otherObjects, int numOtherObject, PERObject* exceptObject, double dTime)
 {
 	// 충돌 처리 설정 -> 충돌 체크를 요청한 오브젝트(myObject)의 충돌 타입은 FIXED 나 NONE이 될 수 없음
 	// ALL && NONE == 완전 무시
@@ -63,7 +64,7 @@ bool PhysicsHelper::CheckCollisionBetweenOtherObjects(PERWorld& world, PERObject
 				collided = true;
 
 				ProcessCollision(
-					world, myObject, type, objectType, position, size, 
+					world, audio, myObject, type, objectType, position, size, 
 					otherObject, otherType, otherObjectType, otherPos, otherSize, otherObjects, 
 					numOtherObject, dTime
 				);
@@ -73,7 +74,7 @@ bool PhysicsHelper::CheckCollisionBetweenOtherObjects(PERWorld& world, PERObject
 
 	// 플랫폼 위에 있지 않을 경우 떨어져 죽음
 	if (!isOnPlatform) {
-		myObject.GetObjectState().KillSelf(world);
+		myObject.GetObjectState().KillSelf(world, audio);
 	}
 
 	return collided;
@@ -227,7 +228,7 @@ bool PhysicsHelper::CheckAABBCollision(PERVec3 aPos, PERVec3 aSize, PERVec3 bPos
 }
 
 void PhysicsHelper::ProcessCollision(
-	PERWorld& world, PERObject& aObject, PERCollisionType aType, PERObjectType aObjectType, PERVec3 aPos, PERVec3 aSize,
+	PERWorld& world, PERAudio& audio, PERObject& aObject, PERCollisionType aType, PERObjectType aObjectType, PERVec3 aPos, PERVec3 aSize,
 	PERObject& bObject, PERCollisionType bType, PERObjectType bObjectType, PERVec3 bPos, PERVec3 bSize, 
 	std::vector<PERObject*>& otherObjects, int numOtherObject, double dTime
 )
@@ -235,7 +236,7 @@ void PhysicsHelper::ProcessCollision(
 	// 물리적 처리 항목
 	if (aType == PERCollisionType::MOVABLE && bType == PERCollisionType::FIXED)
 	{
-		AdjustPositionBetweenObjects(world, aObject, aPos, aSize, bObject, bPos, bSize, dTime);
+		AdjustPositionBetweenObjects(world, audio, aObject, aPos, aSize, bObject, bPos, bSize, dTime);
 	}
 	else if (aType == PERCollisionType::MOVABLE && bType == PERCollisionType::MOVABLE)
 	{
@@ -247,17 +248,17 @@ void PhysicsHelper::ProcessCollision(
 			PERVec3 bvel = bObject.GetVelocity();
 
 			if (aVel.GetSize() >= bvel.GetSize())
-				ProcessCollisionBetweenMovables(world, aObject, aPos, aSize, bObject, bPos, bSize, otherObjects, numOtherObject, dTime);
+				ProcessCollisionBetweenMovables(world, audio, aObject, aPos, aSize, bObject, bPos, bSize, otherObjects, numOtherObject, dTime);
 			else
-				ProcessCollisionBetweenMovables(world, bObject, bPos, bSize, aObject, aPos, aSize, otherObjects, numOtherObject, dTime);
+				ProcessCollisionBetweenMovables(world, audio, bObject, bPos, bSize, aObject, aPos, aSize, otherObjects, numOtherObject, dTime);
 		}
 	}
 
 	// 물리적 처리 없이 다른 상호 작용
-	ProcessCollisionWithoutMoving(world, aObject, aType, aObjectType, bObject, bType, bObjectType, dTime);
+	ProcessCollisionWithoutMoving(world, audio, aObject, aType, aObjectType, bObject, bType, bObjectType, dTime);
 }
 
-void PhysicsHelper::AdjustPositionBetweenObjects(PERWorld& world, PERObject& aObject, PERVec3 aPos, PERVec3 aSize,
+void PhysicsHelper::AdjustPositionBetweenObjects(PERWorld& world, PERAudio& audio, PERObject& aObject, PERVec3 aPos, PERVec3 aSize,
 	PERObject& bObject, PERVec3 bPos, PERVec3 bSize, double dTime)
 {
 	// 이전 충돌로 인해 실제로 변경된 값 얻기
@@ -267,18 +268,18 @@ void PhysicsHelper::AdjustPositionBetweenObjects(PERWorld& world, PERObject& aOb
 	// 충돌 처리(무거운 쪽을 고정된 걸로 생각)
 	if (aMass > bMass) {
 		ProcessCollisionBetweenFixedAndMovable(
-			world, aObject, aPos, aSize, aVel,
+			world, audio, aObject, aPos, aSize, aVel,
 			bObject, bPos, bSize, bVel, dTime);
 	}
 	else if (aMass <= bMass) {
 		ProcessCollisionBetweenFixedAndMovable(
-			world, bObject, bPos, bSize, bVel,
+			world, audio, bObject, bPos, bSize, bVel,
 			aObject, aPos, aSize, aVel, dTime);
 	}
 }
 
 void PhysicsHelper::ProcessCollisionBetweenFixedAndMovable(
-	PERWorld& world, PERObject& fixedObject, PERVec3 fixedPos, PERVec3 fixedSize, PERVec3 fixedVel,
+	PERWorld& world, PERAudio& audio, PERObject& fixedObject, PERVec3 fixedPos, PERVec3 fixedSize, PERVec3 fixedVel,
 	PERObject& movableObject, PERVec3 movablePos, PERVec3 movableSize, PERVec3 movableVel, double dTime)
 {
 	// 충돌 속도 계산
@@ -317,18 +318,18 @@ void PhysicsHelper::ProcessCollisionBetweenFixedAndMovable(
 	movableObject.GetPhysics().ProcessCollision(fixedObject, collisionVelocity, PERVec3(0.0, 0.0, movableVel.z), dTime * 1.5);
 }
 
-void PhysicsHelper::ProcessCollisionBetweenMovables(PERWorld& world, PERObject& fastObject, PERVec3 fastPos, PERVec3 fastSize,
+void PhysicsHelper::ProcessCollisionBetweenMovables(PERWorld& world, PERAudio& audio, PERObject& fastObject, PERVec3 fastPos, PERVec3 fastSize,
 	PERObject& slowObject, PERVec3 slowPos, PERVec3 slowSize, std::vector<PERObject*>& otherObjects, int numOtherObject, double dTime)
 {
 	PERVec3 fastVel = fastObject.GetVelocity();
 	PERVec3 slowVel = slowObject.GetVelocity();
 
 	// 일단 빠른 오브젝트를 고정으로 느린 오브젝트를 이동시킴
-	ProcessCollisionBetweenFixedAndMovable(world, fastObject, fastPos, fastSize, fastVel, slowObject, slowPos, slowSize, slowVel, dTime);
+	ProcessCollisionBetweenFixedAndMovable(world, audio, fastObject, fastPos, fastSize, fastVel, slowObject, slowPos, slowSize, slowVel, dTime);
 	// 느린 오브젝트의 속도를 빠른 오브젝트의 속도로 변경
 	slowObject.SetVelocity(fastVel);
 	// 느린 오브젝트를 다시 충돌 처리(현재 충돌된 오브젝트(빠른 오브젝트) 제외하고 나머지 오브젝트들)
-	bool IsSlowObjectCollidedOtherObjects = CheckCollisionBetweenOtherObjects(world, slowObject, otherObjects, numOtherObject, &fastObject, dTime);
+	bool IsSlowObjectCollidedOtherObjects = CheckCollisionBetweenOtherObjects(world, audio, slowObject, otherObjects, numOtherObject, &fastObject, dTime);
 
 	// 느린 오브젝트 속도를 기존값으로 되돌림(왠만해서는 기존 값이 PERVec3(0.0, 0.0, 0.0)일 가능성이 높음)
 	slowObject.SetVelocity(slowVel);
@@ -342,12 +343,12 @@ void PhysicsHelper::ProcessCollisionBetweenMovables(PERWorld& world, PERObject& 
 
 		if (CheckAABBCollision(fastPos, fastSize, slowPos, slowSize)) 
 		{
-			ProcessCollisionBetweenFixedAndMovable(world, slowObject, slowPos, slowSize, slowVel, fastObject, fastPos, fastSize, fastVel, dTime);
+			ProcessCollisionBetweenFixedAndMovable(world, audio, slowObject, slowPos, slowSize, slowVel, fastObject, fastPos, fastSize, fastVel, dTime);
 		}
 	}	
 }
 
-void PhysicsHelper::ProcessCollisionWithoutMoving(PERWorld& world, PERObject& aObject, PERCollisionType aType, PERObjectType aObjectType,
+void PhysicsHelper::ProcessCollisionWithoutMoving(PERWorld& world, PERAudio& audio, PERObject& aObject, PERCollisionType aType, PERObjectType aObjectType,
 	PERObject& bObject, PERCollisionType bType, PERObjectType bObjectType, double dTime)
 {
 	// 총알간 상쇄
@@ -358,14 +359,14 @@ void PhysicsHelper::ProcessCollisionWithoutMoving(PERWorld& world, PERObject& aO
 	}
 	// 총알, 칼날 데미지 처리
 	else if (aObjectType == PERObjectType::BULLET || aObjectType == PERObjectType::BLADE) {
-		bObject.GetObjectState().GiveDamage(aObject, world, aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
+		bObject.GetObjectState().GiveDamage(aObject, world, audio, aObject.GetObjectState().GetStat().physicalAttack, aObject.GetObjectState().GetStat().mindAttack);
 		// 총알 삭제
 		if (aObjectType == PERObjectType::BULLET) {
 			aObject.SetLifeTime(-1.0);
 		}
 	}
 	else if (bObjectType == PERObjectType::BULLET || bObjectType == PERObjectType::BLADE) {
-		aObject.GetObjectState().GiveDamage(bObject, world, bObject.GetObjectState().GetStat().physicalAttack, bObject.GetObjectState().GetStat().mindAttack);	
+		aObject.GetObjectState().GiveDamage(bObject, world, audio, bObject.GetObjectState().GetStat().physicalAttack, bObject.GetObjectState().GetStat().mindAttack);
 		// 총알 삭제
 		if (bObjectType == PERObjectType::BULLET) {
 			bObject.SetLifeTime(-1.0);
@@ -375,10 +376,10 @@ void PhysicsHelper::ProcessCollisionWithoutMoving(PERWorld& world, PERObject& aO
 	// 플레이어와 몬스터 간
 	else if (aObjectType == PERObjectType::PLAYER && bObjectType == PERObjectType::MONSTER) {
 		// 플레이어에게 대미지를 줌
-		aObject.GetObjectState().GiveDamage(bObject, world, bObject.GetObjectState().GetCollisionDamage(), 0);
+		aObject.GetObjectState().GiveDamage(bObject, world, audio, bObject.GetObjectState().GetCollisionDamage(), 0);
 	}
 	else if (bObjectType == PERObjectType::PLAYER && aObjectType == PERObjectType::MONSTER) {
-		bObject.GetObjectState().GiveDamage(aObject, world, aObject.GetObjectState().GetCollisionDamage(), 0);
+		bObject.GetObjectState().GiveDamage(aObject, world, audio, aObject.GetObjectState().GetCollisionDamage(), 0);
 	}
 	// 트리거와 움직이는 오브젝트간
 	else if (aType == PERCollisionType::TRIGGER && bType == PERCollisionType::MOVABLE) {

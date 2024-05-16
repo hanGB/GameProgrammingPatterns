@@ -4,6 +4,7 @@
 #include "per_world.h"
 #include "per_object.h"
 #include "black_board.h"
+#include "per_audio.h"
 
 void PlayerState::Initialize()
 {
@@ -27,22 +28,22 @@ void PlayerState::Recive(PEREvent event, PERVec3 data)
     }
 }
 
-bool PlayerState::GiveDamage(PERObject& opponent, PERWorld& world, short physical, short mind)
+bool PlayerState::GiveDamage(PERObject& opponent, PERWorld& world, PERAudio& audio, short physical, short mind)
 {
-    if (!ObjectState::GiveDamage(opponent, world, physical, mind)) return false;
+    if (!ObjectState::GiveDamage(opponent, world, audio, physical, mind)) return false;
 
     EventDispatcher::Send(PEREvent::UPDATE_BD, PERVec3(m_currentBody, 0.0, 0.0));
     return true;
 }
 
-bool PlayerState::UseMind(int mind)
+bool PlayerState::UseMind(PERWorld& world, PERAudio& audio, int mind)
 {
-    if (!ObjectState::UseMind(mind)) return false;
+    if (!ObjectState::UseMind(world, audio, mind)) return false;
     EventDispatcher::Send(PEREvent::UPDATE_MD, PERVec3(m_currentMind, 0.0, 0.0));
     return true;
 }
 
-void PlayerState::RecoverPerTime(double dTime)
+void PlayerState::RecoverPerTime(PERWorld& world, PERAudio& audio, double dTime)
 {
     if (m_currentMind == m_stat.mind) return;
 
@@ -57,17 +58,15 @@ void PlayerState::RecoverPerTime(double dTime)
     m_recoverDelay = 0.0;
 }
 
-void PlayerState::GiveExp(PERWorld& world, int exp)
+void PlayerState::GiveExp(PERWorld& world, PERAudio& audio, int exp)
 {
     //PERLog::Logger().InfoWithFormat("플레이어가 경험치 %d를 획득", exp);
 
     int level = m_stat.level;
-    ObjectState::GiveExp(world, exp);
-
+    ObjectState::GiveExp(world, audio, exp);
     if ( m_stat.level > level)
     {
         //PERLog::Logger().Info("플레이어가 레벨업");
-
         PERStat stat;
         // 레벨을 이펙트 타입으로 사용
         stat.level = (short)PERParticleEffectType::POWER_ABSORPTION;
@@ -76,12 +75,14 @@ void PlayerState::GiveExp(PERWorld& world, int exp)
 
         world.RequestAddObject(GetOwner(), PERObjectType::PARTICLE_EFFECTER, "PARTICLE_EFFECT_LEVEL_UP_VISUAL", PERDatabaseType::EFFECT,
             stat, GetOwner()->GetPosition(), 5.0, PERVec3(0.0, 0.0, 0.0));
+
+        audio.RequestMakeSound(PERAudioMessageId::PLAY_SOUND_ONE_TIME, PERSoundId::PLAYER_LEVEL_UP);
     } 
 }
 
-void PlayerState::KillSelf(PERWorld& world)
+void PlayerState::KillSelf(PERWorld& world, PERAudio& audio)
 {
-    ObjectState::KillSelf(world);
+    ObjectState::KillSelf(world, audio);
 
     // 주인공 죽은 걸로 설정
     BlackBoard::SetIsPlayerLiving(false);

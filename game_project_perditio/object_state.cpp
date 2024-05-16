@@ -113,7 +113,7 @@ PERObject* ObjectState::GetOwner()
 	return m_owner;
 }
 
-bool ObjectState::GiveDamage(PERObject& opponent, PERWorld& world, short physical, short mind)
+bool ObjectState::GiveDamage(PERObject& opponent, PERWorld& world, PERAudio& audio, short physical, short mind)
 {
 	if (m_isImmortal) return false;
 	if (physical == 0 && mind == 0) return false;
@@ -133,21 +133,21 @@ bool ObjectState::GiveDamage(PERObject& opponent, PERWorld& world, short physica
 	m_damageDelay = c_DEFAULT_IGNORE_DAMAGE_TIME;
 
 	if (m_currentBody <= 0) {
-		KillSelf(world);
+		KillSelf(world, audio);
 
 		// 부모가 있을 경우 총알이나 칼날이므로 부모에게 경험치를 줌
 		if (opponent.GetParent()) {
-			opponent.GetParent()->GetObjectState().GiveExp(world, m_stat.level);
+			opponent.GetParent()->GetObjectState().GiveExp(world, audio, m_stat.level);
 		}
 		else {
-			opponent.GetObjectState().GiveExp(world, m_stat.level);
+			opponent.GetObjectState().GiveExp(world, audio, m_stat.level);
 		}
 	}
 
 	return true;
 }
 
-bool ObjectState::UseMind(int mind)
+bool ObjectState::UseMind(PERWorld& world, PERAudio& audio, int mind)
 {
 	if (m_currentMind < mind) return false;
 	m_currentMind -= mind;
@@ -155,11 +155,11 @@ bool ObjectState::UseMind(int mind)
 	return true;
 }
 
-void ObjectState::RecoverPerTime(double dTime)
+void ObjectState::RecoverPerTime(PERWorld& world, PERAudio& audio, double dTime)
 {
 }
 
-void ObjectState::GiveExp(PERWorld& world, int exp)
+void ObjectState::GiveExp(PERWorld& world, PERAudio& audio, int exp)
 {
 	m_exp += exp;
 	if (m_exp >= m_stat.level * c_DEFAULT_LEVEL_EXP_GAP) {
@@ -168,7 +168,7 @@ void ObjectState::GiveExp(PERWorld& world, int exp)
 	}
 }
 
-void ObjectState::KillSelf(PERWorld& world)
+void ObjectState::KillSelf(PERWorld& world, PERAudio& audio)
 {
 	if (m_isImmortal) return;
 	GetOwner()->SetLifeTime(-1.0);

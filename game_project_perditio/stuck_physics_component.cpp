@@ -15,7 +15,7 @@ void StuckPhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dTim
 	else {
 		PERVec3 parentPos = parent->GetPosition();
 		GetOwner()->SetPosition(parentPos + m_stuckPosition);
-		world.CheckCollision(*GetOwner(), dTime);
+		world.CheckCollision(*GetOwner(), audio, dTime);
 	}
 
 	PhysicsComponent::Update(world, audio, dTime);

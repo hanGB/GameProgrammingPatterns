@@ -162,15 +162,15 @@ void PERWorld::RequestDeleteObject(PERObject* object)
 	RequestSimpleDoObject(object, PERWorldMessageId::DELETE_OBJECT);
 }
 
-bool PERWorld::CheckCollision(PERObject& object, double dTime)
+bool PERWorld::CheckCollision(PERObject& object, PERAudio& audio, double dTime)
 {
-	return PhysicsHelper::CheckCollisionBetweenOtherObjects(*this, object, m_objects, m_numObject, nullptr, dTime);
+	return PhysicsHelper::CheckCollisionBetweenOtherObjects(*this, audio, object, m_objects, m_numObject, nullptr, dTime);
 }
 
-bool PERWorld::CheckCollisionWithoutSpecificObject(PERObject& object, PERObject& exceptObject, double dTime)
+bool PERWorld::CheckCollisionWithoutSpecificObject(PERObject& object, PERObject& exceptObject, PERAudio& audio, double dTime)
 {
 	return false;
-	PhysicsHelper::CheckCollisionBetweenOtherObjects(*this, object, m_objects, m_numObject, &exceptObject, dTime);
+	PhysicsHelper::CheckCollisionBetweenOtherObjects(*this, audio, object, m_objects, m_numObject, &exceptObject, dTime);
 }
 
 PERHud& PERWorld::GetHud()

@@ -74,9 +74,9 @@ public:
 	void RequestDeleteObject(PERObject* object);
 
 	// 충돌 확인
-	bool CheckCollision(PERObject& object, double dTime);
+	bool CheckCollision(PERObject& object, PERAudio& audio, double dTime);
 	// 오브젝트를 하나 제외하고 충돌 체크함
-	bool CheckCollisionWithoutSpecificObject(PERObject& object, PERObject& exceptObject, double dTime);
+	bool CheckCollisionWithoutSpecificObject(PERObject& object, PERObject& exceptObject, PERAudio& audio, double dTime);
 
 	PERHud& GetHud();
 	PERDatabase& GetDatabase();

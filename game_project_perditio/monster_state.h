@@ -7,9 +7,9 @@ public:
 	// 초기화
 	virtual void Initialize();
 
-	virtual bool GiveDamage(PERObject& opponent, PERWorld& world, short physical, short mind);
-	virtual bool UseMind(int mind);
-	virtual void KillSelf(PERWorld& world);
+	virtual bool GiveDamage(PERObject& opponent, PERWorld& world, PERAudio& audio, short physical, short mind);
+	virtual bool UseMind(PERWorld& world, PERAudio& audio, int mind);
+	virtual void KillSelf(PERWorld& world, PERAudio& audio);
 
 	// setter
 	void SetSight(double sight);

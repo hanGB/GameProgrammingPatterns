@@ -6,7 +6,7 @@
 void MovablePhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
 	m_MoveFunc(*this, dTime);
-	world.CheckCollision(*GetOwner(), dTime);
+	world.CheckCollision(*GetOwner(), audio, dTime);
 	//else PERLog::Logger().Info("충돌됨");
 
 	PhysicsComponent::Update(world, audio, dTime);

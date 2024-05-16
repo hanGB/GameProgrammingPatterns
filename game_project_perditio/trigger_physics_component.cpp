@@ -6,7 +6,7 @@
 
 void TriggerPhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
-	if (!world.CheckCollision(*GetOwner(), dTime)) m_isOn = false;
+	if (!world.CheckCollision(*GetOwner(), audio, dTime)) m_isOn = false;
 
 	PhysicsComponent::Update(world, audio, dTime);
 }

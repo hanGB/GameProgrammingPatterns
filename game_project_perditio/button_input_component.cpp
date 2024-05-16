@@ -13,7 +13,7 @@ void ButtonInputComponent::Update(PERWorld& world, PERController& controller, PE
 
 		if (c_DEFAULT_INPUT_RANGE_SQURE > DistanceSquareAandBIgnoringZValue(playerPos, pos))
 		{
-			audio.RequestMakeSound(PERAudioMessageId::PLAY_SOUND, PERSoundId::SWITCH_USING, 1.0);
+			audio.RequestMakeSound(PERAudioMessageId::PLAY_SOUND_ONE_TIME, PERSoundId::SWITCH_USING, 1.0);
 			dynamic_cast<MakingSignalAiComponent*>(&GetOwner()->GetAi())->SetIsGetInput(true);
 		}
 	}

@@ -62,8 +62,8 @@ void PERAudio::ProcessPendingMessage()
 
 		switch (message.messageId) {
 			// sound
-		case PERAudioMessageId::PLAY_SOUND:
-			PlaySound(message.soundId, message.volume);
+		case PERAudioMessageId::PLAY_SOUND_ONE_TIME:
+			PlaySoundOneTime(message.soundId, message.volume);
 			break;
 		case PERAudioMessageId::STOP_ALL_SOUNDS:
 			StopAllSounds();

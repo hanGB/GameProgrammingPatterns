@@ -12,7 +12,7 @@ public:
 
 private:
 	// 일회성 소리(효과음)
-	virtual void PlaySound(PERSoundId id, double volume);
+	virtual void PlaySoundOneTime(PERSoundId id, double volume);
 	virtual void StopAllSounds();
 
 	// 배경음악

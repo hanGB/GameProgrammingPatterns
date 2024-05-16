@@ -10,6 +10,7 @@ class PERObject;
 class PERHud;
 class UiElement;
 class PERWorld;
+class PERAudio;
 
 enum class PERObjectStateType {
 	PLAYER,
@@ -33,11 +34,11 @@ public:
 	virtual void Initialize();
 
 	// 상태 변화
-	virtual bool GiveDamage(PERObject& opponent, PERWorld& world, short physical, short mind);
-	virtual bool UseMind(int mind);
-	virtual void RecoverPerTime(double dTime);
-	virtual void GiveExp(PERWorld& world, int exp);
-	virtual void KillSelf(PERWorld& world);
+	virtual bool GiveDamage(PERObject& opponent, PERWorld& world, PERAudio& audio, short physical, short mind);
+	virtual bool UseMind(PERWorld& world, PERAudio& audio, int mind);
+	virtual void RecoverPerTime(PERWorld& world, PERAudio& audio, double dTime);
+	virtual void GiveExp(PERWorld& world, PERAudio& audio, int exp);
+	virtual void KillSelf(PERWorld& world, PERAudio& audio);
 
 	std::string GetNameId() const;
 	PERStat GetStat() const;

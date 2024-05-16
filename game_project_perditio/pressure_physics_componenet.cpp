@@ -6,7 +6,7 @@
 
 void PressurePhysicsComponent::Update(PERWorld& world, PERAudio& audio, double dTime)
 {
-	world.CheckCollision(*GetOwner(), dTime);
+	world.CheckCollision(*GetOwner(), audio, dTime);
 
 	if (!m_isKeepPressed && m_isOn)
 	{

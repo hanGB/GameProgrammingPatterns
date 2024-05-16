@@ -402,9 +402,6 @@
     <ClInclude Include="spawner_ai_component.h">
       <Filter>00. game\object\component\child class\ai\spawner</Filter>
     </ClInclude>
-    <ClInclude Include="button_input_component.h">
-      <Filter>00. game\object\component\child class\input\button</Filter>
-    </ClInclude>
     <ClInclude Include="pressure_physics_componenet.h">
       <Filter>00. game\object\component\child class\physics\pressure</Filter>
     </ClInclude>
@@ -446,6 +443,9 @@
     </ClInclude>
     <ClInclude Include="irr_audio.h">
       <Filter>05. audio\irrKlang</Filter>
+    </ClInclude>
+    <ClInclude Include="button_input_component.h">
+      <Filter>00. game\object\component\child class\input\button</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

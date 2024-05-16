@@ -60,7 +60,7 @@ void IRRAudio::LoadSound(PERSoundId id, const char* fileName)
 	m_soundMap.emplace(id, soundSource);
 }
 
-void IRRAudio::PlaySound(PERSoundId id, double volume)
+void IRRAudio::PlaySoundOneTime(PERSoundId id, double volume)
 {
 	auto it = m_soundMap.find(id);
 	if (it == m_soundMap.end())

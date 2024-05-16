@@ -18,7 +18,7 @@ enum class PERSoundId {
 
 enum class PERAudioMessageId {
 	// 효과음
-	PLAY_SOUND,
+	PLAY_SOUND_ONE_TIME,
 	STOP_ALL_SOUNDS,
 	// 배경음악
 	SET_BGM,
@@ -63,7 +63,7 @@ private:
 	void ResizePedingArray();
 
 	// 일회성 소리(효과음)
-	virtual void PlaySound(PERSoundId id, double volume) = 0;
+	virtual void PlaySoundOneTime(PERSoundId id, double volume) = 0;
 	virtual void StopAllSounds() = 0;
 
 	// 배경음악

@@ -90,7 +90,7 @@ void PlayerInputComponent::ShootBullet(PERWorld& world, PERController& controlle
 
 	// 총알 발사
 	if (controller.IsKeyboardPressed(KeySetting::BulletAttack.value)) {
-		if (GetOwner()->GetObjectState().UseMind(10)) {
+		if (GetOwner()->GetObjectState().UseMind(world, audio, 10)) {
 			PlayerState& state = dynamic_cast<PlayerState&>(GetOwner()->GetObjectState());
 
 			PERVec3 position(GetOwner()->GetPosition());
@@ -103,7 +103,7 @@ void PlayerInputComponent::ShootBullet(PERWorld& world, PERController& controlle
 			m_shootingCoolTime = state.GetShootCoolTime();
 
 			// 사운드 재생
-			audio.RequestMakeSound(PERAudioMessageId::PLAY_SOUND, PERSoundId::BULLET_SHOOTING, 1.0);
+			audio.RequestMakeSound(PERAudioMessageId::PLAY_SOUND_ONE_TIME, PERSoundId::BULLET_SHOOTING, 1.0);
 		}
 	}
 }
@@ -127,7 +127,7 @@ void PlayerInputComponent::SwingBlade(PERWorld& world, PERController& controller
 		m_swingCoolTime = state.GetSwingCoolTime();
 
 		// 사운드 재생
-		audio.RequestMakeSound(PERAudioMessageId::PLAY_SOUND, PERSoundId::BLADE_SWING, 1.0);
+		audio.RequestMakeSound(PERAudioMessageId::PLAY_SOUND_ONE_TIME, PERSoundId::BLADE_SWING, 1.0);
 	}
 }
 

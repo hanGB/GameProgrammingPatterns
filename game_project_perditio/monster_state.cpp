@@ -13,22 +13,22 @@ void MonsterState::Initialize()
     ObjectState::Initialize();
 }
 
-bool MonsterState::GiveDamage(PERObject& opponent, PERWorld& world, short physical, short mind)
+bool MonsterState::GiveDamage(PERObject& opponent, PERWorld& world, PERAudio& audio, short physical, short mind)
 {
-    if (!ObjectState::GiveDamage(opponent, world, physical, mind)) return false;
+    if (!ObjectState::GiveDamage(opponent, world, audio, physical, mind)) return false;
 
     return true;
 }
 
-bool MonsterState::UseMind(int mind)
+bool MonsterState::UseMind(PERWorld& world, PERAudio& audio, int mind)
 {
-    if (!ObjectState::UseMind(mind)) return false;
+    if (!ObjectState::UseMind(world, audio, mind)) return false;
     return true;
 }
 
-void MonsterState::KillSelf(PERWorld& world)
+void MonsterState::KillSelf(PERWorld& world, PERAudio& audio)
 {
-    ObjectState::KillSelf(world);
+    ObjectState::KillSelf(world, audio);
 
     PERStat stat;
     // 레벨을 이펙트 타입으로 사용
@@ -38,6 +38,8 @@ void MonsterState::KillSelf(PERWorld& world)
 
     world.RequestAddObject(GetOwner(), PERObjectType::PARTICLE_EFFECTER, "PARTICLE_EFFECT_BASIC_MONSTER_DEATH_VISUAL", PERDatabaseType::EFFECT,
         stat, GetOwner()->GetPosition(), 1.0, PERVec3(0.0, 0.0, 0.0));
+
+    audio.RequestMakeSound(PERAudioMessageId::PLAY_SOUND_ONE_TIME, PERSoundId::MONSTER_DYING);
 }
 
 void MonsterState::SetSight(double sight)
