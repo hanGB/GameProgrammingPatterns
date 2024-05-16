@@ -3,7 +3,7 @@
 #include "irr_audio.h"
 #include "null_audio.h"
 #include "black_board.h"
-#include "main_menu_world.h"
+#include "title_world.h"
 #include "test_world.h"
 #include "test_world2.h"
 
@@ -38,7 +38,7 @@ void PERGame::Recive(PEREvent event, PERVec3 data)
 	switch (event) {
 	case PEREvent::EXECUTE_GAME: {
 		PERLog::Logger().Info("게임 실행");
-		Run(new MainMenuWorld(m_objectStorage, m_database));
+		Run(new TitleWorld(m_objectStorage, m_database));
 		break;
 	}
 	case PEREvent::RUN_TEST_WORLD: {

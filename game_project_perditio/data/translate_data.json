@@ -30,5 +30,29 @@
   "OBJECT_BLOCK_NAME": {
     "ENG_US": "Block",
     "KOR_KR": "블록"
+  },
+  "TEXT_TITLE": {
+    "ENG_US": "PERDITIO__",
+    "KOR_KR": "PERDITIO__"
+  },
+  "TEXT_START": {
+    "ENG_US": "Start Game__",
+    "KOR_KR": "게임 시작__"
+  },
+  "TEXT_CHANGE_WINDOW_SIZE": {
+    "ENG_US": "Change Size__",
+    "KOR_KR": "창 크기 변경__"
+  },
+  "TEXT_EXIT": {
+    "ENG_US": "Exit Game__",
+    "KOR_KR": "게임 종료__"
+  },
+  "TEXT_RESUME": {
+    "ENG_US": "Resume Game__",
+    "KOR_KR": "게임 계속__"
+  },
+  "TEXT_BACK_TO_TITLE": {
+    "ENG_US": "Back to title__",
+    "KOR_KR": "타이틀로__"
   }
 }

@@ -151,9 +151,10 @@
     <ClInclude Include="key_input_helper_graphics_component.h" />
     <ClInclude Include="key_input_helper.h" />
     <ClInclude Include="key_setting.h" />
-    <ClInclude Include="main_menu_hud.h" />
+    <ClInclude Include="select_box.h" />
+    <ClInclude Include="title_hud.h" />
     <ClInclude Include="menu_game_mode.h" />
-    <ClInclude Include="main_menu_world.h" />
+    <ClInclude Include="title_world.h" />
     <ClInclude Include="making_signal_ai_component.h" />
     <ClInclude Include="creating_particles_ai_component.h" />
     <ClInclude Include="per_particle_pool.h" />
@@ -234,8 +235,9 @@
     <ClCompile Include="graphics_component.cpp" />
     <ClCompile Include="input_component.cpp" />
     <ClCompile Include="key_input_helper.cpp" />
-    <ClCompile Include="main_menu_hud.cpp" />
-    <ClCompile Include="main_menu_world.cpp" />
+    <ClCompile Include="select_box.cpp" />
+    <ClCompile Include="titile_hud.cpp" />
+    <ClCompile Include="title_world.cpp" />
     <ClCompile Include="making_signal_ai_component.cpp" />
     <ClCompile Include="key_setting.cpp" />
     <ClCompile Include="creating_particles_ai_component.cpp" />

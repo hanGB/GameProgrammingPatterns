@@ -11,6 +11,7 @@ enum class PERUiElementType {
 	NAME_TAG,
 	KEY_INPUT_HELPER,
 	TEXT_VIEWER,
+	SELECT_BOX,
 	NUM_UI_ELEMENT_TYPE
 };
 

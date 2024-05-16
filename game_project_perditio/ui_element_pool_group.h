@@ -5,6 +5,7 @@
 #include "name_tag.h"
 #include "key_input_helper.h"
 #include "text_viewer.h"
+#include "select_box.h"
 
 class PERDatabase;
 
@@ -26,4 +27,5 @@ private:
 	UiElementPool<NameTag> m_nameTagPool;
 	UiElementPool<KeyInputHelper> m_keyInputHelperPool;
 	UiElementPool<TextViewer> m_textViewerPool;
+	UiElementPool<SelectBox> m_selectBoxPool;
 };

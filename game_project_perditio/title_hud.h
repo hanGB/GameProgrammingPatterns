@@ -1,13 +1,14 @@
 #pragma once
 #include "per_hud.h"
 
-class MainMenuHud : public PERHud {
+class TitleHud : public PERHud {
 public:
-	MainMenuHud();
-	~MainMenuHud();
+	TitleHud();
+	~TitleHud();
 
 	virtual void Recive(PEREvent event, PERVec3 data);
 	virtual void MatchWithPlayerState(PlayerState& state);
 
 private:
+	SelectBox* m_menu[3];
 };

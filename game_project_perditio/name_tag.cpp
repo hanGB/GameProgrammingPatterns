@@ -50,18 +50,16 @@ void NameTag::RenderOnScreen(PERRenderer& renderer, PERDatabase& database)
 void NameTag::RenderInWorld(PERRenderer& renderer, PERDatabase& database)
 {
 	if (!GetIsInUse()) return;
-	
-	// 이름 아이디로 번역 데이터베이스에서 실제 이름 가져오기
-	TranslateData* data = database.GetTranslateData(m_nameId.c_str());
-	m_textMemory = data->korKR.c_str();
+
 	PERVec2 pos = GetPosition();
 	PERVec2 size = GetSize();
-
 	// 바
 	renderer.RenderShapeInWorldCoordinate(PERShapeType::RECTANGLE_WITH_LEFT_TOP_ANCHOR,
 		PERVec3(pos.x - size.x * 0.5, pos.y, 0.0), PERVec3(size.x, size.y, 0.0),
 		GetBackgroundColor(), false);
 	// 이름 텍스트
+	TranslateData* data = database.GetTranslateData(m_nameId.c_str());
+	m_textMemory = data->korKR.c_str();
 	renderer.RenderFontInWorldCoordinate(m_textMemory.c_str(), (int)(m_textMemory.size()), m_fontSize,
 		PERVec2(m_textPosition.x - size.x / 9.0 * (double)(m_textMemory.size()), m_textPosition.y), m_textColor);
 

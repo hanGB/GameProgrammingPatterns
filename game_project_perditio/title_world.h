@@ -1,10 +1,10 @@
 #pragma once
 #include "per_world.h"
 
-class MainMenuWorld : public PERWorld {
+class TitleWorld : public PERWorld {
 public:
-	MainMenuWorld(ObjectStorage* objectStorage, PERDatabase* database);
-	~MainMenuWorld();
+	TitleWorld(ObjectStorage* objectStorage, PERDatabase* database);
+	~TitleWorld();
 
 	// 해당 월드에 들어오고 나갈 때 처리
 	virtual void Enter(PERAudio& audio);

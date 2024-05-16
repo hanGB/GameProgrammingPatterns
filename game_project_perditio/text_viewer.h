@@ -7,7 +7,7 @@ public:
 	TextViewer();
 	~TextViewer();
 
-	void Init(PERVec2 pos, double fontSize, PERColor color, const wchar_t* text);
+	void Init(PERVec2 pos, double fontSize, PERColor color, const char* textId);
 
 	void MatchWithData(PERVec2 pos);
 
@@ -17,6 +17,8 @@ public:
 
 
 private:
-	// 텍스트
-	std::wstring m_text = L"TEXT";
+	// 데이터 정보
+	std::string m_textId;
+	// 텍스트를 임시 저장하는 변수
+	std::wstring m_textMemory;
 };
