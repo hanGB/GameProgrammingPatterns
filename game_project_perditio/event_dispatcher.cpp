@@ -36,7 +36,7 @@ void EventDispatcher::RemoveReciver(EventReciver* reciver)
 	m_csProvider.Lock();
 
 	auto it = m_recivers.begin();
-	while (true) {
+	while (it != m_recivers.end()) {
 		if ((*it) == reciver) {
 			m_recivers.erase(it);
 			break;

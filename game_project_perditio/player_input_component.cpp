@@ -8,6 +8,7 @@
 #include "black_board.h"
 #include "per_database.h"
 #include "per_audio.h"
+#include "event_dispatcher.h"
 
 void PlayerInputComponent::Update(PERWorld& world, PERController& controller, PERAudio& audio, double dTime)
 {
@@ -16,6 +17,7 @@ void PlayerInputComponent::Update(PERWorld& world, PERController& controller, PE
 	ShootBullet(world, controller, audio, dTime);
 	SwingBlade(world, controller, audio, dTime);
 	ShowObjectName(controller, audio, dTime);
+	PauseWorld(controller, audio, dTime);
 
 	InputComponent::Update(world, controller, audio, dTime);
 }
@@ -139,5 +141,12 @@ void PlayerInputComponent::ShowObjectName(PERController& controller, PERAudio& a
 		showingName = (showingName + 1) % 2;
 
 		BlackBoard::SetShowingName(showingName);
+	}
+}
+
+void PlayerInputComponent::PauseWorld(PERController& controller, PERAudio& audio, double dTime)
+{
+	if (controller.IsKeyboardPressedRightNow(KeySetting::Pause.value)) {
+		EventDispatcher::Send(PEREvent::PAUSE_GAME, PERVec3(0.0, 0.0, 0.0));
 	}
 }

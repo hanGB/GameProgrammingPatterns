@@ -14,3 +14,5 @@ PERKeyboardData KeySetting::Use = { PERKeyboardValue::F, L"F" };
 // 공격
 PERKeyboardData KeySetting::BulletAttack = { PERKeyboardValue::S, L"S" };
 PERKeyboardData KeySetting::BladeAttack = { PERKeyboardValue::D, L"D" };
+// 시스템
+PERKeyboardData KeySetting::Pause = { PERKeyboardValue::ESC, L"ESC" };

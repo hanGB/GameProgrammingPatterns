@@ -1,10 +1,10 @@
 #pragma once
 #include "per_hud.h"
 
-class TitleHud : public PERHud {
+class PauseHud : public PERHud {
 public:
-	TitleHud();
-	~TitleHud();
+	PauseHud();
+	~PauseHud();
 
 	virtual void Recive(PEREvent event, PERVec3 data);
 	virtual void MatchWithPlayerState(PlayerState& state);
@@ -12,7 +12,7 @@ public:
 	void ChangeSelectedMenu();
 
 private:
-	SelectBox* m_menu[3];
-	int m_numMenu = 3;
+	SelectBox* m_menu[4];
+	int m_numMenu = 4;
 	int m_selectedMenu = 0;
 };

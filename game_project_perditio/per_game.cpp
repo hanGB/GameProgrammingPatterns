@@ -4,6 +4,7 @@
 #include "null_audio.h"
 #include "black_board.h"
 #include "title_world.h"
+#include "pause_world.h"
 #include "test_world.h"
 #include "test_world2.h"
 
@@ -36,16 +37,14 @@ PERGame::~PERGame()
 void PERGame::Recive(PEREvent event, PERVec3 data)
 {
 	switch (event) {
-	case PEREvent::EXECUTE_GAME: {
-		PERLog::Logger().Info("게임 실행");
+	case PEREvent::EXECUTE_GAME:
+		PERLog::Logger().Info("게임 실행: Title");
 		Run(new TitleWorld(m_objectStorage, m_database));
 		break;
-	}
-	case PEREvent::RUN_TEST_WORLD: {
+	case PEREvent::RUN_TEST_WORLD: 
 		ProgressRunEvent<TestWorld>("Test");
 		break;
-	}
-	case PEREvent::RUN_TEST2_WORLD: {
+	case PEREvent::RUN_TEST2_WORLD: 
 		ProgressRunEvent<TestWorld2>("Test2");
 		break;
 	case PEREvent::CHANGE_WINDOW_SIZE:
@@ -54,7 +53,15 @@ void PERGame::Recive(PEREvent event, PERVec3 data)
 	case PEREvent::EXIT_GAME:
 		m_destroyWindow = true;
 		break;
-	}
+	case PEREvent::PAUSE_GAME:
+		ProgressPushAndRunEvent<PauseWorld>("Pause");
+		break;
+	case PEREvent::RESUME_GAME:
+		ProgressPopEvent();
+		break;
+	case PEREvent::BACK_TO_TITLE:
+		ProgressQuitAllWorldAndRunEvent<TitleWorld>("Title");
+		break;
 	}
 }
 
@@ -65,6 +72,7 @@ void PERGame::HandleInput(WPARAM wParam, bool isDown)
 	if (wParam == VK_LEFT) m_controller->SetKeyboardPressed(PERKeyboardValue::LEFT, isDown);
 	if (wParam == VK_RIGHT) m_controller->SetKeyboardPressed(PERKeyboardValue::RIGHT, isDown);
 	if (wParam == VK_SPACE) m_controller->SetKeyboardPressed(PERKeyboardValue::SPACE, isDown);
+	if (wParam == VK_ESCAPE) m_controller->SetKeyboardPressed(PERKeyboardValue::ESC, isDown);
 
 	if (wParam == 'A' || wParam == 'a') m_controller->SetKeyboardPressed(PERKeyboardValue::A, isDown);
 	if (wParam == 'S' || wParam == 's') m_controller->SetKeyboardPressed(PERKeyboardValue::S, isDown);
@@ -237,6 +245,19 @@ void PERGame::DoWindowJob(HWND hWnd)
 		m_destroyWindow = false;
 	}
 }
+void PERGame::ProgressPopEvent()
+{
+	PERLog::Logger().InfoWithFormat("기존 월드를 삭제하고 큐에 있는 월드를 꺼냄");
+
+	StopWorldJob();
+
+	GivePlayStateToNextWorld(m_worldQueue.front());
+	Quit();
+	PopWorld();
+
+	RestartWorldJob();
+}
+
 void PERGame::Run(PERWorld* world)
 {
 	PERLog::Logger().Info("월드 실행");
@@ -276,6 +297,18 @@ void PERGame::Quit()
 	m_currentWorld->Exit(*m_audio);
 
 	delete m_currentWorld;
+}
+
+void PERGame::QuitAllWorld()
+{
+	// 현재 월드 종료
+	Quit();
+	while (!m_worldQueue.empty()) {
+		PERWorld* world = m_worldQueue.front();
+		world->Exit(*m_audio);
+		delete world;
+		m_worldQueue.pop();
+	}
 }
 
 void PERGame::StopWorldJob()

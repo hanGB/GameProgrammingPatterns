@@ -152,6 +152,8 @@
     <ClInclude Include="key_input_helper.h" />
     <ClInclude Include="key_setting.h" />
     <ClInclude Include="menu_select_input_component.h" />
+    <ClInclude Include="pause_hud.h" />
+    <ClInclude Include="pause_world.h" />
     <ClInclude Include="select_box.h" />
     <ClInclude Include="title_hud.h" />
     <ClInclude Include="menu_game_mode.h" />
@@ -237,6 +239,8 @@
     <ClCompile Include="input_component.cpp" />
     <ClCompile Include="key_input_helper.cpp" />
     <ClCompile Include="menu_select_input_component.cpp" />
+    <ClCompile Include="pause_hud.cpp" />
+    <ClCompile Include="pause_world.cpp" />
     <ClCompile Include="select_box.cpp" />
     <ClCompile Include="titile_hud.cpp" />
     <ClCompile Include="title_world.cpp" />

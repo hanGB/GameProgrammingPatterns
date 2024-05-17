@@ -7,6 +7,7 @@ enum class PERKeyboardValue {
 	LEFT,
 	RIGHT,
 	SPACE,
+	ESC,
 
 	// alphabet
 	A,
@@ -39,5 +40,7 @@ public:
 	// 공격
 	static PERKeyboardData BulletAttack;
 	static PERKeyboardData BladeAttack;
+	// 시스템
+	static PERKeyboardData Pause;
 };
 

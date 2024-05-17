@@ -7,7 +7,8 @@ public:
 	SelectBox();
 	~SelectBox();
 
-	void Init(PERVec2 pos, PERVec2 size, PERColor onColor, PERColor offColor, 
+	void Init(PERVec2 pos, PERVec2 size, 
+		bool onBackground, PERColor onColor, bool offBackground, PERColor fffColor,
 		bool onBorder, int onBorderWidth, PERColor onBorderColor,
 		bool offBorder, int offBorderWidth, PERColor offBorderColor,
 		bool text = false, std::string textId = "TEXT_ID", double fontSize = 0.2, PERVec2 textPos = PERVec2(0.0, 0.0),
@@ -21,11 +22,14 @@ public:
 
 
 private:
-	bool m_isOn;
+	bool		m_isOn;
+
+	bool		m_onBackground;
+	bool		m_offBackground;
 
 	PERColor	m_onColor;
 	bool		m_onBorder;
-	int		m_onBorderWidth;
+	int			m_onBorderWidth;
 	PERColor	m_onBorderColor;
 
 	bool		m_isTextOn;

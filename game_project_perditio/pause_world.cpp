@@ -1,77 +1,72 @@
 #include "stdafx.h"
-#include "title_world.h"
-#include "title_hud.h"
+#include "pause_world.h"
 #include "menu_game_mode.h"
+#include "pause_hud.h"
 #include "test_game_state.h"
-#include "object_storage.h"
 #include "menu_select_input_component.h"
+#include "per_object.h"
 #include "event_dispatcher.h"
 
-TitleWorld::TitleWorld(ObjectStorage* objectStorage, PERDatabase* database)
+PauseWorld::PauseWorld(ObjectStorage* objectStorage, PERDatabase* database)
 {
 	MenuGameMode* gameMode = new MenuGameMode();
-	gameMode->SetHud(new TitleHud());
+	gameMode->SetHud(new PauseHud());
 	gameMode->SetGameState(new TestGameState());
 
 	InitSettingForWorld(objectStorage, database, gameMode);
 
 	// menu별 행위 설정
 	MenuSelectInputComponent* input = dynamic_cast<MenuSelectInputComponent*>(&gameMode->GetPlayer().GetInput());
-	// 게임 시작
+	// 게임으로 돌아감
 	input->AddMenu([](PERWorld&, PERAudio&, double) {
-		EventDispatcher::Send(PEREvent::RUN_TEST_WORLD, PERVec3(0.0, 0.0, 0.0));
+		EventDispatcher::Send(PEREvent::RESUME_GAME, PERVec3(0.0, 0.0, 0.0));
 		});
 	// 창 크기 변경
 	input->AddMenu([](PERWorld&, PERAudio&, double) {
 		EventDispatcher::Send(PEREvent::CHANGE_WINDOW_SIZE, PERVec3(0.0, 0.0, 0.0));
 		});
+	// 타이틀로 돌아감
+	input->AddMenu([](PERWorld&, PERAudio&, double) {
+		EventDispatcher::Send(PEREvent::BACK_TO_TITLE, PERVec3(0.0, 0.0, 0.0));
+		});
 	// 게임 종료
 	input->AddMenu([](PERWorld&, PERAudio&, double) {
 		EventDispatcher::Send(PEREvent::EXIT_GAME, PERVec3(0.0, 0.0, 0.0));
 		});
-	// ESC 눌렀을 때 게임 종료
+	// ESC 눌렀을 때 게임으로 돌아감
 	input->SetESCMenu([](PERWorld&, PERAudio&, double) {
-		EventDispatcher::Send(PEREvent::EXIT_GAME, PERVec3(0.0, 0.0, 0.0));
+		EventDispatcher::Send(PEREvent::RESUME_GAME, PERVec3(0.0, 0.0, 0.0));
 		});
 }
 
-TitleWorld::~TitleWorld()
+PauseWorld::~PauseWorld()
 {
-
 }
 
-void TitleWorld::Enter(PERAudio& audio)
+void PauseWorld::Enter(PERAudio& audio)
 {
 	PERWorld::Enter(audio);
 }
 
-void TitleWorld::Exit(PERAudio& audio)
+void PauseWorld::Exit(PERAudio& audio)
 {
 	PERWorld::Exit(audio);
 }
 
-void TitleWorld::Pause(PERAudio& audio)
+void PauseWorld::Pause(PERAudio& audio)
 {
 	PERWorld::Pause(audio);
 }
 
-void TitleWorld::Resume(PERAudio& audio)
+void PauseWorld::Resume(PERAudio& audio)
 {
 	PERWorld::Resume(audio);
 }
 
-void TitleWorld::AddFixedAndPhysicalObjects()
+void PauseWorld::AddFixedAndPhysicalObjects()
 {
-	// 배경
-	PERObject* background;
-	background = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	background->SetPosition(PERVec3(0.0, 0.0, -1.0));
-	background->SetSize(PERVec3(20.0, 20.0, 1.0));
-	SetObjectShapeAndColor(background, PERShapeType::RECTANGLE, PERColor(150, 150, 150));
-	AddObject(background);
 }
 
-void TitleWorld::AddOtherObjects()
+void PauseWorld::AddOtherObjects()
 {
-
 }

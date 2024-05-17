@@ -238,6 +238,12 @@
     <Filter Include="00. game\object\component\child class\input\menu_select">
       <UniqueIdentifier>{fe14726c-f34c-4838-9cb8-68d90d201304}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\world\pause_world">
+      <UniqueIdentifier>{40d597a3-afe4-467d-9e50-0f026e9092f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. game\user_interface\hud\paue_hud">
+      <UniqueIdentifier>{60a2e1af-6e20-452d-9adf-66e55734ed2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -483,6 +489,12 @@
     <ClInclude Include="menu_select_input_component.h">
       <Filter>00. game\object\component\child class\input\menu_select</Filter>
     </ClInclude>
+    <ClInclude Include="pause_world.h">
+      <Filter>00. game\world\pause_world</Filter>
+    </ClInclude>
+    <ClInclude Include="pause_hud.h">
+      <Filter>00. game\user_interface\hud\paue_hud</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -706,6 +718,12 @@
     </ClCompile>
     <ClCompile Include="menu_select_input_component.cpp">
       <Filter>00. game\object\component\child class\input\menu_select</Filter>
+    </ClCompile>
+    <ClCompile Include="pause_world.cpp">
+      <Filter>00. game\world\pause_world</Filter>
+    </ClCompile>
+    <ClCompile Include="pause_hud.cpp">
+      <Filter>00. game\user_interface\hud\paue_hud</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

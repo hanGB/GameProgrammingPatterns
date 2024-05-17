@@ -38,26 +38,19 @@ public:
 private:
 	// 이벤트 처리
 	template <class T>
-	void ProgressRunEvent(const char* worldName)
-	{
-		PERLog::Logger().InfoWithFormat("%s 월드 실행", worldName);
-
-		StopWorldJob();
-
-		PERWorld* world = new T(m_objectStorage, m_database);
-		GivePlayStateToNextWorld(world);
-	
-		Quit();
-		Run(world);
-
-		RestartWorldJob();
-	}
+	void ProgressRunEvent(const char* worldName);
+	template <class T>
+	void ProgressPushAndRunEvent(const char* worldName);
+	template <class T>
+	void ProgressQuitAllWorldAndRunEvent(const char* worldName);
+	void ProgressPopEvent();
 
 	// 게임 월드, 모드 변경
 	void Run(PERWorld* world);
 	void PushWorld();
 	void PopWorld();
 	void Quit();
+	void QuitAllWorld();
 
 	// world관련 일 종료(월드를 변경하기 위해)
 	void StopWorldJob();
@@ -104,3 +97,46 @@ private:
 	int m_windowSizeW = PER_DEFAULT_WINDOW_WIDTH;
 	int m_windowSizeH = PER_DEFAULT_WINDOW_HEIGHT;
 };
+
+template<class T>
+inline void PERGame::ProgressRunEvent(const char* worldName)
+{
+	PERLog::Logger().InfoWithFormat("기존 월드를 삭제하고 %s 월드 실행", worldName);
+
+	StopWorldJob();
+
+	PERWorld* world = new T(m_objectStorage, m_database);
+	GivePlayStateToNextWorld(world);
+	Quit();
+	Run(world);
+
+	RestartWorldJob();
+}
+
+template<class T>
+inline void PERGame::ProgressPushAndRunEvent(const char* worldName)
+{
+	PERLog::Logger().InfoWithFormat("기존 월드를 큐에 넣고 %s 월드 실행", worldName);
+
+	StopWorldJob();
+
+	PERWorld* world = new T(m_objectStorage, m_database);
+	GivePlayStateToNextWorld(world);
+	PushWorld();
+	Run(world);
+
+	RestartWorldJob();
+}
+
+template<class T>
+inline void PERGame::ProgressQuitAllWorldAndRunEvent(const char* worldName)
+{
+	PERLog::Logger().InfoWithFormat("기존 월드 모두를 삭제하고 %s 월드 실행", worldName);
+
+	StopWorldJob();
+
+	QuitAllWorld();
+	Run(new T(m_objectStorage, m_database));
+
+	RestartWorldJob();
+}

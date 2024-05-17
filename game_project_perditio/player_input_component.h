@@ -13,6 +13,7 @@ private:
 	void ShootBullet(PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
 	void SwingBlade(PERWorld& world, PERController& controller, PERAudio& audio, double dTime);
 	void ShowObjectName(PERController& controller, PERAudio& audio, double dTime);
+	void PauseWorld(PERController& controller, PERAudio& audio, double dTime);
 
 	const int c_DEFAULT_XY_FORCE = 150000;
 
