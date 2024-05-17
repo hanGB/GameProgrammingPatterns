@@ -19,6 +19,7 @@ void MenuGameMode::Update()
 
 void MenuGameMode::UpdateCamera(PERRenderer& renderer, double frameGap)
 {
+    renderer.SetCameraPosition(PERVec2(0.0, 0.0));
 }
 
 void MenuGameMode::CreatePlayerFactory()

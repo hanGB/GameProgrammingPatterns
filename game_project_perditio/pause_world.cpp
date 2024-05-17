@@ -43,26 +43,6 @@ PauseWorld::~PauseWorld()
 {
 }
 
-void PauseWorld::Enter(PERAudio& audio)
-{
-	PERWorld::Enter(audio);
-}
-
-void PauseWorld::Exit(PERAudio& audio)
-{
-	PERWorld::Exit(audio);
-}
-
-void PauseWorld::Pause(PERAudio& audio)
-{
-	PERWorld::Pause(audio);
-}
-
-void PauseWorld::Resume(PERAudio& audio)
-{
-	PERWorld::Resume(audio);
-}
-
 void PauseWorld::AddFixedAndPhysicalObjects()
 {
 }

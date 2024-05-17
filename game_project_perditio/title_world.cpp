@@ -40,24 +40,24 @@ TitleWorld::~TitleWorld()
 
 }
 
-void TitleWorld::Enter(PERAudio& audio)
+void TitleWorld::Enter(PERRenderer& renderer, PERAudio& audio)
 {
-	PERWorld::Enter(audio);
+	PERWorld::Enter(renderer, audio);
 }
 
-void TitleWorld::Exit(PERAudio& audio)
+void TitleWorld::Exit(PERRenderer& renderer, PERAudio& audio)
 {
-	PERWorld::Exit(audio);
+	PERWorld::Exit(renderer, audio);
 }
 
-void TitleWorld::Pause(PERAudio& audio)
+void TitleWorld::Pause(PERRenderer& renderer, PERAudio& audio)
 {
-	PERWorld::Pause(audio);
+	PERWorld::Pause(renderer, audio);
 }
 
-void TitleWorld::Resume(PERAudio& audio)
+void TitleWorld::Resume(PERRenderer& renderer, PERAudio& audio)
 {
-	PERWorld::Resume(audio);
+	PERWorld::Resume(renderer, audio);
 }
 
 void TitleWorld::AddFixedAndPhysicalObjects()

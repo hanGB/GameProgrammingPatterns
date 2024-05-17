@@ -262,7 +262,7 @@ void PERGame::Run(PERWorld* world)
 {
 	PERLog::Logger().Info("월드 실행");
 
-	world->Enter(*m_audio);
+	world->Enter(*m_renderer, *m_audio);
 
 	m_currentWorld = world;
 }
@@ -271,7 +271,7 @@ void PERGame::PushWorld()
 {
 	PERLog::Logger().Info("기존 월드 저장");
 
-	m_currentWorld->Pause(*m_audio);
+	m_currentWorld->Pause(*m_renderer, *m_audio);
 
 	m_worldQueue.push(m_currentWorld);
 }
@@ -283,7 +283,7 @@ void PERGame::PopWorld()
 	PERWorld* world = m_worldQueue.front();
 	m_worldQueue.pop();
 
-	world->Resume(*m_audio);
+	world->Resume(*m_renderer, *m_audio);
 
 	m_currentWorld = world;
 }
@@ -294,7 +294,7 @@ void PERGame::Quit()
 
 	PERLog::Logger().Info("현재 월드 종료");
 
-	m_currentWorld->Exit(*m_audio);
+	m_currentWorld->Exit(*m_renderer, *m_audio);
 
 	delete m_currentWorld;
 }
@@ -305,7 +305,7 @@ void PERGame::QuitAllWorld()
 	Quit();
 	while (!m_worldQueue.empty()) {
 		PERWorld* world = m_worldQueue.front();
-		world->Exit(*m_audio);
+		world->Exit(*m_renderer, *m_audio);
 		delete world;
 		m_worldQueue.pop();
 	}

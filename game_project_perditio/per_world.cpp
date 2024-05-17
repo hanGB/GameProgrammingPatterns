@@ -98,12 +98,11 @@ void PERWorld::UIRender(PERRenderer& renderer)
 	GetHud().Renderer(renderer, *m_database);
 }
 
-void PERWorld::Enter(PERAudio& audio)
+void PERWorld::Enter(PERRenderer& renderer, PERAudio& audio)
 {
 	AddObject(&m_gameMode->GetPlayer());
-
 	InitWorldObject();
-
+	m_gameMode->UpdateCamera(renderer, 0.0);
 	m_gameMode->StartUse();
 
 	// 배경음 재생
@@ -111,7 +110,7 @@ void PERWorld::Enter(PERAudio& audio)
 	audio.RequestHandleSound(PERAudioMessageId::PLAY_ALL_AMBIENT_SOUNDS);
 }
 
-void PERWorld::Exit(PERAudio& audio)
+void PERWorld::Exit(PERRenderer& renderer, PERAudio& audio)
 {
 	m_gameMode->EndUse();
 
@@ -120,7 +119,7 @@ void PERWorld::Exit(PERAudio& audio)
 	audio.RequestHandleSound(PERAudioMessageId::STOP_ALL_AMBIENT_SOUNDS);
 }
 
-void PERWorld::Pause(PERAudio& audio)
+void PERWorld::Pause(PERRenderer& renderer, PERAudio& audio)
 {
 	m_gameMode->EndUse();
 
@@ -129,8 +128,9 @@ void PERWorld::Pause(PERAudio& audio)
 	audio.RequestHandleSound(PERAudioMessageId::PAUSE_ALL_AMBIENT_SOUNDS);
 }
 
-void PERWorld::Resume(PERAudio& audio)
+void PERWorld::Resume(PERRenderer& renderer, PERAudio& audio)
 {
+	m_gameMode->UpdateCamera(renderer, 0.0);
 	m_gameMode->StartUse();
 
 	// 배경음 다시 재생

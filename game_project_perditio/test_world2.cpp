@@ -25,31 +25,31 @@ TestWorld2::~TestWorld2()
 {
 }
 
-void TestWorld2::Enter(PERAudio& audio)
+void TestWorld2::Enter(PERRenderer& renderer, PERAudio& audio)
 {
 	m_gameMode->GetPlayer().SetPosition(PERVec3(-9.0, 0.0, 0.1));
 	m_gameMode->GetPlayerState().SetCurrentWorldType(PERWorldType::TEST_WORLD2);
 	m_gameMode->GetPlayer().SetCurrentPositionToSpawnPosition();
 
-	PERWorld::Enter(audio);
+	PERWorld::Enter(renderer, audio);
 }
 
-void TestWorld2::Exit(PERAudio& audio)
+void TestWorld2::Exit(PERRenderer& renderer, PERAudio& audio)
 {
-	PERWorld::Exit(audio);
+	PERWorld::Exit(renderer, audio);
 }
 
-void TestWorld2::Pause(PERAudio& audio)
+void TestWorld2::Pause(PERRenderer& renderer, PERAudio& audio)
 {
 	m_gameMode->GetPlayerState().SetCurrentWorldType(PERWorldType::TEST_WORLD2);
 	m_playerPosBeforePause = m_gameMode->GetPlayer().GetPosition();
-	PERWorld::Pause(audio);
+	PERWorld::Pause(renderer, audio);
 }
 
-void TestWorld2::Resume(PERAudio& audio)
+void TestWorld2::Resume(PERRenderer& renderer, PERAudio& audio)
 {
 	m_gameMode->GetPlayer().SetPosition(m_playerPosBeforePause);
-	PERWorld::Resume(audio);
+	PERWorld::Resume(renderer, audio);
 }
 
 void TestWorld2::AddFixedAndPhysicalObjects()

@@ -29,7 +29,7 @@ TestWorld::~TestWorld()
 	
 }
 
-void TestWorld::Enter(PERAudio& audio)
+void TestWorld::Enter(PERRenderer& renderer, PERAudio& audio)
 {
 	PERWorldType type = m_gameMode->GetPlayerState().GetCurrentWorldType();
 	
@@ -42,27 +42,27 @@ void TestWorld::Enter(PERAudio& audio)
 	audio.RequestMakeSound(PERAudioMessageId::SET_BGM, PERSoundId::BATTLE_BGM, 0.25);
 	audio.RequestMakeSound(PERAudioMessageId::SET_AMBIENT_SOUND, PERSoundId::RAINNY_BGM, 1.0, 0);
 
-	PERWorld::Enter(audio);
+	PERWorld::Enter(renderer, audio);
 }
 
-void TestWorld::Exit(PERAudio& audio)
+void TestWorld::Exit(PERRenderer& renderer, PERAudio& audio)
 {
-	PERWorld::Exit(audio);
+	PERWorld::Exit(renderer, audio);
 }
 
-void TestWorld::Pause(PERAudio& audio)
+void TestWorld::Pause(PERRenderer& renderer, PERAudio& audio)
 {
 	m_gameMode->GetPlayerState().SetCurrentWorldType(PERWorldType::TEST_WORLD);
 	m_playerPosBeforePause = m_gameMode->GetPlayer().GetPosition();
 
-	PERWorld::Pause(audio);
+	PERWorld::Pause(renderer, audio);
 }
 
-void TestWorld::Resume(PERAudio& audio)
+void TestWorld::Resume(PERRenderer& renderer, PERAudio& audio)
 {
 	m_gameMode->GetPlayer().SetPosition(m_playerPosBeforePause);
 
-	PERWorld::Resume(audio);
+	PERWorld::Resume(renderer, audio);
 }
 
 void TestWorld::AddFixedAndPhysicalObjects()
