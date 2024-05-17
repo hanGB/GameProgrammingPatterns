@@ -44,6 +44,8 @@ private:
 	template <class T>
 	void ProgressQuitAllWorldAndRunEvent(const char* worldName);
 	void ProgressPopEvent();
+	void ProgressPauseGameEvent();
+	void ProgressResumeGameEvent();
 
 	// 게임 월드, 모드 변경
 	void Run(PERWorld* world);
@@ -59,9 +61,17 @@ private:
 	// 다음 월드에 기존 플레이어 스테이트를 넘김(플레이어의 상태를 동일하게 맞추기 위해)
 	void GivePlayStateToNextWorld(PERWorld* nextWorld);
 
+	// 렌더
+	void RenderCurrnetWorld(HWND hWnd);
+	void RenderPreviousWorld(HWND hWnd);
+	void RenderWorld(HWND hWnd, PERWorld* world);
+
 	const double c_FPS_UPDATE_GAP = 0.5;
 
 	int m_updateLag = 0;
+
+	std::function<void(PERGame&, HWND)> m_renderFunc = &PERGame::RenderCurrnetWorld;
+
 	std::atomic<double> m_frameGap;
 	std::atomic<bool> m_isUpdateEnd = false;
 	std::atomic<bool> m_isRenderEnd = false;

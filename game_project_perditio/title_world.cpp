@@ -42,6 +42,8 @@ TitleWorld::~TitleWorld()
 
 void TitleWorld::Enter(PERRenderer& renderer, PERAudio& audio)
 {
+	renderer.SetCameraPosition(PERVec2(0.0, 0.0));
+
 	PERWorld::Enter(renderer, audio);
 }
 
@@ -57,6 +59,8 @@ void TitleWorld::Pause(PERRenderer& renderer, PERAudio& audio)
 
 void TitleWorld::Resume(PERRenderer& renderer, PERAudio& audio)
 {
+	renderer.SetCameraPosition(PERVec2(0.0, 0.0));
+
 	PERWorld::Resume(renderer, audio);
 }
 

@@ -54,10 +54,10 @@ void PERGame::Recive(PEREvent event, PERVec3 data)
 		m_destroyWindow = true;
 		break;
 	case PEREvent::PAUSE_GAME:
-		ProgressPushAndRunEvent<PauseWorld>("Pause");
+		ProgressPauseGameEvent();
 		break;
 	case PEREvent::RESUME_GAME:
-		ProgressPopEvent();
+		ProgressResumeGameEvent();
 		break;
 	case PEREvent::BACK_TO_TITLE:
 		ProgressQuitAllWorldAndRunEvent<TitleWorld>("Title");
@@ -148,6 +148,21 @@ void PERGame::UIUpdate(int time)
 
 void PERGame::Render(HWND hWnd)
 {
+	m_renderFunc(*this, hWnd);
+}
+
+void PERGame::RenderCurrnetWorld(HWND hWnd)
+{
+	RenderWorld(hWnd, m_currentWorld);
+}
+
+void PERGame::RenderPreviousWorld(HWND hWnd)
+{
+	RenderWorld(hWnd, m_worldQueue.front());
+}
+
+void PERGame::RenderWorld(HWND hWnd, PERWorld* world)
+{
 	if (m_isStopWorldJob)
 	{
 		m_isStopRender = true;
@@ -161,14 +176,14 @@ void PERGame::Render(HWND hWnd)
 		m_renderer->ResetMemoryDC(hWnd);
 
 		// 게임 월드 렌더링
-		m_currentWorld->Render(*m_renderer, m_frameGap);
+		world->Render(*m_renderer, m_frameGap);
 
 		// 네비게이션 데이터 테스트용
 		//BlackBoard::GetNavigationData().RenderOutData(*m_renderer);
 
 		m_isRenderEnd = true;
 	}
-	
+
 	if (!m_isRenderUIEnd) return;
 
 	m_renderer->FillHDCWithMemoryDCs(hWnd);
@@ -258,6 +273,33 @@ void PERGame::ProgressPopEvent()
 	RestartWorldJob();
 }
 
+void PERGame::ProgressPauseGameEvent()
+{
+	StopWorldJob();
+
+	PERWorld* world = new PauseWorld(m_objectStorage, m_database);
+	GivePlayStateToNextWorld(world);
+	PushWorld();
+	// 이전 월드의 오브젝트들을 렌더링 하도록 설정
+	m_renderFunc = &PERGame::RenderPreviousWorld;
+	Run(world);
+
+	RestartWorldJob();
+}
+
+void PERGame::ProgressResumeGameEvent()
+{
+	StopWorldJob();
+
+	GivePlayStateToNextWorld(m_worldQueue.front());
+	Quit();
+	// 현재 월드의 오브젝트들을 렌더링 하도록 되돌림
+	m_renderFunc = &PERGame::RenderCurrnetWorld;
+	PopWorld();
+
+	RestartWorldJob();
+}
+
 void PERGame::Run(PERWorld* world)
 {
 	PERLog::Logger().Info("월드 실행");
@@ -309,6 +351,8 @@ void PERGame::QuitAllWorld()
 		delete world;
 		m_worldQueue.pop();
 	}
+	// 재설정
+	m_renderFunc = &PERGame::RenderCurrnetWorld;
 }
 
 void PERGame::StopWorldJob()
