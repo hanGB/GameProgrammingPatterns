@@ -3,22 +3,15 @@
 #include "irr_audio.h"
 #include "null_audio.h"
 #include "black_board.h"
-#include "title_world.h"
-#include "pause_world.h"
-#include "test_world.h"
-#include "test_world2.h"
+
+PERGame::PERGame()
+{
+
+}
 
 PERGame::PERGame(HWND hWnd)
 {
-	PERLog::Logger().Info("게임 클래스 생성 시작");
-
-	m_renderer = new PERRenderer(hWnd);
-	m_controller = new PERController();
-	m_audio = new NullAudio();
-	m_objectStorage = new ObjectStorage();
-	m_database = new PERDatabase();
-
-	PERLog::Logger().Info("게임 클래스 생성 완료");
+	Initialize(hWnd);
 }
 
 PERGame::~PERGame()
@@ -37,30 +30,7 @@ PERGame::~PERGame()
 void PERGame::Recive(PEREvent event, PERVec3 data)
 {
 	switch (event) {
-	case PEREvent::EXECUTE_GAME:
-		PERLog::Logger().Info("게임 실행: Title");
-		Run(new TitleWorld(m_objectStorage, m_database));
-		break;
-	case PEREvent::RUN_TEST_WORLD: 
-		ProgressRunEvent<TestWorld>("Test");
-		break;
-	case PEREvent::RUN_TEST2_WORLD: 
-		ProgressRunEvent<TestWorld2>("Test2");
-		break;
-	case PEREvent::CHANGE_WINDOW_SIZE:
-		m_changeWindowSize = true;
-		break;
-	case PEREvent::EXIT_GAME:
-		m_destroyWindow = true;
-		break;
-	case PEREvent::PAUSE_GAME:
-		ProgressPauseGameEvent();
-		break;
-	case PEREvent::RESUME_GAME:
-		ProgressResumeGameEvent();
-		break;
-	case PEREvent::BACK_TO_TITLE:
-		ProgressQuitAllWorldAndRunEvent<TitleWorld>("Title");
+	default:
 		break;
 	}
 }
@@ -260,6 +230,18 @@ void PERGame::DoWindowJob(HWND hWnd)
 		m_destroyWindow = false;
 	}
 }
+void PERGame::Initialize(HWND hWnd)
+{
+	PERLog::Logger().Info("게임 클래스 생성 시작");
+
+	m_renderer = new PERRenderer(hWnd);
+	m_controller = new PERController();
+	m_audio = new NullAudio();
+	m_objectStorage = new ObjectStorage();
+	m_database = new PERDatabase();
+
+	PERLog::Logger().Info("게임 클래스 생성 완료");
+}
 void PERGame::ProgressPopEvent()
 {
 	PERLog::Logger().InfoWithFormat("기존 월드를 삭제하고 큐에 있는 월드를 꺼냄");
@@ -269,20 +251,6 @@ void PERGame::ProgressPopEvent()
 	GivePlayStateToNextWorld(m_worldQueue.front());
 	Quit();
 	PopWorld();
-
-	RestartWorldJob();
-}
-
-void PERGame::ProgressPauseGameEvent()
-{
-	StopWorldJob();
-
-	PERWorld* world = new PauseWorld(m_objectStorage, m_database);
-	GivePlayStateToNextWorld(world);
-	PushWorld();
-	// 이전 월드의 오브젝트들을 렌더링 하도록 설정
-	m_renderFunc = &PERGame::RenderPreviousWorld;
-	Run(world);
 
 	RestartWorldJob();
 }
@@ -382,5 +350,15 @@ void PERGame::GivePlayStateToNextWorld(PERWorld* nextWorld)
 		PlayerState* playerState = &m_currentWorld->GetGameMode().GetPlayerState();
 		nextWorld->GetGameMode().UpdatePlayerState(playerState);
 	}
+}
+
+void PERGame::ChangeWindowSize()
+{
+	m_changeWindowSize = true;
+}
+
+void PERGame::DestroyWindow()
+{
+	m_destroyWindow = true;
 }
 

@@ -43,15 +43,6 @@
     <Filter Include="00. game\object\object_state\monster_state">
       <UniqueIdentifier>{332e1e11-f63a-4765-8dea-47816f465b51}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\world\test_world">
-      <UniqueIdentifier>{61884e6c-40f5-422b-96b7-e14f7be021b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. game\game_mode\test_game_mode">
-      <UniqueIdentifier>{46ac80bf-3259-4934-b60e-ed738dc5eee3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. game\game_state\test_game_state.h">
-      <UniqueIdentifier>{e7a7c632-e664-4bc7-b711-8de505697910}</UniqueIdentifier>
-    </Filter>
     <Filter Include="07. data">
       <UniqueIdentifier>{2474b35c-e0f4-4d1e-91ea-5bab73664527}</UniqueIdentifier>
     </Filter>
@@ -72,9 +63,6 @@
     </Filter>
     <Filter Include="00. game\user_interface\hud">
       <UniqueIdentifier>{71013919-d016-4311-b732-d5c7954e5825}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. game\user_interface\hud\test_field_hud">
-      <UniqueIdentifier>{100e39ed-e0ed-4550-a28e-4b8befc8e0b8}</UniqueIdentifier>
     </Filter>
     <Filter Include="00. game\object\object_storage">
       <UniqueIdentifier>{bd326c91-2bc6-4bef-b02f-a25b330a1761}</UniqueIdentifier>
@@ -220,17 +208,8 @@
     <Filter Include="05. audio\irrKlang">
       <UniqueIdentifier>{06e86990-f052-4d31-8add-2fe4479f9655}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\game_mode\menu_game_mode">
-      <UniqueIdentifier>{12d953ca-b8d4-47c8-acbc-c794f43a98e6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. game\user_interface\ui_element\text_viewer">
       <UniqueIdentifier>{a3d718a6-6ccb-459a-b884-4671ee3173d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. game\user_interface\hud\title_hud">
-      <UniqueIdentifier>{58b7f7d4-aaaa-4121-8054-51295ea9ea97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. game\world\title_world">
-      <UniqueIdentifier>{0359c178-8ce4-44c5-9146-e1e4ff6cc97c}</UniqueIdentifier>
     </Filter>
     <Filter Include="00. game\user_interface\ui_element\select_box">
       <UniqueIdentifier>{d551a8d8-684d-4fb5-99d6-7251ed4b4483}</UniqueIdentifier>
@@ -238,11 +217,11 @@
     <Filter Include="00. game\object\component\child class\input\menu_select">
       <UniqueIdentifier>{fe14726c-f34c-4838-9cb8-68d90d201304}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\world\pause_world">
-      <UniqueIdentifier>{40d597a3-afe4-467d-9e50-0f026e9092f8}</UniqueIdentifier>
+    <Filter Include="09. platform">
+      <UniqueIdentifier>{fdc4a7bd-5d38-4a87-b063-62061ce3588d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. game\user_interface\hud\paue_hud">
-      <UniqueIdentifier>{60a2e1af-6e20-452d-9adf-66e55734ed2e}</UniqueIdentifier>
+    <Filter Include="09. platform\windows">
+      <UniqueIdentifier>{99f530fc-63e4-46f0-823f-09721be0e7cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -351,15 +330,6 @@
     <ClInclude Include="behavior_tree.h">
       <Filter>02. ai\behavior_tree</Filter>
     </ClInclude>
-    <ClInclude Include="test_world.h">
-      <Filter>00. game\world\test_world</Filter>
-    </ClInclude>
-    <ClInclude Include="test_game_mode.h">
-      <Filter>00. game\game_mode\test_game_mode</Filter>
-    </ClInclude>
-    <ClInclude Include="test_game_state.h">
-      <Filter>00. game\game_state\test_game_state.h</Filter>
-    </ClInclude>
     <ClInclude Include="json_data_reader.h">
       <Filter>07. data\json</Filter>
     </ClInclude>
@@ -371,9 +341,6 @@
     </ClInclude>
     <ClInclude Include="ui_element_pool.h">
       <Filter>00. game\user_interface\ui_element\ui_element_pool</Filter>
-    </ClInclude>
-    <ClInclude Include="test_field_hud.h">
-      <Filter>00. game\user_interface\hud\test_field_hud</Filter>
     </ClInclude>
     <ClInclude Include="name_tag.h">
       <Filter>00. game\user_interface\ui_element\name_tag</Filter>
@@ -453,9 +420,6 @@
     <ClInclude Include="creating_particles_ai_component.h">
       <Filter>00. game\object\component\child class\ai\creating_particles</Filter>
     </ClInclude>
-    <ClInclude Include="test_world2.h">
-      <Filter>00. game\world\test_world</Filter>
-    </ClInclude>
     <ClInclude Include="hidden_debug_graphics_component.h">
       <Filter>00. game\object\component\child class\graphics\hidden_debug</Filter>
     </ClInclude>
@@ -471,15 +435,6 @@
     <ClInclude Include="button_input_component.h">
       <Filter>00. game\object\component\child class\input\button</Filter>
     </ClInclude>
-    <ClInclude Include="title_world.h">
-      <Filter>00. game\world\title_world</Filter>
-    </ClInclude>
-    <ClInclude Include="menu_game_mode.h">
-      <Filter>00. game\game_mode\menu_game_mode</Filter>
-    </ClInclude>
-    <ClInclude Include="title_hud.h">
-      <Filter>00. game\user_interface\hud\title_hud</Filter>
-    </ClInclude>
     <ClInclude Include="text_viewer.h">
       <Filter>00. game\user_interface\ui_element\text_viewer</Filter>
     </ClInclude>
@@ -489,18 +444,12 @@
     <ClInclude Include="menu_select_input_component.h">
       <Filter>00. game\object\component\child class\input\menu_select</Filter>
     </ClInclude>
-    <ClInclude Include="pause_world.h">
-      <Filter>00. game\world\pause_world</Filter>
-    </ClInclude>
-    <ClInclude Include="pause_hud.h">
-      <Filter>00. game\user_interface\hud\paue_hud</Filter>
+    <ClInclude Include="window_proc_with_thread.h">
+      <Filter>09. platform\windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="per_game.cpp">
@@ -526,9 +475,6 @@
     </ClCompile>
     <ClCompile Include="console_logger.cpp">
       <Filter>08. log\console</Filter>
-    </ClCompile>
-    <ClCompile Include="game_mode.cpp">
-      <Filter>00. game\game_mode</Filter>
     </ClCompile>
     <ClCompile Include="game_state.cpp">
       <Filter>00. game\game_state</Filter>
@@ -569,15 +515,6 @@
     <ClCompile Include="per_vector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test_world.cpp">
-      <Filter>00. game\world\test_world</Filter>
-    </ClCompile>
-    <ClCompile Include="test_game_state.cpp">
-      <Filter>00. game\game_state\test_game_state.h</Filter>
-    </ClCompile>
-    <ClCompile Include="test_game_mode.cpp">
-      <Filter>00. game\game_mode\test_game_mode</Filter>
-    </ClCompile>
     <ClCompile Include="per_database.cpp">
       <Filter>07. data\database</Filter>
     </ClCompile>
@@ -586,9 +523,6 @@
     </ClCompile>
     <ClCompile Include="per_data.cpp">
       <Filter>07. data\database</Filter>
-    </ClCompile>
-    <ClCompile Include="test_field_hud.cpp">
-      <Filter>00. game\user_interface\hud\test_field_hud</Filter>
     </ClCompile>
     <ClCompile Include="name_tag.cpp">
       <Filter>00. game\user_interface\ui_element\name_tag</Filter>
@@ -683,9 +617,6 @@
     <ClCompile Include="ai_component.cpp">
       <Filter>00. game\object\component\parents class</Filter>
     </ClCompile>
-    <ClCompile Include="test_world2.cpp">
-      <Filter>00. game\world\test_world</Filter>
-    </ClCompile>
     <ClCompile Include="hidden_debug_graphics_component.cpp">
       <Filter>00. game\object\component\child class\graphics\hidden_debug</Filter>
     </ClCompile>
@@ -701,15 +632,6 @@
     <ClCompile Include="per_audio.cpp">
       <Filter>05. audio</Filter>
     </ClCompile>
-    <ClCompile Include="title_world.cpp">
-      <Filter>00. game\world\title_world</Filter>
-    </ClCompile>
-    <ClCompile Include="menu_game_mode.cpp">
-      <Filter>00. game\game_mode\menu_game_mode</Filter>
-    </ClCompile>
-    <ClCompile Include="titile_hud.cpp">
-      <Filter>00. game\user_interface\hud\title_hud</Filter>
-    </ClCompile>
     <ClCompile Include="text_viewer.cpp">
       <Filter>00. game\user_interface\ui_element\text_viewer</Filter>
     </ClCompile>
@@ -719,11 +641,11 @@
     <ClCompile Include="menu_select_input_component.cpp">
       <Filter>00. game\object\component\child class\input\menu_select</Filter>
     </ClCompile>
-    <ClCompile Include="pause_world.cpp">
-      <Filter>00. game\world\pause_world</Filter>
+    <ClCompile Include="game_mode.cpp">
+      <Filter>00. game\game_mode</Filter>
     </ClCompile>
-    <ClCompile Include="pause_hud.cpp">
-      <Filter>00. game\user_interface\hud\paue_hud</Filter>
+    <ClCompile Include="window_proc_with_thread.cpp">
+      <Filter>09. platform\windows</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -12,6 +12,7 @@
 
 class PERGame : public EventReciver {
 public:
+	PERGame();
 	PERGame(HWND hWnd);
 	~PERGame();
 
@@ -35,7 +36,14 @@ public:
 	// 윈도우 관련 작업
 	void DoWindowJob(HWND hWnd);
 
-private:
+protected:
+	// 초기화
+	void Initialize(HWND hWnd);
+
+	// 월드 만들기
+	template <class T>
+	T* MakeWorld();
+
 	// 이벤트 처리
 	template <class T>
 	void ProgressRunEvent(const char* worldName);
@@ -44,7 +52,8 @@ private:
 	template <class T>
 	void ProgressQuitAllWorldAndRunEvent(const char* worldName);
 	void ProgressPopEvent();
-	void ProgressPauseGameEvent();
+	template <class T>
+	void ProgressPauseGameEvent(const char* worldName);
 	void ProgressResumeGameEvent();
 
 	// 게임 월드, 모드 변경
@@ -61,6 +70,11 @@ private:
 	// 다음 월드에 기존 플레이어 스테이트를 넘김(플레이어의 상태를 동일하게 맞추기 위해)
 	void GivePlayStateToNextWorld(PERWorld* nextWorld);
 
+	// 윈도우 명령
+	void ChangeWindowSize();
+	void DestroyWindow();
+
+private:
 	// 렌더
 	void RenderCurrnetWorld(HWND hWnd);
 	void RenderPreviousWorld(HWND hWnd);
@@ -109,13 +123,19 @@ private:
 };
 
 template<class T>
+inline T* PERGame::MakeWorld()
+{
+	return new T(m_objectStorage, m_database);
+}
+
+template<class T>
 inline void PERGame::ProgressRunEvent(const char* worldName)
 {
 	PERLog::Logger().InfoWithFormat("기존 월드를 삭제하고 %s 월드 실행", worldName);
 
 	StopWorldJob();
 
-	PERWorld* world = new T(m_objectStorage, m_database);
+	PERWorld* world = MakeWorld<T>();
 	GivePlayStateToNextWorld(world);
 	Quit();
 	Run(world);
@@ -130,7 +150,7 @@ inline void PERGame::ProgressPushAndRunEvent(const char* worldName)
 
 	StopWorldJob();
 
-	PERWorld* world = new T(m_objectStorage, m_database);
+	PERWorld* world = MakeWorld<T>();
 	GivePlayStateToNextWorld(world);
 	PushWorld();
 	Run(world);
@@ -146,7 +166,24 @@ inline void PERGame::ProgressQuitAllWorldAndRunEvent(const char* worldName)
 	StopWorldJob();
 
 	QuitAllWorld();
-	Run(new T(m_objectStorage, m_database));
+	Run(MakeWorld<T>());
+
+	RestartWorldJob();
+}
+
+template<class T>
+inline void PERGame::ProgressPauseGameEvent(const char* worldName)
+{
+	StopWorldJob();
+
+	PERLog::Logger().InfoWithFormat("기존 월드 잠시 멈추고 %s 월드 실행", worldName);
+
+	PERWorld* world = MakeWorld<T>();
+	GivePlayStateToNextWorld(world);
+	PushWorld();
+	// 이전 월드의 오브젝트들을 렌더링 하도록 설정
+	m_renderFunc = &PERGame::RenderPreviousWorld;
+	Run(world);
 
 	RestartWorldJob();
 }

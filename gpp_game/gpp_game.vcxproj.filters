@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="00. world_construction">
+      <UniqueIdentifier>{c65db90f-c4fe-43ce-8f25-46ba3e3c08c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\world">
+      <UniqueIdentifier>{d3795dac-ee74-4e34-8368-cd02ed12fd09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\world\pause">
+      <UniqueIdentifier>{1c07598a-2bff-4648-bb80-f7d298d4fbea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\world\test">
+      <UniqueIdentifier>{2d06b972-5ebd-4347-b6ad-6cdacb71ed32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\world\title">
+      <UniqueIdentifier>{2b184722-d228-4428-b2fd-6ae06dcec05f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\game_mode">
+      <UniqueIdentifier>{468b978e-040c-45d4-87fe-39b7cf2b082a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\game_mode\menu">
+      <UniqueIdentifier>{b45cb10d-0f56-4205-8e48-7e279b00b38f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\game_mode\test">
+      <UniqueIdentifier>{4da09997-21e3-42b3-96af-bf5fc5c64e02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\hud">
+      <UniqueIdentifier>{a51a8a0e-7705-477d-9d8e-638b0d87084e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\hud\pause">
+      <UniqueIdentifier>{ffa73ded-207b-46c9-b7bc-7ce574f9bf67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\hud\tset_field">
+      <UniqueIdentifier>{b5794a6a-d18a-4e1b-bd1f-d96a65bd3cc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\hud\title">
+      <UniqueIdentifier>{ed9393bc-3977-4eed-9621-9910a4cbf43f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\game_state">
+      <UniqueIdentifier>{11e1e0f4-d900-4987-a9c5-01fb32c1a78a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test_game_state.cpp">
+      <Filter>00. world_construction\game_state</Filter>
+    </ClCompile>
+    <ClCompile Include="gpp_game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pause_world.cpp">
+      <Filter>00. world_construction\world\pause</Filter>
+    </ClCompile>
+    <ClCompile Include="test_world.cpp">
+      <Filter>00. world_construction\world\test</Filter>
+    </ClCompile>
+    <ClCompile Include="test_world2.cpp">
+      <Filter>00. world_construction\world\test</Filter>
+    </ClCompile>
+    <ClCompile Include="title_world.cpp">
+      <Filter>00. world_construction\world\title</Filter>
+    </ClCompile>
+    <ClCompile Include="pause_hud.cpp">
+      <Filter>00. world_construction\hud\pause</Filter>
+    </ClCompile>
+    <ClCompile Include="test_field_hud.cpp">
+      <Filter>00. world_construction\hud\tset_field</Filter>
+    </ClCompile>
+    <ClCompile Include="titile_hud.cpp">
+      <Filter>00. world_construction\hud\title</Filter>
+    </ClCompile>
+    <ClCompile Include="menu_game_mode.cpp">
+      <Filter>00. world_construction\game_mode\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="test_game_mode.cpp">
+      <Filter>00. world_construction\game_mode\test</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="test_game_state.h">
+      <Filter>00. world_construction\game_state</Filter>
+    </ClInclude>
+    <ClInclude Include="gpp_game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pause_world.h">
+      <Filter>00. world_construction\world\pause</Filter>
+    </ClInclude>
+    <ClInclude Include="test_world.h">
+      <Filter>00. world_construction\world\test</Filter>
+    </ClInclude>
+    <ClInclude Include="test_world2.h">
+      <Filter>00. world_construction\world\test</Filter>
+    </ClInclude>
+    <ClInclude Include="title_world.h">
+      <Filter>00. world_construction\world\title</Filter>
+    </ClInclude>
+    <ClInclude Include="pause_hud.h">
+      <Filter>00. world_construction\hud\pause</Filter>
+    </ClInclude>
+    <ClInclude Include="test_field_hud.h">
+      <Filter>00. world_construction\hud\tset_field</Filter>
+    </ClInclude>
+    <ClInclude Include="title_hud.h">
+      <Filter>00. world_construction\hud\title</Filter>
+    </ClInclude>
+    <ClInclude Include="menu_game_mode.h">
+      <Filter>00. world_construction\game_mode\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="test_game_mode.h">
+      <Filter>00. world_construction\game_mode\test</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
