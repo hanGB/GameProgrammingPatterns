@@ -134,6 +134,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="boss_monster_state.cpp" />
     <ClCompile Include="credits_game_mode.cpp" />
     <ClCompile Include="credits_world.cpp" />
     <ClCompile Include="gpp_game.cpp" />
@@ -172,6 +173,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="boss_monster_state.h" />
     <ClInclude Include="credits_game_mode.h" />
     <ClInclude Include="credits_world.h" />
     <ClInclude Include="gpp_game.h" />

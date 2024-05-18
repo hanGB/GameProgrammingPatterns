@@ -12,6 +12,7 @@
 #include "event_dispatcher.h"
 #include "player_state.h"
 #include "black_board.h"
+#include "boss_monster_state.h"
 
 TestWorld2::TestWorld2(ObjectStorage* objectStorage, PERDatabase* database)
 {
@@ -50,7 +51,7 @@ void TestWorld2::Pause(PERRenderer& renderer, PERAudio& audio)
 void TestWorld2::Resume(PERRenderer& renderer, PERAudio& audio)
 {
 	// 네비게이션 데이터 설정
-	BlackBoard::GetNavigationData().ReadDataFromFile("./map/test.nv");
+	BlackBoard::GetNavigationData().ReadDataFromFile("./map/test2.nv");
 	m_gameMode->GetPlayer().SetPosition(m_playerPosBeforePause);
 	PERWorld::Resume(renderer, audio);
 }
@@ -69,14 +70,18 @@ void TestWorld2::InitWorldObject()
 
 void TestWorld2::AddOtherObjects()
 {
-	// 몬스터 생성기
-	PERObject* monsterSpanwer;
-	monsterSpanwer = m_objectStorage->PopObject(PERObjectType::SPAWNER);
-	monsterSpanwer->SetPosition(PERVec3(0.0, 0.0, 0.2));
-	dynamic_cast<SpawnerAiComponent*>(&monsterSpanwer->GetAi())->SetSpawner(
-		"MONSTER_NIKKEL", PERObjectType::MONSTER, PERSpawnType::LIVE, 1
-	);
-	AddObject(monsterSpanwer);
+	// 보스 생성
+	PERObject* boss;
+	boss = m_objectStorage->PopObject(PERObjectType::MONSTER);
+	ObjectState* objectState = &boss->GetObjectState();
+	delete objectState;
+	boss->SetObjectState(new BossMonsterState);
+	boss->SetPosition(PERVec3(0.0, 0.0, 0.2));
+	MonsterData* mData = m_database->GetMonsterData("MONSTER_NIKKEL");
+	SetObjectVisual(boss, mData->visualId.c_str());
+	boss->GetObjectState().SetStat(mData->stat);
+	boss->GetObjectState().SetNameId(mData->nameId);
+	AddObject(boss);
 
 	PERObject* block;
 	block = m_objectStorage->PopObject(PERObjectType::MOVABLE_BLOCK);

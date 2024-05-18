@@ -82,6 +82,7 @@ public:
 	void SetBoundingType(PERBoundingType bounding);
 	void SetBoundingBox(PERVec3 relativeSize, PERVec3 relativePos);
 	void SetVisualId(const char* id);
+	void SetObjectState(ObjectState* state);
 
 	void SetIDInWorld(int id);
 	void SetLifeTime(double time);

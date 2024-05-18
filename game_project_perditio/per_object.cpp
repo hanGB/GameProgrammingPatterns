@@ -239,6 +239,11 @@ void PERObject::SetVisualId(const char* id)
 	m_visualId = id;
 }
 
+void PERObject::SetObjectState(ObjectState* state)
+{
+	m_objectState = state;
+}
+
 void PERObject::SetIDInWorld(int id)
 {
 	m_idInWorld = id;

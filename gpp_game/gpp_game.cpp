@@ -20,7 +20,7 @@ void GPPGame::Recive(PEREvent event, PERVec3 data)
 	switch (event) {
 	case PEREvent::EXECUTE_GAME:
 		PERLog::Logger().Info("게임 실행: Title");
-		Run(MakeWorld<CreditsWorld>());
+		Run(MakeWorld<TitleWorld>());
 		break;
 	case PEREvent::RUN_TEST_WORLD:
 		ProgressRunEvent<TestWorld>("Test");

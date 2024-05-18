@@ -27,6 +27,7 @@ enum class PERWorldMessageId {
 
 enum class PERWorldType {
 	MAIN_MENU,
+	NONE,
 	TEST_WORLD,
 	TEST_WORLD2,
 	NUM_WORLD_TYPE

@@ -32,9 +32,9 @@ void MonsterState::KillSelf(PERWorld& world, PERAudio& audio)
 
     PERStat stat;
     // 레벨을 이펙트 타입으로 사용
-    stat.level = ( short ) PERParticleEffectType::CIRCLE_BOMB;
+    stat.level = (short)PERParticleEffectType::CIRCLE_BOMB;
     // 바디를 흡수 여부로 사용
-    stat.body = ( short ) true;
+    stat.body = (short)true;
 
     world.RequestAddObject(GetOwner(), PERObjectType::PARTICLE_EFFECTER, "PARTICLE_EFFECT_BASIC_MONSTER_DEATH_VISUAL", PERDatabaseType::EFFECT,
         stat, GetOwner()->GetPosition(), 1.0, PERVec3(0.0, 0.0, 0.0));

@@ -15,5 +15,4 @@ private:
 
 	void TestFixedObjects();
 	void Test2FixedObjects();
-	void TitleFixedObjects();
 };

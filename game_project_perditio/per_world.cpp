@@ -222,7 +222,7 @@ void PERWorld::SleepAndWakeupObjects()
 	PERVec3 playerPos = BlackBoard::GetPlayerPos();
 
 	// sleep(플레이어 제외)
-	for (int i = 1; i < m_numObject; ++i) {
+	for (int i = 0; i < m_numObject; ++i) {
 		if (m_objects[i]->IsHaveToSleep(playerPos)) {
 			RequestSimpleDoObject(m_objects[i], PERWorldMessageId::SLEEP_OBJECT);
 		}

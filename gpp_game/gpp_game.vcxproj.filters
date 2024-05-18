@@ -70,6 +70,9 @@
     <Filter Include="01. object_construction\component\parachute_falling">
       <UniqueIdentifier>{1ae2a7f8-f447-4363-8d84-2e08ef2f473e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. object_construction\object_state">
+      <UniqueIdentifier>{ac23de8b-4b04-4e63-a8ed-84ab81ebd010}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -120,6 +123,9 @@
     <ClCompile Include="parachute_falling_physics_component.cpp">
       <Filter>01. object_construction\component\parachute_falling</Filter>
     </ClCompile>
+    <ClCompile Include="boss_monster_state.cpp">
+      <Filter>01. object_construction\object_state</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="test_game_state.h">
@@ -166,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="parachute_falling_physics_component.h">
       <Filter>01. object_construction\component\parachute_falling</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_monster_state.h">
+      <Filter>01. object_construction\object_state</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
