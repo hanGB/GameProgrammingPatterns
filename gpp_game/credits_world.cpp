@@ -25,7 +25,7 @@ CreditsWorld::~CreditsWorld()
 
 void CreditsWorld::Enter(PERRenderer& renderer, PERAudio& audio)
 {
-	m_gameMode->GetPlayer().SetPosition(PERVec3(0.0, 20.0, 0.1));
+	m_gameMode->GetPlayer().SetPosition(PERVec3(0.0, 15.0, 0.1));
 
 	PERWorld::Enter(renderer, audio);
 }

@@ -43,9 +43,6 @@
     <Filter Include="00. world_construction\hud\pause">
       <UniqueIdentifier>{ffa73ded-207b-46c9-b7bc-7ce574f9bf67}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. world_construction\hud\tset_field">
-      <UniqueIdentifier>{b5794a6a-d18a-4e1b-bd1f-d96a65bd3cc1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. world_construction\hud\title">
       <UniqueIdentifier>{ed9393bc-3977-4eed-9621-9910a4cbf43f}</UniqueIdentifier>
     </Filter>
@@ -67,7 +64,10 @@
     <Filter Include="01. object_construction\component">
       <UniqueIdentifier>{15682774-7899-4cf6-8f5a-3b51733eb262}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. object_construction\component\parachute">
+    <Filter Include="00. world_construction\hud\test_field">
+      <UniqueIdentifier>{b5794a6a-d18a-4e1b-bd1f-d96a65bd3cc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. object_construction\component\parachute_falling">
       <UniqueIdentifier>{1ae2a7f8-f447-4363-8d84-2e08ef2f473e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -97,7 +97,7 @@
       <Filter>00. world_construction\hud\pause</Filter>
     </ClCompile>
     <ClCompile Include="test_field_hud.cpp">
-      <Filter>00. world_construction\hud\tset_field</Filter>
+      <Filter>00. world_construction\hud\test_field</Filter>
     </ClCompile>
     <ClCompile Include="titile_hud.cpp">
       <Filter>00. world_construction\hud\title</Filter>
@@ -116,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="credits_game_mode.cpp">
       <Filter>00. world_construction\game_mode\credits</Filter>
+    </ClCompile>
+    <ClCompile Include="parachute_falling_physics_component.cpp">
+      <Filter>01. object_construction\component\parachute_falling</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -141,7 +144,7 @@
       <Filter>00. world_construction\hud\pause</Filter>
     </ClInclude>
     <ClInclude Include="test_field_hud.h">
-      <Filter>00. world_construction\hud\tset_field</Filter>
+      <Filter>00. world_construction\hud\test_field</Filter>
     </ClInclude>
     <ClInclude Include="title_hud.h">
       <Filter>00. world_construction\hud\title</Filter>
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="credits_game_mode.h">
       <Filter>00. world_construction\game_mode\credits</Filter>
+    </ClInclude>
+    <ClInclude Include="parachute_falling_physics_component.h">
+      <Filter>01. object_construction\component\parachute_falling</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@
 #include "per_renderer.h"
 #include "object_factory.h"
 #include "black_board.h"
+#include "parachute_falling_physics_component.h"
 
 CreditsGameMode::CreditsGameMode()
 {
@@ -26,6 +27,17 @@ void CreditsGameMode::UpdateCamera(PERRenderer& renderer, double frameGap)
     renderer.SetCameraPosition(PERVec2(pos.x + gap.x, pos.y + gap.y));
 }
 
+void CreditsGameMode::InitGameMode()
+{
+    CreatePlayerFactory();
+    m_player = m_playerFactory->CreateObject();
+
+    ParachuteFallingPhysicsComponent* component = new ParachuteFallingPhysicsComponent();
+    component->SetOwner(m_player);
+    component->SetFallingSpeed(3.0);
+    m_player->GetPhysics().SetNextComponent(component);
+}
+
 void CreditsGameMode::CreatePlayerFactory()
 {
     PERComponent::InputData input;
@@ -34,12 +46,10 @@ void CreditsGameMode::CreatePlayerFactory()
     PERComponent::GraphicsData graphics;
 
     ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
-    graphics.shape = PERShapeType::ELLIPSE; graphics.color = PERColor(100, 100, 100);
-
-    std::vector<PERComponentType> inputTypes = { PERComponentType::PLAYER_INPUT };
+    std::vector<PERComponentType> inputTypes = { PERComponentType::NO_INTERACT };
     std::vector<PERComponentType> aiTypes = { PERComponentType::UNINTELLIGENT };
-    std::vector<PERComponentType> physicsTypes = { PERComponentType::MOVABLE };
-    std::vector<PERComponentType> graphicsTypes = { PERComponentType::VISIBLE };
+    std::vector<PERComponentType> physicsTypes = { PERComponentType::FIXED };
+    std::vector<PERComponentType> graphicsTypes = { PERComponentType::HIDDEN };
 
     m_playerFactory = new ObjectFactory(
         PERObjectType::PLAYER, PERObjectStateType::PLAYER,

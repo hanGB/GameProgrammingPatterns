@@ -27,7 +27,7 @@ public:
 	void UpdatePlayerState(PlayerState* updatedState);
 
 protected:
-	void InitGameMode();
+	virtual void InitGameMode();
 
 	ObjectFactory* m_playerFactory;
 	PERObject* m_player;
