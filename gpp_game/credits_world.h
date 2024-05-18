@@ -1,10 +1,10 @@
 #pragma once
 #include "per_world.h"
 
-class TitleWorld : public PERWorld {
+class CreditsWorld : public PERWorld {
 public:
-	TitleWorld(ObjectStorage* objectStorage, PERDatabase* database);
-	~TitleWorld();
+	CreditsWorld(ObjectStorage* objectStorage, PERDatabase* database);
+	~CreditsWorld();
 
 	// 해당 월드에 들어오고 나갈 때 처리
 	virtual void Enter(PERRenderer& renderer, PERAudio& audio);
@@ -15,4 +15,5 @@ public:
 private:
 	virtual void InitWorldObject();
 	void MakeBackground();
+	void MakeCredits();
 };

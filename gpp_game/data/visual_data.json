@@ -126,5 +126,21 @@
     "BORDER_COLOR_G": 0,
     "BORDER_COLOR_B": 0,
     "BOUNDING_TYPE": "rectangle"
+  },
+  "CREDITS_BACKGOUND": {
+    "SHAPE": "rectangle",
+    "SIZE_X": 0,
+    "SIZE_Y": 0,
+    "SIZE_Z": 0,
+    "MASS": 0,
+    "COLOR_R": 0,
+    "COLOR_G": 0,
+    "COLOR_B": 0,
+    "BORDER_ON": 0,
+    "BORDER_WIDTH": 0,
+    "BORDER_COLOR_R": 0,
+    "BORDER_COLOR_G": 0,
+    "BORDER_COLOR_B": 0,
+    "BOUNDING_TYPE": "rectangle"
   }
 }

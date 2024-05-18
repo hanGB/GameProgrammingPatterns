@@ -134,11 +134,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="credits_game_mode.cpp" />
+    <ClCompile Include="credits_world.cpp" />
     <ClCompile Include="gpp_game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu_game_mode.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="null_hud.cpp" />
     <ClCompile Include="pause_hud.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -168,10 +171,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="credits_game_mode.h" />
+    <ClInclude Include="credits_world.h" />
     <ClInclude Include="gpp_game.h" />
     <ClInclude Include="menu_game_mode.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="null_hud.h" />
     <ClInclude Include="pause_hud.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>

@@ -233,6 +233,22 @@ void ObjectStorage::CreateObjectFactories()
     factory->SetSize(PERVec3(1.0, 1.0, 1.0));
 
     ClearVectors(inputTypes, aiTypes, physicsTypes, graphicsTypes);
+
+    // Text
+    ObjectFactory::InitComponentDatas(input, ai, physics, graphics);
+
+    inputTypes = { PERComponentType::NO_INTERACT };
+    aiTypes = { PERComponentType::UNINTELLIGENT };
+    physicsTypes = { PERComponentType::FIXED };
+    graphicsTypes = { PERComponentType::TEXT_GRAPHICS };
+
+    factory = CreateObjectFactory(PERObjectType::TEXT, PERObjectStateType::NON,
+        inputTypes, aiTypes, physicsTypes, graphicsTypes,
+        input, ai, physics, graphics);
+
+    factory->SetSize(PERVec3(1.0, 1.0, 1.0));
+
+    ClearVectors(inputTypes, aiTypes, physicsTypes, graphicsTypes);
 }
 
 ObjectFactory* ObjectStorage::CreateObjectFactory(

@@ -223,6 +223,9 @@
     <Filter Include="09. platform\windows">
       <UniqueIdentifier>{99f530fc-63e4-46f0-823f-09721be0e7cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. game\object\component\child class\graphics\text">
+      <UniqueIdentifier>{6e426a6f-c6ae-46aa-94b6-f09a85745622}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -447,6 +450,9 @@
     <ClInclude Include="window_proc_with_thread.h">
       <Filter>09. platform\windows</Filter>
     </ClInclude>
+    <ClInclude Include="text_graphics_component.h">
+      <Filter>00. game\object\component\child class\graphics\text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -646,6 +652,9 @@
     </ClCompile>
     <ClCompile Include="window_proc_with_thread.cpp">
       <Filter>09. platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="text_graphics_component.cpp">
+      <Filter>00. game\object\component\child class\graphics\text</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

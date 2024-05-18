@@ -152,6 +152,7 @@
     <ClInclude Include="key_input_helper_graphics_component.h" />
     <ClInclude Include="key_input_helper.h" />
     <ClInclude Include="key_setting.h" />
+    <ClInclude Include="text_graphics_component.h" />
     <ClInclude Include="window_proc_with_thread.h" />
     <ClInclude Include="menu_select_input_component.h" />
     <ClInclude Include="select_box.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="graphics_component.cpp" />
     <ClCompile Include="input_component.cpp" />
     <ClCompile Include="key_input_helper.cpp" />
+    <ClCompile Include="text_graphics_component.cpp" />
     <ClCompile Include="window_proc_with_thread.cpp" />
     <ClCompile Include="menu_select_input_component.cpp" />
     <ClCompile Include="select_box.cpp" />

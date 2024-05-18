@@ -138,15 +138,3 @@ void MapToolWorld::Test2FixedObjects()
 	wall->SetMass(PER_FIXED_OBJECT_MASS);
 	AddObject(wall);
 }
-
-void MapToolWorld::TitleFixedObjects()
-{
-	// 배경
-	PERObject* background;
-	background = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	SetObjectVisual(background, "TITLE_BACKGOUND");
-	background->SetPosition(PERVec3(0.0, 0.0, -1.0));
-	background->SetSize(PERVec3(20.0, 20.0, 1.0));
-	background->SetMass(PER_FIXED_OBJECT_MASS);
-	AddObject(background);
-}

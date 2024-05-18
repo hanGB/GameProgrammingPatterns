@@ -14,7 +14,8 @@ void HiddenDebugGraphicsComponent::Update(PERHud& hud, PERAudio& audio, double d
 
 void HiddenDebugGraphicsComponent::Render(PERRenderer& renderer, double frameGap)
 {
-	renderer.RenderShapeInWorldCoordinate(m_shapeType, m_position, m_size, m_color, m_border, m_borderWidth, m_borderColor);
+	if (m_isDebugOn)
+		renderer.RenderShapeInWorldCoordinate(m_shapeType, m_position, m_size, m_color, m_border, m_borderWidth, m_borderColor);
 
 	GraphicsComponent::Render(renderer, frameGap);
 }
@@ -26,5 +27,12 @@ void HiddenDebugGraphicsComponent::SetData(PERComponent::GraphicsData data)
 
 void HiddenDebugGraphicsComponent::Initialize()
 {
+	m_isDebugOn = true;
+
 	GraphicsComponent::Initialize();
+}
+
+void HiddenDebugGraphicsComponent::SetDebug(bool debug)
+{
+	m_isDebugOn = debug;
 }

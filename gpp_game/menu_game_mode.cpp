@@ -14,7 +14,7 @@ MenuGameMode::~MenuGameMode()
 
 void MenuGameMode::Update()
 {
-
+   
 }
 
 void MenuGameMode::UpdateCamera(PERRenderer& renderer, double frameGap)

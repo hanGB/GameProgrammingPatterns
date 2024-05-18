@@ -24,6 +24,7 @@ enum class PERObjectType {
 	DOOR,
 	PARTICLE_EFFECTER,
 	TRIGGER,
+	TEXT,
 	NUM_OBJECT_TYPE
 };
 

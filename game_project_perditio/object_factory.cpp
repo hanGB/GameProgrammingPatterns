@@ -27,6 +27,7 @@
 #include "name_tag_graphics_component.h"
 #include "body_bar_graphics_componenet.h"
 #include "key_input_helper_graphics_component.h"
+#include "text_graphics_component.h"
 #include "hidden_graphics_component.h"
 #include "hidden_debug_graphics_component.h"
 
@@ -432,6 +433,9 @@ GraphicsComponent* ObjectFactory::CreateGraphicsComponent(PERComponentType type)
     case PERComponentType::KEY_INPUT_HELPER_GRAPHICS:
         graphicsComponent = new KeyInputHelperGraphicsComponent();
         break;
+    case PERComponentType::TEXT_GRAPHICS:
+        graphicsComponent = new TextGraphicsComponent();
+        break;
     case PERComponentType::HIDDEN:
         graphicsComponent = new HiddenGraphicsComponent();
         break;
@@ -469,6 +473,8 @@ void ObjectFactory::MatchCollisionType()
     case PERObjectType::PARTICLE_EFFECTER: m_collisionType = PERCollisionType::NONE;
         break;
     case PERObjectType::TRIGGER: m_collisionType = PERCollisionType::TRIGGER;
+        break;
+    case PERObjectType::TEXT: m_collisionType = PERCollisionType::NONE;
         break;
     }
 }

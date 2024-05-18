@@ -52,6 +52,24 @@
     <Filter Include="00. world_construction\game_state">
       <UniqueIdentifier>{11e1e0f4-d900-4987-a9c5-01fb32c1a78a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. world_construction\world\credits">
+      <UniqueIdentifier>{dec4d058-aeac-4106-9e8c-a3dbe3fbc035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\hud\null">
+      <UniqueIdentifier>{ce36bccb-872b-4d11-88f0-e58321b4a6bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\game_mode\credits">
+      <UniqueIdentifier>{d13a5436-48c7-4b22-bf00-667a6c73bc39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. object_construction">
+      <UniqueIdentifier>{71961c93-e1a5-496b-bc92-409df0c3b300}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. object_construction\component">
+      <UniqueIdentifier>{15682774-7899-4cf6-8f5a-3b51733eb262}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. object_construction\component\parachute">
+      <UniqueIdentifier>{1ae2a7f8-f447-4363-8d84-2e08ef2f473e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -90,6 +108,15 @@
     <ClCompile Include="test_game_mode.cpp">
       <Filter>00. world_construction\game_mode\test</Filter>
     </ClCompile>
+    <ClCompile Include="credits_world.cpp">
+      <Filter>00. world_construction\world\credits</Filter>
+    </ClCompile>
+    <ClCompile Include="null_hud.cpp">
+      <Filter>00. world_construction\hud\null</Filter>
+    </ClCompile>
+    <ClCompile Include="credits_game_mode.cpp">
+      <Filter>00. world_construction\game_mode\credits</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="test_game_state.h">
@@ -124,6 +151,15 @@
     </ClInclude>
     <ClInclude Include="test_game_mode.h">
       <Filter>00. world_construction\game_mode\test</Filter>
+    </ClInclude>
+    <ClInclude Include="credits_world.h">
+      <Filter>00. world_construction\world\credits</Filter>
+    </ClInclude>
+    <ClInclude Include="null_hud.h">
+      <Filter>00. world_construction\hud\null</Filter>
+    </ClInclude>
+    <ClInclude Include="credits_game_mode.h">
+      <Filter>00. world_construction\game_mode\credits</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
