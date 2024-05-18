@@ -67,71 +67,7 @@ void TestWorld::Resume(PERRenderer& renderer, PERAudio& audio)
 
 void TestWorld::AddFixedAndPhysicalObjects()
 {
-	// 플랫폼
-	PERObject* platform;
-	platform = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	platform->SetPosition(PERVec3(0.0, 0.0, -1.0));
-	platform->SetSize(PERVec3(15.0, 20.0, 1.0));
-	SetObjectShapeAndColor(platform, PERShapeType::ROUND_RECTANGLE, PERColor(250, 230, 210));
-	AddObject(platform);
-
-	for (double x = 0.0; x <= 20.0; x += 20.0) {
-		platform = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-		platform->SetPosition(PERVec3(-10.0 + x, 0.0, -1.0));
-		platform->SetSize(PERVec3(5.0, 5.0, 1.0));
-		SetObjectShapeAndColor(platform, PERShapeType::ROUND_RECTANGLE, PERColor(250, 230, 210));
-		AddObject(platform);
-	}
-
-	// 벽
-	PERObject* wall;
-	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(1.0, 0.0, 1.0));
-	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(100, 125, 150));
-	AddObject(wall);
-
-	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(-1.0, 0.0, 1.0));
-	wall->SetSize(PERVec3(1.0, 2.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(100, 125, 150));
-	AddObject(wall);
-
-	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(0.0, 1.0, 1.1));
-	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(100, 125, 150));
-	AddObject(wall);
-
-	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(0.0, -1.0, 1.1));
-	wall->SetSize(PERVec3(2.0, 1.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(100, 125, 150));
-	AddObject(wall);
-
-	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(5.0, 0.0, 0.0));
-	wall->SetSize(PERVec3(0.5, 5.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
-	AddObject(wall);
-
-	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(-5.0, 0.0, 0.1));
-	wall->SetSize(PERVec3(0.5, 5.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
-	AddObject(wall);
-
-	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(0.0, 5.0, 0.2));
-	wall->SetSize(PERVec3(5.0, 0.5, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
-	AddObject(wall);
-
-	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(0.0, -5.0, 0.3));
-	wall->SetSize(PERVec3(5.0, 0.5, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
-	AddObject(wall);
+	ReadFixedObjectsDataFromFile("./map/test_fixed.map");
 }
 
 void TestWorld::AddOtherObjects()

@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 
 class PERAudio;
 class ObjectStorage;
@@ -99,6 +100,13 @@ protected:
 	PERObject* AddAndGetObject(PERObjectType type);
 	void AddObject(PERObject* object);
 	void DeleteObject(PERObject* object);
+
+	int GetNumObject() const;
+	std::vector<PERObject*>& GetObjects();
+
+	// 맵 데이터 만들기
+	void MakeFixedObjectsDataToFile(const char* fileName);
+	void ReadFixedObjectsDataFromFile(const char* fileName);
 
 	ObjectStorage* m_objectStorage;
 	PERDatabase* m_database;

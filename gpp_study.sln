@@ -49,6 +49,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gpp_game", "gpp_game\gpp_ga
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gpp_engine", "game_project_perditio\game_project_perditio.vcxproj", "{6B6ECF4E-3E96-439E-82D6-6B7D935C24CC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gpp_map_tool", "gpp_map_tool\gpp_map_tool.vcxproj", "{7F045873-D90E-4E87-92ED-80EB7F0BD753}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -225,6 +227,14 @@ Global
 		{6B6ECF4E-3E96-439E-82D6-6B7D935C24CC}.Release|x64.Build.0 = Release|x64
 		{6B6ECF4E-3E96-439E-82D6-6B7D935C24CC}.Release|x86.ActiveCfg = Release|Win32
 		{6B6ECF4E-3E96-439E-82D6-6B7D935C24CC}.Release|x86.Build.0 = Release|Win32
+		{7F045873-D90E-4E87-92ED-80EB7F0BD753}.Debug|x64.ActiveCfg = Debug|x64
+		{7F045873-D90E-4E87-92ED-80EB7F0BD753}.Debug|x64.Build.0 = Debug|x64
+		{7F045873-D90E-4E87-92ED-80EB7F0BD753}.Debug|x86.ActiveCfg = Debug|Win32
+		{7F045873-D90E-4E87-92ED-80EB7F0BD753}.Debug|x86.Build.0 = Debug|Win32
+		{7F045873-D90E-4E87-92ED-80EB7F0BD753}.Release|x64.ActiveCfg = Release|x64
+		{7F045873-D90E-4E87-92ED-80EB7F0BD753}.Release|x64.Build.0 = Release|x64
+		{7F045873-D90E-4E87-92ED-80EB7F0BD753}.Release|x86.ActiveCfg = Release|Win32
+		{7F045873-D90E-4E87-92ED-80EB7F0BD753}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -251,6 +261,7 @@ Global
 		{9C16AB47-59F7-4760-AD9E-9CC14229A8F7} = {EA720910-7DA9-4BBD-97D1-7F89A7D902A5}
 		{1876696E-EA87-4290-AB36-1EC829D69251} = {64C7F654-8045-4257-8E15-3C625201160D}
 		{6B6ECF4E-3E96-439E-82D6-6B7D935C24CC} = {64C7F654-8045-4257-8E15-3C625201160D}
+		{7F045873-D90E-4E87-92ED-80EB7F0BD753} = {64C7F654-8045-4257-8E15-3C625201160D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE5ECCE8-C49D-4CF8-8D30-5A4ECB015293}

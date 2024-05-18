@@ -65,6 +65,7 @@ public:
 	PERVec3 GetBoundingBoxSize() const;
 	PERVec3 GetBoundingBoxPosition() const;
 	PERCollisionType GetCollisionType() const;
+	const char* GetVisualId() const;
 
 	int GetIDInWorld() const;
 	double GetLifeTime() const;
@@ -79,6 +80,7 @@ public:
 	void SetMass(double mass);
 	void SetBoundingType(PERBoundingType bounding);
 	void SetBoundingBox(PERVec3 relativeSize, PERVec3 relativePos);
+	void SetVisualId(const char* id);
 
 	void SetIDInWorld(int id);
 	void SetLifeTime(double time);
@@ -105,7 +107,7 @@ private:
 
 	// 컨포넌트
 	InputComponent*		m_input;
-	AiComponent*			m_ai;
+	AiComponent*		m_ai;
 	PhysicsComponent*	m_physics;
 	GraphicsComponent*	m_graphics;
 
@@ -129,4 +131,7 @@ private:
 
 	// 잠드는 거리
 	double m_sleepDistance = PER_SMALL_OBJECT_SLEEP_DISTANCE;
+
+	// 비주얼 아이디
+	std::string m_visualId;
 };

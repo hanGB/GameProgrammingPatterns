@@ -433,6 +433,80 @@ void PERWorld::DeleteObject(PERObject* object)
 	m_isUpdateSortedGraphicsComponent = false;
 }
 
+int PERWorld::GetNumObject() const
+{
+	return m_numObject;
+}
+
+std::vector<PERObject*>& PERWorld::GetObjects()
+{
+	return m_objects;
+}
+
+void PERWorld::MakeFixedObjectsDataToFile(const char* fileName)
+{
+	PERLog::Logger().Info("맵 데이터 생성 시작");
+
+	std::ofstream out(fileName, std::ios::binary);
+
+	int num = GetNumObject();
+	// 맨 처음 오브젝트인 플레이어 제외
+	out << num - 1 << ' ';
+
+	std::vector<PERObject*>& objects = GetObjects();
+	for (int i = 1; i < num; ++i) {
+		PERObject* object = objects[i];
+
+		out << (int)object->GetObjectType() << ' ';
+		out << object->GetPosition().x << ' ';
+		out << object->GetPosition().y << ' ';
+		out << object->GetPosition().z << ' ';
+		out << object->GetSize().x << ' ';
+		out << object->GetSize().y << ' ';
+		out << object->GetSize().z << ' ';
+		out << object->GetMass() << ' ';
+		out << object->GetVisualId() << ' ';
+	}
+
+	out.close();
+
+	PERLog::Logger().Info("맵 데이터 생성 완료");
+}
+
+void PERWorld::ReadFixedObjectsDataFromFile(const char* fileName)
+{
+	PERLog::Logger().Info("맵 데이터 읽기 시작");
+
+	std::ifstream in(fileName, std::ios::binary);
+
+	int num = 0;
+	in >> num;
+
+	for (int i = 0; i < num; ++i) {
+		int objectType;
+		PERVec3 pos, size;
+		double mass;
+		std::string visualId;
+		in >> objectType;
+		in >> pos.x; in >> pos.y; in >> pos.z;
+		in >> size.x; in >> size.y; in >> size.z;
+		in >> mass;
+		in >> visualId;
+
+		PERObject* object;
+		object = m_objectStorage->PopObject((PERObjectType)objectType);
+		SetObjectVisual(object, visualId.c_str());
+		object->SetPosition(pos);
+		object->SetSize(size);
+		object->SetMass(mass);
+		AddObject(object);
+	}
+
+	in.close();
+
+	PERLog::Logger().Info("맵 데이터 읽기 완료");
+}
+
 PERObject* PERWorld::AddAndGetObject(PERObjectType type)
 {
 	PERObject* object = m_objectStorage->PopObject(type);
@@ -479,6 +553,7 @@ void PERWorld::SetObjectVisual(PERObject* object, const char* visualId)
 	object->SetSize(data->size);
 	object->SetMass(data->mass);
 	object->SetBoundingType(data->boundingType);
+	object->SetVisualId(visualId);
 	SetObjectShapeAndColor(object, data->shape, data->color, data->borderOn, data->borderWidth, data->borderColor);
 }
 

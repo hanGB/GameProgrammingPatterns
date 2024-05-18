@@ -66,13 +66,7 @@ void TitleWorld::Resume(PERRenderer& renderer, PERAudio& audio)
 
 void TitleWorld::AddFixedAndPhysicalObjects()
 {
-	// 배경
-	PERObject* background;
-	background = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	background->SetPosition(PERVec3(0.0, 0.0, -1.0));
-	background->SetSize(PERVec3(20.0, 20.0, 1.0));
-	SetObjectShapeAndColor(background, PERShapeType::RECTANGLE, PERColor(150, 150, 150));
-	AddObject(background);
+	ReadFixedObjectsDataFromFile("./map/title_fixed.map");
 }
 
 void TitleWorld::AddOtherObjects()

@@ -157,6 +157,11 @@ PERCollisionType PERObject::GetCollisionType() const
 	return m_factory.GetCollisionType();
 }
 
+const char* PERObject::GetVisualId() const
+{
+	return m_visualId.c_str();
+}
+
 int PERObject::GetIDInWorld() const
 {
 	return m_idInWorld;
@@ -227,6 +232,11 @@ void PERObject::SetBoundingBox(PERVec3 relativeSize, PERVec3 relativePos)
 {
 	m_boundingBoxRelativeSize = relativeSize;
 	m_boundingBoxRelativePosition = relativePos;
+}
+
+void PERObject::SetVisualId(const char* id)
+{
+	m_visualId = id;
 }
 
 void PERObject::SetIDInWorld(int id)

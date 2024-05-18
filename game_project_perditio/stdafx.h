@@ -80,9 +80,10 @@
 // 물리 값
 #define PER_GRAVITY 9.8
 #define PER_FRICTION 0.7
-#define PER_KNOCK_BACK_POWER 50000.0
 // 가장 낮은 z값(높이 값)
 #define PER_LOWEST_Z_VALUE -10000.0
+// 고정된 물체의 무게값(움직이는 물체보다 무조건 무겁게)
+#define PER_FIXED_OBJECT_MASS 1'000'000 
 
 // 수학 값
 #define PER_PI 3.141592

@@ -54,51 +54,7 @@ void TestWorld2::Resume(PERRenderer& renderer, PERAudio& audio)
 
 void TestWorld2::AddFixedAndPhysicalObjects()
 {
-	// 플랫폼
-	PERObject* platform;
-	platform = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	platform->SetPosition(PERVec3(0.0, 0.0, -1.0));
-	platform->SetSize(PERVec3(10.0, 10.0, 1.0));
-	SetObjectShapeAndColor(platform, PERShapeType::ROUND_RECTANGLE, PERColor(250, 230, 210));
-	AddObject(platform);
-
-	platform = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	platform->SetPosition(PERVec3(-7.5, 0.0, -1.0));
-	platform->SetSize(PERVec3(5.0, 5.0, 1.0));
-	SetObjectShapeAndColor(platform, PERShapeType::ROUND_RECTANGLE, PERColor(250, 230, 210));
-	AddObject(platform);
-
-	// 벽
-	PERObject* wall;
-	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(5.0, 0.0, 0.0));
-	wall->SetSize(PERVec3(0.5, 10.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
-	AddObject(wall);
-
-	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(-5.0, 3.0, 0.1));
-	wall->SetSize(PERVec3(0.5, 4.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
-	AddObject(wall);
-
-	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(-5.0, -3.0, 0.1));
-	wall->SetSize(PERVec3(0.5, 4.0, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
-	AddObject(wall);
-
-	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(0.0, 5.0, 0.2));
-	wall->SetSize(PERVec3(10.0, 0.5, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
-	AddObject(wall);
-
-	wall = m_objectStorage->PopObject(PERObjectType::FIXED_BLOCK);
-	wall->SetPosition(PERVec3(0.0, -5.0, 0.3));
-	wall->SetSize(PERVec3(10.0, 0.5, 1.0));
-	SetObjectShapeAndColor(wall, PERShapeType::RECTANGLE, PERColor(150, 125, 100));
-	AddObject(wall);
+	ReadFixedObjectsDataFromFile("./map/test2_fixed.map");
 }
 
 void TestWorld2::AddOtherObjects()
