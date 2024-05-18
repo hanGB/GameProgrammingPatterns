@@ -7,7 +7,5 @@ public:
 	~PauseWorld();
 
 private:
-	// 오브젝트 추가
-	virtual void AddFixedAndPhysicalObjects();
-	virtual void AddOtherObjects();
+	virtual void InitWorldObject();
 };

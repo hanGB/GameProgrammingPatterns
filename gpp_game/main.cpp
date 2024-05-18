@@ -100,7 +100,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYUP:
 		g_game->HandleInput(wParam, false);
 		break;
-
+			
 	case WM_DESTROY:
 		g_isGameEnd = true;
 		// 게임 루프 스레드가 종료될 때 까지 무한 대기

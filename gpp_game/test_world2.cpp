@@ -11,6 +11,7 @@
 #include "response_to_signal_ai_component.h"
 #include "event_dispatcher.h"
 #include "player_state.h"
+#include "black_board.h"
 
 TestWorld2::TestWorld2(ObjectStorage* objectStorage, PERDatabase* database)
 {
@@ -48,13 +49,22 @@ void TestWorld2::Pause(PERRenderer& renderer, PERAudio& audio)
 
 void TestWorld2::Resume(PERRenderer& renderer, PERAudio& audio)
 {
+	// 네비게이션 데이터 설정
+	BlackBoard::GetNavigationData().ReadDataFromFile("./map/test.nv");
 	m_gameMode->GetPlayer().SetPosition(m_playerPosBeforePause);
 	PERWorld::Resume(renderer, audio);
 }
 
-void TestWorld2::AddFixedAndPhysicalObjects()
+void TestWorld2::InitWorldObject()
 {
+	// 네비게이션 데이터에 영향을 주는 오브젝트 먼저 추가
 	ReadFixedObjectsDataFromFile("./map/test2_fixed.map");
+
+	// 네비게이션 데이터 설정
+	BlackBoard::GetNavigationData().ReadDataFromFile("./map/test2.nv");
+
+	// 네비게이션 데이터와 상관없는 나머지 오브젝트 추가
+	AddOtherObjects();
 }
 
 void TestWorld2::AddOtherObjects()

@@ -64,12 +64,8 @@ void TitleWorld::Resume(PERRenderer& renderer, PERAudio& audio)
 	PERWorld::Resume(renderer, audio);
 }
 
-void TitleWorld::AddFixedAndPhysicalObjects()
+void TitleWorld::InitWorldObject()
 {
 	ReadFixedObjectsDataFromFile("./map/title_fixed.map");
 }
 
-void TitleWorld::AddOtherObjects()
-{
-
-}

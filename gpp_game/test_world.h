@@ -16,9 +16,8 @@ public:
 	virtual void Resume(PERRenderer& renderer, PERAudio& audio);
 
 private:
-	// 오브젝트 추가
-	virtual void AddFixedAndPhysicalObjects();
-	virtual void AddOtherObjects();
+	virtual void InitWorldObject();
+	void AddOtherObjects();
 
 	PERVec3 m_playerPosBeforePause;
 };

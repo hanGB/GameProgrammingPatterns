@@ -4,6 +4,7 @@
 #include "game_state.h"
 #include "object_storage.h"
 #include "per_database.h"
+#include "black_board.h"
 
 MapToolWorld::MapToolWorld(ObjectStorage* objectStorage, PERDatabase* database)
 {
@@ -25,16 +26,14 @@ void MapToolWorld::Enter(PERRenderer& renderer, PERAudio& audio)
 	PERWorld::Enter(renderer, audio);
 }
 
-
-void MapToolWorld::AddFixedAndPhysicalObjects()
+void MapToolWorld::InitWorldObject()
 {
 	//ReadFixedObjectsDataFromFile("./map/test_fixed.map");
-	TitleFixedObjects();
-	MakeFixedObjectsDataToFile("title_fixed.map");
+	Test2FixedObjects();
+	//MakeFixedObjectsDataToFile("title_fixed.map");
+
+	BlackBoard::GetNavigationData().InitCells();
+	BlackBoard::GetNavigationData().SetCells(GetObjects(), GetNumObject());
+
+	BlackBoard::GetNavigationData().MakeDataToFile("test2.nv");
 }
-
-void MapToolWorld::AddOtherObjects()
-{
-}
-
-

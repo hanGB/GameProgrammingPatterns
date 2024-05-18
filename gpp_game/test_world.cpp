@@ -12,6 +12,7 @@
 #include "response_to_signal_ai_component.h"
 #include "making_signal_ai_component.h"
 #include "creating_particles_ai_component.h"
+#include "black_board.h"
 
 
 
@@ -60,14 +61,23 @@ void TestWorld::Pause(PERRenderer& renderer, PERAudio& audio)
 
 void TestWorld::Resume(PERRenderer& renderer, PERAudio& audio)
 {
+	// 네비게이션 데이터 설정
+	BlackBoard::GetNavigationData().ReadDataFromFile("./map/test.nv");
 	m_gameMode->GetPlayer().SetPosition(m_playerPosBeforePause);
 
 	PERWorld::Resume(renderer, audio);
 }
 
-void TestWorld::AddFixedAndPhysicalObjects()
+void TestWorld::InitWorldObject()
 {
+	// 네비게이션 데이터에 영향을 주는 오브젝트 먼저 추가
 	ReadFixedObjectsDataFromFile("./map/test_fixed.map");
+
+	// 네비게이션 데이터 설정
+	BlackBoard::GetNavigationData().ReadDataFromFile("./map/test.nv");
+
+	// 네비게이션 데이터와 상관없는 나머지 오브젝트 추가
+	AddOtherObjects();
 }
 
 void TestWorld::AddOtherObjects()

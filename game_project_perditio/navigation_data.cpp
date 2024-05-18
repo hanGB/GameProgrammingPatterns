@@ -44,11 +44,9 @@ void NavigationData::SetCells(std::vector<PERObject*>& objects, int numObject)
 	}
 }
 
-void NavigationData::TextOutData()
+void NavigationData::TextOutDataForDebug()
 {
-	std::ofstream out;
-
-	out.open("NavData.txt");
+	std::ofstream out("nvData.txt");
 
 	for (int y = 0; y < PER_MAX_CELL; ++y) {
 		for (int x = 0; x < PER_MAX_CELL; ++x) {
@@ -58,6 +56,28 @@ void NavigationData::TextOutData()
 	}
 
 	out.close();
+}
+
+void NavigationData::MakeDataToFile(const char* fileName)
+{
+	PERLog::Logger().Info("네비게이션 데이터 출력");
+
+	std::ofstream out(fileName, std::ios::binary);
+
+	out.write(reinterpret_cast<const char*>(m_cells), sizeof(int) * PER_MAX_CELL * PER_MAX_CELL);
+
+	out.close();
+}
+
+void NavigationData::ReadDataFromFile(const char* fileName)
+{
+	PERLog::Logger().Info("네비게이션 데이터 입력");
+
+	std::ifstream in(fileName, std::ios::binary);
+
+	in.read(reinterpret_cast<char*>(m_cells), sizeof(int) * PER_MAX_CELL * PER_MAX_CELL);
+
+	in.close();
 }
 
 void NavigationData::RenderOutData(PERRenderer& renderer)

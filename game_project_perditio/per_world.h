@@ -113,10 +113,7 @@ protected:
 	GameMode* m_gameMode;
 
 private:
-	void InitWorldObject();
-	// 오브젝트 추가
-	virtual void AddFixedAndPhysicalObjects() = 0;
-	virtual void AddOtherObjects() = 0;
+	virtual void InitWorldObject() = 0;
 
 	void DoGarbegeCollection(double dTime);
 	void InformObjectDeadToSpawner(PERObject* object);

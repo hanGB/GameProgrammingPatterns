@@ -43,10 +43,6 @@ PauseWorld::~PauseWorld()
 {
 }
 
-void PauseWorld::AddFixedAndPhysicalObjects()
-{
-}
-
-void PauseWorld::AddOtherObjects()
+void PauseWorld::InitWorldObject()
 {
 }

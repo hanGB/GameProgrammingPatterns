@@ -514,21 +514,6 @@ PERObject* PERWorld::AddAndGetObject(PERObjectType type)
 	return object;
 }
 
-void PERWorld::InitWorldObject()
-{
-	// 네비게이션 데이터에 영향을 주는 오브젝트 먼저 추가
-	AddFixedAndPhysicalObjects();
-
-	// 네비게이션 데이터 설정
-	BlackBoard::GetNavigationData().InitCells();
-	BlackBoard::GetNavigationData().SetCells(m_objects, m_numObject);
-
-	// 네비게이션 데이터와 상관없는 나머지 오브젝트 추가
-	AddOtherObjects();
-
-	PERLog::Logger().InfoWithFormat("월드 내 오브젝트 수: %d", m_numObject);
-}
-
 void PERWorld::InitSettingForWorld(ObjectStorage* objectStorage, PERDatabase* database, GameMode* mode)
 {
 	PERLog::Logger().Info("월드 생성");
