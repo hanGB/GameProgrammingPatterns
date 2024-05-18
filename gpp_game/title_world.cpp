@@ -43,6 +43,7 @@ TitleWorld::~TitleWorld()
 void TitleWorld::Enter(PERRenderer& renderer, PERAudio& audio)
 {
 	renderer.SetCameraPosition(PERVec2(0.0, 0.0));
+	m_gameMode->GetPlayer().SetPosition(PERVec3(0.0, 0.0, 0.1));
 
 	PERWorld::Enter(renderer, audio);
 }
