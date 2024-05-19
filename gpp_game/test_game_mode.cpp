@@ -9,6 +9,7 @@
 #include "black_board.h"
 #include "ui_element_pool.h"
 #include "test_game_state.h"
+#include "respawnable_player_state.h"
 
 TestGameMode::TestGameMode()
 {
@@ -30,6 +31,17 @@ void TestGameMode::UpdateCamera(PERRenderer& renderer, double frameGap)
     PERVec3 gap = m_player->GetVelocity() * frameGap * ((double)PER_MICROSEC_PER_UPDATE / 1'000'000.0);;
 
     renderer.SetCameraPosition(PERVec2(pos.x + gap.x, pos.y + gap.y));
+}
+
+void TestGameMode::InitGameMode()
+{
+    GameMode::InitGameMode();
+
+    // 플레이어 스테이트 변경
+    PlayerState* prev =  dynamic_cast<PlayerState*>(&m_player->GetObjectState());
+    m_player->SetObjectState(new RespawnablePlayerState());
+    m_player->GetObjectState().SetOwner(m_player);
+    UpdatePlayerState(prev);
 }
 
 void TestGameMode::CreatePlayerFactory()

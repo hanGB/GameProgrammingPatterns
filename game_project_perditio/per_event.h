@@ -12,6 +12,8 @@ enum class PEREvent {
 	RESUME_GAME,
 	BACK_TO_TITLE,
 	GO_TO_CREDITS,
+	GO_TO_RESPAWN,
+	RESTART_GAME,
 
 	// ui
 	UPDATE_BD,

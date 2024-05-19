@@ -150,6 +150,9 @@
     <ClCompile Include="pause_world.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="respawnable_player_state.cpp" />
+    <ClCompile Include="respawn_hud.cpp" />
+    <ClCompile Include="respawn_world.cpp" />
     <ClCompile Include="test_field_hud.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -188,6 +191,9 @@
     <ClInclude Include="pause_world.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="respawnable_player_state.h" />
+    <ClInclude Include="respawn_hud.h" />
+    <ClInclude Include="respawn_world.h" />
     <ClInclude Include="test_field_hud.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>

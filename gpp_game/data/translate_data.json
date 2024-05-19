@@ -54,5 +54,9 @@
   "TEXT_BACK_TO_TITLE": {
     "ENG_US": "Back to title__",
     "KOR_KR": "타이틀로__"
+  },
+  "TEXT_RESPAWN": {
+    "ENG_US": "Respawn__",
+    "KOR_KR": "리스폰__"
   }
 }

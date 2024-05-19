@@ -73,6 +73,18 @@
     <Filter Include="01. object_construction\object_state">
       <UniqueIdentifier>{ac23de8b-4b04-4e63-a8ed-84ab81ebd010}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. world_construction\world\respawn">
+      <UniqueIdentifier>{e5174d50-b801-4749-9d86-f075b818ee76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. world_construction\hud\respawn">
+      <UniqueIdentifier>{73b1774a-8794-4b56-86bd-a05788987a86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. object_construction\object_state\boss_monster">
+      <UniqueIdentifier>{81b032a2-4ac9-4f17-8a57-f5832a1d062d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. object_construction\object_state\respawnable_player">
+      <UniqueIdentifier>{a0a9cbe6-87eb-4800-8e52-2b07433d4a57}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -123,8 +135,17 @@
     <ClCompile Include="parachute_falling_physics_component.cpp">
       <Filter>01. object_construction\component\parachute_falling</Filter>
     </ClCompile>
+    <ClCompile Include="respawn_world.cpp">
+      <Filter>00. world_construction\world\respawn</Filter>
+    </ClCompile>
+    <ClCompile Include="respawn_hud.cpp">
+      <Filter>00. world_construction\hud\respawn</Filter>
+    </ClCompile>
     <ClCompile Include="boss_monster_state.cpp">
-      <Filter>01. object_construction\object_state</Filter>
+      <Filter>01. object_construction\object_state\boss_monster</Filter>
+    </ClCompile>
+    <ClCompile Include="respawnable_player_state.cpp">
+      <Filter>01. object_construction\object_state\respawnable_player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,8 +194,17 @@
     <ClInclude Include="parachute_falling_physics_component.h">
       <Filter>01. object_construction\component\parachute_falling</Filter>
     </ClInclude>
+    <ClInclude Include="respawn_world.h">
+      <Filter>00. world_construction\world\respawn</Filter>
+    </ClInclude>
+    <ClInclude Include="respawn_hud.h">
+      <Filter>00. world_construction\hud\respawn</Filter>
+    </ClInclude>
     <ClInclude Include="boss_monster_state.h">
-      <Filter>01. object_construction\object_state</Filter>
+      <Filter>01. object_construction\object_state\boss_monster</Filter>
+    </ClInclude>
+    <ClInclude Include="respawnable_player_state.h">
+      <Filter>01. object_construction\object_state\respawnable_player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

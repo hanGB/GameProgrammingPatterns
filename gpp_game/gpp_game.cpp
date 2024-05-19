@@ -1,6 +1,7 @@
 #include "gpp_game.h"
 #include "title_world.h"
 #include "pause_world.h"
+#include "respawn_world.h"
 #include "credits_world.h"
 #include "test_world.h"
 #include "test_world2.h"
@@ -45,6 +46,12 @@ void GPPGame::Recive(PEREvent event, PERVec3 data)
 		break;
 	case PEREvent::GO_TO_CREDITS:
 		ProgressRunEvent<CreditsWorld>("Credits");
+		break;
+	case PEREvent::GO_TO_RESPAWN:
+		ProgressPauseGameEvent<RespawnWorld>("Respawn");
+		break;
+	case PEREvent::RESTART_GAME:
+		ProgressQuitAllWorldAndRunEvent<TestWorld>("Test");
 		break;
 	}
 }
