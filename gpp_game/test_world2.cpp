@@ -76,6 +76,7 @@ void TestWorld2::AddOtherObjects()
 	ObjectState* objectState = &boss->GetObjectState();
 	delete objectState;
 	boss->SetObjectState(new BossMonsterState);
+	boss->GetObjectState().SetIsHasCollisionDamage(true);
 	boss->SetPosition(PERVec3(0.0, 0.0, 0.2));
 	MonsterData* mData = m_database->GetMonsterData("MONSTER_NIKKEL");
 	SetObjectVisual(boss, mData->visualId.c_str());

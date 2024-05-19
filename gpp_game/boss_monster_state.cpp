@@ -4,8 +4,6 @@
 void BossMonsterState::Initialize()
 {
 	MonsterState::Initialize();
-
-	m_isHasCollsionDamage = true;
 }
 
 void BossMonsterState::KillSelf(PERWorld& world, PERAudio& audio)
