@@ -27,6 +27,7 @@ void GameMode::StartUse()
     EventDispatcher::AddReciver(m_hud);
 	EventDispatcher::AddReciver(&GetPlayerState());
 	GetPlayerState().MatchDataAndHud();
+	BlackBoard::SetPlayerPos(m_player->GetPosition());
 	BlackBoard::SetIsPlayerLiving(true);
 }
 

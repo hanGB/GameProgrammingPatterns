@@ -16,7 +16,7 @@ CreditsGameMode::~CreditsGameMode()
 
 void CreditsGameMode::Update()
 {
-  
+    BlackBoard::SetPlayerPos(m_player->GetPosition());
 }
 
 void CreditsGameMode::UpdateCamera(PERRenderer& renderer, double frameGap)
